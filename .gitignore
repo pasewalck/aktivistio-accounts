@@ -1,0 +1,6 @@
+node_modules
+data.db
+config.json
+package-lock.json
+src/public/css
+logs

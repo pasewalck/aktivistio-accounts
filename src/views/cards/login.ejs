@@ -1,0 +1,43 @@
+<div class="wrapper flex-container flex-container-vertical">
+    <div class="container-medium-width container-filled-background">
+
+        <h1><%= __('Login') %></h1>
+
+        <form class="form" autocomplete="off" action="<%= urls.action %>"method="post">
+
+        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+        <fieldset>
+
+            <% if (errorMsg) { %>
+            <%- include("../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
+            <% } %> 
+
+            <div class="form-group">
+            <label class="label"><%= __('Username') %></label>
+            <input class="input-field" required type="text" name="username"
+                <% if (formFields.username) { %>value="<%= formFields.username %>"<% } %>
+            />
+            </div>
+
+            <div class="form-group">
+            <label class="label"><%= __('Password') %></label>
+            <input class="input-field" required type="password" name="password"/>
+            <a class="input-field-help-link" target="_blank" href="/account-recovery"><%= __('Lost your password?') %></a>
+            </div>
+            
+        </fieldset>
+
+        <div class="form-action-group">
+            <div class="button-group">
+            <button type="submit" class="button primary"><%= __('Login') %></button>
+            <% if (urls.abort) { %>
+                <a class="button red" href="<%= urls.abort %>"><%= __('Abort') %></a>
+            <% } %>
+            </div>
+            <p><%= __('No account?') %> <a href="<%= urls.register %>"><%= __('Create an account') %></a></p>
+        </div>
+
+        </form>
+
+    </div>
+</div>

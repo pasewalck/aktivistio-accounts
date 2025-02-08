@@ -1,0 +1,96 @@
+<div class="wrapper flex-container flex-container-vertical">
+    <div class="container-medium-width container-filled-background">
+
+        <h1><%= __('Register') %></h1>
+    
+        <form class="form" autocomplete="off" action="<%= urls.action %>"method="post">
+        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+
+        <fieldset>
+    
+            <% if (errorMsg) { %>
+                <%- include("../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
+            <% } %>
+
+            <div class="form-group">
+                <label class="label"><%= __('Invite Code') %></label>
+                <input class="input-field" required type="text" name="inviteCode"
+                    <% if (formFields.inviteCode) { %>value="<%= formFields.inviteCode %>"<% } %>
+                />
+                <a class="input-field-help-link" target="_blank" href="/invite-request"><%= __('No invite code?') %></a>
+            </div>
+
+            <div class="form-group">
+                <label class="label"><%= __('Username') %></label>
+                <input class="input-field" required type="text" name="username"
+                    <% if (formFields.username) { %>value="<%= formFields.username %>"<% } %>
+                />
+            </div>
+
+            <div class="form-group">
+                <label class="label"><%= __('Password') %></label>
+                <input class="input-field" required type="password" name="password" id="password"/>
+            </div>
+
+            <div class="form-group">
+                <label class="label"><%= __('Confirm password') %></label>
+                <input class="input-field" required type="password" name="passwordConfirm"/>
+            </div>
+
+            <div class="form-group" >
+                <label class="label"><%= __('Recovery Method') %></label> 
+                <select class="select" name="recoveryMethod" id="recoverySelect">
+                    <option disabled <% if (!formFields.recoveryMethod || formFields.recoveryMethod == "none") { %>selected<% } %> value="none" style="display:none"><%= __('-- select a method --') %></option>
+                    <option <% if (formFields.recoveryMethod && formFields.recoveryMethod == "email") { %>selected<% } %> value="email"><%= __('Recovery Email') %></option>
+                    <option <% if (formFields.recoveryMethod && formFields.recoveryMethod == "token") { %>selected<% } %> value="token"><%= __('Recovery Token') %></option>
+                </select>
+            </div>
+            
+            <div id="recoveryEmailSection" class="form-group">
+            
+                <%- include("../partials/alert-info.ejs",{info: __("Your email is stored encrypted and even our admins can't see it."),moreInfoLink: "https"}) %> 
+                <label class="label"><%= __('Recovery Email') %></label> 
+                <input class="input-field" type="email" name="recoveryEmail"
+                <% if (formFields.recoveryEmail) { %>value="<%= formFields.recoveryEmail %>"<% } %>
+                />
+            
+            </div>
+            
+            <div id="recoveryTokenSection" class="form-group">
+                <input type="hidden" name="recoveryToken" value="<%= recoveryToken %>">
+
+                <label class="label"><%= __('Recovery Token') %></label> 
+                <div class="output-field">
+                    <p><%= recoveryToken %></p>
+                </div>
+                <div class="input-checkbox">
+                    <input name="recoveryTokenVerify" <% if (formFields.confirmedCopiedRecoveryToken) { %>value="<%= formFields.confirmedCopiedRecoveryToken %>"<% } %> type="checkbox"><label><%= __('I have written down the code') %></label> 
+                </div>
+            </div>
+            
+        </fieldset>
+
+        <div class="form-action-group">
+            <div class="button-group">
+                <button type="submit" class="button primary"><%= __('Create account') %></button>
+                <% if (urls.abort) { %>
+                    <a class="button red" href="<%= urls.abort %>"><%= __('Abort') %></a>
+                <% } %>
+            </div>
+            <p><%= __('Already an account?') %> <a href="<%= urls.login %>"><%= __('Login') %></a></p>
+        </div>
+
+        </form>
+    
+    </div>
+</div>
+
+<script>
+    document.getElementById("recoverySelect").addEventListener("change",updateRecovery)
+    updateRecovery()
+    function updateRecovery () {
+        selected = document.getElementById('recoverySelect').value
+        document.getElementById('recoveryEmailSection').style.display = selected == "email" ? "" : "none";
+        document.getElementById('recoveryTokenSection').style.display = selected == "token" ? "": "none";
+    }
+</script> 

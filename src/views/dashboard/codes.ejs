@@ -1,0 +1,78 @@
+<%- include("../partials/dashboard-header.ejs") %>
+
+<div class="wrapper flex-container">
+    <div class="container container-medium-width container-filled-background">
+
+        <h1><%= __("Your invite Codes") %> </h1>
+        <ul class="invite-list">
+            <% if (inviteCodes.length <= 0) { %>
+                <% if (lockedInviteCodes.length > 0 && !canGenerate) { %>
+                    <% var daysLeft = (new Date(lockedInviteCodes[0].createDate*1000)-new Date().getTime()) / 1000 / (60 * 60 * 24) %> 
+                    <%- include("../partials/alert-info.ejs",{info: __("Your invites will be unlocked in %s days.",Number.parseFloat(daysLeft).toFixed(0)),moreInfoLink:false}) %> 
+                <% } else { %>
+                    <%- include("../partials/alert-info.ejs",{info: __("You don't have any invites. Reach out for more invites."),moreInfoLink: "mailto:todomail"}) %> 
+                <% } %>
+            <% } %>
+            <% for( let index = 0; index < inviteCodes.length; index++ ) { %>
+                <li>
+                    <div class="code"><%= inviteCodes[index].code.substring(0,2) %><span><%= inviteCodes[index].code.substring(2) %></span></div>
+                    <% if (inviteCodes[index].expireDate) { %>
+                        <% var date = new Date(inviteCodes[index].expireDate*1000) %> 
+                        <% var daysLeft = (date.getTime() - new Date().getTime()) / 1000 / (60 * 60 * 24) %> 
+                        <% if (daysLeft < 14) { %>
+                            <div class="date soon"><%= __("Expires in %s days", Number.parseFloat(daysLeft).toFixed(0)) %></div>
+                        <% } else { %>
+                            <div class="date"><%= __("Expires on %s",date.toLocaleString("en-GB").split(', ')[0]) %></div>
+                        <% } %>
+                    <% } %>
+                    <% if (inviteCodes[index].usages > 1) { %>
+                    <div class="uses"><%= __("Invite can be used %s times",inviteCodes[index].usages) %> </div>
+                    <% } %>
+
+                    <div class="links">
+                        <a href="/invites/share/<%= inviteCodes[index].code %> "><img src="/icons/qr.svg" alt=""></a>
+                        <button onclick="navigator.clipboard.writeText('<%= baseUrl %>/register/<%= inviteCodes[index].code %>');"><img src="/icons/copy.svg" alt=""></button>
+                    </div>
+                </li>
+            <% } %>
+        </ul>
+
+    </div>
+    
+    <% if (canGenerate) { %>
+     
+        <div class="container container-medium-width container-filled-background">
+
+            <h2><%= __("Generate Invite") %> </h2>
+    
+            <form class="form" action="/invites/generate" method="post">
+    
+                <input type="hidden" value="<%= csrfToken %>" name="_csrf" >
+    
+                <fieldset>
+    
+                    <div class="form-group">
+                        <label class="label"><%= __('Uses') %></label>
+                        <input required class="input-field" type="number" value="1" name="count" />
+                        <p class="input-field-hint">How many people can use this invite?</p>
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="label"><%= __('Expire') %></label>
+                        <input class="input-field" type="date" name="date" />
+    
+                    </div>
+    
+                </fieldset>
+    
+                <div class="form-action-group">
+                    <button class="button primary" type="submit"><%= __("Get Invite") %> </button>
+                </div>
+    
+            </form>
+    
+        </div>
+
+    <% } %>
+
+</div>

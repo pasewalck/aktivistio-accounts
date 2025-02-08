@@ -1,0 +1,37 @@
+<%- include("../../partials/dashboard-header.ejs") %>
+
+<div class="wrapper flex-container">
+    <div class="container container-medium-width container-filled-background">
+
+        <h2><%= __("Add two factor authentication") %> ></h2>
+
+        <div class="qr-code-box">
+            <img src="<%- qrCodeSrc %> " alt="">   
+            <div><%- secret %></div>
+        </div>
+
+        <form class="form" action="/account/2fa/set" method="post">
+            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+            <input type="hidden" name="secret" value="<%- secret %> ">
+            
+            <fieldset>
+
+                <% if (errorMsg) { %>
+                    <%- include("../../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
+                <% } %>
+
+                <div class="form-group">
+                    <label class="label"><%= __('Enter Code') %></label>
+                    <input class="input-field" required type="text" name="token"/>
+                </div>
+        
+            </fieldset>
+
+            <div class="form-action-group">
+                <button class="button primary"><%= __("Add 2fa") %> </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

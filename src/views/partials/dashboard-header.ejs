@@ -1,0 +1,25 @@
+<header class="header">
+    <div class="header-container">
+        
+        <div class="header-box">
+            <nav class="main-nav">
+                <a href="/invites"><%= __("Invites") %> </a>
+                <a href="/services"><%= __("Services") %> </a>
+            </nav>
+        </div>
+
+        <div class="header-box account-box">
+            <div class="account-profile">
+                <img src="/icons/account.svg" alt="">
+                <div class="account-info">
+                    <p class="username"><%= account.username %></p>
+                </div>
+            </div>
+            <nav class="account-nav">
+                <a href="/account"><img src="/icons/settings.svg" alt=""></a>
+                <a href="/oidc/session/end"><img src="/icons/logout.svg" alt=""> </a>
+            </nav>
+        </div>
+
+    </div>
+</header>

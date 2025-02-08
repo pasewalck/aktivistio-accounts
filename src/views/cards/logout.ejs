@@ -1,0 +1,22 @@
+<div class="wrapper flex-container flex-container-vertical">
+    <div class="container-medium-width container-filled-background">
+
+        <h1><%= __("Logout") %></h1>
+        <p><%= __("Are you sure you want to logout?") %> </p>
+
+        <form class="form" id="op.logoutForm" autocomplete="off" action="<%= urls.action %>"method="post">
+        
+            <input type="hidden" name="xsrf" value="<%= secret %>"/>
+            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+
+            <div class="form-action-group">
+                <div class="button-group">
+                    <button autofocus type="submit" form="op.logoutForm" value="yes" name="logout" class="button primary"><%= __('Yes') %></button>
+                    <button type="submit" form="op.logoutForm" class="button red"><%= __('Abort') %></button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
