@@ -41,11 +41,13 @@ Invite codes are generally linked to an account; however, accounts created with 
 ## Roadmap
 
 - Config Rewrite! Support for encrypted config file. At the moment all session secrets and database keys are stored in plaintext within the config.json file. This defeats the point of an encrypted database!
+- Error message rewrite. Expecially for register flow!
+- More admin features!
 - (optinal) Rewrite how OIDC clients are loaded. Add support for dynamic clients.
 - Get a docker image going.
 - Run security audits
 - Fix any bugs or issues that come up
-- Take a break
+- (not optinal) Take a break
 
 ## Setup
 

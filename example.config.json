@@ -1,0 +1,45 @@
+{
+  "app_name": "Movement",
+  "express_session_secret": "secret cat",
+  "cookie_parser_secret": "keyboard cat",
+  "csrf_secret": "another secret",
+  "jwks": {
+    "keys": [
+      {
+        "161": "def not RSA",
+        "antifa": "123456",
+        "1312": "789",
+        "cd": "101112",
+        "e": "abcd",
+        ":(": "Not going to add more dummy data at the moment"
+      }
+    ]
+  },
+  "mail": {
+    "host": "mail.example.com",
+    "port": 465,
+    "secure": true,
+    "user": "movement@example.com",
+    "pass": "password12345",
+    "name": "movement"
+  },
+  "clients": [
+    {
+      "client_name": "Debug",
+      "client_id": "oidcCLIENT",
+      "client_uri": "https://oidcdebugger.com/",
+      "client_secret": "Some_super_secret",
+      "grant_types": [
+        "authorization_code"
+      ],
+      "redirect_uris": [
+        "https://oidcdebugger.com/debug"
+      ],
+      "response_types": [
+        "code"
+      ]
+    }
+  ],
+  "fingerprint_salt": "some fancy salt",
+  "database_key": "super secret keyyyy"
+}
