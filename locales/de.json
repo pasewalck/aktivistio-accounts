@@ -99,5 +99,6 @@
 	"Your invites will be unlocked in %s days.": "Ihre Einladungscodes werden in %s Tagen freigeschaltet.",
 	"Account": "Konto",
 	"Be careful! This is the delete page for you account. Proceed with caution.": "Sei auf der Hut! Dies ist die Löschungsseite für Ihr Benutzerk*inonto. Gehen Sie mit Bedacht und Vorsicht vor.",
-	"Codes": "Codes"
+	"Codes": "Codes",
+	"Account 2fa": "Account 2fa"
 }

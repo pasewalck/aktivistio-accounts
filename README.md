@@ -49,6 +49,12 @@ Invite codes are generally linked to an account; however, accounts created with 
 - Fix any bugs or issues that come up
 - (not optinal) Take a break
 
+### Know Bugs
+
+- Errors caused by parsing body twice and sending headers to clients from multiple places. This is due to how the current setup interacts with the oidc provider.
+- Invite code claiming is not checked agains if invites are expired.
+- Multiple POST submit field entries are not checked for validity on server side, such as emails for recovering. None of these fields should able to cause any breaking changes.
+
 ## Setup
 
 Simply run the script. Most config varaibles will be auto generated. However make sure to configure email and oidc clients in the config file. See example.config for details!
