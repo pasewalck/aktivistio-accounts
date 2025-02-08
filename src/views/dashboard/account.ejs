@@ -1,0 +1,25 @@
+<%- include("../partials/dashboard-header.ejs") %>
+
+<div class="wrapper flex-container">
+
+    <div class="container container-medium-width container-filled-background">
+        <h2>Security and Access</h2>
+        <div class="button-group">
+            <a class="button" href="/account/password/"><%= __("Change Password") %> </a>
+            <a class="button" href="/account/2fa"><%= __("Manage multi-factor authentication") %> </a>
+        </div>
+    </div>
+
+    <div class="container container-medium-width container-filled-background">
+        <h2>Account recovery</h2>
+        <div class="button-group">
+            <a class="button" href="/account/recovery"><%= __("Manage account recovery") %> </a>
+        </div>
+    </div>
+
+    <div class="container container-medium-width container-filled-background">
+        <h2>Deletion</h2>
+        <a class="button" href="/account/delete/"><%= __("Proceed to delete page") %> </a>
+    </div>
+
+</div>

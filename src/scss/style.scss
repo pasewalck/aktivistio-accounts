@@ -1,0 +1,595 @@
+@use '_reset';
+@use '_fonts';
+@use '_variables' as variables;
+
+body {
+    background-color: variables.$lightgrey;
+    min-height: 100lvh;
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+    flex-direction: column;
+}
+
+// Apply fonts
+
+p,button,a,span,input,label,ul,li,h1,h2,h3,h4,h5,div {
+    font-family: variables.$titlefont;
+    
+}.center{
+    text-align: center;
+}
+
+// Apply general font colors, weights and scaling
+
+p {
+    font-weight: 400;
+    color: variables.$darkcolor;
+    font-size: 16px;
+    padding-bottom: 6px;
+
+}
+h1,h2,h3,h4,h5 {
+    font-weight: 600;
+    color: variables.$darkcolor;
+}
+h1 {
+    font-size: 32px;
+    padding-bottom: 14px;
+}
+h2 {
+    font-size: 26px;
+    padding-bottom: 12px;
+
+}
+h3 {
+    font-size: 23px;
+    padding-bottom: 10px;
+}
+h4 {
+    font-size: 20px;
+    padding-bottom: 8px;
+
+}
+h5 {
+    font-size: 17px;
+    padding-bottom: 6px;
+
+}
+
+// invites
+
+
+.invite-list {
+    margin-bottom: 5px;
+
+    li {
+        position: relative;
+
+        border-radius: 2px;
+        border: solid variables.$grey 1px;
+        margin-top: 10px;
+        padding: 6px;  
+
+        .code {
+
+            text-align: left;
+            font-size: 19px;
+            font-weight: 400;
+            padding-bottom: 4px;  
+            display: inline-block;
+            
+            @media only screen and (min-width: 1000px) {
+                span {
+                    filter: blur(3px);
+                    transition: all 0.5s;
+                }
+            }
+
+    
+        }:hover {
+            span {
+                filter: blur(0px);
+            }
+        }
+        .uses {
+            font-weight: 300;
+            font-size: 14px;
+            display: block;
+        }
+        .date {
+            font-weight: 400;
+            font-size: 12px;
+            display: inline-block;
+
+        }.soon {
+            font-weight: 400;
+
+            color: #eb1304;
+        }
+        .links {
+            top: 0;
+            right: 0;
+            position: absolute;
+            display: block;
+            padding: 5px;
+            a,button {
+                background-color: transparent;
+                display: inline-block;
+                font-size: 13px;
+          
+                font-weight: 400;
+                border-radius: 3px;
+            
+                cursor: pointer;
+            
+                img {
+                    width: 21px;
+                }
+            }
+        }
+    }
+}
+
+// General Page Layouts
+
+.wrapper {
+    width: 100vw;
+    padding: 50px 20px;
+
+    flex: 1 1 auto;
+}
+
+
+.flex-container {
+
+    display: flex;
+    column-gap: 40px;
+    row-gap: 15px;
+    
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.flex-container-vertical {
+
+    flex-direction: row;
+}
+
+.container-medium-width {
+    width: min(100%,500px);
+}
+
+.container-large-width {
+    width: min(100%,900px);
+}
+
+.container-soft-filled-background {
+    background-color: rgba($color: variables.$lightcolor, $alpha: 0.4);
+    border-radius: 4px;
+    backdrop-filter: blur(10px);
+    padding: 40px;
+
+}
+.container-filled-background {
+    background-color: rgba($color: variables.$lightcolor, $alpha: 1.0);
+    border-radius: 4px;
+    box-shadow: 0px 0px 16px rgba($color: variables.$darkcolor , $alpha: 0.1);
+    padding: 40px;
+}
+
+.container-padded {
+    padding: 20px;
+}
+
+.gird-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+
+    column-gap: 15px;
+    row-gap: 15px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .flex-container {
+        row-gap: 15px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .flex-container-vertical {
+        flex-direction: column;
+    }
+
+}
+
+@media only screen and (max-width: 450px) {
+    .wrapper {
+        padding: 0;
+
+    }
+    .container-filled-background {
+        border-radius: 0px;
+        padding: 20px;
+    }
+    .container-soft-filled-background {
+        border-radius: 0px;
+        padding: 20px;
+    }
+
+    
+}
+
+.box-list {
+    margin-bottom: 5px;
+
+    li {
+
+        margin-top: 5px;
+        padding: 5px;  
+
+        border-radius: 2px;
+        border: solid variables.$grey 1px;
+
+        p {
+            font-size: 15px;
+            font-weight: 400;
+            padding: 4px;  
+            display: inline-block;
+        }
+        .actions {
+            float: right;
+            a,button {
+                display: inline-block;
+                font-size: 13px;
+          
+                font-weight: 400;
+                border-radius: 3px;
+                padding: 5px 8px;
+            
+                cursor: pointer;
+            
+                color: variables.$lightcolor;
+                background-color: #047beb;
+            }.red{
+                background-color: #eb1304;
+
+            }
+        }
+    }
+}
+
+// qr-code-box
+
+.qr-code-box {
+    display: block;
+    margin-bottom: 20px;
+    img,div {
+        margin: auto;
+        display: block;
+    }
+    img {
+        max-width: 100%;
+    }
+    div {
+        text-align: center;
+        font-size: 14px;
+        font-weight: 300;
+        font-weight: 4;
+        padding: 0 10px;
+
+    }
+}
+
+// Buttons
+
+.button-group {
+    display: block;
+    .button {
+        margin-bottom: 2px;
+    }
+
+}
+.button {
+    display: inline-block;
+
+    font-size: 15px;
+    line-height: 15px;
+
+    font-weight: 400;
+    border-radius: 3px;
+    padding: 10px 15px;
+
+    cursor: pointer;
+
+    background-color: #0470eb;
+    color: #ffffff;
+
+    box-shadow: 3px 3px 6px rgba($color: variables.$darkcolor, $alpha: 0.1);
+}
+.button.blue{
+    background-color: #0470eb;
+    color: #ffffff;
+}
+.button.red{
+   
+    background-color: #cf1a1a;
+    color: #ffffff;
+}
+
+.alert-info {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    justify-items: start;
+    align-items: center;
+
+    background: rgba($color: variables.$grey, $alpha: 0.1);
+
+    border: solid variables.$grey 1px;
+ 
+    padding: 7px;  
+
+    border-radius: 2px;
+    opacity: 0.8;
+
+    img {
+        width: 20px;
+        height: 20px;
+ 
+        box-sizing: content-box;
+    }
+    p {
+         
+        font-weight: 400;
+        font-size: 15px;
+
+        padding-bottom: 2px;
+    }
+}.error {
+    border: solid variables.$redaccent 1px;
+    background: rgba($color: variables.$redaccent, $alpha: 0.1);
+
+    p {
+        color: variables.$redaccent;
+    }
+}
+
+.output-field {
+    display: block;
+    position: relative;
+    background: variables.$lightgrey;
+    width: 100%;
+
+    border: solid variables.$grey 1px;
+    padding: 7px 9px;    
+
+    border-radius: 2px;
+    p {
+        font-size: 15px;
+        font-weight: 400;
+    }
+}
+
+// Forms layouting
+
+.form {
+
+    margin: 15px 0;
+    display: block;
+
+    .form-action-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 25px;
+    }
+    fieldset {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+
+    }
+
+    .input-field-hint {
+        font-size: 14px;
+        color: variables.$darkcolor;
+        font-weight: 300;
+        display: block;
+        margin: 3px 0;
+        text-align: right;
+    }
+
+    .input-field-help-link {
+        font-size: 14px;
+        color: variables.$darkcolor;
+        font-weight: 300;
+        text-decoration: underline;
+        display: block;
+        margin: 3px 0;
+        text-align: right;
+    }
+
+    .form-group {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        .label {
+            transition: all 0.3s;
+            pointer-events: none; 
+            font-size: 15px;
+            color: variables.$darkcolor;
+            font-weight: 300;
+            padding: 0px 2px;
+            display: block;
+        }
+        .select,.input-field{
+            display: block;
+            position: relative;
+            background: transparent;
+            width: 100%;
+            font-weight: 300;
+            border: solid variables.$grey 1px;
+            padding: 7px 9px;    
+            font-size: 15px;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }::placeholder{
+            opacity: 1;
+            font-weight: 300;
+        }
+        .input-field:focus,.select:focus {
+            border: solid variables.$greenSeaweed 1px;
+        }
+
+        .select{
+            font-weight: 500;
+        }
+
+        .input-checkbox {
+            display: block;
+            position: relative;
+            background: transparent;
+            width: 100%;
+            label {
+                margin:2px;
+                margin-left:6px;
+                display: block;
+                font-size: 14px;
+                font-weight: 400;
+            }
+            input {
+                margin:3px;
+                float: left;
+            }
+        }
+    }
+
+    .help {
+        padding: 60px 0 0px 0;
+        a {
+            color: variables.$lightcolor;
+            padding: 5px;
+        }
+    }
+}
+
+
+.header {
+
+    padding: 16px;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 16px rgba($color: variables.$darkcolor , $alpha: 0.1);
+
+    .header-container {
+        width: 100%;
+        margin: auto;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    
+        justify-content: space-between;
+
+        .main-nav {
+            display: inline-block;
+            a {
+                color: #000000;
+                padding: 4px;
+                font-size: 16px;
+
+            }
+                    
+        }
+
+        .account-box {
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+
+            .account-profile {
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 4px;
+                img {
+                    border-radius: 15px;
+                    height: 30px;
+                    opacity: 0.4;
+                    display: inline-block;
+                }
+                .account-info {
+                    .username {
+                        padding-bottom: 2px;
+                        color: #000000;
+                        font-size: 17px;
+       
+                        font-weight: 300;
+                    }
+                    display: inline-block;
+
+                }
+
+            }
+            .account-nav {
+                padding: 4px;
+                border-radius: 4px;
+                a {
+                    img {
+                        opacity: 0.8;
+                        height: 20px;
+                    }
+                }
+                        
+            }
+        }
+
+
+
+    }
+
+
+
+}
+
+.language-dropdown {
+
+    position: fixed;
+    bottom: 4px;
+    right: 4px;
+
+    box-shadow: 0px 0px 16px rgba($color: variables.$darkcolor , $alpha: 0.1);
+
+    padding: 0 5px;
+
+    background-color: variables.$lightcolor;
+    border-radius: 4px;
+
+    select {
+
+        font-size: 23px;
+        background: transparent;
+
+    }
+    button {
+
+        font-size: 14px;
+        background: #0470eb;
+        padding: 4px;
+        color: variables.$lightcolor;
+        margin: 3px;
+        border-radius: 1px;
+
+    }
+
+}
+

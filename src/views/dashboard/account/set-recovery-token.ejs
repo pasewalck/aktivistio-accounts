@@ -1,0 +1,55 @@
+<%- include("../../partials/dashboard-header.ejs") %>
+
+<div class="wrapper flex-container">
+
+    <div class="container container-medium-width container-filled-background">
+
+        <% if (hasRecoveryToken) { %>
+            <h2><%= __("New recovery token") %> </h2>
+        <% } else { %>
+            <h2><%= __("Add recovery token") %> </h2>
+        <% } %>
+
+        <form class="form" autocomplete="off" action=""method="post">
+            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+      
+            <fieldset>
+
+                <% if (errorMsg) { %>
+                    <%- include("../../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
+                <% } %>
+
+                <%- include("../../partials/alert-info.ejs",{info: __("You are about to set your recovery token. This will overwrite any old recovery token setup! Your token is stored hashed and even our admins can't see it."),moreInfoLink: "https"}) %> 
+                
+                <div class="form-group">
+                    <label class="label"><%= __('Current password') %></label>
+                    <input required class="input-field" type="password" name="currentPassword"/>
+                </div>
+
+                <div class="form-group">
+
+                    <input type="hidden" name="recoveryToken" value="<%= recoveryToken %>">
+                    <label class="label"><%= __('New Recovery Token') %></label> 
+
+                    <div class="output-field">
+                        <p><%= recoveryToken %></p>
+                    </div>
+
+                    <div class="input-checkbox">
+                        <input type="checkbox" name="recoveryTokenVerify"><label class="label"><%= __('I have written down the token') %></label> 
+                    </div>
+                    
+                </div>
+            
+            </fieldset>
+      
+            <div class="form-action-group">
+              <div class="button-group">
+                <button type="submit" class="button primary"><%= __('Set recovery Token') %></button>
+              </div>
+            </div>
+      
+        </form>
+        
+    </div>
+</div>

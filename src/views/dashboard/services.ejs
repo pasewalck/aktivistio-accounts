@@ -1,0 +1,24 @@
+<%- include("../partials/dashboard-header.ejs") %>
+
+<div class="wrapper flex-container">
+    <div class="container container-large-width">
+
+        <div class="gird-container">
+            <% clients.forEach(client => { %>
+             <div class="container-filled-background">
+                <h2><%= client.client_name %></h2>
+                <% if (client.initiate_login_uri) { %>
+                    <a href="<%= client.initiate_login_uri %> "><%= __("Login ...") %> </a>
+                <% } %>
+                <% if (client.client_uri) { %>
+                    <a href="<%= client.client_uri %> "><%= __("Go to service ...") %> </a>
+                <% } %>
+             </div>
+            <% }) %>
+            <div class="container-soft-filled-background"></div>
+            <div class="container-soft-filled-background"></div>
+            <div class="container-soft-filled-background"></div>
+        </div>
+        
+    </div>
+</div>

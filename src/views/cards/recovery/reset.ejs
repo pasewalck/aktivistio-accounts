@@ -1,0 +1,48 @@
+<div class="wrapper flex-container flex-container-vertical">
+    <div class="container-medium-width container-filled-background">
+        
+        <h1><%= __('Account Recovery') %></h1>
+
+        <form class="form" autocomplete="off" action="" method="post">
+        
+        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+        <fieldset>
+
+            <% if (errorMsg) { %>
+            <%- include("../../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
+            <% } %>
+
+            <% if (confirmCode == null || !confirmCode) { %>
+            <p><%- __("We sent you a confirmation code to your provided email") %> </p>
+            <div class="form-group">
+                <label class="label"><%= __('Confirmation code') %></label>
+                <input class="input-field" required type="text" name="confirmCode"/>
+            </div>
+            <% } else { %>
+            <input type="hidden" value="<%= confirmCode %>" name="confirmCode">
+            <% } %>
+
+            <%- include("../../partials/alert-info.ejs",{info: __("This step will also overwrite and remove any two factor authentication for your account. Please set it up again after account recovery if you intend to use it."),moreInfoLink: false}) %> 
+
+            <div class="form-group">
+            <label class="label"><%= __('New Password') %></label>
+            <input class="input-field" required type="password" name="password"/>
+            </div>
+
+            <div class="form-group">
+            <label class="label"><%= __('Confirm new Password') %></label>
+            <input class="input-field" required type="password" name="confirmPassword"/>
+            </div>
+            
+        </fieldset>
+
+        <div class="form-action-group">
+            <div class="button-group">
+            <button type="submit" class="button primary"><%= __('Confirm') %></button>
+            </div>
+        </div>
+
+        </form>
+
+    </div>
+</div>

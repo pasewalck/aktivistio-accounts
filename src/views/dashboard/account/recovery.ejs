@@ -1,0 +1,45 @@
+<%- include("../../partials/dashboard-header.ejs") %>
+
+<div class="wrapper flex-container">
+    <div class="container container-medium-width container-filled-background">
+
+        <h2><%= __("Account Recovery") %> </h2>   
+        
+        <% if (currentRecovery && (currentRecovery.token || currentRecovery.email)) { %>
+            <p><%= __("Great! You have %s recovery method(s) setup",(currentRecovery.token && currentRecovery.email) ? 2 : 1) %> </p>
+            <ul class="box-list">
+                <% if (currentRecovery.token) { %>
+                    <li>
+                        <p><%= __("Recovery Token") %> </p>
+                        <div class="actions">
+                            <a href="/account/recovery/set-token"><%= __("New Token") %> </a>
+                            <a href="/account/recovery/delete-token" class="red"><%= __("Delete") %></a>
+                        </div>
+
+                    </li>
+                <% } %>
+                <% if (currentRecovery.email) { %>
+                    <li>
+                        <p><%= __("Recovery Email") %> </p>
+                        <div class="actions">
+                            <a href="/account/recovery/set-email"><%= __("Modify") %></a>
+                            <a href="/account/recovery/delete-email" class="red"><%= __("Delete") %></a>
+                        </div>
+
+                    </li>
+                <% } %>
+            </ul>
+        <% } else { %>
+            <p><%= __("No recovery setup at the moment.") %> </p>
+        <% } %>
+        <div class="button-group">
+            <% if (!currentRecovery?.email) { %>
+                <a class="button" href="/account/recovery/set-email"><%= __("Add recovery Email") %> </a>
+            <% } %>
+            <% if (!currentRecovery?.token) { %>
+                <a class="button" href="/account/recovery/set-token"><%= __("Add recovery Token") %> </a>
+            <% } %>
+        </div>
+
+    </div>
+</div>

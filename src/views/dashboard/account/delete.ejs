@@ -1,0 +1,39 @@
+<%- include("../../partials/dashboard-header.ejs") %>
+
+<div class="wrapper flex-container">
+    <div class="container container-medium-width container-filled-background">
+
+        <h2><%= __("Delete Account") %> </h2>
+
+        <form class="form" action="" method="post">
+            <fieldset>
+
+                <%- include("../../partials/alert-info.ejs",{info: __("Be careful! This is the delete page for you account. Proceed with caution."),moreInfoLink:false}) %> 
+
+                <% if (errorMsg) { %>
+                    <%- include("../../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
+                <% } %>
+
+                <div class="form-group">
+                    <label class="label"><%= __('Your password') %></label>
+                    <input required class="input-field" type="password" name="password"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="label"><%= __('Confirm your action') %></label>
+                    <div class="input-checkbox">
+                        <input type="checkbox" name="confirm"><label><%= __('I confirm to delete my account and know I will lose it forever!') %></label> 
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+            <div class="form-action-group">
+                <button class="button red" type="submit"><%= __("Delete Forever") %> </button>
+            </div>     
+
+        </form>
+
+    </div>
+</div>
