@@ -1,6 +1,7 @@
 import accountDriver from "../drivers/account.driver.js"
 import { generateNumberCode } from "../helpers/generate-secrets.js";
 import mailsDriver from "../drivers/mails.driver.js";
+import { isRecoveryToken } from "../helpers/recovery-token-string.js";
 /**
  * Enum for login results
  * @readonly
@@ -79,6 +80,8 @@ async function recoveryHandler(req) {
             case "token":
                 if (!req.body.token)
                     throw new RecoveryStep1Error("No token for selected token recovery method");
+                if (isRecoveryToken(req.body.token))
+                    throw new RecoveryStep1Error("Token format is invalid");
                 if (!await accountDriver.checkRecoveryToken(account.id,req.body.token))
                     throw new RecoveryStep1Error("Token is invalid");
                 break;

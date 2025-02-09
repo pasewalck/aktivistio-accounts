@@ -3,6 +3,8 @@ import emailValidate from "email-validator";
 
 import accountDriver from "../drivers/account.driver.js"
 import config from '../config.js';
+import { isRecoveryToken } from '../helpers/recovery-token-string.js';
+import { isAlphanumeric, isInLengthRange } from '../helpers/validate-strings.js';
 
 /**
  * Represents an error causable when registeing a user.
@@ -63,7 +65,11 @@ async function registerHandler (req) {
     let passwordStrg = zxcvbn(password);
     if (passwordStrg.score < 3)
         throw new RegisterBadPasswordError(passwordStrg.score,passwordStrg.feedback);
-    if (!accountDriver.validateInvite(inviteCode))
+    if (!isAlphanumeric(username))
+        throw new RegisterError("Username contains invalid characters");
+    if (!isInLengthRange(username,3,20))
+        throw new RegisterError("Username is too long or short. Must be between 3 and 20 characters long.");
+    if (!isAlphanumeric(inviteCode) || !accountDriver.validateInvite(inviteCode))
         throw new RegisterError("Invalid invite");
     if (accountDriver.findAccountWithUsername(username))
         throw new RegisterError("User with username exists");
@@ -77,6 +83,8 @@ async function registerHandler (req) {
         case "token":
             if (!recovery.token)
                 throw new RegisterError("No token for selected token recovery method");
+            if (!isRecoveryToken(recovery.token))
+                throw new RegisterError("Recovery Token is not in valid format");
             if (!recovery.tokenVerify)
                 throw new RegisterError("Recovery Token not confirmed");
             break;

@@ -3,7 +3,7 @@ import QRCode from "qrcode"
 import twoFactorAuth from "../helpers/two-factor-auth.js";
 import accountDriver from "../drivers/account.driver.js";
 
-import { generateRecoveryToken } from "../helpers/generate-secrets.js";
+import { generateRecoveryToken } from "../helpers/recovery-token-string.js";
 import config from "../config.js";
 
 /**

@@ -1,20 +1,6 @@
 import { AlphanumericCleaned, Alphanumeric } from "./character-arrays.js";
 
 /**
- * @description returns a recovery string in a recovery token format
- * @returns {String}
- */
-export const generateRecoveryToken = () => {
-    let tokenList = [];
-    for (let i = 0; i < 5; i++) {
-        let section = ""
-        for (let i = 0; i < 6; i++)
-            section += getRandomCharFromString(Object.values(AlphanumericCleaned).join(''));
-        tokenList.push(section);
-    }
-    return tokenList.join('-');
-};
-/**
  * @description return a random int using crypto module.Inspired by a solution from  https://stackoverflow.com/a/18230432
  * @param {Number} [min]
  * @param {Number} [max]
