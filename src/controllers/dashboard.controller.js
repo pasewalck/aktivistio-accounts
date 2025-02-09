@@ -1,8 +1,12 @@
+import zxcvbn from "zxcvbn";
+
 import twoFactorAuth from "../helpers/two-factor-auth.js";
 import dashboardRenderer from "../renderers/dashboard.renderer.js";
 import provider from "../oidc/provider.js";
 import accountDriver from "../drivers/account.driver.js";
-import logger from "../logger.js";
+import emailValidate from "email-validator";
+
+import { isRecoveryToken } from "../helpers/recovery-token-string.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -45,10 +49,13 @@ export default {
     accountChangePasswordPost: async (req,res) => {
         if(!req.body.currentPassword || !req.body.newPassword || !req.body.confirmNewPassword)
             return dashboardRenderer.accountChangePassword(req,res,"Missing fields")
-        else if (!await accountDriver.checkPassword(req.account.id,req.body.currentPassword))
+        if (!await accountDriver.checkPassword(req.account.id,req.body.currentPassword))
             return dashboardRenderer.accountChangePassword(req,res,"Provided Password is not correct")
-        else if (req.body.newPassword != req.body.confirmNewPassword)
+        if (req.body.newPassword != req.body.confirmNewPassword)
             return dashboardRenderer.accountChangePassword(req,res,"Confirm Password doesn't match")
+        let passwordStrg = zxcvbn(password);
+        if (passwordStrg.score < 3)
+            return dashboardRenderer.accountChangePassword(req,res,"Password is not secure enough")
         await accountDriver.setPassword(req.account.id,req.body.newPassword)
         res.redirect("/account")
 
@@ -105,7 +112,6 @@ export default {
         {
             if(!req.body.token)
                 return dashboardRenderer.addTwoFactorAuth(req,res,req.body.secret,"Missing token")
-
             if (!twoFactorAuth.verify(req.body.secret,req.body.token))
                 return dashboardRenderer.addTwoFactorAuth(req,res,req.body.secret,"Token not matching")
         }
@@ -186,6 +192,8 @@ export default {
     accountRecoverySetEmailPost: async (req,res) => {
         if(!req.body.currentPassword || !req.body.recoveryEmail)
             return dashboardRenderer.setRecoveryEmail(req,res,"Missing fields")
+        if(!emailValidate.validate(req.body.recoveryEmail))
+            return dashboardRenderer.setRecoveryEmail(req,res,"Email is not valid")
         if (!await accountDriver.checkPassword(req.account.id,req.body.currentPassword))
             return dashboardRenderer.setRecoveryEmail(req,res,"Provided Password is not correct")
         await accountDriver.setAccountRecoveryEmail(req.account.id,req.body.recoveryEmail)
@@ -201,6 +209,8 @@ export default {
             return dashboardRenderer.setRecoveryToken(req,res,"Missing fields",req.body.recoveryToken)
         if (!await accountDriver.checkPassword(req.account.id,req.body.currentPassword))
             return dashboardRenderer.setRecoveryToken(req,res,"Provided Password is not correct",req.body.recoveryToken)
+        if(!isRecoveryToken(req.body.recoveryToken))
+            return dashboardRenderer.setRecoveryEmail(req,res,"Invalid recovery token")
         if(!req.body.recoveryTokenVerify)
             return dashboardRenderer.setRecoveryToken(req,res,"Missing confirmation for recovery token",req.body.recoveryToken)
         await accountDriver.setAccountRecoveryToken(req.account.id,req.body.recoveryToken)

@@ -1,4 +1,4 @@
-import { generateRecoveryToken } from "../helpers/generate-secrets.js";
+import { generateRecoveryToken } from "../helpers/recovery-token-string.js";
 
 /**
  * @typedef {import("express").Request} Request
