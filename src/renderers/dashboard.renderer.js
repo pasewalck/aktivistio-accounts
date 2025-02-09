@@ -5,8 +5,6 @@ import accountDriver from "../drivers/account.driver.js";
 
 import { generateRecoveryToken } from "../helpers/generate-secrets.js";
 import config from "../config.js";
-import i18n from 'i18n';
-
 
 /**
  * @typedef {import("express").Request} Request
@@ -25,7 +23,7 @@ export default {
      */
     services: (req,res) => {
       return res.render('dashboard/services', {
-        title: i18n.__('Services'),
+        title: res.__('Services'),
         account: req.account,
         clients: config.clients
       });
@@ -37,7 +35,7 @@ export default {
      */
     account: (req,res) => {
       return res.render('dashboard/account', {
-        title: i18n.__('Account'),
+        title: res.__('Account'),
         account: req.account,
         accountInQuestion: req.account,
       });
@@ -50,7 +48,7 @@ export default {
      */
     accountChangePassword: (req,res,errorMsg=undefined) => {
       return res.render('dashboard/account/password', {
-        title: i18n.__('Account Password'),
+        title: res.__('Account Password'),
         account: req.account,
         errorMsg:errorMsg,
         accountInQuestion: req.account
@@ -63,7 +61,7 @@ export default {
      */
     twoFactorAuth: (req,res) => {
       return res.render('dashboard/account/2fa', {
-        title: i18n.__('Account 2fa'),
+        title: res.__('Account 2fa'),
         account: req.account,
         accountInQuestion: req.account,
         has2fa: accountDriver.get2faSecret(req.account.id) != null
@@ -82,7 +80,7 @@ export default {
       let qrCodeSrc = await QRCode.toDataURL(url)
 
       return res.render('dashboard/account/add-2fa', {
-        title: i18n.__('Account 2fa'),
+        title: res.__('Account 2fa'),
         account: req.account,
         accountInQuestion: req.account,
         secret: secret,
@@ -98,7 +96,7 @@ export default {
      */
     recovery: (req,res) => {
       return res.render('dashboard/account/recovery', {
-        title: i18n.__('Account Recovery'),
+        title: res.__('Account Recovery'),
         account: req.account,
         currentRecovery: accountDriver.getRecovery(req.account.id)
       });
@@ -110,7 +108,7 @@ export default {
      */
     setRecoveryToken: (req,res,errorMsg=undefined,recoveryToken=undefined) => {
       return res.render('dashboard/account/set-recovery-token', {
-        title: i18n.__('Account Recovery'),
+        title: res.__('Account Recovery'),
         account: req.account,
         accountInQuestion: req.account,
         errorMsg: errorMsg,
@@ -125,7 +123,7 @@ export default {
      */
     setRecoveryEmail: (req,res,errorMsg=undefined) => {
       return res.render('dashboard/account/set-recovery-email', {
-        title: i18n.__('Account Recovery'),
+        title: res.__('Account Recovery'),
         account: req.account,
         errorMsg: errorMsg,
         accountInQuestion: req.account,
@@ -139,7 +137,7 @@ export default {
      */
     deleteRecoveryMethod: (req,res,method,errorMsg=undefined) => {
       return res.render('dashboard/account/remove-recovery-confirm', {
-        title: i18n.__('Account Recovery'),
+        title: res.__('Account Recovery'),
         account: req.account,
         accountInQuestion: req.account,
         errorMsg: errorMsg,
@@ -154,7 +152,7 @@ export default {
      */
     delete: (req,res,errorMsg=undefined) => {
       return res.render('dashboard/account/delete', {
-        title: i18n.__('Delete Account'),
+        title: res.__('Delete Account'),
         account: req.account,
         errorMsg:errorMsg,
         accountInQuestion: req.account
@@ -167,7 +165,7 @@ export default {
      */
     invites: (req,res) => {
       return res.render('dashboard/codes', {
-        title: i18n.__('Codes'),
+        title: res.__('Codes'),
         account: req.account,
         inviteCodes: req.account.getInvites(),
         lockedInviteCodes: req.account.getLockedInvites(),
@@ -182,7 +180,7 @@ export default {
     inviteShare: async (req,res,invite) => {
       var inviteURL = config.baseUrl + "/register/"+invite
       return res.render('dashboard/invite-share', {
-        title: i18n.__('Inviting'),
+        title: res.__('Inviting'),
         account: req.account,
         invite: invite,
         inviteURL: inviteURL,
