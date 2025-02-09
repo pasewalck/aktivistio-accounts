@@ -1,5 +1,3 @@
-import i18n from "i18n";
-
 import sharedRenderer from "./shared.renderer.js";
 import config from "../config.js";
 
@@ -48,7 +46,7 @@ export default {
      */
     recovery: (req,res,errorMsg=undefined) => {
         return res.render('cards/recovery/request', {
-            title: i18n.__('Request Invite'),
+            title: res.__('Request Invite'),
             errorMsg: errorMsg
           });
     },
@@ -60,7 +58,7 @@ export default {
      */
     inviteRequest: (req,res,errorMsg=undefined) => {
         return res.render('cards/request-invite', {
-            title: i18n.__('Request Invite'),
+            title: res.__('Request Invite'),
             errorMsg: errorMsg,
             emailProviders: config.invitingMailProviders
           });
@@ -74,7 +72,7 @@ export default {
      */
     recoveryPasswordPrompt: (req,res,confirmCode=undefined,errorMsg=undefined) => {
         return res.render('cards/recovery/reset', {
-        title: i18n.__('Recovery'),
+        title: res.__('Recovery'),
             errorMsg: errorMsg,
             confirmCode: confirmCode
           });

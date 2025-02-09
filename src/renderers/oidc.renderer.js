@@ -1,4 +1,3 @@
-import i18n from 'i18n';
 import sharedRenderer from "./shared.renderer.js";
 
 /**
@@ -19,7 +18,7 @@ export default {
      */
     consent: (req,res,uid,clientId) => {
         return res.render('cards/consent', {
-        title: i18n.__('Authorize'),
+        title: res.__('Authorize'),
         clientId,
         urls: {action: `/interaction/${uid}/confirm/`,abort:`/interaction/${uid}/abort/`}
         });
@@ -43,7 +42,7 @@ export default {
      */
     logout: (req,res,secret,clientId) => {
         return res.render('cards/logout', {
-            title: i18n.__('Logout'),
+            title: res.__('Logout'),
             secret,
             clientId,
             urls: {action: `/oidc/session/end/confirm/`}
