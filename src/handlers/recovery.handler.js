@@ -98,7 +98,7 @@ async function recoveryHandler(req) {
 
         switch (req.body.method) {
             case "email":
-                mailsDriver.sendRecoveryCode(confirmCode,req.body.email)
+                mailsDriver.sendRecoveryCode(confirmCode,req.body.email,re)
                 return {status:RecoveryResultStatus.RESET_PROMPT}
             case "token":
                 return {status:RecoveryResultStatus.RESET_PROMPT,confirmCode:confirmCode}

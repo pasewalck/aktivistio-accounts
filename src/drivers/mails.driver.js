@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import config from '../config.js';
 import logger from "../logger.js";
+import { renderTemplate } from "../helpers/template-render.js";
 
 const transporter = nodemailer.createTransport({
   host: config.mail.host,
@@ -11,6 +12,11 @@ const transporter = nodemailer.createTransport({
     pass: config.mail.pass,
   },
 });
+
+const templates = {
+  recovery: "recovery",
+  invite: "invite"
+}
 
 /**
  * @description send email using transporter config
@@ -36,11 +42,18 @@ async function send(to,subject,text,html) {
  * @param {String} [to]
  * @param {String} [code]
  */
-async function sendRecoveryCode(code,to) {
-  const html = `Your recovery code is <b>${code}</b>`
-  const text = `Your recovery code is ${code}`
+async function sendRecoveryCode(code,to,local) {
 
-  await send(to,"Your Recovery Code",text,html)
+  const subject = local.__("Your Recovery Code")
+  const data = {
+    code: code,
+    subject: subject,
+    ...local
+  }
+
+  await send(to,subject
+    ,getPlainTextString(templates.recovery,data)
+    ,getHTMLString(templates.recovery,data))
 }
 
 /**
@@ -48,14 +61,38 @@ async function sendRecoveryCode(code,to) {
  * @param {String} [to]
  * @param {String} [code]
  */
-async function sendInviteCode(code,to) {
-  const html = `Your invite code is <b>${code}</b>`
-  const text = `Your invite code is ${code}`
+async function sendInviteCode(code,to,local) {
 
-  await send(to,"Your Invite Code",text,html)
+  const subject = local.__("Your Invite Code")
+  const data = {
+    code: code,
+    subject: subject,
+    ...local
+  }
+
+  await send(to,subject
+    ,getPlainTextString(templates.invite,data)
+    ,getHTMLString(templates.invite,data))
+
 }
-
+/**
+ * @description get html string for mail
+ * @param {String} [to]
+ * @param {String} [code]
+ */
+function getHTMLString(name,data) {
+  return renderTemplate(`./src/email-templates/${name}/html.ejs`,data)
+}
+/**
+ * @description get plain-text string for mail
+ * @param {String} [to]
+ * @param {String} [code]
+ */
+function getPlainTextString(name,data) {
+  return renderTemplate(`./src/email-templates/${name}/plain-text.ejs`,data)
+}
 
 export default {
   sendRecoveryCode,sendInviteCode
 }
+
