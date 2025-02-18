@@ -98,5 +98,21 @@
 	"You are about to remove one of your recovery methods. This might lead to you losing your account if you lose your password!": "You are about to remove one of your recovery methods. This might lead to you losing your account if you lose your password!",
 	"Confirm Remove": "Confirm Remove",
 	"Your invites will be unlocked in %s days.": "Your invites will be unlocked in %s days.",
-	"Be careful! This is the delete page for you account. Proceed with caution.": "Be careful! This is the delete page for you account. Proceed with caution."
+	"Be careful! This is the delete page for you account. Proceed with caution.": "Be careful! This is the delete page for you account. Proceed with caution.",
+	"Your Invite Code": "Your Invite Code",
+	"Your invite code is %s": "Your invite code is %s",
+	"Your invite code is": "Your invite code is",
+	"Account recovery requested": "Account recovery requested",
+	"Your Recovery Code": "Your Recovery Code",
+	"Request recovery": "Request recovery",
+	"Your Username": "Your Username",
+	"No recovery methods?": "No recovery methods?",
+	"Invite code already requested": "Invite code already requested",
+	"Hey there!": "Hey there!",
+	"An invite code was requested using this email. Your requested is granted. Your invite code is %s": "An invite code was requested using this email. Your requested is granted. Your invite code is %s",
+	"If it wasn't you requesting this invite you can ignore this email.": "If it wasn't you requesting this invite you can ignore this email.",
+	"An invite code was requested using this email. Your requested is granted and you may use the following invite:": "An invite code was requested using this email. Your requested is granted and you may use the following invite:",
+	"Invalid invite": "Invalid invite",
+	"Codes": "Codes",
+	"Account": "Account"
 }

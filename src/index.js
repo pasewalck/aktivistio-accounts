@@ -26,7 +26,8 @@ const app = express();
 app.locals = {
     baseUrl:config.baseUrl,
     app: {
-        name: config.applicationName
+        name: config.applicationName,
+        logo: config.applicationLogo
     },
 };
 

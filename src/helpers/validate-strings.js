@@ -4,7 +4,15 @@
  * @returns {Boolean}
  */
 export function isAlphanumeric(string) {
-    return string.match(/^[0-9a-z]+$/)
+    return string.toLowerCase().match(/^[0-9a-z]+$/) != null
+}
+/**
+ * @description check if a string is alphanumeric lowercase
+ * @param {String} [string]
+ * @returns {Boolean}
+ */
+export function isAlphanumericLowerCase(string) {
+    return string.match(/^[0-9a-z]+$/) != null
 }
 /**
  * @description check if a string is numeric
@@ -12,7 +20,7 @@ export function isAlphanumeric(string) {
  * @returns {Boolean}
  */
 export function isNumeric(string) {
-    return string.match(/^[0-9]+$/)
+    return string.match(/^[0-9]+$/) != null
 }
 /**
  * @description check if a string is in range by length

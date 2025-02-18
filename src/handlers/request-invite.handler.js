@@ -19,8 +19,9 @@ class RequestInviteError extends Error {
 /**
  * @description handler for requesting an invite
  * @param {import("express").Request} [req]
+ * @param {import("express").Response} [res]
  */
-async function requestInviteHandler(req) {
+async function requestInviteHandler(req,res) {
 
     const email = req.body.email;
     if(!email)
@@ -34,7 +35,7 @@ async function requestInviteHandler(req) {
     var inviteCode;
     if(inviteCode = await accountDriver.requestInvite(email))
     {
-        mailsDriver.sendInviteCode(inviteCode,email)        
+        mailsDriver.sendInviteCode(inviteCode,email,res.locals)        
     }
     else
         throw new RequestInviteError("Invite code already requested")

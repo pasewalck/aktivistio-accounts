@@ -1,4 +1,7 @@
+import config from "../config.js";
+import mailsDriver from "../drivers/mails.driver.js";
 import { generateRecoveryToken } from "../helpers/recovery-token-string.js";
+import { renderTemplate } from "../helpers/template-render.js";
 
 /**
  * @typedef {import("express").Request} Request

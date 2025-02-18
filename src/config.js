@@ -38,6 +38,7 @@ function load(path,fallback,warn) {
 
 export default {
     applicationName:load("app_name"),
+    applicationLogo:load("app_logo"),
     baseUrl:load("base_url","http://localhost:3000"),
     port:load("port",3000),
     isSecureContext:load("is_secure",false),

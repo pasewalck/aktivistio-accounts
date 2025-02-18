@@ -4,3 +4,4 @@ config.json
 package-lock.json
 src/public/css
 logs
+app-logo.*
