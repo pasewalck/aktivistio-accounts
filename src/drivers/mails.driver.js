@@ -13,83 +13,95 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const templates = {
-  recovery: "recovery",
-  invite: "invite"
-}
-
 /**
- * @description send email using transporter config
- * @param {String} [to]
- * @param {String} [subject]
- * @param {String} [text]
- * @param {String} [html]
+ * Enum for render modes
+ * @readonly
+ * @enum {{name: string, id: string}}
  */
-async function send(to,subject,text,html) {
-  const info = await transporter.sendMail({
-    from: `${config.mail.name} <${config.mail.user}>`,
-    to: to,
-    subject: subject,
-    text: text,
-    html: html,
-  });
-  logger.debug(`Email has been sent with success`)
-
+class RenderMode {
+    static HTML = "html";
+    static PLAIN_TEXT = "plain-text";
 }
-
+/**
+ * Enum for message types
+ * @readonly
+ * @enum {{name: string, id: string}}
+ */
+class MessageType {
+    static INVITE_CODE = "invite";
+    static RECOVERY_CODE = "recovery";
+}
 /**
  * @description send recovery code email
  * @param {String} [to]
  * @param {String} [code]
+ * @param {JSON} [locals]
  */
-async function sendRecoveryCode(code,to,local) {
-
-  const subject = local.__("Your Recovery Code")
-  const data = {
-    code: code,
-    subject: subject,
-    ...local
-  }
-
-  await send(to,subject
-    ,getPlainTextString(templates.recovery,data)
-    ,getHTMLString(templates.recovery,data))
+async function sendRecoveryCode(code,to,locals) {
+    await sendEmail(to,locals.__("Your Recovery Code"),MessageType.RECOVERY_CODE,locals,{code:code})
 }
-
 /**
  * @description send invite code email
  * @param {String} [to]
  * @param {String} [code]
+ * @param {JSON} [locals]
  */
-async function sendInviteCode(code,to,local) {
-
-  const subject = local.__("Your Invite Code")
-  const data = {
-    code: code,
-    subject: subject,
-    ...local
-  }
-
-  await send(to,subject
-    ,getPlainTextString(templates.invite,data)
-    ,getHTMLString(templates.invite,data))
-
+async function sendInviteCode(code,to,locals) {
+  await sendEmail(to,locals.__("Your Invite Code"),MessageType.INVITE_CODE,locals,{code:code})
 }
 /**
- * @description get html string for mail
+ * @description send Email
  * @param {String} [to]
- * @param {String} [code]
+ * @param {String} [subject]
+ * @param {MessageType} [messageType]
+ * @param {JSON} [locals]
+ * @param {JSON} [extraData]
  */
-function getHTMLString(name,data) {
-  return renderTemplate(`./src/email-templates/${name}/html.ejs`,data)
+async function sendEmail(to,subject,messageType,locals,extraData) {
+  
+    const data = {
+        subject: subject,title: subject,
+        baseUrl:config.baseUrl,app: { name: config.applicationName, logo: config.applicationLogo },
+        ...locals,...extraData
+    }
+
+    const text = getFullMessageString(messageType,RenderMode.PLAIN_TEXT,data)
+    const html = getFullMessageString(messageType,RenderMode.HTML,data)
+
+    const info = await transporter.sendMail({
+        from: `${config.mail.name} <${config.mail.user}>`,
+        to: to,
+        subject: subject,
+        text: text,
+        html: html,
+        attachments: [
+        {
+            filename: config.applicationLogo,
+            path: config.applicationLogo,
+            cid: config.applicationLogo
+        }
+        ]
+    });
+    logger.debug(`Email has been sent with success`)
+  
 }
 /**
- * @description get plain-text string for mail
- * @param {String} [to]
- * @param {String} [code]
+ * @description get full string for mail
+ * @param {MessageType} [messageType]
+ * @param {RenderMode} [renderMode]
+ * @param {JSON} [data]
  */
-function getPlainTextString(name,data) {
-  return renderTemplate(`./src/email-templates/${name}/plain-text.ejs`,data)
+function getFullMessageString(messageType,renderMode,data) {
+    return render(`layouts`,renderMode,{...data,body:render(messageType,renderMode,data)})
+}
+/**
+ * @description render email partial string
+ * @param {String} [view]
+ * @param {RenderMode} [renderMode]
+ * @param {JSON} [data]
+ */
+function render(view,renderMode,data) {
+  return renderTemplate(`./src/email-views/${view}/${renderMode}.ejs`,data)
 }
 
 export default {

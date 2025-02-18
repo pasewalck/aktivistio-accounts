@@ -40,9 +40,10 @@ class RecoveryStep1Error extends Error {
 /**
  * @description login handler to be used by oidc and default login flow
  * @param {import("express").Request} [req]
+ * @param {import("express").Response} [res]
  * @returns {JSON}
  */
-async function recoveryHandler(req) {
+async function recoveryHandler(req,res) {
 
     if(req.body.confirmCode) {
         if(!req.session.accountRecovery)
@@ -98,7 +99,7 @@ async function recoveryHandler(req) {
 
         switch (req.body.method) {
             case "email":
-                mailsDriver.sendRecoveryCode(confirmCode,req.body.email,re)
+                mailsDriver.sendRecoveryCode(confirmCode,req.body.email,res.locals)
                 return {status:RecoveryResultStatus.RESET_PROMPT}
             case "token":
                 return {status:RecoveryResultStatus.RESET_PROMPT,confirmCode:confirmCode}

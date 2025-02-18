@@ -4,7 +4,7 @@ import emailValidate from "email-validator";
 import accountDriver from "../drivers/account.driver.js"
 import config from '../config.js';
 import { isRecoveryToken } from '../helpers/recovery-token-string.js';
-import { isAlphanumeric, isInLengthRange } from '../helpers/validate-strings.js';
+import { isAlphanumeric, isAlphanumericLowerCase, isInLengthRange } from '../helpers/validate-strings.js';
 
 /**
  * Represents an error causable when registeing a user.
@@ -57,7 +57,6 @@ async function registerHandler (req) {
         email: req.body.recoveryEmail,
         tokenVerify: req.body.recoveryTokenVerify
     }
-    console.log(username,password,passwordConfirm,inviteCode)
     if (!username || !password || !password || !passwordConfirm || !inviteCode || !recovery)
         throw new RegisterError("Missing fields");
     if (password != passwordConfirm)
@@ -65,7 +64,7 @@ async function registerHandler (req) {
     let passwordStrg = zxcvbn(password);
     if (passwordStrg.score < 3)
         throw new RegisterBadPasswordError(passwordStrg.score,passwordStrg.feedback);
-    if (!isAlphanumeric(username))
+    if (!isAlphanumericLowerCase(username))
         throw new RegisterError("Username contains invalid characters");
     if (!isInLengthRange(username,3,20))
         throw new RegisterError("Username is too long or short. Must be between 3 and 20 characters long.");

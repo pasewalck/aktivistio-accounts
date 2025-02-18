@@ -30,7 +30,7 @@ export default {
      */ 
     inviteRequestPost: async (req,res) => {
         try {
-            await requestInviteHandler.requestInviteHandler(req)
+            await requestInviteHandler.requestInviteHandler(req,res)
             res.redirect("/register")
         } catch (error) {
             if (error instanceof requestInviteHandler.RequestInviteError)
@@ -54,7 +54,7 @@ export default {
      */ 
     recoveryPost: async (req,res) => {
         try {
-            const result = await recoveryHandler.recoveryHandler(req)
+            const result = await recoveryHandler.recoveryHandler(req,res)
             if(result.status == recoveryHandler.RecoveryResultStatus.SUCCESS)
                 res.redirect("/")
             else
