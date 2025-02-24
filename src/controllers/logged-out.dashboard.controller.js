@@ -1,11 +1,13 @@
-import dashboardAuthRenderer from "../renderers/dashboard.auth.renderer.js"
+import dashboardAuthRenderer from "../renderers/logged-out.dashboard.renderer.js"
 import provider from "../oidc/provider.js"
 import loginHandler from "../handlers/login.handler.js"
 import recoveryHandler from "../handlers/recovery.handler.js"
 import requestInviteHandler from "../handlers/request-invite.handler.js"
-import registerHandler from "../handlers/register.handler.js"
 
+import { matchedData, validationResult } from "express-validator"
 import { setProviderSession } from "../oidc/session.js"
+import accountDriver from "../drivers/account.driver.js"
+import sharedRenderer from "../renderers/shared.renderer.js"
 
 /**
  * @typedef {import("express").Request} Request
@@ -74,32 +76,7 @@ export default {
      * @param {Response} [res]
      */ 
     login: async (req,res) => {
-        dashboardAuthRenderer.login(req,res)
-    },
-    /**
-     * @description controller for account login post method
-     * @param {Request} [req]
-     * @param {Response} [res]
-     */ 
-    loginPost: async (req,res) => {
-        try {
-            const result = await loginHandler.loginHandler(req)
-            if(result.status == loginHandler.LoginResultStatus.SUCCESS)
-            {
-                await setProviderSession(provider,req,res,{accountId: result.accountId})
-                res.redirect("/")
-            } 
-            else {
-                dashboardAuthRenderer.twoFactorAuth(req,res,result.loginToken)
-            }
-        } catch (error) {
-            if (error instanceof loginHandler.Login2faError)
-                return dashboardAuthRenderer.twoFactorAuth(req,res,error.loginToken,error.message)
-            else if (error instanceof loginHandler.LoginError)
-                return dashboardAuthRenderer.login(req,res,error.message)
-            else
-                throw error;
-        }        
+        sharedRenderer.login(res)
     },
     /**
      * @description controller for account register get method
@@ -115,22 +92,29 @@ export default {
      * @param {Response} [res]
      */ 
     registerPost: async (req,res) => {
-        try {
-            let account = await registerHandler.register(req)
-            await setProviderSession(provider,req,res,{accountId: account.id})
-            res.redirect('/');
-        } catch (error) {
-            if (error instanceof registerHandler.RegisterError)
-                return dashboardAuthRenderer.register(req,res,error.message,{
-                    inviteCode: req.body.inviteCode,
-                    username: req.body.username,
-                    recoveryMethod: req.body.recoveryMethod,
-                    recoveryEmail: req.body.recoveryEmail,
-                    recoveryToken: req.body.recoveryToken,
-                    confirmedCopiedRecoveryToken: req.body.confirmedCopiedRecoveryToken
-                })
-            else
-                throw error;
+        const errors = validationResult(req);
+        const data = matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
         }
+
+        let account = await accountDriver.createAccount(data.username,data.password,accountDriver.Role.USER)
+
+        switch (data.recoveryMethod) {
+            case "email":
+                accountDriver.setAccountRecoveryEmail(account.id,data.recoveryEmail)
+                break;
+            case "token":
+                accountDriver.setAccountRecoveryToken(account.id,data.recoveryToken)  
+                break;
+        }
+
+        accountDriver.consumeInvite(data.inviteCode)
+        for (let i = 0; i < config.inviteCodes.newUsers.count; i++)
+            accountDriver.generateInvite(account,config.inviteCodes.newUsers.waitDays)
+
+        await setProviderSession(provider,req,res,{accountId: account.id})
+        res.redirect('/');
     }
 }

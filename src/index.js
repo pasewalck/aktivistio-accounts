@@ -7,8 +7,9 @@ import i18n from 'i18n';
 import { fileURLToPath } from 'url';
 
 import csrfProtection from './middlewares/csrf-protection.middleware.js';
-import dashboardRoutes from './routes/app.router.js';
+import dashboardRoutes from './routes/dashboard.router.js';
 import oidcRoutes from './routes/oidc.router.js';
+import loggedOutDashboardRouter from './routes/logged-out.dashboard.router.js';
 import sessionMiddleware from './middlewares/session.middleware.js';
 import provider from './oidc/provider.js';
 import langController from './controllers/lang.controller.js';
@@ -71,6 +72,7 @@ logger.debug("Initializing routers")
 
 oidcRoutes(app);
 dashboardRoutes(app);
+loggedOutDashboardRouter(app);
 
 logger.debug("Attaching language controller")
 

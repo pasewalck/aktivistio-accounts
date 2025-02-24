@@ -1,5 +1,6 @@
 import sharedRenderer from "./shared.renderer.js";
 import config from "../config.js";
+import { generateRecoveryToken } from "../helpers/recovery-token-string.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -11,32 +12,21 @@ import config from "../config.js";
 
 export default {
     /**
-     * @description render function for login on dashboard
+     * @description shared renderer for register page
      * @param {Response} [res]
      * @param {Request} [req]
-     * @param {string|undefined} [errorMsg]
-     */
-    login: (req,res,errorMsg=undefined,formFields={}) => {
-        sharedRenderer.login(req,res,`/login/`,`/register/`,undefined,errorMsg,formFields)
-    },
-    /**
-     * @description render function for login 2fa page on dashboard
-     * @param {Response} [res]
-     * @param {Request} [req]
-     * @param {string|undefined} [errorMsg]
-     */
-    twoFactorAuth: (req,res,loginToken,errorMsg=undefined) => {
-        sharedRenderer.twoFactorAuth(req,res,loginToken,`/login/`,`/login/`,errorMsg)
-    },
-    /**
-     * @description render function for register page on dashboard
-     * @param {Response} [res]
-     * @param {Request} [req]
-     * @param {string|undefined} [errorMsg]
+     * @param {string} [actionUrl]
+     * @param {string} [loginUrl]
+     * @param {string|undefined} [abortUrl]
      * @param {JSON} [formFields]
      */
-    register: (req,res,errorMsg=undefined,formFields={}) => {
-        sharedRenderer.register(req,res,`/register/`,`/login/`,undefined,errorMsg,formFields)
+    register: (req,res,actionUrl,loginUrl,abortUrl=undefined,errorMsg=undefined,data={}) => {
+        return res.render('cards/register', {
+            title: res.__('Register'),
+            data: data,
+            data: data.recoveryToken ? data.recoveryToken : generateRecoveryToken(),
+            errorMsg: errorMsg
+        });
     },
     /**
      * @description render function for recovery page

@@ -1,0 +1,6 @@
+<input class="input-field<% if (errors[field.name]) { %> errored<% } %>" <%= field.required ? "required" : "" %> type="<%= field.type %>" name="<%= field.name %>"
+    <% if (!field.blockValue && (formData[field.name] || errors[field.name]?.value)) { %>value="<%= formData[field.name] ? formData[field.name] : errors[field.name].value %>"<% } %>
+/>
+<% if (errors[field.name]) { %>
+    <p class="input-field-error"><%= errors[field.name].msg %></p>
+<% } %>

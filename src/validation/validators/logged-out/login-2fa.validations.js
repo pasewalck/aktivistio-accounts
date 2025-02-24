@@ -1,0 +1,21 @@
+import { body } from "express-validator"
+
+import accountDriver from "../../../drivers/account.driver.js"
+import localize from "../../localize.js";
+import twoFactorAuth from "../../../helpers/two-factor-auth.js";
+
+export default [
+    body("token")
+      .notEmpty().withMessage(localize("Token must be defined"))
+      .escape()
+      .isInt().withMessage(localize("Token must be valid format"))
+      .custom((value,{req}) => {
+        let secret = accountDriver.get2faSecret(req.session.twoFactorLogin?.accountId)
+        return (secret != null && twoFactorAuth.verify(secret,value))
+      }).withMessage(localize("Token is incorrent.")),
+    body("twoFactorLoginToken")
+      .notEmpty().withMessage(localize("Two factor login token missing"))
+      .escape()
+      .isAlphanumeric().withMessage(localize("Two factor login token invalid"))
+      .custom((value, {req}) => req.session.twoFactorLogin?.loginToken == value),
+  ]

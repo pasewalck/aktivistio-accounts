@@ -211,7 +211,7 @@ function deleteAccount (id) {
 }
 
 /**
- * @description validate a user invite
+ * @description check if an invite is valid
  * @param {string} [code]
  * @returns {Boolean}
  */
@@ -292,6 +292,13 @@ async function setPassword (id,password) {
     dbDriver.db.prepare('UPDATE accounts SET password_hash = ?WHERE id = ?').run(await hashPassword(password), id);
 }
 /**
+ * @description remove invite
+ * @param {string} [code]
+ */
+function removeInvite (code) {
+    dbDriver.db.prepare('DELETE FROM invites WHERE code = ?').run(code);
+}
+/**
  * @description generate invite
  * @param {Account} [user=null]
  * @param {Number} [maxUses=1]
@@ -343,5 +350,5 @@ if (dbDriver.isDbInit)
     logger.info(`Created user "${user}" with Password: "${password}"`)
 }
 export default {
-    createAccount,requestInvite,getRecovery,checkRecoveryEmail,checkRecoveryToken,generateInvite,get2faSecret,deleteAccount,setAccount2fa,setAccountRecoveryToken,setAccountRecoveryEmail,setPassword,checkPassword,validateInvite,consumeInvite,checkLogin,findAccountWithUsername,findAccountWithId,setAccountRecovery,Role,Account
+    createAccount,removeInvite,requestInvite,getRecovery,checkRecoveryEmail,checkRecoveryToken,generateInvite,get2faSecret,deleteAccount,setAccount2fa,setAccountRecoveryToken,setAccountRecoveryEmail,setPassword,checkPassword,validateInvite,consumeInvite,checkLogin,findAccountWithUsername,findAccountWithId,setAccountRecovery,Role,Account
 }

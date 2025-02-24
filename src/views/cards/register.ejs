@@ -3,7 +3,7 @@
 
         <h1><%= __('Register') %></h1>
     
-        <form class="form" autocomplete="off" action="<%= urls.action %>"method="post">
+        <form class="form" autocomplete="off" action="<%= app.baseUrl %>/register/"method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
         <fieldset>
@@ -73,11 +73,7 @@
         <div class="form-action-group">
             <div class="button-group">
                 <button type="submit" class="button primary"><%= __('Create account') %></button>
-                <% if (urls.abort) { %>
-                    <a class="button red" href="<%= urls.abort %>"><%= __('Abort') %></a>
-                <% } %>
             </div>
-            <p><%= __('Already an account?') %> <a href="<%= urls.login %>"><%= __('Login') %></a></p>
         </div>
 
         </form>
