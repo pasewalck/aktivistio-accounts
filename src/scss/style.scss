@@ -29,6 +29,7 @@ p {
     padding-bottom: 6px;
 
 }
+
 h1,h2,h3,h4,h5 {
     font-weight: 600;
     color: variables.$darkcolor;
@@ -116,18 +117,29 @@ h5 {
             a,button {
                 background-color: transparent;
                 display: inline-block;
-                font-size: 13px;
-          
-                font-weight: 400;
-                border-radius: 3px;
-            
+           
                 cursor: pointer;
             
                 img {
                     width: 21px;
                 }
+            }:focus {
+                opacity: 0.6;
+            }
+            .remove {
+                display: inline-block;
+                button {
+                    background-color: transparent;
+
+                    display: inline-block;
+                    cursor: pointer;
+                    img {
+                        width: 21px;
+                    }
+                }
             }
         }
+        
     }
 }
 
@@ -257,6 +269,12 @@ h5 {
                 background-color: #eb1304;
 
             }
+        font-size: 14px;
+        background: #0470eb;
+        padding: 4px;
+        color: variables.$lightcolor;
+        margin: 3px;
+        border-radius: 1px;
         }
     }
 }
@@ -404,6 +422,15 @@ h5 {
         text-align: right;
     }
 
+    .input-field-error {
+        font-size: 14px;
+        color: #cf1a1a;
+        font-weight: 300;
+        display: block;
+        margin: 1px 0 3px 0;
+        text-align: left;
+    }
+
     .input-field-help-link {
         font-size: 14px;
         color: variables.$darkcolor;
@@ -432,6 +459,7 @@ h5 {
             display: block;
             position: relative;
             background: transparent;
+            box-sizing: border-box;
             width: 100%;
             font-weight: 300;
             border: solid variables.$grey 1px;
@@ -445,6 +473,9 @@ h5 {
         }
         .input-field:focus,.select:focus {
             border: solid variables.$greenSeaweed 1px;
+        }
+        .input-field.errored {
+            border: solid #cf1a1a 0.9px;
         }
 
         .select{

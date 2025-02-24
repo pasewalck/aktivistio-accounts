@@ -1,8 +1,3 @@
-import config from "../config.js";
-import mailsDriver from "../drivers/mails.driver.js";
-import { generateRecoveryToken } from "../helpers/recovery-token-string.js";
-import { renderTemplate } from "../helpers/template-render.js";
-
 /**
  * @typedef {import("express").Request} Request
  */
@@ -15,54 +10,32 @@ export default {
     /**
      * @description shared renderer for login page
      * @param {Response} [res]
-     * @param {Request} [req]
-     * @param {string} [actionUrl]
-     * @param {string} [registerUrl]
-     * @param {string|undefined} [abortUrl]
-     * @param {string|undefined} [errorMsg]
+     * @param {JSON|undefined} [interactionDetails]
+     * @param {JSON} [errors]
      */
-    twoFactorAuth: (req,res,loginToken,actionUrl,abortUrl=undefined,errorMsg=undefined) => {
+    twoFactorAuth: (res,loginToken,interactionDetails=null,errors={}) => {
         return res.render('cards/2fa', {
             title: res.__('Login'),
             urls: {action:actionUrl,abort:abortUrl},
-            errorMsg: errorMsg,
+            interactionDetails: interactionDetails,
+            errors: errors,
             loginToken: loginToken
         });
     },
     /**
      * @description shared renderer for login page
      * @param {Response} [res]
-     * @param {Request} [req]
-     * @param {string} [actionUrl]
-     * @param {string} [registerUrl]
-     * @param {string|undefined} [abortUrl]
-     * @param {string|undefined} [errorMsg]
+     * @param {JSON|undefined} [interactionDetails]
+     * @param {JSON} [formData]
+     * @param {JSON} [errors]
      */
-    login: (req,res,actionUrl,registerUrl,abortUrl=undefined,errorMsg=undefined,formFields={}) => {
+    login: (res,interactionDetails=null,formData={},errors={}) => {
+        console.log(errors)
         return res.render('cards/login', {
             title: res.__('Login'),
-            urls: {action:actionUrl,register:registerUrl,abort:abortUrl},
-            formFields: formFields,
-            errorMsg: errorMsg
+            interactionDetails: interactionDetails,
+            formData: formData,
+            errors: errors
         });
-    },
-    /**
-     * @description shared renderer for register page
-     * @param {Response} [res]
-     * @param {Request} [req]
-     * @param {string} [actionUrl]
-     * @param {string} [loginUrl]
-     * @param {string|undefined} [abortUrl]
-     * @param {JSON} [formFields]
-     */
-    register: (req,res,actionUrl,loginUrl,abortUrl=undefined,errorMsg=undefined,formFields={}) => {
-        return res.render('cards/register', {
-            title: res.__('Register'),
-            urls: {action:actionUrl,login:loginUrl,abort:abortUrl},
-            formFields: formFields,
-            recoveryToken: formFields.recoveryToken ? formFields.recoveryToken : generateRecoveryToken(),
-            errorMsg: errorMsg
-        });
-    }
-    
+    },    
 }

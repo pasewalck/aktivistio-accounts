@@ -1,0 +1,13 @@
+import { body } from "express-validator";
+import localize from "../../localize.js";
+
+export default [
+    body('count')
+        .exists().withMessage(localize('Missing fields or invalid'))
+        .isInt({ gt: 0, max: 1000 }).withMessage(localize('Count must be an intager between 0 and %s',1000))
+        .toInt(),
+    body('date')
+        .optional()
+        .isISO8601().withMessage(localize('Invalid date format'))
+        .toDate()
+];

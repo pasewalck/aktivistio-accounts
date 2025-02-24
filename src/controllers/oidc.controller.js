@@ -3,7 +3,6 @@ import assert from "assert"
 import oidcRenderer from "../renderers/oidc.renderer.js"
 import provider from "../oidc/provider.js";
 import loginHandler from "../handlers/login.handler.js";
-import registerHandler from "../handlers/register.handler.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -37,7 +36,7 @@ export default {
                 
         switch (prompt.name) {
         case 'login': {
-            return oidcRenderer.login(req,res,uid)
+            return sharedRenderer.login(res,uid)
         }
         case 'consent': {
             return oidcRenderer.consent(req,res,uid,params.clientId)
@@ -45,79 +44,6 @@ export default {
         default:
             return undefined;
         }
-    },    
-    /**
-     * @description controller for oidc register page
-     * @param {Request} [req]
-     * @param {Response} [res]
-     */
-    register: async (req,res) => {
-        const {
-            uid
-        } = await provider.interactionDetails(req,res);
-    
-        return oidcRenderer.register(req,res,uid)
-    },
-    /**
-     * @description controller for oidc register post request
-     * @param {Request} [req]
-     * @param {Response} [res]
-     */
-    registerPost: async (req,res) => {
-        const {uid,prompt} = await provider.interactionDetails(req,res);
-        
-        assert.equal(prompt.name, 'login');
-
-        try {
-            let account = await registerHandler.register(req)
-            await provider.interactionFinished(req,res, {
-                    login: {accountId: account.id},
-                }, { mergeWithLastSubmission: false });
-        } catch (error) {
-            if (err instanceof registerHandler.RegisterError)
-                return oidcRenderer.register(req,res,uid,err.message,{
-                    inviteCode: req.body.inviteCode,
-                    username: req.body.username,
-                    recoveryMethod: req.body.recoveryMethod,
-                    recoveryEmail: req.body.recoveryEmail,
-                    recoveryToken: req.body.recoveryToken,
-                    confirmedCopiedRecoveryToken: req.body.confirmedCopiedRecoveryToken
-                })
-            else
-                throw err;
-        }
-    },
-    /**
-     * @description controller for oidc login post request
-     * @param {Request} [req]
-     * @param {Response} [res]
-     */
-    loginPost: async (req,res) => {
-        const {prompt,uid} = await provider.interactionDetails(req,res);
-    
-        assert.equal(prompt.name, 'login');
-        
-        try {
-            const result = await loginHandler.loginHandler(req)
-            if(result.status == loginHandler.LoginResultStatus.SUCCESS)
-            {
-                await provider.interactionFinished(req,res, {
-                    login: {
-                        accountId: result.accountId,
-                    },
-                }, { mergeWithLastSubmission: false });
-            } 
-            else {
-                oidcRenderer.twoFactorAuth(req,res,result.loginToken,uid)
-            }
-        } catch (error) {
-            if (error instanceof loginHandler.Login2faError)
-                return oidcRenderer.twoFactorAuth(req,res,error.loginToken,uid,error.message)
-            else if (error instanceof loginHandler.LoginError)
-                return oidcRenderer.login(req,res,uid,error.message)
-            else
-                throw error;
-        }        
     },
     /**
      * @description controller for oidc confirm post request

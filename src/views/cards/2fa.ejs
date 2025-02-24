@@ -1,34 +1,37 @@
 <div class="wrapper flex-container flex-container-vertical">
     <div class="container-medium-width container-filled-background">
 
+        <% const relativBaseUrl = app.baseUrl + "/" + (interactionDetails ? interactionDetails.uid + "/" : "") %> 
+
+
         <h1><%= __('Login') %></h1>
 
-        <form class="form" autocomplete="off" action="<%= urls.action %>"method="post">
+        <form class="form" autocomplete="off" action="<%= relativBaseUrl %>/login/2fa/"method="post">
 
-        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-        <input type="hidden" value="<%= loginToken %>" name="twoFactorLoginToken">
+            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+            <input type="hidden" value="<%= loginToken %>" name="twoFactorLoginToken">
 
-        <fieldset>
+            <fieldset>
 
-            <% if (errorMsg) { %>
-            <%- include("../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
-            <% } %>
+                <% if (errorMsg) { %>
+                <%- include("../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
+                <% } %>
 
-            <div class="form-group">
-            <label class="label"><%= __('2FA Code') %></label>
-            <input class="input-field" required type="test" name="token"/>
+                <div class="form-group">
+                <label class="label"><%= __('2FA Code') %></label>
+                <input class="input-field" required type="test" name="token"/>
+                </div>
+
+            </fieldset>
+
+            <div class="form-action-group">
+                <div class="button-group">
+                <button type="submit" class="button primary"><%= __('Verify') %></button>
+                <% if (interactionDetails) { %>
+                    <a class="button red" href="<%= relativBaseUrl %>/abort/"><%= __('Abort') %></a>
+                <% } %>
+                </div>
             </div>
-
-        </fieldset>
-
-        <div class="form-action-group">
-            <div class="button-group">
-            <button type="submit" class="button primary"><%= __('Verify') %></button>
-            <% if (urls.abort) { %>
-                <a class="button red" href="<%= urls.abort %>"><%= __('Abort') %></a>
-            <% } %>
-            </div>
-        </div>
 
         </form>
 
