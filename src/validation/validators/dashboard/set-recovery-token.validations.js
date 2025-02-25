@@ -6,6 +6,9 @@ export default [
     currentUserPasswordValidator(body('currentPassword')),
     recoveryTokenValidator(body('recoveryToken')),
     body("recoveryTokenVerify")
-        .equals(true).withMessage("Recovery token must be confirmed").bail()
+        .customSanitizer(input => {
+            return Boolean(input)
+        })
+        .custom((value) => value == true).withMessage("Recovery must be confirmed").bail()
 
 ]

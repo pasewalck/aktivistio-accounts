@@ -1,3 +1,4 @@
+import zxcvbn from "zxcvbn";
 import localize from "../localize.js";
 
 /**
@@ -15,7 +16,11 @@ export default (validationChain) => {
             if (passwordStrg.score <= 2)
             {
                 var messages = [];
-                messages.push(`${req.__(passwordStrg.feedback.warning)}.`)
+                if(passwordStrg.feedback.warning)
+                    messages.push(`${req.__(passwordStrg.feedback.warning)}.`)
+                else
+                    messages.push(req.__("Password is not secure enough."))
+
                 passwordStrg.feedback.suggestions.forEach(suggestion => {
                     messages.push(req.__(suggestion))
                 });

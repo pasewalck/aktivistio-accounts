@@ -40,8 +40,11 @@ export default [
       .if(body('recoveryMethod')
         .equals('token'))),
     body("recoveryTokenVerify")
+      .customSanitizer(input => {
+        return Boolean(input)
+      })
       .if(body('recoveryMethod')
         .equals('token'))
-          .equals(true).withMessage("Recovery must be confirmed").bail()
+          .custom((value) => value == true).withMessage("Recovery must be confirmed").bail()
           
   ]

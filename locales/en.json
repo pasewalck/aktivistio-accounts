@@ -126,5 +126,9 @@
 	"You confirm password does not match.": "You confirm password does not match.",
 	"A recovery email must be selected.": "A recovery email must be selected.",
 	"No Account for username can be found": "No Account for username can be found",
-	"Password is incorrect": "Password is incorrect"
+	"Password is incorrect": "Password is incorrect",
+	"Username must be between 2 and 14 characters": "Username must be between 2 and 14 characters",
+	"": "",
+	"A recovery method must be defined.": "A recovery method must be defined.",
+	"Password is not secure enough.": "Password is not secure enough."
 }

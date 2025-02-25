@@ -14,18 +14,16 @@ export default {
     /**
      * @description shared renderer for register page
      * @param {Response} [res]
-     * @param {Request} [req]
-     * @param {string} [actionUrl]
-     * @param {string} [loginUrl]
-     * @param {string|undefined} [abortUrl]
-     * @param {JSON} [formFields]
+     * @param {JSON} [errors]
+     * @param {JSON} [formData]
      */
-    register: (req,res,actionUrl,loginUrl,abortUrl=undefined,errorMsg=undefined,data={}) => {
+    register: (res,formData={},errors={}) => {
+        console.log(errors)
         return res.render('cards/register', {
             title: res.__('Register'),
-            data: data,
-            data: data.recoveryToken ? data.recoveryToken : generateRecoveryToken(),
-            errorMsg: errorMsg
+            formData: formData,
+            recoveryToken: formData.recoveryToken ? formData.recoveryToken : generateRecoveryToken(),
+            errors: errors
         });
     },
     /**
