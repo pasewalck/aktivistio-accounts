@@ -9,5 +9,6 @@ export default [
       .notEmpty().withMessage("Email must be defined")
       .escape()
       .isEmail().withMessage("Email must be a valid email").bail()
-      .isEmail({host_whitelist:config.invitingMailProviders}).withMessage("Email provider is not whitelisted"),
+      .isEmail({host_whitelist:config.invitingMailProviders}).withMessage("Email provider is not whitelisted")
+      .custom(async (value) => (await accountDriver.requestInvite(email) != null)).withMessage("Email address already used for creating account"),
   ]

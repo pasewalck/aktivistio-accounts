@@ -328,10 +328,14 @@ function generateInvite (user = null,validationDurationDays=0,maxUses=1,expireDa
  */
 async function requestInvite(email) {
     const emailFingerprint = await fingerprintString(email,config.fingerprintSalt)
-    if(dbDriver.db.prepare('SELECT email_fingerprint FROM email_invite_requests WHERE email_fingerprint = ?').pluck().get(emailFingerprint))
-        return false;
-    const inviteCode = generateInvite()
-    dbDriver.db.prepare('INSERT INTO email_invite_requests (email_fingerprint,code) VALUES (?,?)').run(emailFingerprint,inviteCode);
+    
+    var inviteCode = dbDriver.db.prepare('SELECT code FROM email_invite_requests WHERE email_fingerprint = ?').pluck().get(emailFingerprint)
+    
+    if (!inviteCode) {
+        inviteCode = generateInvite()
+        dbDriver.db.prepare('INSERT INTO email_invite_requests (email_fingerprint,code) VALUES (?,?)').run(emailFingerprint,inviteCode);
+    }
+    
     return inviteCode;
 }
 

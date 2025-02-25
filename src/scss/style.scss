@@ -470,7 +470,7 @@ h5 { font-size: 17px; padding-bottom: 6px; }
             width: 100%;
 
             label {
-                margin-top: 2px;
+                margin-top: 3px;
                 display: block;
                 font-size: 14px;
                 font-weight: 300;
@@ -489,7 +489,7 @@ h5 { font-size: 17px; padding-bottom: 6px; }
                 cursor: pointer;
                 position: relative;
 
-                &.checked {
+                &:checked {
                     background-image: url("data:image/svg+xml;base64,PHN2ZyBmaWxsPScjZmZmZmZmJyB2aWV3Qm94PScwIDAgMzIgMzInIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PGcgaWQ9J1NVR1JlcG9fYmdDYXJyaWVyJyBzdHJva2Utd2lkdGg9JzAnPjwvZz48ZyBpZD0nU1ZHUmVwb190cmFjZXJDYXJyaWVyJyBzdHJva2UtbGluZWNhcD0ncm91bmQnIHN0cm9rZS1saW5lam9pbj0ncm91bmQnPjwvZz48ZyBpZD0nU1ZHUmVwb19pY29uQ2Fycmllcic+PHBhdGggZD0nTTUgMTYuNTc3bDIuMTk0LTIuMTk1IDUuNDg2IDUuNDg0TDI0LjgwNCA3Ljc0MyAyNyA5LjkzN2wtMTQuMzIgMTQuMzJ6Jz48L3BhdGg+PC9nPjwvc3ZnPg==");
                     background-color: #0470eb;
                     border: none;

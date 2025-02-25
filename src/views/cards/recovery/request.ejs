@@ -8,39 +8,36 @@
     
         <fieldset>
 
-            <% if (errorMsg) { %>
-            <%- include("../../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
-            <% } %>
 
             <div class="form-group">
-            <label class="label"><%= __('Your Username') %></label>
-            <input class="input-field" required type="text" name="username"/>
+                <label class="label"><%= __('Your Username') %></label>
+                <%- include("../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
             </div>
 
             <div class="form-group" >
-            <label class="label"><%= __('Recovery Method') %></label> 
-            <select class="select" name="method" id="recoverySelect">
-                <option disabled selected value="none" style="display:none"><%= __('-- select a method --') %></option>
-                <option value="email"><%= __('Recovery Email') %></option>
-                <option value="token"><%= __('Recovery Token') %></option>
-            </select>
+                <label class="label"><%= __('Recovery Method') %></label> 
+                <select class="select" name="method" id="recoverySelect">
+                    <option disabled selected value="none" style="display:none"><%= __('-- select a method --') %></option>
+                    <option value="email"><%= __('Recovery Email') %></option>
+                    <option value="token"><%= __('Recovery Token') %></option>
+                </select>
             </div>
             
             <div id="recoveryEmailSection" class="form-group">
-            <label class="label"><%= __('Recovery Email') %></label> 
-            <input class="input-field" type="email" name="email"/>
+                <label class="label"><%= __('Recovery Email') %></label> 
+                <%- include("../../partials/form/input-field.ejs",{field: {name:"email",type:"email"}}) %> 
             </div>
             
             <div id="recoveryTokenSection" class="form-group">
-            <label class="label"><%= __('Recovery Token') %></label> 
-            <input class="input-field" type="text"name="token"/>
+                <label class="label"><%= __('Recovery Token') %></label> 
+                <%- include("../../partials/form/input-field.ejs",{field: {name:"token",type:"text"}}) %> 
             </div>
 
         </fieldset>
 
         <div class="form-action-group">
             <div class="button-group">
-            <button type="submit" class="button primary"><%= __('Request') %></button>
+                <button type="submit" class="button primary"><%= __('Request') %></button>
             </div>
             <p><%= __('No recovery methods?') %> <a href=""><%= __('Learn more') %></a></p>
         </div>

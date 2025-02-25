@@ -1,13 +1,12 @@
 import dashboardAuthRenderer from "../renderers/logged-out.dashboard.renderer.js"
 import provider from "../oidc/provider.js"
-import loginHandler from "../handlers/login.handler.js"
-import recoveryHandler from "../handlers/recovery.handler.js"
-import requestInviteHandler from "../handlers/request-invite.handler.js"
 
 import { matchedData, validationResult } from "express-validator"
 import { setProviderSession } from "../oidc/session.js"
 import accountDriver from "../drivers/account.driver.js"
+import mailsDriver from "../drivers/mails.driver.js"
 import sharedRenderer from "../renderers/shared.renderer.js"
+import { generateNumberCode } from "../helpers/generate-secrets.js"
 
 /**
  * @typedef {import("express").Request} Request
@@ -23,7 +22,7 @@ export default {
      * @param {Response} [res]
      */ 
     inviteRequest: async (req,res) => {
-        dashboardAuthRenderer.inviteRequest(req,res)
+        dashboardAuthRenderer.inviteRequest(res)
     },
     /**
      * @description controller for invite request post method
@@ -31,15 +30,19 @@ export default {
      * @param {Response} [res]
      */ 
     inviteRequestPost: async (req,res) => {
-        try {
-            await requestInviteHandler.requestInviteHandler(req,res)
-            res.redirect("/register")
-        } catch (error) {
-            if (error instanceof requestInviteHandler.RequestInviteError)
-                return dashboardAuthRenderer.inviteRequest(req,res,error.message)
-            else
-                throw error;
-        }        
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardAuthRenderer.inviteRequest(res,data,errors.mapped())
+        }
+
+        const email = data.email;
+        const inviteCode = await accountDriver.requestInvite(email)
+        console.log(inviteCode)
+        mailsDriver.sendInviteCode(inviteCode,email,res.locals)     
+        res.redirect("/register")
+
     },
     /**
      * @description controller for account recovery get method
@@ -47,7 +50,7 @@ export default {
      * @param {Response} [res]
      */ 
     recovery: async (req,res) => {
-        dashboardAuthRenderer.recovery(req,res)
+        dashboardAuthRenderer.recovery(res)
     },
     /**
      * @description controller for account recovery post method
@@ -55,20 +58,59 @@ export default {
      * @param {Response} [res]
      */ 
     recoveryPost: async (req,res) => {
-        try {
-            const result = await recoveryHandler.recoveryHandler(req,res)
-            if(result.status == recoveryHandler.RecoveryResultStatus.SUCCESS)
-                res.redirect("/")
-            else
-                dashboardAuthRenderer.recoveryPasswordPrompt(req,res,result.confirmCode)
-        } catch (error) {
-            if (error instanceof recoveryHandler.RecoveryStep1Error)
-                return dashboardAuthRenderer.recovery(req,res,error.message)
-            else if (error instanceof recoveryHandler.RecoveryStep2Error)
-                return dashboardAuthRenderer.recoveryPasswordPrompt(req,res,error.confirmCode,error.message)
-            else
-                throw error;
-        }        
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardAuthRenderer.recovery(res,data,errors.mapped())
+        }
+
+        let account = accountDriver.findAccountWithUsername(data.username)
+        if(!account)
+            throw new Error("No account for username")
+
+        const confirmCode = generateNumberCode()
+
+        req.session.accountRecovery = {
+            confirmCode:confirmCode,
+            accountId:account.id
+        }
+
+        switch (data.method) {
+            case "email":
+                mailsDriver.sendRecoveryCode(confirmCode,data.email,res.locals)
+                dashboardAuthRenderer.recoveryPasswordPrompt(res)
+                break;
+            case "token":
+                dashboardAuthRenderer.recoveryPasswordPrompt(res,{confirmCode:confirmCode})       
+                break;
+        }     
+    },
+    /**
+     * @description 
+     * @param {Request} [req]
+     * @param {Response} [res]
+     */ 
+    recoveryResetPost: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardAuthRenderer.recoveryPasswordPrompt(res,data,errors.mapped())
+        }
+
+        let {confirmCode,accountId} = req.session.accountRecovery
+        // Extra check for security
+        if(confirmCode != data.confirmCode)
+            throw new Error("Missing cofnirm token")
+
+        await accountDriver.setPassword(accountId,data.password)
+        await accountDriver.setAccount2fa(accountId,null)
+
+        req.session.accountRecovery = null
+
+        res.redirect('/login/');
+
     },
     /**
      * @description controller for account login get method

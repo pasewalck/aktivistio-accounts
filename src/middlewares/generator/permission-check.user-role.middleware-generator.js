@@ -10,7 +10,7 @@ export function generateCheckUserPersmission (checkPermission) {
    * @param {import("express").NextFunction} [next]
    */
   return (req,res,next) => {
-    if(!checkPermission(req.account.role,permission))
+    if(!checkPermission(req.account.role))
       throw Error("Missing permissions for invite generation")
     next();
   }

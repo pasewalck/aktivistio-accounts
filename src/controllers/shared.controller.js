@@ -1,8 +1,4 @@
-import dashboardAuthRenderer from "../renderers/logged-out.dashboard.renderer.js"
 import provider from "../oidc/provider.js"
-import loginHandler from "../handlers/login.handler.js"
-import recoveryHandler from "../handlers/recovery.handler.js"
-import requestInviteHandler from "../handlers/request-invite.handler.js"
 
 import { matchedData, validationResult } from "express-validator"
 import { setProviderSession } from "../oidc/session.js"

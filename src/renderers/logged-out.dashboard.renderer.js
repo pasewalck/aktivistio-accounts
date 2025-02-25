@@ -29,41 +29,44 @@ export default {
     /**
      * @description render function for recovery page
      * @param {Response} [res]
-     * @param {Request} [req]
-     * @param {string|undefined} [errorMsg]
+     * @param {JSON} [errors]
+     * @param {JSON} [formData]
      */
-    recovery: (req,res,errorMsg=undefined) => {
+    recovery: (res,formData={},errors={}) => {
         return res.render('cards/recovery/request', {
             title: res.__('Request Invite'),
-            errorMsg: errorMsg
-          });
+            errors: errors,
+            formData: formData
+        });
     },
     /**
      * @description render function for requesting an invite page
      * @param {Response} [res]
-     * @param {Request} [req]
-     * @param {string|undefined} [errorMsg]
+     * @param {JSON} [errors]
+     * @param {JSON} [formData]
      */
-    inviteRequest: (req,res,errorMsg=undefined) => {
+    inviteRequest: (res,formData={},errors={}) => {
         return res.render('cards/request-invite', {
             title: res.__('Request Invite'),
-            errorMsg: errorMsg,
+            errors: errors,
+            formData: formData,
             emailProviders: config.invitingMailProviders
-          });
+        });
     },
     /**
      * @description render function for requesting an account recovery
      * @param {Response} [res]
-     * @param {Request} [req]
      * @param {string|undefined} [confirmCode]
-     * @param {string|undefined} [errorMsg]
+     * @param {JSON} [errors]
+     * @param {JSON} [formData]
      */
-    recoveryPasswordPrompt: (req,res,confirmCode=undefined,errorMsg=undefined) => {
+    recoveryPasswordPrompt: (res,formData={},errors={}) => {
         return res.render('cards/recovery/reset', {
-        title: res.__('Recovery'),
-            errorMsg: errorMsg,
-            confirmCode: confirmCode
-          });
+            title: res.__('Recovery'),
+            errors: errors,
+            formData: formData,
+            confirmCode: formData?.confirmCode
+        });
     },
 }
 

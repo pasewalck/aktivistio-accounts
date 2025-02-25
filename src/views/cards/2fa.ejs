@@ -13,13 +13,9 @@
 
             <fieldset>
 
-                <% if (errorMsg) { %>
-                <%- include("../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
-                <% } %>
-
                 <div class="form-group">
-                <label class="label"><%= __('2FA Code') %></label>
-                <input class="input-field" required type="test" name="token"/>
+                    <label class="label"><%= __('2FA Code') %></label>
+                    <%- include("../partials/form/input-field.ejs",{field: {name:"token",type:"text",required:true,blockValue:true}}) %> 
                 </div>
 
             </fieldset>
