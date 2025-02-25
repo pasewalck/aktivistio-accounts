@@ -15,15 +15,11 @@
       
             <fieldset>
 
-                <% if (errorMsg) { %>
-                    <%- include("../../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
-                <% } %>
-
                 <%- include("../../partials/alert-info.ejs",{info: __("You are about to set your recovery token. This will overwrite any old recovery token setup! Your token is stored hashed and even our admins can't see it."),moreInfoLink: "https"}) %> 
                 
                 <div class="form-group">
                     <label class="label"><%= __('Current password') %></label>
-                    <input required class="input-field" type="password" name="currentPassword"/>
+                    <%- include("../../partials/form/input-field.ejs",{field: {name:"currentPassword",type:"password",required:true}}) %> 
                 </div>
 
                 <div class="form-group">
@@ -35,9 +31,7 @@
                         <p><%= recoveryToken %></p>
                     </div>
 
-                    <div class="input-checkbox">
-                        <input type="checkbox" name="recoveryTokenVerify"><label class="label"><%= __('I have written down the token') %></label> 
-                    </div>
+                    <%- include("../../partials/form/input-checkbox.ejs",{checkbox: {name:"recoveryTokenVerify",msg:__('I have written down the code')}}) %>             
                     
                 </div>
             

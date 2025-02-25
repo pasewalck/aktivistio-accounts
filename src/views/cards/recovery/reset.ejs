@@ -3,35 +3,32 @@
         
         <h1><%= __('Account Recovery') %></h1>
 
-        <form class="form" autocomplete="off" action="" method="post">
+        <form class="form" autocomplete="off" action="<% app.baseUrl %>/account-recovery/reset/" method="post">
         
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
         <fieldset>
 
-            <% if (errorMsg) { %>
-            <%- include("../../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
-            <% } %>
 
             <% if (confirmCode == null || !confirmCode) { %>
-            <p><%- __("We sent you a confirmation code to your provided email") %> </p>
-            <div class="form-group">
-                <label class="label"><%= __('Confirmation code') %></label>
-                <input class="input-field" required type="text" name="confirmCode"/>
-            </div>
+                <p><%- __("We sent you a confirmation code to your provided email") %> </p>
+                <div class="form-group">
+                    <label class="label"><%= __('Confirmation code') %></label>
+                    <%- include("../../partials/form/input-field.ejs",{field: {name:"confirmCode",type:"text",required:true,blockValue:true}}) %> 
+                </div>
             <% } else { %>
-            <input type="hidden" value="<%= confirmCode %>" name="confirmCode">
+                <input type="hidden" value="<%= confirmCode %>" name="confirmCode">
             <% } %>
 
             <%- include("../../partials/alert-info.ejs",{info: __("This step will also overwrite and remove any two factor authentication for your account. Please set it up again after account recovery if you intend to use it."),moreInfoLink: false}) %> 
 
             <div class="form-group">
-            <label class="label"><%= __('New Password') %></label>
-            <input class="input-field" required type="password" name="password"/>
+                <label class="label"><%= __('New Password') %></label>
+                <%- include("../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true}}) %> 
             </div>
 
             <div class="form-group">
-            <label class="label"><%= __('Confirm new Password') %></label>
-            <input class="input-field" required type="password" name="confirmPassword"/>
+                <label class="label"><%= __('Confirm new Password') %></label>
+                <%- include("../../partials/form/input-field.ejs",{field: {name:"confirmPassword",type:"password",required:true}}) %> 
             </div>
             
         </fieldset>

@@ -9,6 +9,7 @@ import registerValidations from '../validation/validators/logged-out/register.va
 import requestRecoveryValidations from '../validation/validators/logged-out/request.recovery.validations.js';
 import requestInviteValidations from '../validation/validators/logged-out/request.invite.validations.js';
 import sharedController from '../controllers/shared.controller.js';
+import resetStepRecoveryValidations from '../validation/validators/logged-out/reset-step.recovery.validations.js';
 
 /**
  * @description bind controllers to routes for primary app
@@ -24,7 +25,8 @@ export default (app) => {
     app.post('/invite-request',middlewares,requestInviteValidations,dashboardAuthController.inviteRequestPost);
 
     app.get('/account-recovery',middlewares,dashboardAuthController.recovery);
-    app.post('/account-recovery',middlewares,requestRecoveryValidations,dashboardAuthController.recoveryPost);
+    app.post('/account-recovery/',middlewares,requestRecoveryValidations,dashboardAuthController.recoveryPost);
+    app.post('/account-recovery/reset',middlewares,resetStepRecoveryValidations,dashboardAuthController.recoveryResetPost);
 
     app.get('/login',middlewares,dashboardAuthController.login);
     app.post('/login',middlewares,loginValidations,sharedController.loginPost);

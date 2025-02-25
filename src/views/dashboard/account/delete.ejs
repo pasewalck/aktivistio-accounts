@@ -10,19 +10,15 @@
 
                 <%- include("../../partials/alert-info.ejs",{info: __("Be careful! This is the delete page for you account. Proceed with caution."),moreInfoLink:false}) %> 
 
-                <% if (errorMsg) { %>
-                    <%- include("../../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
-                <% } %>
-
                 <div class="form-group">
                     <label class="label"><%= __('Your password') %></label>
-                    <input required class="input-field" type="password" name="password"/>
+                    <%- include("../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true}}) %> 
                 </div>
 
                 <div class="form-group">
                     <label class="label"><%= __('Confirm your action') %></label>
                     <div class="input-checkbox">
-                        <input type="checkbox" name="confirm"><label><%= __('I confirm to delete my account and know I will lose it forever!') %></label> 
+                        <%- include("../partials/form/input-checkbox.ejs",{checkbox: {name:"confirm",msg:__('I confirm to delete my account and know I will lose it forever!')}}) %>             
                     </div>
                 </div>
 

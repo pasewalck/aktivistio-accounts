@@ -44,13 +44,15 @@ export default {
      * @description render function for dashboard user account password page 
      * @param {Response} [res]
      * @param {Request} [req]
-     * @param {String|undefined} [errorMsg]
+     * @param {JSON} [formData]
+     * @param {JSON} [errors]
      */
-    accountChangePassword: (req,res,errorMsg=undefined) => {
+    accountChangePassword: (req,res,formData={},errors={}) => {
       return res.render('dashboard/account/password', {
         title: res.__('Account Password'),
         account: req.account,
-        errorMsg:errorMsg,
+        errors:errors,
+        formData:formData,
         accountInQuestion: req.account
       });
     },
@@ -72,10 +74,11 @@ export default {
      * @param {Response} [res]
      * @param {Request} [req]
      * @param {String} [secret]
-     * @param {String|undefined} [errorMsg]
+     * @param {JSON} [formData]
+     * @param {JSON} [errors]
      */
-    addTwoFactorAuth: async (req,res,providedSecret=undefined,errorMsg=undefined) => {
-      let secret = providedSecret ? providedSecret : twoFactorAuth.generateSecret()
+    addTwoFactorAuth: async (req,res,formData={},errors=undefined) => {
+      let secret = formData.providedSecret || twoFactorAuth.generateSecret()
       let url = twoFactorAuth.generateUrl(secret,config.applicationName,req.account.username);
       let qrCodeSrc = await QRCode.toDataURL(url)
 
@@ -86,7 +89,8 @@ export default {
         secret: secret,
         url:url,
         qrCodeSrc: qrCodeSrc,
-        errorMsg: errorMsg
+        formData: formData,
+        errors: errors
       });
     },
     /**
@@ -105,27 +109,33 @@ export default {
      * @description render function for dashboard user manage account recovery page 
      * @param {Response} [res]
      * @param {Request} [req]
+     * @param {JSON} [formData]
+     * @param {JSON} [errors]
      */
-    setRecoveryToken: (req,res,errorMsg=undefined,recoveryToken=undefined) => {
+    setRecoveryToken: (req,res,formData={},errors={}) => {
       return res.render('dashboard/account/set-recovery-token', {
         title: res.__('Account Recovery'),
         account: req.account,
         accountInQuestion: req.account,
-        errorMsg: errorMsg,
+        errors: errors,
+        formData: formData,
         hasRecoveryToken: accountDriver.getRecovery(req.account.id)?.email != null,
-        recoveryToken: recoveryToken ? recoveryToken : generateRecoveryToken()
+        recoveryToken: formData.recoveryToken || generateRecoveryToken()
       });
     },
     /**
      * @description render function for dashboard user manage account recovery page 
      * @param {Response} [res]
      * @param {Request} [req]
+     * @param {JSON} [formData]
+     * @param {JSON} [errors]
      */
-    setRecoveryEmail: (req,res,errorMsg=undefined) => {
+    setRecoveryEmail: (req,res,formData={},errors={}) => {
       return res.render('dashboard/account/set-recovery-email', {
         title: res.__('Account Recovery'),
         account: req.account,
-        errorMsg: errorMsg,
+        errors: errors,
+        formData: formData,
         accountInQuestion: req.account,
         hasRecoveryEmail: accountDriver.getRecovery(req.account.id)?.email != null
       });
@@ -134,13 +144,15 @@ export default {
      * @description render function for dashboard user manage account recovery page 
      * @param {Response} [res]
      * @param {Request} [req]
+     * @param {JSON} [formData]
+     * @param {JSON} [errors]
      */
-    deleteRecoveryMethod: (req,res,method,errorMsg=undefined) => {
+    deleteRecoveryMethod: (req,res,method,formData={},errors={}) => {
       return res.render('dashboard/account/remove-recovery-confirm', {
         title: res.__('Account Recovery'),
         account: req.account,
         accountInQuestion: req.account,
-        errorMsg: errorMsg,
+        errors: errors,
         method: method
       });
     },
@@ -148,13 +160,15 @@ export default {
      * @description render function for user manage account delete
      * @param {Response} [res]
      * @param {Request} [req]
-     * @param {String|undefined} [errorMsg
+     * @param {JSON} [formData]
+     * @param {JSON} [errors]
      */
-    delete: (req,res,errorMsg=undefined) => {
+    delete: (req,res,formData={},errors={}) => {
       return res.render('dashboard/account/delete', {
         title: res.__('Delete Account'),
         account: req.account,
-        errorMsg:errorMsg,
+        errors:errors,
+        formData:formData,
         accountInQuestion: req.account
       });
     },

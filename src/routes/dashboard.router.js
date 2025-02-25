@@ -32,6 +32,7 @@ export default (app) => {
     app.get('/account/2fa',middlewares,dashboardController.account2fa);
     app.get('/account/2fa/add',middlewares,dashboardController.accountAdd2fa);
     app.post('/account/2fa/set',middlewares,set2faValidations,dashboardController.accountChange2faPost);
+    app.post('/account/2fa/remove',middlewares,dashboardController.accountRemove2faPost);
 
     app.get('/account/password',middlewares,dashboardController.accountChangePassword);
     app.post('/account/password',middlewares,changePasswordValidationsCopy,dashboardController.accountChangePasswordPost);
@@ -41,8 +42,8 @@ export default (app) => {
     app.get('/account/recovery/set-token',middlewares,dashboardController.accountRecoverySetToken);
     app.get('/account/recovery/delete-email',middlewares,dashboardController.accountRecoveryDeleteEmail);
     app.get('/account/recovery/delete-token',middlewares,dashboardController.accountRecoveryDeleteToken);
-    app.post('/account/recovery/set-email',middlewares,setRecoveryTokenValidations,dashboardController.accountRecoverySetEmailPost);
-    app.post('/account/recovery/set-token',middlewares,setRecoveryEmailValidations,dashboardController.accountRecoverySetTokenPost);
+    app.post('/account/recovery/set-email',middlewares,setRecoveryEmailValidations,dashboardController.accountRecoverySetEmailPost);
+    app.post('/account/recovery/set-token',middlewares,setRecoveryTokenValidations,dashboardController.accountRecoverySetTokenPost);
     app.post('/account/recovery/delete-email',middlewares,deleteRecoveryMethodValidations,dashboardController.accountRecoveryDeleteEmailPost);
     app.post('/account/recovery/delete-token',middlewares,deleteRecoveryMethodValidations,dashboardController.accountRecoveryDeleteTokenPost);
 

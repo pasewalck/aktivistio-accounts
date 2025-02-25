@@ -34,12 +34,10 @@
                 <%- include("../partials/form/input-select.ejs",{select: {name:"recoveryMethod",id:"recoverySelect",options:[
                     {value:"email",displayName:__('Recovery Email')},
                     {value:"token",displayName:__('Recovery Token')}
-                ],defaultNone:{msg:__('-- select a method --')}}}) %>             
-
+                ],defaultNone:{msg:__('-- select a method --')}}}) %>
             </div>
             
             <div id="recoveryEmailSection" class="form-group">
-            
                 <%- include("../partials/alert-info.ejs",{info: __("Your email is stored encrypted and even our admins can't see it."),moreInfoLink: "https"}) %> 
                 <label class="label"><%= __('Recovery Email') %></label> 
                 <%- include("../partials/form/input-field.ejs",{field: {name:"recoveryEmail",type:"text"}}) %>             
@@ -47,7 +45,6 @@
             
             <div id="recoveryTokenSection" class="form-group">
                 <input type="hidden" name="recoveryToken" value="<%= recoveryToken %>">
-
                 <label class="label"><%= __('Recovery Token') %></label> 
                 <div class="output-field">
                     <p><%= recoveryToken %></p>

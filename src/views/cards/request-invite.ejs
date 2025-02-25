@@ -19,13 +19,10 @@
             </p>
             </div>
     
-            <% if (errorMsg) { %>
-            <%- include("../partials/alert-info.error.ejs",{info: __(errorMsg),moreInfoLink: false}) %> 
-            <% } %>
 
             <div class="form-group">
-            <label class="label"><%= __('Email') %></label>
-            <input class="input-field" required type="email" name="email"/>
+                <label class="label"><%= __('Email') %></label>
+                <%- include("../partials/form/input-field.ejs",{field: {name:"email",type:"email",required:true}}) %> 
             </div>
 
         </fieldset>

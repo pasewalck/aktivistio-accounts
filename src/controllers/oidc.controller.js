@@ -2,7 +2,6 @@ import assert from "assert"
 
 import oidcRenderer from "../renderers/oidc.renderer.js"
 import provider from "../oidc/provider.js";
-import loginHandler from "../handlers/login.handler.js";
 
 /**
  * @typedef {import("express").Request} Request

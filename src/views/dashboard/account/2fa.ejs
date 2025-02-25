@@ -7,7 +7,7 @@
 
         <% if (has2fa) { %>
             <p><%= __("Amazing! You have 2fa setup.") %> </p>
-            <form action="/account/2fa/set" method="post">
+            <form action="/account/2fa/remove" method="post">
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                 <button class="button red"><%= __("Remove 2fa") %> </button>
             </form>

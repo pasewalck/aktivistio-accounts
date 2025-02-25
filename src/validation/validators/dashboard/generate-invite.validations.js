@@ -7,7 +7,8 @@ export default [
         .isInt({ gt: 0, max: 1000 }).withMessage(localize('Count must be an intager between 0 and %s',1000))
         .toInt(),
     body('date')
-        .optional()
-        .isISO8601().withMessage(localize('Invalid date format'))
+        .optional({checkFalsy:true})
+        .custom((value) => console.log(value))
+        .isDate().withMessage(localize('Invalid date format'))
         .toDate()
 ];

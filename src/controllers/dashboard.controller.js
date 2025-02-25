@@ -1,12 +1,7 @@
-import zxcvbn from "zxcvbn";
-
-import twoFactorAuth from "../helpers/two-factor-auth.js";
 import dashboardRenderer from "../renderers/dashboard.renderer.js";
 import provider from "../oidc/provider.js";
 import accountDriver from "../drivers/account.driver.js";
-import emailValidate from "email-validator";
-
-import { isRecoveryToken } from "../helpers/recovery-token-string.js";
+import { matchedData, validationResult } from "express-validator";
 
 /**
  * @typedef {import("express").Request} Request
@@ -48,7 +43,14 @@ export default {
      */
     accountChangePasswordPost: async (req,res) => {
 
-        await accountDriver.setPassword(req.account.id,req.body.newPassword)
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.accountChangePassword(req,res,data,errors.mapped())
+        }
+
+        await accountDriver.setPassword(req.account.id,data.newPassword)
         res.redirect("/account")
 
     },
@@ -66,6 +68,13 @@ export default {
      * @param {Request} [req]
      */
     accountDeletePost: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.delete(req,res,data,errors.mapped())
+        }
+
         const session = await provider.Session.get(provider.app.createContext(req,res))
         session.destroy();        
         accountDriver.deleteAccount(req.account.id)
@@ -93,8 +102,24 @@ export default {
      * @param {Response} [res]
      * @param {Request} [req]
      */
-    accountChange2faPost: (req,res) => {
+    accountChange2faPost: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.addTwoFactorAuth(req,res,data,errors.mapped())
+        }
+
         accountDriver.setAccount2fa(req.account.id,req.body.secret)
+        res.redirect("/account/2fa")
+    },
+    /**
+     * @description controller function for dashboard user account page 
+     * @param {Response} [res]
+     * @param {Request} [req]
+     */
+    accountRemove2faPost: async (req,res) => {
+        accountDriver.setAccount2fa(req.account.id,null)
         res.redirect("/account/2fa")
     },
     /**
@@ -143,6 +168,13 @@ export default {
      * @param {Request} [req]
      */
     accountRecoveryDeleteEmailPost: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.deleteRecoveryMethod(req,res,"email",data,errors.mapped())
+        }
+
         await accountDriver.setAccountRecoveryEmail(req.account.id,null)
         res.redirect("/account/recovery")
     },
@@ -152,6 +184,13 @@ export default {
      * @param {Request} [req]
      */
     accountRecoveryDeleteTokenPost: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.deleteRecoveryMethod(req,res,"email",data,errors.mapped())
+        }
+
         await accountDriver.setAccountRecoveryToken(req.account.id,null)
         res.redirect("/account/recovery")
     },
@@ -161,6 +200,13 @@ export default {
      * @param {Request} [req]
      */
     accountRecoverySetEmailPost: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.setRecoveryEmail(req,res,data,errors.mapped())
+        }
+
         await accountDriver.setAccountRecoveryEmail(req.account.id,req.body.recoveryEmail)
         res.redirect("/account/recovery")
     },
@@ -170,6 +216,13 @@ export default {
      * @param {Request} [req]
      */
     accountRecoverySetTokenPost: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.setRecoveryToken(req,res,data,errors.mapped())
+        }
+
         await accountDriver.setAccountRecoveryToken(req.account.id,req.body.recoveryToken)
         res.redirect("/account/recovery")
     },
@@ -186,16 +239,30 @@ export default {
      * @param {Response} [res]
      * @param {Request} [req]
     */
-    inviteShare: (req,res) => {
-        res.redirect("/invites")
+    inviteShare: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            throw new Error(errors.array()[0].msg)
+        }
+
+        dashboardRenderer.inviteShare(req,res,data.invite)
     },
     /**
      * @description controller for invite generation
      * @param {Response} [res]
      * @param {Request} [req]
      */
-    invitesGeneratePost: (req,res) => {
-        accountDriver.generateInvite(req.account,0,parseInt(req.body.count, 10),req.body.date ? new Date(req.body.date) : null)
+    invitesGeneratePost: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            throw new Error(errors.array()[0].msg)
+        }
+
+        accountDriver.generateInvite(req.account,0,parseInt(data.count, 10),data.date ? data.date : null)
         res.redirect("/invites")
     },
     /**
@@ -203,8 +270,15 @@ export default {
      * @param {Response} [res]
      * @param {Request} [req]
      */
-    terminateInvite: (req,res) => {
-        accountDriver.removeInvite(req.body.code)
+    terminateInvite: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            throw new Error(errors.array()[0].msg)
+        }
+
+        accountDriver.removeInvite(data.code)
         res.redirect("/invites")
     },
 }
