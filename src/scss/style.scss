@@ -2,6 +2,7 @@
 @use '_fonts';
 @use '_variables' as variables;
 
+// Body Styles
 body {
     background-color: variables.$lightgrey;
     min-height: 100lvh;
@@ -11,75 +12,52 @@ body {
     flex-direction: column;
 }
 
-// Apply fonts
-
-p,button,a,span,input,label,ul,li,h1,h2,h3,h4,h5,div {
+// Font Styles
+p, button, a, span, input, label, ul, li, h1, h2, h3, h4, h5, div {
     font-family: variables.$titlefont;
-    
-}.center{
+}
+
+.center {
     text-align: center;
 }
 
-// Apply general font colors, weights and scaling
-
+// General Font Colors, Weights, and Scaling
 p {
     font-weight: 400;
     color: variables.$darkcolor;
     font-size: 16px;
     padding-bottom: 6px;
-
 }
 
-h1,h2,h3,h4,h5 {
+h1, h2, h3, h4, h5 {
     font-weight: 600;
     color: variables.$darkcolor;
 }
-h1 {
-    font-size: 32px;
-    padding-bottom: 14px;
-}
-h2 {
-    font-size: 26px;
-    padding-bottom: 12px;
 
-}
-h3 {
-    font-size: 23px;
-    padding-bottom: 10px;
-}
-h4 {
-    font-size: 20px;
-    padding-bottom: 8px;
+h1 { font-size: 32px; padding-bottom: 14px; }
+h2 { font-size: 26px; padding-bottom: 12px; }
+h3 { font-size: 23px; padding-bottom: 10px; }
+h4 { font-size: 20px; padding-bottom: 8px; }
+h5 { font-size: 17px; padding-bottom: 6px; }
 
-}
-h5 {
-    font-size: 17px;
-    padding-bottom: 6px;
-
-}
-
-// invites
-
-
+// Invite List Styles
 .invite-list {
     margin-bottom: 5px;
 
     li {
         position: relative;
-
         border-radius: 2px;
         border: solid variables.$grey 1px;
         margin-top: 10px;
-        padding: 6px;  
+        padding: 6px;
 
         .code {
-
             text-align: left;
             font-size: 19px;
             font-weight: 400;
-            padding-bottom: 4px;  
+            padding-bottom: 4px;
             display: inline-block;
-            
+
             @media only screen and (min-width: 1000px) {
                 span {
                     filter: blur(3px);
@@ -87,108 +65,107 @@ h5 {
                 }
             }
 
-    
-        }:hover {
-            span {
-                filter: blur(0px);
+            &:hover {
+                span {
+                    filter: blur(0px);
+                }
             }
         }
+
         .uses {
             font-weight: 300;
             font-size: 14px;
             display: block;
         }
+
         .date {
             font-weight: 400;
             font-size: 12px;
             display: inline-block;
+        }
 
-        }.soon {
+        .soon {
             font-weight: 400;
-
             color: #eb1304;
         }
+
         .links {
             top: 0;
             right: 0;
             position: absolute;
             display: block;
             padding: 5px;
-            a,button {
+
+            a, button {
                 background-color: transparent;
                 display: inline-block;
-           
                 cursor: pointer;
-            
+
                 img {
                     width: 21px;
                 }
-            }:focus {
+            }
+
+            &:focus {
                 opacity: 0.6;
             }
+
             .remove {
                 display: inline-block;
+
                 button {
                     background-color: transparent;
-
                     display: inline-block;
                     cursor: pointer;
+
                     img {
                         width: 21px;
                     }
                 }
             }
         }
-        
     }
 }
 
 // General Page Layouts
-
 .wrapper {
     width: 100vw;
     padding: 50px 20px;
-
     flex: 1 1 auto;
 }
 
-
 .flex-container {
-
     display: flex;
     column-gap: 40px;
     row-gap: 15px;
-    
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
 }
 
 .flex-container-vertical {
-
     flex-direction: row;
 }
 
 .container-medium-width {
-    width: min(100%,500px);
+    width: min(100%, 500px);
 }
 
 .container-large-width {
-    width: min(100%,900px);
+    width: min(100%, 900px);
 }
 
 .container-soft-filled-background {
-    background-color: rgba($color: variables.$lightcolor, $alpha: 0.4);
+    background-color: rgba(variables.$lightcolor, 0.4);
     border-radius: 4px;
     backdrop-filter: blur(10px);
     padding: 40px;
-
 }
+
 .container-filled-background {
-    background-color: rgba($color: variables.$lightcolor, $alpha: 1.0);
+    background-color: rgba(variables.$lightcolor, 1.0);
     border-radius: 4px;
-    box-shadow: 0px 0px 16px rgba($color: variables.$darkcolor , $alpha: 0.1);
+    box-shadow: 0px 0px 16px rgba(variables.$darkcolor, 0.1);
     padding: 40px;
 }
 
@@ -196,14 +173,14 @@ h5 {
     padding: 20px;
 }
 
-.gird-container {
+.grid-container {
     display: grid;
     grid-template-columns: auto auto auto;
-
     column-gap: 15px;
     row-gap: 15px;
 }
 
+// Media Queries
 @media only screen and (max-width: 1000px) {
     .flex-container {
         row-gap: 15px;
@@ -212,189 +189,178 @@ h5 {
 
 @media only screen and (max-width: 800px) {
     .flex-container-vertical {
-        flex-direction: column;
+        flex-direction:
+        column;
     }
-
 }
 
 @media only screen and (max-width: 450px) {
     .wrapper {
         padding: 0;
+    }
 
-    }
-    .container-filled-background {
-        border-radius: 0px;
-        padding: 20px;
-    }
+    .container-filled-background,
     .container-soft-filled-background {
         border-radius: 0px;
         padding: 20px;
     }
-
-    
 }
 
+// Box List Styles
 .box-list {
     margin-bottom: 5px;
 
     li {
-
         margin-top: 5px;
-        padding: 5px;  
-
+        padding: 5px;
         border-radius: 2px;
         border: solid variables.$grey 1px;
 
         p {
             font-size: 15px;
             font-weight: 400;
-            padding: 4px;  
+            padding: 4px;
             display: inline-block;
         }
+
         .actions {
             float: right;
-            a,button {
+
+            a, button {
                 display: inline-block;
                 font-size: 13px;
-          
                 font-weight: 400;
                 border-radius: 3px;
                 padding: 5px 8px;
-            
                 cursor: pointer;
-            
                 color: variables.$lightcolor;
                 background-color: #047beb;
-            }.red{
-                background-color: #eb1304;
 
+                &.red {
+                    background-color: #eb1304;
+                }
             }
-        font-size: 14px;
-        background: #0470eb;
-        padding: 4px;
-        color: variables.$lightcolor;
-        margin: 3px;
-        border-radius: 1px;
         }
     }
 }
 
-// qr-code-box
-
+// QR Code Box Styles
 .qr-code-box {
     display: block;
     margin-bottom: 20px;
-    img,div {
+
+    img, div {
         margin: auto;
         display: block;
     }
+
     img {
         max-width: 100%;
     }
+
     div {
         text-align: center;
         font-size: 14px;
         font-weight: 300;
-        font-weight: 4;
         padding: 0 10px;
-
     }
 }
 
-// Buttons
-
+// Button Group Styles
 .button-group {
     display: block;
+
     .button {
         margin-bottom: 2px;
     }
-
 }
+
 .button {
     display: inline-block;
-
     font-size: 15px;
     line-height: 15px;
-
     font-weight: 400;
     border-radius: 3px;
     padding: 10px 15px;
-
     cursor: pointer;
-
     background-color: #0470eb;
     color: #ffffff;
+    box-shadow: 3px 3px 6px rgba(variables.$darkcolor, 0.1);
 
-    box-shadow: 3px 3px 6px rgba($color: variables.$darkcolor, $alpha: 0.1);
-}
-.button.blue{
-    background-color: #0470eb;
-    color: #ffffff;
-}
-.button.red{
-   
-    background-color: #cf1a1a;
-    color: #ffffff;
+    &.blue {
+        background-color: #0470eb;
+        color: #ffffff;
+    }
+
+    &.red {
+        background-color: #cf1a1a;
+        color: #ffffff;
+    }
 }
 
+// Alert Styles
 .alert-info {
     display: flex;
     flex-direction: row;
     gap: 4px;
     justify-items: start;
     align-items: center;
-
-    background: rgba($color: variables.$grey, $alpha: 0.1);
-
+    background: rgba(variables.$grey, 0.1);
     border: solid variables.$grey 1px;
- 
-    padding: 7px;  
-
+    padding: 7px;
     border-radius: 2px;
     opacity: 0.8;
 
     img {
         width: 20px;
         height: 20px;
- 
         box-sizing: content-box;
     }
+
     p {
-         
         font-weight: 400;
         font-size: 15px;
-
         padding-bottom: 2px;
     }
-}.error {
-    border: solid variables.$redaccent 1px;
-    background: rgba($color: variables.$redaccent, $alpha: 0.1);
 
-    p {
-        color: variables.$redaccent;
+    &.error {
+        border: solid variables.$redaccent 1px;
+        background: rgba(variables.$redaccent, 0.1);
+
+        p {
+            color: variables.$redaccent;
+        }
     }
 }
 
+// Output Field Styles
 .output-field {
     display: block;
     position: relative;
     background: variables.$lightgrey;
     width: 100%;
-
     border: solid variables.$grey 1px;
-    padding: 7px 9px;    
-
+    padding: 7px 9px;
     border-radius: 2px;
+
     p {
         font-size: 15px;
         font-weight: 400;
     }
 }
 
-// Forms layouting
+// Form Layout Styles
+@keyframes error-in {
+    0% { transform: translateX(0px); }
+    15% { transform: translateX(-2px) rotate(-0.5deg); }
+    30% { transform: translateX(2px) rotate(0.3deg); }
+    45% { transform: translateX(-1px) rotate(-0.3deg); }
+    60% { transform: translateX(1px) rotate(0.2deg); }
+    75% { transform: translateX(-0.5px) rotate(-0.1deg); }
+    100% { transform: translateX(0px); }
+}
 
 .form {
-
     margin: 15px 0;
     display: block;
 
@@ -405,14 +371,15 @@ h5 {
         gap: 10px;
         margin-top: 25px;
     }
+
     fieldset {
         position: relative;
         display: flex;
         flex-direction: column;
         gap: 18px;
-
     }
 
+   
     .input-field-hint {
         font-size: 14px;
         color: variables.$darkcolor;
@@ -422,7 +389,9 @@ h5 {
         text-align: right;
     }
 
-    .input-field-error {
+    .input-field-error,
+    .input-checkbox-error,
+    .input-select-error {
         font-size: 14px;
         color: #cf1a1a;
         font-weight: 300;
@@ -446,6 +415,7 @@ h5 {
         display: flex;
         flex-direction: column;
         gap: 5px;
+
         .label {
             transition: all 0.3s;
             pointer-events: none; 
@@ -455,31 +425,42 @@ h5 {
             padding: 0px 2px;
             display: block;
         }
-        .select,.input-field{
+
+        .select,
+        .input-field {
             display: block;
             position: relative;
             background: transparent;
             box-sizing: border-box;
             width: 100%;
-            font-weight: 300;
-            border: solid variables.$grey 1px;
+            font-weight: 400;
+            border: 1px solid variables.$grey;
             padding: 7px 9px;    
             font-size: 15px;
             border-radius: 2px;
             transition: all 0.3s;
-        }::placeholder{
-            opacity: 1;
-            font-weight: 300;
-        }
-        .input-field:focus,.select:focus {
-            border: solid variables.$greenSeaweed 1px;
-        }
-        .input-field.errored {
-            border: solid #cf1a1a 0.9px;
+
+            &::placeholder {
+                opacity: 1;
+                font-weight: 300;
+            }
+
+            &:focus {
+                border: 1px solid variables.$greenSeaweed;
+            }
         }
 
-        .select{
+        .select {
             font-weight: 500;
+        }
+
+        .input-field.errored,
+        .select.errored {
+            color: #cf1a1a;
+            border: 0.9px solid #cf1a1a;
+            animation-name: error-in;
+            animation-timing-function: ease-out;
+            animation-duration: 0.8s;
         }
 
         .input-checkbox {
@@ -487,22 +468,52 @@ h5 {
             position: relative;
             background: transparent;
             width: 100%;
+
             label {
-                margin:2px;
-                margin-left:6px;
+                margin-top: 2px;
                 display: block;
                 font-size: 14px;
-                font-weight: 400;
+                font-weight: 300;
             }
+
             input {
-                margin:3px;
+                appearance: none;
+                -webkit-appearance: none;
+                width: 14px;
+                height: 14px;
+                border: 1px solid #4e4e4e;
+                border-radius: 2px;
+                margin-top: 3px;
+                margin-right: 6px;
                 float: left;
+                cursor: pointer;
+                position: relative;
+
+                &.checked {
+                    background-image: url("data:image/svg+xml;base64,PHN2ZyBmaWxsPScjZmZmZmZmJyB2aWV3Qm94PScwIDAgMzIgMzInIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PGcgaWQ9J1NVR1JlcG9fYmdDYXJyaWVyJyBzdHJva2Utd2lkdGg9JzAnPjwvZz48ZyBpZD0nU1ZHUmVwb190cmFjZXJDYXJyaWVyJyBzdHJva2UtbGluZWNhcD0ncm91bmQnIHN0cm9rZS1saW5lam9pbj0ncm91bmQnPjwvZz48ZyBpZD0nU1ZHUmVwb19pY29uQ2Fycmllcic+PHBhdGggZD0nTTUgMTYuNTc3bDIuMTk0LTIuMTk1IDUuNDg2IDUuNDg0TDI0LjgwNCA3Ljc0MyAyNyA5LjkzN2wtMTQuMzIgMTQuMzJ6Jz48L3BhdGg+PC9nPjwvc3ZnPg==");
+                    background-color: #0470eb;
+                    border: none;
+                }
+            }
+
+            &.errored {
+                input {
+                    border-color: #cf1a1a;
+                    animation-name: error-in;
+                    animation-timing-function: ease-out;
+                    animation-duration: 0.8s;
+                }
+
+                input:checked {
+                    background-color: #cf1a1a;
+                }
             }
         }
     }
 
     .help {
-        padding: 60px 0 0px 0;
+        padding: 60px 0 0 0;
+
         a {
             color: variables.$lightcolor;
             padding: 5px;
@@ -510,117 +521,97 @@ h5 {
     }
 }
 
-
+// Header Styles
 .header {
-
     padding: 16px;
     width: 100%;
     background-color: #ffffff;
-    box-shadow: 0px 0px 16px rgba($color: variables.$darkcolor , $alpha: 0.1);
+    box-shadow: 0px 0px 16px rgba(variables.$darkcolor, 0.1);
 
     .header-container {
         width: 100%;
         margin: auto;
-
         display: flex;
         flex-direction: row;
         align-items: center;
-    
         justify-content: space-between;
 
         .main-nav {
             display: inline-block;
+
             a {
                 color: #000000;
                 padding: 4px;
                 font-size: 16px;
-
             }
-                    
         }
 
         .account-box {
-
             display: flex;
             flex-direction: row;
             align-items: center;
             gap: 8px;
 
             .account-profile {
-
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 gap: 4px;
+
                 img {
                     border-radius: 15px;
                     height: 30px;
                     opacity: 0.4;
                     display: inline-block;
                 }
+
                 .account-info {
                     .username {
                         padding-bottom: 2px;
                         color: #000000;
                         font-size: 17px;
-       
                         font-weight: 300;
                     }
                     display: inline-block;
-
                 }
-
             }
+
             .account-nav {
                 padding: 4px;
                 border-radius: 4px;
+
                 a {
                     img {
                         opacity: 0.8;
                         height: 20px;
                     }
                 }
-                        
             }
         }
-
-
-
     }
-
-
-
 }
 
+// Language Dropdown Styles
 .language-dropdown {
-
     position: fixed;
     bottom: 4px;
     right: 4px;
-
-    box-shadow: 0px 0px 16px rgba($color: variables.$darkcolor , $alpha: 0.1);
-
+    box-shadow: 0px 0px 16px rgba(variables.$darkcolor, 0.1);
     padding: 0 5px;
-
     background-color: variables.$lightcolor;
     border-radius: 4px;
 
     select {
-
         font-size: 23px;
         background: transparent;
-
     }
-    button {
 
+    button {
         font-size: 14px;
         background: #0470eb;
         padding: 4px;
         color: variables.$lightcolor;
         margin: 3px;
         border-radius: 1px;
-
     }
-
 }
-

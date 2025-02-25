@@ -84,7 +84,7 @@ export default {
      * @param {Response} [res]
      */ 
     register: async (req,res, next) => {
-        return dashboardAuthRenderer.register(req,res,null,{inviteCode:req.params.invite})
+        return dashboardAuthRenderer.register(res,{inviteCode:req.params.invite})
     },
     /**
      * @description controller for account register post method
@@ -92,11 +92,11 @@ export default {
      * @param {Response} [res]
      */ 
     registerPost: async (req,res) => {
-        const errors = validationResult(req);
-        const data = matchedData(req);
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return dashboardAuthRenderer.register(res,data,errors.mapped());
         }
 
         let account = await accountDriver.createAccount(data.username,data.password,accountDriver.Role.USER)

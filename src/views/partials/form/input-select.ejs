@@ -1,0 +1,15 @@
+<select class="select<% if (errors[select.name]) { %> errored<% } %>" name="<%= select.name %>" id="<%= select.id %>">
+
+    <% if (select.defaultNone) { %>
+        <option disabled <% if (!formData[select.name] || formData[select.name] == "none") { %>selected<% } %> value="none" style="display:none"><%= select.defaultNone.msg %></option>
+    <% } %>
+
+    <% select.options.forEach(option => { %>
+        <option <% if (formData[select.name] == option.value) { %>selected<% } %> value="<%= option.value %>"><%= option.displayName %></option>
+    <% }) %>
+
+
+</select>
+<% if (errors[select.name]) { %>
+    <p class="input-field-error"><%= errors[select.name].msg %></p>
+<% } %>
