@@ -4,7 +4,7 @@ import localize from "../../localize.js";
 
 export default [
     currentUserPasswordValidator(body('currentPassword')),
-    body("recoveryEmail").notEmpty().withMessage(localize('A recovery email must be selected.')).bail()
+    body("email").notEmpty().withMessage(localize('A recovery email must be selected.')).bail()
         .escape()
         .isEmail().withMessage(localize('Email is not valid.'))
 ]

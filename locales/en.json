@@ -150,5 +150,15 @@
 	"A recovery request was issued your account linked to this email. If this was you, use the following code to confirm your identity: %s": "A recovery request was issued your account linked to this email. If this was you, use the following code to confirm your identity: %s",
 	"If this was not you, this means somebody might be trying to target your account. We recomend changing your password.": "If this was not you, this means somebody might be trying to target your account. We recomend changing your password.",
 	"A recovery request was issued your account linked to this email. If this was you, use the following code to confirm your identity:": "A recovery request was issued your account linked to this email. If this was you, use the following code to confirm your identity:",
-	"A username is required.": "A username is required."
+	"A username is required.": "A username is required.",
+	"Register your details": "Register your details",
+	"Recovery token is not in valid format": "Recovery token is not in valid format",
+	"Recovery email is incorrect.": "Recovery email is incorrect.",
+	"No account can be found for username": "No account can be found for username",
+	"Confirm code is incorrect": "Confirm code is incorrect",
+	"A code is required.": "A code is required.",
+	"Consent": "Consent",
+	"I consent to": "I consent to",
+	"Username is taken": "Username is taken",
+	"I have read the above and consent.": "I have read the above and consent."
 }

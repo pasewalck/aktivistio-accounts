@@ -8,7 +8,6 @@ import localize from "../localize.js";
 export default (validationChain) => {
     return validationChain
         .exists({checkFalsy: true}).bail()
-        .escape()
         .isString()
         .isAscii().withMessage(localize("Password contains invalid characters")).bail()
         .custom((value,{req}) => {

@@ -3,7 +3,6 @@ import sharedController from '../controllers/shared.controller.js';
 import logger from '../logger.js';
 
 import {setNoCache} from '../middlewares/set-no-cache.middleware.js'
-import sharedRenderer from '../renderers/shared.renderer.js';
 import login2faValidations from '../validation/validators/logged-out/login-2fa.validations.js';
 import loginValidations from '../validation/validators/logged-out/login.validations.js';
 

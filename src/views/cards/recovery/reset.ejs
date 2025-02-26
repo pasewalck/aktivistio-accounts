@@ -8,17 +8,6 @@
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
         <fieldset>
 
-
-            <% if (confirmCode == null || !confirmCode) { %>
-                <p><%- __("We sent you a confirmation code to your provided email") %> </p>
-                <div class="form-group">
-                    <label class="label"><%= __('Confirmation code') %></label>
-                    <%- include("../../partials/form/input-field.ejs",{field: {name:"confirmCode",type:"text",required:true,blockValue:true}}) %> 
-                </div>
-            <% } else { %>
-                <input type="hidden" value="<%= confirmCode %>" name="confirmCode">
-            <% } %>
-
             <%- include("../../partials/alert-info.ejs",{info: __("This step will also overwrite and remove any two factor authentication for your account. Please set it up again after account recovery if you intend to use it."),moreInfoLink: false}) %> 
 
             <div class="form-group">

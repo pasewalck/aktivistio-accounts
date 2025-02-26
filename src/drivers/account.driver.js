@@ -11,7 +11,7 @@ dbDriver.db.exec(`
     create table IF NOT EXISTS accounts (
       id text not null PRIMARY KEY,
       username text not null,
-      password_hash text not null,
+      password_hash text,
       recovery_token_hash text,
       recovery_email_hash text,
       role_id INTEGER not null,
@@ -130,9 +130,7 @@ class Account {
      */
     getLockedInvites() {
         return dbDriver.db.prepare("SELECT invites.validation_date as createDate,invites.code,invites.usages,invites.expire_date as expireDate FROM invites,account_invites WHERE invites.code = account_invites.code AND account_invites.id = ? AND strftime('%s','now') < invites.validation_date AND (invites.expire_date IS NULL OR strftime('%s','now') <= invites.expire_date) ORDER BY invites.validation_date").all(this.id);
-    }
-
-    
+    }   
 }
 /**
  * @description find an account by providing username
@@ -141,7 +139,7 @@ class Account {
  */
 function findAccountWithUsername(username) {
     let result = dbDriver.db.prepare('SELECT id,username,role_id as role FROM accounts WHERE username = ?').get(username);
-    return result ? new Account(result.id,result.username,result.role) : undefined;
+    return result ? new Account(result.id,result.username,result.role) : null;
 }
 /**
  * @description find an account by providing id
@@ -150,7 +148,7 @@ function findAccountWithUsername(username) {
  */
 function findAccountWithId(id) {
     let result = dbDriver.db.prepare('SELECT id,username,role_id as role FROM accounts WHERE id = ?').get(id);
-    return result ? new Account(result.id,result.username,result.role) : undefined;
+    return result ? new Account(result.id,result.username,result.role) : null;
 }
 /**
  * @description check if a login is valid
@@ -241,8 +239,8 @@ function getRecovery(id) {
  * @param {Number} [role]
  * @returns {Account}
  */
-async function createAccount (username,password,role) {
-    dbDriver.db.prepare('INSERT INTO accounts (id,username, password_hash, role_id) VALUES (?,?,?,?)').run(crypto.randomUUID(),username,await hashPassword(password), role);
+async function createAccount (username,role) {
+    dbDriver.db.prepare('INSERT INTO accounts (id,username, role_id) VALUES (?,?,?)').run(crypto.randomUUID(),username, role);
     const account = findAccountWithUsername(username);
 
     logger.info(`Created an account ${account.username}`)
@@ -265,7 +263,15 @@ async function setAccountRecovery (id,email,token) {
  * @param {string|undefined} [email]
  */
 async function setAccountRecoveryEmail (id,email) {
-    dbDriver.db.prepare('UPDATE accounts SET recovery_email_hash = ? WHERE id = ?').run(email ? await hashPassword(email) : null, id);
+    setAccountRecoveryEmailHash(id,email ? await hashPassword(email) : null);
+}
+/**
+ * @description set account recovery email
+ * @param {string} [id]
+ * @param {string|undefined} [emailHash]
+ */
+function setAccountRecoveryEmailHash (id,emailHash) {
+    dbDriver.db.prepare('UPDATE accounts SET recovery_email_hash = ? WHERE id = ?').run(emailHash ? emailHash : null, id);
 }
 /**
  * @description set account 2fa secret
@@ -281,7 +287,15 @@ async function setAccount2fa (id,secret) {
  * @param {string|undefined} [token]
  */
 async function setAccountRecoveryToken (id,token) {
-    dbDriver.db.prepare('UPDATE accounts SET recovery_token_hash = ? WHERE id = ?').run(token ? await hashPassword(token) : null, id);
+    setAccountRecoveryTokenHash(id,token ? await hashPassword(token) : null);
+}
+/**
+ * @description set account recovery token
+ * @param {string} [id]
+ * @param {string|undefined} [token]
+ */
+async function setAccountRecoveryTokenHash (id,tokenHash) {
+    dbDriver.db.prepare('UPDATE accounts SET recovery_token_hash = ? WHERE id = ?').run(tokenHash ? tokenHash : null, id);
 }
 /**
  * @description create a new user
@@ -289,7 +303,15 @@ async function setAccountRecoveryToken (id,token) {
  * @param {string} [password]
  */
 async function setPassword (id,password) {
-    dbDriver.db.prepare('UPDATE accounts SET password_hash = ?WHERE id = ?').run(await hashPassword(password), id);
+    setPasswordHash(id,await hashPassword(password));
+}
+/**
+ * @description create a new user
+ * @param {string} [id]
+ * @param {string} [passwordHash]
+ */
+function setPasswordHash (id,passwordHash) {
+    dbDriver.db.prepare('UPDATE accounts SET password_hash = ?WHERE id = ?').run(passwordHash, id);
 }
 /**
  * @description remove invite
@@ -346,7 +368,8 @@ if (dbDriver.isDbInit)
     let user = "admin"
     let password = generatePassword()
 
-    let account = await createAccount(user,password,Role.SUPER_ADMIN)
+    let account = await createAccount(user,Role.SUPER_ADMIN)
+    await setPassword(account.id,password)
     
     for (let index = 0; index < 3; index++)
         generateInvite(account)
@@ -354,5 +377,5 @@ if (dbDriver.isDbInit)
     logger.info(`Created user "${user}" with Password: "${password}"`)
 }
 export default {
-    createAccount,removeInvite,requestInvite,getRecovery,checkRecoveryEmail,checkRecoveryToken,generateInvite,get2faSecret,deleteAccount,setAccount2fa,setAccountRecoveryToken,setAccountRecoveryEmail,setPassword,checkPassword,validateInvite,consumeInvite,checkLogin,findAccountWithUsername,findAccountWithId,setAccountRecovery,Role,Account
+    createAccount,removeInvite,setPasswordHash,requestInvite,getRecovery,checkRecoveryEmail,checkRecoveryToken,generateInvite,get2faSecret,deleteAccount,setAccount2fa,setAccountRecoveryToken,setAccountRecoveryEmail,setAccountRecoveryTokenHash,setAccountRecoveryEmailHash,setPassword,checkPassword,validateInvite,consumeInvite,checkLogin,findAccountWithUsername,findAccountWithId,setAccountRecovery,Role,Account
 }
