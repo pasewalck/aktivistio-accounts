@@ -4,21 +4,84 @@
 
     <div class="container container-medium-width container-filled-background">
 
-        <div class="container container-large-width">
+        <h1><%= __("Manage Account") %> </h1>
 
-            manage user role
-            
-        </div>
-        <div class="container container-large-width">
-    
-            password reset
-            
-        </div>
-        <div class="container container-large-width">
-    
-            delete user
-            
-        </div>
+        <form class="form" action="/user/<%= managingAccount.id %>/update" method="post">
+            <fieldset>
+
+                <div class="form-group" >
+                    <label class="label"><%= __('Username') %></label> 
+                    <div class="output-field">
+                        <p><%= managingAccount.username %></p>
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <label class="label"><%= __('User UUID') %></label> 
+                    <div class="output-field">
+                        <p><%= managingAccount.id %></p>
+                    </div>
+                </div>
+
+            </fieldset>
+
+        </form>
+
+    </div>
+
+    <div class="container container-medium-width container-filled-background">
+
+        <h2><%= __("Update account") %> </h2>
+
+        <form class="form" action="/user/<%= managingAccount.id %>/update" method="post">
+            <fieldset>
+
+                <div class="form-group" >
+                    <label class="label"><%= __('Account Role') %></label> 
+                    <% var options = []
+                    Role.allLower(account.role).forEach(role => {
+                        options.push({value:role,displayName:Role.getRoleInfo(role).name})
+                    }) %>
+                    <%- include("../partials/form/input-select.ejs",{select: {name:"accountUpdateRole",id:"accountUpdateRole",value:managingAccount.role,options:options}}) %>
+                </div>
+
+            </fieldset>
+
+            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+            <div class="form-action-group">
+                <button class="button" type="submit"><%= __("Update") %> </button>
+            </div>     
+
+        </form>
+
+    </div>
+
+
+    <div class="container container-medium-width container-filled-background">
+        <h2><%= __("Delete account") %> </h2>
+
+        <form class="form" action="/user/<%= managingAccount.id %>/delete" method="post">
+            <fieldset>
+
+                <div class="form-group">
+                    <label class="label"><%= __('Your password (as admin)') %></label>
+                    <%- include("../partials/form/input-field.ejs",{field: {name:"deleteAdminPassword",type:"password",required:true}}) %> 
+                </div>
+
+                <div class="form-group">
+                    <label class="label"><%= __('Confirm your action') %></label>
+                    <%- include("../partials/form/input-checkbox.ejs",{checkbox: {name:"deleteAdminConfirm",msg:__('I take responsability for deleting %s',managingAccount.username)}}) %>             
+                </div>
+
+            </fieldset>
+
+            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+            <div class="form-action-group">
+                <button class="button red" type="submit"><%= __("Delete Forever") %> </button>
+            </div>     
+
+        </form>
+        
     </div>
 
 

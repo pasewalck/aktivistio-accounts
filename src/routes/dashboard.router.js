@@ -14,6 +14,9 @@ import accountDriver from '../drivers/account.driver.js';
 import dashboardController from '../controllers/dashboard.controller.js';
 import logger from '../logger.js';
 import shareInviteValidators from '../validation/validators/dashboard/share.invite.validators.js';
+import userManageValidators from '../validation/validators/dashboard/user.manage.validators.js';
+import manageAccountUpdateValidations from '../validation/validators/dashboard/manage-account.update.validations.js';
+import manageAccountDeleteValidations from '../validation/validators/dashboard/manage-account.delete.validations.js';
 
 /**
  * @description bind controllers to routes for primary app
@@ -27,6 +30,13 @@ export default (app) => {
 
     app.get('/',middlewares,dashboardController.services);
     app.get('/services',middlewares,dashboardController.services);
+
+    app.get('/users',middlewares,generateCheckUserPersmission(accountDriver.Role.canManageUsers),dashboardController.users);
+    app.get('/user/:id',middlewares,generateCheckUserPersmission(accountDriver.Role.canManageUsers),userManageValidators,dashboardController.manageUser);
+
+    app.post('/user/:id/update',middlewares,generateCheckUserPersmission(accountDriver.Role.canManageUsers),userManageValidators,manageAccountUpdateValidations,dashboardController.manageUserUpdatePost);
+    app.post('/user/:id/delete',middlewares,generateCheckUserPersmission(accountDriver.Role.canManageUsers),userManageValidators,manageAccountDeleteValidations,dashboardController.manageUserDeletePost);
+
 
     app.get('/account',middlewares,dashboardController.account);
 
@@ -55,5 +65,5 @@ export default (app) => {
     app.post('/invites/generate',middlewares,generateInviteValidations,generateCheckUserPersmission(accountDriver.Role.canGenerateInvites),dashboardController.invitesGeneratePost);
 
     app.get('/invites/share/:invite',middlewares,shareInviteValidators,dashboardController.inviteShare);
-    app.post('/invites/terminate',middlewares,deleteInviteValidators,generateCheckUserPersmission(accountDriver.Role.canGenerateInvites),dashboardController.terminateInvite);
+    app.post('/invites/terminate',middlewares,deleteInviteValidators,generateCheckUserPersmission(accountDriver.Role.canGenerateInvites),dashboardController.terminateInvitePost);
 }

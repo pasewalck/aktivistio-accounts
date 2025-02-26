@@ -4,15 +4,25 @@
 
     <div class="container container-medium-width container-filled-background">
         <h2>Users</h2>
-        <label for="">Search</label>
-        <input type="text">
 
-        <div>
+        <ul class="user-list">
             <% users.forEach(user => { %>
-                
+                <li>
+                    <div class="infos">
+                        <div class="username"><%= user.username + (user.username == account.username ? " (You)" : "") %></div>
+                        <% var roleInfo = Role.getRoleInfo(user.role) %> 
+                        <div class="role" <%- `style="background-color: ${roleInfo.color};"` %>><%= roleInfo.name %></div>
+                    </div>
+                    <% if (user.role < account.role) { %>
+                        <div class="links">
+                            <a href="/user/<%= user.id %>/"><img src="/icons/settings.svg" alt=""></a>
+                        </div>
+                    <% } %>
+                </li>
             <% }) %>
-        </div>
-        Navigation goes here
+            
+        </ul>
+
 
     </div>
 

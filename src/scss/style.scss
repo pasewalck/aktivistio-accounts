@@ -41,6 +41,44 @@ h3 { font-size: 23px; padding-bottom: 10px; }
 h4 { font-size: 20px; padding-bottom: 8px; }
 h5 { font-size: 17px; padding-bottom: 6px; }
 
+
+// Users List Styles
+
+.user-list {
+    margin-bottom: 5px;
+
+    li {
+        position: relative;
+        border-radius: 2px;
+        border: solid variables.$grey 1px;
+        margin-top: 10px;
+        padding: 6px;
+
+
+        .infos {
+
+
+            .username {
+                display: inline-block;
+                text-align: left;
+                font-size: 16px;
+                font-weight: 300;
+                min-width: 100px;
+            }
+            .role {
+                display: inline-block;
+                text-align: left;
+                font-size: 14px;
+                font-weight: 400;
+                padding: 3px;
+                border-radius: 2px;
+                color: #ffffff;
+            }
+           
+        }
+    }
+}
+
 // Invite List Styles
 .invite-list {
     margin-bottom: 5px;
@@ -90,6 +128,12 @@ h5 { font-size: 17px; padding-bottom: 6px; }
             color: #eb1304;
         }
 
+    }
+}
+// Invite and User List Styles
+
+.user-list, .invite-list {
+    li {
         .links {
             top: 0;
             right: 0;
@@ -105,10 +149,11 @@ h5 { font-size: 17px; padding-bottom: 6px; }
                 img {
                     width: 21px;
                 }
+                opacity: 0.8;
             }
 
             &:focus {
-                opacity: 0.6;
+                opacity: 0.5;
             }
 
             .remove {

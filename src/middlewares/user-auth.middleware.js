@@ -26,7 +26,10 @@ export async function userAuthMiddleware (req,res, next) {
     res.redirect('/login');
   }
   else {
-    req.account = accountDriver.findAccountWithId(session.accountId);
+    const account = accountDriver.findAccountWithId(session.accountId);
+    req.account = account
+    res.locals.account = account
+    res.locals.Role = accountDriver.Role;
     next();
   }
 

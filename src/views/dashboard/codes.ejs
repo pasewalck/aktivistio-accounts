@@ -2,6 +2,8 @@
 
 <div class="wrapper flex-container">
 
+    <% const canGenerate = Role.canGenerateInvites(account.role) %> 
+    
     <% if (inviteCodes.length > 0 || !canGenerate) { %>
         <div class="container container-medium-width container-filled-background">
             <h1><%= __("Your invite Codes") %> </h1>
