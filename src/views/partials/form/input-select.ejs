@@ -5,7 +5,7 @@
     <% } %>
 
     <% select.options.forEach(option => { %>
-        <option <% if (formData[select.name] == option.value) { %>selected<% } %> value="<%= option.value %>"><%= option.displayName %></option>
+        <option <% if (formData[select.name] == option.value || select.value == option.value) { %>selected<% } %> value="<%= option.value %>"><%= option.displayName %></option>
     <% }) %>
 
 

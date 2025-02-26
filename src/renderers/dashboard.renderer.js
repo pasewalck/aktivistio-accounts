@@ -24,7 +24,6 @@ export default {
     services: (req,res) => {
       return res.render('dashboard/services', {
         title: res.__('Services'),
-        account: req.account,
         clients: config.clients
       });
     },
@@ -36,8 +35,6 @@ export default {
     account: (req,res) => {
       return res.render('dashboard/account', {
         title: res.__('Account'),
-        account: req.account,
-        accountInQuestion: req.account,
       });
     },
     /**
@@ -50,10 +47,8 @@ export default {
     accountChangePassword: (req,res,formData={},errors={}) => {
       return res.render('dashboard/account/password', {
         title: res.__('Account Password'),
-        account: req.account,
         errors:errors,
         formData:formData,
-        accountInQuestion: req.account
       });
     },
     /**
@@ -64,8 +59,6 @@ export default {
     twoFactorAuth: (req,res) => {
       return res.render('dashboard/account/2fa', {
         title: res.__('Account 2fa'),
-        account: req.account,
-        accountInQuestion: req.account,
         has2fa: accountDriver.get2faSecret(req.account.id) != null
       });
     },
@@ -84,7 +77,6 @@ export default {
 
       return res.render('dashboard/account/add-2fa', {
         title: res.__('Account 2fa'),
-        account: req.account,
         accountInQuestion: req.account,
         secret: secret,
         url:url,
@@ -101,7 +93,6 @@ export default {
     recovery: (req,res) => {
       return res.render('dashboard/account/recovery', {
         title: res.__('Account Recovery'),
-        account: req.account,
         currentRecovery: accountDriver.getRecovery(req.account.id)
       });
     },
@@ -115,7 +106,6 @@ export default {
     setRecoveryToken: (req,res,formData={},errors={}) => {
       return res.render('dashboard/account/set-recovery-token', {
         title: res.__('Account Recovery'),
-        account: req.account,
         accountInQuestion: req.account,
         errors: errors,
         formData: formData,
@@ -133,7 +123,6 @@ export default {
     setRecoveryEmail: (req,res,formData={},errors={}) => {
       return res.render('dashboard/account/set-recovery-email', {
         title: res.__('Account Recovery'),
-        account: req.account,
         errors: errors,
         formData: formData,
         accountInQuestion: req.account,
@@ -150,9 +139,9 @@ export default {
     deleteRecoveryMethod: (req,res,method,formData={},errors={}) => {
       return res.render('dashboard/account/remove-recovery-confirm', {
         title: res.__('Account Recovery'),
-        account: req.account,
         accountInQuestion: req.account,
         errors: errors,
+        formData: formData,
         method: method
       });
     },
@@ -166,7 +155,6 @@ export default {
     delete: (req,res,formData={},errors={}) => {
       return res.render('dashboard/account/delete', {
         title: res.__('Delete Account'),
-        account: req.account,
         errors:errors,
         formData:formData,
         accountInQuestion: req.account
@@ -180,10 +168,33 @@ export default {
     invites: (req,res) => {
       return res.render('dashboard/codes', {
         title: res.__('Codes'),
-        account: req.account,
         inviteCodes: req.account.getInvites(),
         lockedInviteCodes: req.account.getLockedInvites(),
-        canGenerate: accountDriver.Role.canGenerateInvites(req.account.role)
+      });
+    },
+    /**
+     * @description
+     * @param {Response} [res]
+     * @param {Request} [req]
+     */
+    users: (req,res) => {
+      console.log(accountDriver.getUsers())
+      return res.render('dashboard/users', {
+        title: res.__('Users'),
+        users: accountDriver.getUsers(),
+      });
+    },
+    /**
+     * @description
+     * @param {Response} [res]
+     * @param {Request} [req]
+     */
+    manageUser: (req,res,userId,formData={},errors={}) => {
+      return res.render('dashboard/manage-user', {
+        title: res.__('Managing User'),
+        errors: errors,
+        formData: formData,
+        managingAccount: accountDriver.findAccountWithId(userId),
       });
     },
     /**
@@ -195,7 +206,7 @@ export default {
       var inviteURL = config.baseUrl + "/register/"+invite
       return res.render('dashboard/invite-share', {
         title: res.__('Inviting'),
-        account: req.account,
+
         invite: invite,
         inviteURL: inviteURL,
         inviteQR: await QRCode.toDataURL(inviteURL,{width:300})

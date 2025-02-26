@@ -270,7 +270,7 @@ export default {
      * @param {Response} [res]
      * @param {Request} [req]
      */
-    terminateInvite: async (req,res) => {
+    terminateInvitePost: async (req,res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
@@ -280,5 +280,45 @@ export default {
 
         accountDriver.removeInvite(data.code)
         res.redirect("/invites")
+    },
+    users: async (req,res) => {
+        dashboardRenderer.users(req,res)
+    },
+    manageUser: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            throw new Error(errors.array()[0].msg)
+        }
+
+        dashboardRenderer.manageUser(req,res,data.id)
+    },
+    manageUserUpdatePost: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.manageUser(req,res,data.id,data,errors.mapped())
+        }
+
+        accountDriver.setAccountRole(data.id,data.accountUpdateRole)
+
+        res.redirect(`/user/${data.id}/`)
+    },
+    manageUserDeletePost: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        console.log(errors.array())
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.manageUser(req,res,data.id,data,errors.mapped())
+        }
+
+        accountDriver.deleteAccount(data.id)
+
+        res.redirect("/users/")
+
     },
 }

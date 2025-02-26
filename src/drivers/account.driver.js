@@ -45,7 +45,7 @@ dbDriver.db.exec(`
 /**
  * Enum for Account Roles.
  * @readonly
- * @enum {{name: string, id: string}}
+ * @enum {number}
  */
 class Role {
     static USER = 0;
@@ -57,48 +57,63 @@ class Role {
 
     /**
      * @description return whether a user role can regenerate invites
-     * @param {Number} [role]
-     * @returns {Boolean}
+     * @param {number} role
+     * @returns {boolean}
      */
-    static canRegenerateInvites(role) {
-        return [Role.MULTIPLIER].includes(role);
+    static regeneratingnvites(role) {
+        return role === Role.MULTIPLIER;
     }
-    /**
-     * @description return whether a user role can manage other user's roles
-     * @param {Number} [role]
-     * @returns {Boolean}
-     */
-    static canManageUsersRoles(role) {
-        return [Role.ADMIN,Role.MODERATOR,Role.SUPER_ADMIN].includes(role);;
-    }
-
     /**
      * @description return whether a user role can generate invites
-     * @param {Number} [role]
-     * @returns {Boolean}
+     * @param {number} role
+     * @returns {boolean}
      */
     static canGenerateInvites(role) {
-        return [Role.MULTIPLIER_UNLIMITED,Role.ADMIN,Role.MODERATOR,Role.SUPER_ADMIN].includes(role);
+        return [Role.MULTIPLIER_UNLIMITED, Role.ADMIN, Role.MODERATOR, Role.SUPER_ADMIN].includes(role);
     }
-
     /**
      * @description return whether a user role can manage other users
-     * @param {Number} [role]
-     * @returns {Boolean}
+     * @param {number} role
+     * @returns {boolean}
      */
     static canManageUsers(role) {
-        return [Role.ADMIN,Role.SUPER_ADMIN].includes(role);;
+        return [Role.MODERATOR, Role.ADMIN, Role.SUPER_ADMIN].includes(role);
     }
-
     /**
-     * @description return whether a user role can manage admin users
-     * @param {Number} [role]
-     * @returns {Boolean}
+     * @description Get a list of all roles
+    */
+    static all() {
+        return [Role.USER,Role.MULTIPLIER,Role.MULTIPLIER_UNLIMITED,Role.MODERATOR,Role.ADMIN,Role.SUPER_ADMIN]
+    }
+    /**
+     * @description Get a list of all roles
+    */
+    static allLower(roleCompare) {
+        var array = []
+        Role.all().forEach(role => {
+            if(role < roleCompare)
+                array.push(role)
+        });
+        return array;
+    }
+    /**
+     * @description Get the display name and color for a given role
+     * @param {number} role
+     * @returns {{name: string, color: string}} An object containing the display name and color of the role
      */
-    static canManageAdmins(role) {
-        return [Role.ADMIN,Role.SUPER_ADMIN].includes(role);;
+    static getRoleInfo(role) {
+        const roleInfo = {
+            [Role.USER]: { name: "User", color: "#3498db" }, // Blue
+            [Role.MULTIPLIER]: { name: "Multiplier", color: "#2ecc71" }, // Green
+            [Role.MULTIPLIER_UNLIMITED]: { name: "Unlimited Multiplier", color: "#f39c12" }, // Orange
+            [Role.MODERATOR]: { name: "Moderator", color: "#e67e22" }, // Dark Orange
+            [Role.ADMIN]: { name: "Admin", color: "#e74c3c" }, // Red
+            [Role.SUPER_ADMIN]: { name: "Super Admin", color: "#9b59b6" } // Purple 
+        };
+        return roleInfo[role] || { name: "Unknown Role", color: "#7f8c8d" }; // Gray for unknown roles
     }
 }
+
 /**
  * Represents an account.
  * @class [Account account]
@@ -306,12 +321,20 @@ async function setPassword (id,password) {
     setPasswordHash(id,await hashPassword(password));
 }
 /**
+ * @description 
+ * @param {string} [id]
+ * @param {string} [password]
+ */
+function setAccountRole (id,role) {
+    dbDriver.db.prepare('UPDATE accounts SET role_id = ? WHERE id = ?').run(role, id);
+}
+/**
  * @description create a new user
  * @param {string} [id]
  * @param {string} [passwordHash]
  */
 function setPasswordHash (id,passwordHash) {
-    dbDriver.db.prepare('UPDATE accounts SET password_hash = ?WHERE id = ?').run(passwordHash, id);
+    dbDriver.db.prepare('UPDATE accounts SET password_hash = ? WHERE id = ?').run(passwordHash, id);
 }
 /**
  * @description remove invite
@@ -319,6 +342,13 @@ function setPasswordHash (id,passwordHash) {
  */
 function removeInvite (code) {
     dbDriver.db.prepare('DELETE FROM invites WHERE code = ?').run(code);
+}
+/**
+ * @description 
+ * @returns {Array}
+ */
+function getUsers() {
+    return dbDriver.db.prepare('SELECT id,username,role_id as role FROM accounts').all();
 }
 /**
  * @description generate invite
@@ -377,5 +407,5 @@ if (dbDriver.isDbInit)
     logger.info(`Created user "${user}" with Password: "${password}"`)
 }
 export default {
-    createAccount,removeInvite,setPasswordHash,requestInvite,getRecovery,checkRecoveryEmail,checkRecoveryToken,generateInvite,get2faSecret,deleteAccount,setAccount2fa,setAccountRecoveryToken,setAccountRecoveryEmail,setAccountRecoveryTokenHash,setAccountRecoveryEmailHash,setPassword,checkPassword,validateInvite,consumeInvite,checkLogin,findAccountWithUsername,findAccountWithId,setAccountRecovery,Role,Account
+    createAccount,removeInvite,setPasswordHash,requestInvite,getUsers,setAccountRole,getRecovery,checkRecoveryEmail,checkRecoveryToken,generateInvite,get2faSecret,deleteAccount,setAccount2fa,setAccountRecoveryToken,setAccountRecoveryEmail,setAccountRecoveryTokenHash,setAccountRecoveryEmailHash,setPassword,checkPassword,validateInvite,consumeInvite,checkLogin,findAccountWithUsername,findAccountWithId,setAccountRecovery,Role,Account
 }

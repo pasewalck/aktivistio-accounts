@@ -3,8 +3,8 @@ import localize from "../../localize.js";
 import currentUserPasswordValidatorCopy from "../../util-validators/current-user-password.validator.js";
 
 export default [
-    currentUserPasswordValidatorCopy(body('currentPassword')),
-    body("confirm")
+    currentUserPasswordValidatorCopy(body('deleteAdminPassword')),
+    body("deleteAdminConfirm")
         .customSanitizer(input => {
             return Boolean(input)
         })
