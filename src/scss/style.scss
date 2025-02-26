@@ -26,6 +26,7 @@ p {
     font-weight: 400;
     color: variables.$darkcolor;
     font-size: 16px;
+    line-height: 17px;
     padding-bottom: 6px;
 }
 
@@ -347,6 +348,17 @@ h5 { font-size: 17px; padding-bottom: 6px; }
         font-size: 15px;
         font-weight: 400;
     }
+}
+
+// Scrollbox
+
+
+.scroll-box-limited {
+    border: solid variables.$grey 1px;
+    padding: 12px;
+    min-height: 100px;
+    max-height: 300px;
+    overflow-y: scroll;
 }
 
 // Form Layout Styles

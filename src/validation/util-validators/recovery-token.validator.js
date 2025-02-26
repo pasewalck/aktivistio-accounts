@@ -7,6 +7,5 @@ import localize from "../localize.js"
  */
 export default (validationChain) => {
     return validationChain.notEmpty().withMessage(localize('A valid recovery token must be selected.')).bail()
-    .escape()
     .custom((value) => isRecoveryToken(value)).withMessage(localize('Recovery token is not in valid format'))     
 }

@@ -120,7 +120,7 @@ export default {
         errors: errors,
         formData: formData,
         hasRecoveryToken: accountDriver.getRecovery(req.account.id)?.email != null,
-        recoveryToken: formData.recoveryToken || generateRecoveryToken()
+        recoveryToken: formData.token || generateRecoveryToken()
       });
     },
     /**

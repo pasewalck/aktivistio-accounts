@@ -1,4 +1,6 @@
-import { body, param } from "express-validator";
+import { param } from "express-validator";
+import localize from "../../localize.js";
+import accountDriver from "../../../drivers/account.driver.js";
 
 export default [
     param("invite").exists({checkFalsy: true}).withMessage(localize('Invite code is not defined')).bail()

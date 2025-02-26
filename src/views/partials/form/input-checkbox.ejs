@@ -1,5 +1,5 @@
 <div class="input-checkbox<% if (errors[checkbox.name]) { %> errored<% } %>">
-    <input name="recoveryTokenVerify" <%= checkbox.required ? "required" : "" %> type="checkbox" name="<%= checkbox.name %>"
+    <input <%= checkbox.required ? "required" : "" %> type="checkbox" name="<%= checkbox.name %>"
         <% if (!checkbox.blockValue && (formData[checkbox.name] || errors[checkbox.name]?.value)) { %>checked<% } %>
     >
     <label><%= checkbox.msg %></label> 

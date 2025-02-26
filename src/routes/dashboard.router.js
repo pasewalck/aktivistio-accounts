@@ -13,6 +13,7 @@ import generateInviteValidations from '../validation/validators/dashboard/genera
 import accountDriver from '../drivers/account.driver.js';
 import dashboardController from '../controllers/dashboard.controller.js';
 import logger from '../logger.js';
+import shareInviteValidators from '../validation/validators/dashboard/share.invite.validators.js';
 
 /**
  * @description bind controllers to routes for primary app
@@ -53,6 +54,6 @@ export default (app) => {
     app.get('/invites',middlewares,dashboardController.invites);
     app.post('/invites/generate',middlewares,generateInviteValidations,generateCheckUserPersmission(accountDriver.Role.canGenerateInvites),dashboardController.invitesGeneratePost);
 
-    app.get('/invites/share/:invite',middlewares,dashboardController.inviteShare);
+    app.get('/invites/share/:invite',middlewares,shareInviteValidators,dashboardController.inviteShare);
     app.post('/invites/terminate',middlewares,deleteInviteValidators,generateCheckUserPersmission(accountDriver.Role.canGenerateInvites),dashboardController.terminateInvite);
 }

@@ -1,0 +1,32 @@
+<div class="wrapper flex-container flex-container-vertical">
+    <div class="container-medium-width container-filled-background">
+
+        <h1><%= __('Consent') %></h1>
+
+        <div class="scroll-box-limited">
+           <div>
+            <%- consents %> 
+           </div>
+        </div>
+    
+        <form class="form" autocomplete="off" action="<%= app.baseUrl %>/register/consent/"method="post">
+        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+
+        <fieldset>
+    
+            <div id="recoveryTokenSection" class="form-group">
+                <%- include("../../partials/form/input-checkbox.ejs",{checkbox: {name:"verify",msg:__('I have read the above and consent.')}}) %>             
+            </div>
+            
+        </fieldset>
+
+        <div class="form-action-group">
+            <div class="button-group">
+                <button type="submit" class="button primary"><%= __('Create account') %></button>
+            </div>
+        </div>
+
+        </form>
+    
+    </div>
+</div>

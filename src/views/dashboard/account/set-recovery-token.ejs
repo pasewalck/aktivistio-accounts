@@ -24,14 +24,14 @@
 
                 <div class="form-group">
 
-                    <input type="hidden" name="recoveryToken" value="<%= recoveryToken %>">
+                    <input type="hidden" name="token" value="<%= recoveryToken %>">
                     <label class="label"><%= __('New Recovery Token') %></label> 
 
                     <div class="output-field">
                         <p><%= recoveryToken %></p>
                     </div>
 
-                    <%- include("../../partials/form/input-checkbox.ejs",{checkbox: {name:"recoveryTokenVerify",msg:__('I have written down the code')}}) %>             
+                    <%- include("../../partials/form/input-checkbox.ejs",{checkbox: {name:"tokenVerify",msg:__('I have written down the code')}}) %>             
                     
                 </div>
             

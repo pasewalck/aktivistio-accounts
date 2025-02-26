@@ -207,7 +207,7 @@ export default {
             return dashboardRenderer.setRecoveryEmail(req,res,data,errors.mapped())
         }
 
-        await accountDriver.setAccountRecoveryEmail(req.account.id,req.body.recoveryEmail)
+        await accountDriver.setAccountRecoveryEmail(req.account.id,req.body.email)
         res.redirect("/account/recovery")
     },
     /**
@@ -223,7 +223,7 @@ export default {
             return dashboardRenderer.setRecoveryToken(req,res,data,errors.mapped())
         }
 
-        await accountDriver.setAccountRecoveryToken(req.account.id,req.body.recoveryToken)
+        await accountDriver.setAccountRecoveryToken(req.account.id,req.body.token)
         res.redirect("/account/recovery")
     },
     /**

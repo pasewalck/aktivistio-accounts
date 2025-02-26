@@ -3,11 +3,10 @@
 
         <h1><%= __('Request recovery') %></h1>
     
-        <form class="form" autocomplete="off" action="" method="post">
+        <form class="form" autocomplete="off" action="<% app.baseUrl %>/account-recovery/request/" method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
     
         <fieldset>
-
 
             <div class="form-group">
                 <label class="label"><%= __('Your Username') %></label>
@@ -16,11 +15,10 @@
 
             <div class="form-group" >
                 <label class="label"><%= __('Recovery Method') %></label> 
-                <select class="select" name="method" id="recoverySelect">
-                    <option disabled selected value="none" style="display:none"><%= __('-- select a method --') %></option>
-                    <option value="email"><%= __('Recovery Email') %></option>
-                    <option value="token"><%= __('Recovery Token') %></option>
-                </select>
+                <%- include("../../partials/form/input-select.ejs",{select: {name:"method",id:"recoverySelect",options:[
+                    {value:"email",displayName:__('Recovery Email')},
+                    {value:"token",displayName:__('Recovery Token')}
+                ],defaultNone:{msg:__('-- select a method --')}}}) %>
             </div>
             
             <div id="recoveryEmailSection" class="form-group">
