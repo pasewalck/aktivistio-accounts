@@ -55,8 +55,6 @@ app.use(csrfProtection)
 
 app.use(i18n.init);
 
-
-
 logger.debug("Initializing express views and layouts")
 
 app.set('views', path.join(__dirname, 'views'));

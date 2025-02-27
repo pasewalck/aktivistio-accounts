@@ -11,5 +11,4 @@ export default [
             return Boolean(input)
         })
         .custom((value) => value == true).withMessage("Recovery token must be confirmed").bail()
-
 ]
