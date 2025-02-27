@@ -6,5 +6,12 @@ export default [
     param("id").exists({checkFalsy: true}).withMessage(localize('User id is not defined')).bail()
         .escape()
         .isUUID().withMessage(localize('User Id must be in UUID Format')).bail()
-        .custom((value) => (!!accountDriver.findAccountWithId(value))).withMessage(localize('No user for user id')),
+        .custom((value,{req}) => {
+            const account = accountDriver.findAccountWithId(value)
+            if(!account)
+                throw new Error(req.__('No user for user id'))
+            if(account.role >=  req.account.role)
+                throw new Error(req.__('Missing permission to manage that account'))
+            return true
+        }),
 ]
