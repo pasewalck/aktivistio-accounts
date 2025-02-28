@@ -379,7 +379,7 @@ function generateInvite (user = null,validationDurationDays=0,maxUses=1,expireDa
  * @returns {string|bool}
  */
 async function requestInvite(email) {
-    const emailFingerprint = await fingerprintString(email,config.fingerprintSalt)
+    const emailFingerprint = await fingerprintString(email,await secretDriver.getSecretEntries("FINGERPRINT_SALT",() => generateSecret(18)))
     
     var inviteCode = dbDriver.db.prepare('SELECT code FROM email_invite_requests WHERE email_fingerprint = ?').pluck().get(emailFingerprint)
     

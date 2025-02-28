@@ -1,9 +1,12 @@
 import { doubleCsrf } from 'csrf-csrf';
-import config from '../config.js';
+import secretDriver from '../drivers/secret.driver.js';
+import { generateSecret } from 'speakeasy';
+
+const secret = await secretDriver.getSecretEntries("CSRF_SECRET",() => generateSecret(40),{lifeTime:120,graceTime:2})
 
 const {doubleCsrfProtection} = doubleCsrf(
   {
-    getSecret: () => config.csrfSecret, 
+    getSecret: () => secret, 
     getSessionIdentifier: (req) => "",
     cookieName: "__Host-psifi.x-csrf-token",
     cookieOptions: {

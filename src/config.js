@@ -43,10 +43,6 @@ export default {
     port:load("port",3000),
     isSecureContext:load("is_secure",false),
     isBehindProxy:load("is_behind_proxy",false),
-    expressSessionSecret:await loadWithGenerator("express_session_secret",() => generateSecret()),
-    cookieParserSecret:await loadWithGenerator("cookie_parser_secret",() => generateSecret()),
-    csrfSecret:await loadWithGenerator("csrf_secret",() => generateSecret()),
-    fingerprintSalt:await loadWithGenerator("fingerprint_salt",() => generateSecret()),
     invitingMailProviders:load("inviting_mail_providers",{},true),
     databaseKey:await loadWithGenerator("database_key",() => generateSecret()),
     mail:load("mail",{},true),
@@ -60,11 +56,6 @@ export default {
             maxCount: load("regenerating_user_invite_count",3),
         }
     },
-    jwks:await loadWithGenerator("jwks",async () => {
-        const keyStore = jose.JWK.createKeyStore();
-        const result = await keyStore.generate("RSA", 2048, { alg: "RS256", use: "sig" })
-        return keyStore.toJSON(true);
-    }),
 }
 
 fs.writeFileSync("config.json",JSON.stringify(json, null, "  "));
