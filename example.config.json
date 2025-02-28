@@ -1,20 +1,5 @@
 {
   "app_name": "Movement",
-  "express_session_secret": "secret cat",
-  "cookie_parser_secret": "keyboard cat",
-  "csrf_secret": "another secret",
-  "jwks": {
-    "keys": [
-      {
-        "161": "def not RSA",
-        "antifa": "123456",
-        "1312": "789",
-        "cd": "101112",
-        "e": "abcd",
-        ":(": "Not going to add more dummy data at the moment"
-      }
-    ]
-  },
   "mail": {
     "host": "mail.example.com",
     "port": 465,
@@ -40,6 +25,5 @@
       ]
     }
   ],
-  "fingerprint_salt": "some fancy salt",
   "database_key": "super secret keyyyy"
 }

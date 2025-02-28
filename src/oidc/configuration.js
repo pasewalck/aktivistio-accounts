@@ -1,4 +1,5 @@
 import config from "../config.js";
+import secretDriver from "../drivers/secret.driver.js";
 import logger from "../logger.js";
 
 export default {
@@ -36,7 +37,13 @@ export default {
     pkce: {
       required: () => false,
     },
-    jwks: config.jwks,
+    jwks: {
+      keys: await secretDriver.getSecretEntries("OPEN_ID_JWKS",async () => {
+        const keyStore = jose.JWK.createKeyStore();
+        const result = await keyStore.generate("RSA", 2048, { alg: "RS256", use: "sig" })
+        return result.toJSON(true);
+      },{lifeTime:365,graceTime:30})
+    },
     cookies: {
       keys: ["subzero"],
     },

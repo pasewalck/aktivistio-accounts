@@ -3,6 +3,8 @@ import betterSqlite3SessionStore from 'better-sqlite3-session-store';
 
 import dbDriver from '../drivers/db.driver.js';
 import config from '../config.js';
+import secretDriver from '../drivers/secret.driver.js';
+import { generateSecret } from '../helpers/generate-secrets.js';
  
 const SqliteStore = betterSqlite3SessionStore(session)
 
@@ -21,7 +23,7 @@ const sessionMiddleware = session({
       maxAge: 4*60*1000, // four minute timeout
     },
     cookieName: 'express-session',
-    secret: config.expressSessionSecret,
+    secret: await secretDriver.getSecretEntries("EXPRESS_SESSION_SECRET",() => generateSecret(40),{lifeTime:120,graceTime:2}),
     resave: true,
     saveUninitialized: true,
     proxy: config.isBehindProxy,
