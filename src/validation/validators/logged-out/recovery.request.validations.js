@@ -2,8 +2,8 @@ import { body } from "express-validator"
 
 import { isRecoveryToken } from "../../../helpers/recovery-token-string.js"
 import localize from "../../localize.js"
-import accountDriver from "../../../drivers/account.driver.js"
 import usernameExistsValidator from "../../util-validators/username-exists.validator.js"
+import accountService from "../../../services/account.service.js"
 
 export default [
     usernameExistsValidator(body("username")),
@@ -20,8 +20,8 @@ export default [
             .escape()
             .isEmail().withMessage(localize('Email is not valid.'))
             .custom(async (value,{req}) => {
-              const account = await accountDriver.findAccountWithUsername(req.body?.username)
-              if(account && await accountDriver.checkRecoveryEmail(account.id,value))
+              const account = await accountService.find.withUsername(req.body?.username)
+              if(account && await accountService.recovery.email.check(account,value))
                 return true
               else
                 throw new Error(req.__('Recovery email is incorrect.'))
@@ -34,8 +34,8 @@ export default [
             .escape()
             .custom((value) => isRecoveryToken(value)).withMessage(localize('Recovery token is not in valid format.'))
             .custom(async (value,{req}) => {
-              const account = await accountDriver.findAccountWithUsername(req.body?.username)
-              if(account && await accountDriver.checkRecoveryToken(account.id,value))
+              const account = await accountService.find.withUsername(req.body?.username)
+              if(account && await accountService.recovery.token.check(account,value))
                 return true
               else
                 throw new Error(req.__('Recovery token is incorrect.'))

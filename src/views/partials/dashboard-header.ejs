@@ -5,7 +5,8 @@
             <nav class="main-nav">
                 <a href="/invites"><%= __("Invites") %> </a>
                 <a href="/services"><%= __("Services") %> </a>
-                <% if (Role.canManageUsers(account.role)) { %>
+                
+                <% if (hasPermission(account.role,"MANAGE_USERS")) { %>
                     <a href="/users"><%= __("Users") %> </a>
                 <% } %>
                 

@@ -2,8 +2,8 @@ import provider from "../oidc/provider.js"
 
 import { matchedData, validationResult } from "express-validator"
 import { setProviderSession } from "../oidc/session.js"
-import accountDriver from "../drivers/account.driver.js"
 import sharedRenderer from "../renderers/shared.renderer.js"
+import accountService from "../services/account.service.js"
 
 /**
  * @typedef {import("express").Request} Request
@@ -56,11 +56,11 @@ export default {
         }
         else {
 
-            let account = await accountDriver.checkLogin(data.username,data.password);
+            let account = await accountService.checkLogin(data.username,data.password);
 
             if (account) {
     
-                if(accountDriver.get2faSecret(account.id) != null)
+                if(accountService.twoFactorAuth.get(account) != null)
                 {
                     let token = crypto.randomUUID()
                     req.session.twoFactorLogin = {
@@ -97,7 +97,7 @@ export default {
         }
         else {
             let {accountId} = req.session.twoFactorLogin
-            let secret = accountDriver.get2faSecret(accountId)
+            let secret = accountService.twoFactorAuth.get(accountService.find.withId(accountId))
             if(secret == null)
                 throw new Error("No 2fa found for user")
             if(twoFactorAuth.verify(secret,data.token))

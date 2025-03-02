@@ -3,12 +3,13 @@ import provider from "../oidc/provider.js"
 
 import { matchedData, validationResult } from "express-validator"
 import { setProviderSession } from "../oidc/session.js"
-import accountDriver from "../drivers/account.driver.js"
-import mailsDriver from "../drivers/mails.driver.js"
+import accountService from "../services/account.service.js"
 import sharedRenderer from "../renderers/shared.renderer.js"
 import { generateNumberCode } from "../helpers/generate-secrets.js"
 import { hashPassword } from "../helpers/hash-string.js"
 import config from "../config.js"
+import invitesService from "../services/invites.service.js"
+import mailService from "../services/mail.service.js"
 
 /**
  * @typedef {import("express").Request} Request
@@ -63,9 +64,9 @@ export default {
         }
 
         const email = data.email;
-        const inviteCode = await accountDriver.requestInvite(email)
+        const inviteCode = await invitesService.requestWithEmail(email)
         console.log(inviteCode)
-        mailsDriver.sendInviteCode(inviteCode,email,res.locals)     
+        mailService.send.inviteCode(inviteCode,email,res.locals)     
         res.redirect("/register")
 
     },
@@ -90,7 +91,7 @@ export default {
             return dashboardAuthRenderer.recoveryRequest(res,data,errors.mapped())
         }
 
-        let account = accountDriver.findAccountWithUsername(data.username)
+        let account = accountService.find.withUsername(data.username)
         if(!account)
             throw new Error("No account for username")
 
@@ -98,7 +99,7 @@ export default {
             case "email":
                 const confirmCode = generateNumberCode()
                 setAccountRecoverySession(req,account.id,confirmCode)
-                mailsDriver.sendRecoveryCode(confirmCode,data.email,res.locals)
+                mailService.send.recoveryCode(confirmCode,data.email,res.locals)
                 dashboardAuthRenderer.recoveryConfirmCode(res)
                 break;
             case "token":
@@ -149,8 +150,10 @@ export default {
         if(!validated)
             throw new Error("Missing cofnirm token")
 
-        await accountDriver.setPassword(accountId,data.password)
-        await accountDriver.setAccount2fa(accountId,null)
+        const account = accountService.find.withId(accountId)
+
+        await accountService.password.set(account,data.password)
+        await accountService.twoFactorAuth.set(account,null)
 
         req.session.accountRecovery = null
 
@@ -213,21 +216,20 @@ export default {
         const accountSession = req.session.accountCreation
         req.session.accountCreation = null;
 
-        let account = await accountDriver.createAccount(accountSession.username,accountDriver.Role.USER)
-        accountDriver.setPasswordHash(account.id,accountSession.passwordHash)
+        let account = await accountService.create(accountSession.username,accountService.Role.USER)
+        accountService.password.set(account,accountSession.passwordHash)
 
         switch (accountSession.recoveryMethod) {
             case "email":
-                accountDriver.setAccountRecoveryEmailHash(account.id,accountSession.recoveryEmailHash)
+                accountService.recovery.email.setHash(account,accountSession.recoveryEmailHash)
                 break;
             case "token":
-                accountDriver.setAccountRecoveryTokenHash(account.id,accountSession.recoveryTokenHash)  
+                accountService.recovery.token.setHash(account,accountSession.recoveryTokenHash)  
                 break;
         }
 
-        accountDriver.consumeInvite(accountSession.inviteCode)
-        for (let i = 0; i < config.inviteCodes.newUsers.count; i++)
-            accountDriver.generateInvite(account,config.inviteCodes.newUsers.waitDays)
+        invitesService.consume(accountSession.inviteCode)
+        invitesService.generate.multi(config.inviteCodes.newUsers.count,{linkedAccount:account,validationDurationDays:config.inviteCodes.newUsers.waitDays})
 
         await setProviderSession(provider,req,res,{accountId: account.id})
         res.redirect('/');

@@ -1,5 +1,6 @@
-import accountDriver from "../drivers/account.driver.js";
+import { hasPermission, Permission, Role } from "../models/roles.js";
 import provider from "../oidc/provider.js";
+import accountService from "../services/account.service.js";
 
 /**
  * @description middleware for 
@@ -26,10 +27,12 @@ export async function userAuthMiddleware (req,res, next) {
     res.redirect('/login');
   }
   else {
-    const account = accountDriver.findAccountWithId(session.accountId);
+    const account = accountService.find.withId(session.accountId);
     req.account = account
     res.locals.account = account
-    res.locals.Role = accountDriver.Role;
+    res.locals.Role = Role;
+    res.locals.Permission = Permission;
+    res.locals.hasPermission = hasPermission
     next();
   }
 

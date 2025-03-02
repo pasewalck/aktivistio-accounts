@@ -178,5 +178,7 @@
 	"Update account": "Update account",
 	"Delete account": "Delete account",
 	"Missing confirmation": "Missing confirmation",
-	"Submit details": "Submit details"
+	"Submit details": "Submit details",
+	"Your confirm password does not match.": "Your confirm password does not match.",
+	"Account 2fa": "Account 2fa"
 }

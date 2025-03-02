@@ -1,4 +1,4 @@
-import accountDriver from "../../drivers/account.driver.js"
+import accountService from "../../services/account.service.js";
 import localize from "../localize.js"
 
 /**
@@ -9,7 +9,7 @@ export default (validationChain) => {
     return validationChain
         .exists({ checkFalsy: true }).bail().withMessage(localize('Password is required.'))
         .custom(async (value,{req}) => {
-            if(await accountDriver.checkPassword(req.account.id,value))
+            if(await accountService.password.check(req.account,value))
                 return true
             else
                 throw new Error(req.__('Password is incorrent.'));

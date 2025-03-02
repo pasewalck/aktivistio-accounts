@@ -16,8 +16,8 @@ import langController from './controllers/lang.controller.js';
 import errorsMiddleware from './middlewares/errors.middleware.js';
 import config from './config.js';
 import logger from './logger.js';
-import secretDriver from './drivers/secret.driver.js';
 import { generateSecret } from './helpers/generate-secrets.js';
+import secretService from './services/secret.service.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,7 +50,7 @@ app.use(express.static('src/public'))
 logger.debug("Initializing middlewares")
 
 app.use(sessionMiddleware)
-app.use(cookieParser(await secretDriver.getSecretEntries("COOKIE_PARSER_SECRET",() => generateSecret(40),{lifeTime:365,graceTime:30})))
+app.use(cookieParser(await secretService.getEntries("COOKIE_PARSER_SECRET",() => generateSecret(40),{lifeTime:365,graceTime:30})))
 app.use(express.urlencoded({ extended: true }));
 
 app.use(csrfProtection)

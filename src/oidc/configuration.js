@@ -1,6 +1,7 @@
-import config from "../config.js";
-import secretDriver from "../drivers/secret.driver.js";
+import jose from 'node-jose';
+
 import logger from "../logger.js";
+import secretService from "../services/secret.service.js";
 
 export default {
     features: {
@@ -38,10 +39,10 @@ export default {
       required: () => false,
     },
     jwks: {
-      keys: await secretDriver.getSecretEntries("OPEN_ID_JWKS",async () => {
+      keys: await secretService.getEntries("OPEN_ID_JWKS",async () => {
         const keyStore = jose.JWK.createKeyStore();
         const result = await keyStore.generate("RSA", 2048, { alg: "RS256", use: "sig" })
-        return result.toJSON(true);
+        return keyStore.toJSON(true).keys[0];
       },{lifeTime:365,graceTime:30})
     },
     cookies: {

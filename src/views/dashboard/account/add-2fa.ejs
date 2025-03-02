@@ -12,7 +12,7 @@
 
         <form class="form" action="/account/2fa/set" method="post">
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-            <input type="hidden" name="secret" value="<%- secret %> ">
+            <input type="hidden" name="secret" value="<%= secret %> ">
             
             <fieldset>
 
