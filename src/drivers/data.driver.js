@@ -1,8 +1,10 @@
+import { initDatabase } from "../helpers/database.js";
 import { Account } from "../models/accounts.js";
-import dbDriver from "./db.driver.js";
+
+const {db,isDbInit} = initDatabase("data",process.env.DATA_DATABASE_KEY)
 
 // Initialize the accounts table if it does not exist
-dbDriver.db.exec(`
+db.exec(`
     create table IF NOT EXISTS accounts (
       id TEXT NOT NULL PRIMARY KEY,
       username TEXT NOT NULL,
@@ -15,7 +17,7 @@ dbDriver.db.exec(`
 `);
 
 // Initialize the invites table if it does not exist
-dbDriver.db.exec(`
+db.exec(`
     create table IF NOT EXISTS invites (
       code TEXT NOT NULL PRIMARY KEY,
       validation_date INTEGER NOT NULL DEFAULT (strftime('%s','now')),
@@ -25,7 +27,7 @@ dbDriver.db.exec(`
 `);
 
 // Initialize the email invite requests table if it does not exist
-dbDriver.db.exec(`
+db.exec(`
     create table IF NOT EXISTS email_invite_requests (
       email_fingerprint INTEGER BLOB NOT NULL PRIMARY KEY,
       code TEXT REFERENCES invites (code) ON DELETE SET NULL
@@ -33,7 +35,7 @@ dbDriver.db.exec(`
 `);
 
 // Initialize the account invites table if it does not exist
-dbDriver.db.exec(`
+db.exec(`
     create table IF NOT EXISTS account_invites (
       code TEXT REFERENCES invites (code) ON DELETE CASCADE,
       id TEXT REFERENCES accounts (id) ON DELETE CASCADE,
@@ -48,7 +50,7 @@ export default {
      * @returns {Array<Object>} - An array of invite objects containing validation date, code, usages, and expiration date.
      */
     getInvitesForAccountById: (id) => {
-        return dbDriver.db.prepare(`
+        return db.prepare(`
             SELECT invites.validation_date as createDate,
                    invites.code,
                    invites.usages,
@@ -68,7 +70,7 @@ export default {
      * @returns {Array<Object>} - An array of locked invite objects.
      */
     getLockedInvitesForAccountById: (id) => {
-        return dbDriver.db.prepare(`
+        return db.prepare(`
             SELECT invites.validation_date as createDate,
                    invites.code,
                    invites.usages,
@@ -88,7 +90,7 @@ export default {
      * @returns {Account|null} - The account object if found, otherwise null.
      */
     getAccountWithUsername: (username) => {
-        let result = dbDriver.db.prepare('SELECT id, username, role_id as role FROM accounts WHERE username = ?').get(username);
+        let result = db.prepare('SELECT id, username, role_id as role FROM accounts WHERE username = ?').get(username);
         return result ? new Account(result.id, result.username, result.role) : null;
     },
 
@@ -98,7 +100,7 @@ export default {
      * @returns {Account|null} - The account object if found, otherwise null.
      */
     getAccountWithId: (id) => {
-        let result = dbDriver.db.prepare('SELECT id, username, role_id as role FROM accounts WHERE id = ?').get(id);
+        let result = db.prepare('SELECT id, username, role_id as role FROM accounts WHERE id = ?').get(id);
         return result ? new Account(result.id, result.username, result.role) : null;
     },
 
@@ -108,7 +110,7 @@ export default {
      * @returns {String|null} - The password hash if found, otherwise null.
      */
     getAccountPasswordHashWithUsername: (username) => {
-        return dbDriver.db.prepare('SELECT password_hash as passwordHash FROM accounts WHERE username = ?').pluck().get(username);
+        return db.prepare('SELECT password_hash as passwordHash FROM accounts WHERE username = ?').pluck().get(username);
     },
 
     /**
@@ -117,7 +119,7 @@ export default {
      * @returns {String|null} - The password hash if found, otherwise null.
      */
     getAccountPasswordHashWithId: (id) => {
-        return dbDriver.db.prepare('SELECT password_hash as passwordHash FROM accounts WHERE id = ?').pluck().get(id);
+        return db.prepare('SELECT password_hash as passwordHash FROM accounts WHERE id = ?').pluck().get(id);
     },
 
     /**
@@ -126,7 +128,7 @@ export default {
      * @returns {String|null} - The two-factor secret if found, otherwise null.
      */
     getAccountTwoFactorSecretWithId: (id) => {
-        return dbDriver.db.prepare('SELECT two_factor_secret as secret FROM accounts WHERE id = ?').pluck().get(id);
+        return db.prepare('SELECT two_factor_secret as secret FROM accounts WHERE id = ?').pluck().get(id);
     },
 
     /**
@@ -134,7 +136,7 @@ export default {
      * @param {String} id - The ID of the account to be deleted.
      */
     deleteAccountById: (id) => {
-        dbDriver.db.prepare('DELETE FROM accounts WHERE id = ?').run(id);
+        db.prepare('DELETE FROM accounts WHERE id = ?').run(id);
     },
 
     /**
@@ -145,7 +147,7 @@ export default {
      * @returns {Account} - The newly created account object.
      */
     createAccount: (id, username, role) => {
-        dbDriver.db.prepare('INSERT INTO accounts (id, username, role_id) VALUES (?, ?, ?)').run(id, username, role);
+        db.prepare('INSERT INTO accounts (id, username, role_id) VALUES (?, ?, ?)').run(id, username, role);
     },
 
     /**
@@ -154,7 +156,7 @@ export default {
      * @returns {JSON} - JSON contsining token and email hashes/null values
      */
     getAccountRecoveryById: (id) => {
-        return dbDriver.db.prepare('SELECT recovery_email_hash as email,recovery_token_hash as token FROM accounts WHERE id = ?').get(id);
+        return db.prepare('SELECT recovery_email_hash as email,recovery_token_hash as token FROM accounts WHERE id = ?').get(id);
     },
 
     /**
@@ -163,7 +165,7 @@ export default {
      * @returns {String|null} - The recovery email hash if found, otherwise null.
      */
     getAccountRecoveryEmailHashById: (id) => {
-        return dbDriver.db.prepare('SELECT recovery_email_hash FROM accounts WHERE id = ?').pluck().get(id);
+        return db.prepare('SELECT recovery_email_hash FROM accounts WHERE id = ?').pluck().get(id);
     },
 
     /**
@@ -172,7 +174,7 @@ export default {
      * @returns {String|null} - The recovery token hash if found, otherwise null.
      */
     getAccountRecoveryTokenHashById: (id) => {
-        return dbDriver.db.prepare('SELECT recovery_token_hash FROM accounts WHERE id = ?').pluck().get(id);
+        return db.prepare('SELECT recovery_token_hash FROM accounts WHERE id = ?').pluck().get(id);
     },
 
     /**
@@ -181,7 +183,7 @@ export default {
      * @param {String|undefined} emailHash - The new recovery email hash to set.
      */
     setAccountRecoveryEmailHashById: (id, emailHash) => {
-        dbDriver.db.prepare('UPDATE accounts SET recovery_email_hash = ? WHERE id = ?').run(emailHash, id);
+        db.prepare('UPDATE accounts SET recovery_email_hash = ? WHERE id = ?').run(emailHash, id);
     },
 
     /**
@@ -190,7 +192,7 @@ export default {
      * @param {String|undefined} tokenHash - The new recovery token hash to set.
      */
     setAccountRecoveryTokenHashById: (id, tokenHash) => {
-        dbDriver.db.prepare('UPDATE accounts SET recovery_token_hash = ? WHERE id = ?').run(tokenHash, id);
+        db.prepare('UPDATE accounts SET recovery_token_hash = ? WHERE id = ?').run(tokenHash, id);
     },
 
     /**
@@ -199,7 +201,7 @@ export default {
      * @param {String|undefined} secret - The new two-factor authentication secret to set.
      */
     setAccountTwoFactorAuthSecretById: (id, secret) => {
-        dbDriver.db.prepare('UPDATE accounts SET two_factor_secret = ? WHERE id = ?').run(secret, id);
+        db.prepare('UPDATE accounts SET two_factor_secret = ? WHERE id = ?').run(secret, id);
     },
 
     /**
@@ -208,7 +210,7 @@ export default {
      * @param {String} passwordHash - The new password hash to set.
      */
     setAccountPasswordHashById: (id, passwordHash) => {
-        dbDriver.db.prepare('UPDATE accounts SET password_hash = ? WHERE id = ?').run(passwordHash, id);
+        db.prepare('UPDATE accounts SET password_hash = ? WHERE id = ?').run(passwordHash, id);
     },
 
     /**
@@ -217,7 +219,7 @@ export default {
      * @param {number} role - The new role ID to set.
      */
     setAccountRoleById: (id, role) => {
-        dbDriver.db.prepare('UPDATE accounts SET role_id = ? WHERE id = ?').run(role, id);
+        db.prepare('UPDATE accounts SET role_id = ? WHERE id = ?').run(role, id);
     },
 
     /**
@@ -225,7 +227,7 @@ export default {
      * @returns {Array<Object>} - An array of account objects containing ID, username, and role.
      */
     getAllAccounts: () => {
-        return dbDriver.db.prepare('SELECT id, username, role_id as role FROM accounts').all();
+        return db.prepare('SELECT id, username, role_id as role FROM accounts').all();
     },
 
     /**
@@ -233,8 +235,8 @@ export default {
      * @param {String} code - The invite code to consume.
      */
     consumeInviteCode: (code) => {
-        dbDriver.db.prepare('UPDATE invites SET usages = usages - 1 WHERE code = ?').run(code);
-        dbDriver.db.prepare('DELETE FROM invites WHERE code = ? AND usages = 0').run(code);
+        db.prepare('UPDATE invites SET usages = usages - 1 WHERE code = ?').run(code);
+        db.prepare('DELETE FROM invites WHERE code = ? AND usages = 0').run(code);
     },
 
     /**
@@ -243,7 +245,7 @@ export default {
      * @returns {boolean} - True if the invite code is valid, otherwise false.
      */
     checkIfInviteCodeIsValid: (code) => {
-        return dbDriver.db.prepare(`
+        return db.prepare(`
             SELECT code 
             FROM invites 
             WHERE code = ? 
@@ -257,7 +259,7 @@ export default {
      * @param {String} code - The invite code to remove.
      */
     removeInviteCode: (code) => {
-        dbDriver.db.prepare('DELETE FROM invites WHERE code = ?').run(code);
+        db.prepare('DELETE FROM invites WHERE code = ?').run(code);
     },
 
     /**
@@ -269,7 +271,7 @@ export default {
      * @returns {String} - The invite code that was added.
      */
     addInviteCode: (code, maxUses = 1, validationDateSeconds = Date.now() / 1000, expireDateSeconds=null) => {
-        dbDriver.db.prepare(`
+        db.prepare(`
             INSERT INTO invites (code, usages, validation_date, expire_date) 
             VALUES (?, ?, strftime('%s','now') + ?, ?)
         `).run(code, maxUses, validationDateSeconds, expireDateSeconds);
@@ -281,7 +283,7 @@ export default {
      * @param {String} userId - The ID of the user account to link the invite to.
      */
     linkInviteCodeToAccountById: (code, userId) => {
-        dbDriver.db.prepare('INSERT INTO account_invites (code, id) VALUES (?, ?)').run(code, userId);
+        db.prepare('INSERT INTO account_invites (code, id) VALUES (?, ?)').run(code, userId);
     },
 
     /**
@@ -290,7 +292,7 @@ export default {
      * @returns {String|null} - The invite code if found, otherwise null.
      */
     getInviteCodeByLinkedEmail: (emailFingerprint) => {
-        return dbDriver.db.prepare('SELECT code FROM email_invite_requests WHERE email_fingerprint = ?').pluck().get(emailFingerprint);
+        return db.prepare('SELECT code FROM email_invite_requests WHERE email_fingerprint = ?').pluck().get(emailFingerprint);
     },
 
     /**
@@ -299,9 +301,9 @@ export default {
      * @param {String} emailFingerprint - The fingerprint of the email to link the invite to.
      */
     linkInviteCodeToEmail: (inviteCode, emailFingerprint) => {
-        dbDriver.db.prepare('INSERT INTO email_invite_requests (email_fingerprint, code) VALUES (?, ?)').run(emailFingerprint, inviteCode);
+        db.prepare('INSERT INTO email_invite_requests (email_fingerprint, code) VALUES (?, ?)').run(emailFingerprint, inviteCode);
     },
-    dbDriver: dbDriver
+    isDbInit: isDbInit
 };
 
 

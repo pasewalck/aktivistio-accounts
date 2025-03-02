@@ -1,17 +1,18 @@
 import session from 'express-session';
 import betterSqlite3SessionStore from 'better-sqlite3-session-store';
 
-import dbDriver from '../drivers/db.driver.js';
 import config from '../config.js';
 import { generateSecret } from '../helpers/generate-secrets.js';
 import secretService from '../services/secret.service.js';
+import { initDatabase } from '../helpers/database.js';
  
 const SqliteStore = betterSqlite3SessionStore(session)
 
+const {db} = initDatabase("sessions",process.env.SESSIONS_DATABASE_KEY)
 
 const sessionMiddleware = session({
     store: new SqliteStore({
-      client: dbDriver.db, 
+      client: db, 
       expired: {
         clear: true,
         intervalMs: 15 * 60 * 1000 //ms = 15min
