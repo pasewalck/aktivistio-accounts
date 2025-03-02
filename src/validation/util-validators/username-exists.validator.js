@@ -1,4 +1,4 @@
-import accountDriver from "../../drivers/account.driver.js"
+import accountService from "../../services/account.service.js"
 import localize from "../localize.js"
 
 /**
@@ -11,5 +11,5 @@ export default (validationChain) => {
         .escape()
         .toLowerCase()
         .isAlphanumeric().withMessage(localize('Username is in invalid format')).bail()
-        .custom((value) => (accountDriver.findAccountWithUsername(value))).withMessage(localize("No Account for username can be found"))
+        .custom((value) => (accountService.find.withUsername(value))).withMessage(localize("No Account for username can be found"))
 } 

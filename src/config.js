@@ -1,5 +1,4 @@
 import fs from 'fs';
-import jose from 'node-jose';
 import { generateSecret } from './helpers/generate-secrets.js';
 import logger from './logger.js';
 

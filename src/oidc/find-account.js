@@ -1,7 +1,7 @@
-import accountDriver from "../drivers/account.driver.js";
+import accountService from "../services/account.service.js";
 
 export default async function findAccount(ctx, id) {
-    const account = accountDriver.findAccountWithId(id);
+    const account = accountService.find.withId(id);
     return (
         {
           accountId: id,

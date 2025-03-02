@@ -1,10 +1,10 @@
 import QRCode from "qrcode"
 
-import twoFactorAuth from "../helpers/two-factor-auth.js";
-import accountDriver from "../drivers/account.driver.js";
-
 import { generateRecoveryToken } from "../helpers/recovery-token-string.js";
+
+import twoFactorAuth from "../helpers/two-factor-auth.js";
 import config from "../config.js";
+import accountService from "../services/account.service.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -45,6 +45,7 @@ export default {
      * @param {JSON} [errors]
      */
     accountChangePassword: (req,res,formData={},errors={}) => {
+      console.log(errors)
       return res.render('dashboard/account/password', {
         title: res.__('Account Password'),
         errors:errors,
@@ -59,7 +60,7 @@ export default {
     twoFactorAuth: (req,res) => {
       return res.render('dashboard/account/2fa', {
         title: res.__('Account 2fa'),
-        has2fa: accountDriver.get2faSecret(req.account.id) != null
+        has2fa: accountService.twoFactorAuth.get(req.account) != null
       });
     },
     /**
@@ -70,7 +71,7 @@ export default {
      * @param {JSON} [formData]
      * @param {JSON} [errors]
      */
-    addTwoFactorAuth: async (req,res,formData={},errors=undefined) => {
+    addTwoFactorAuth: async (req,res,formData={},errors={}) => {
       let secret = formData.providedSecret || twoFactorAuth.generateSecret()
       let url = twoFactorAuth.generateUrl(secret,config.applicationName,req.account.username);
       let qrCodeSrc = await QRCode.toDataURL(url)
@@ -93,7 +94,7 @@ export default {
     recovery: (req,res) => {
       return res.render('dashboard/account/recovery', {
         title: res.__('Account Recovery'),
-        currentRecovery: accountDriver.getRecovery(req.account.id)
+        currentRecovery: accountService.recovery.get(req.account)
       });
     },
     /**
@@ -109,7 +110,7 @@ export default {
         accountInQuestion: req.account,
         errors: errors,
         formData: formData,
-        hasRecoveryToken: accountDriver.getRecovery(req.account.id)?.email != null,
+        hasRecoveryToken: accountService.recovery.get(req.account)?.token != null,
         recoveryToken: formData.token || generateRecoveryToken()
       });
     },
@@ -126,7 +127,7 @@ export default {
         errors: errors,
         formData: formData,
         accountInQuestion: req.account,
-        hasRecoveryEmail: accountDriver.getRecovery(req.account.id)?.email != null
+        hasRecoveryEmail: accountService.recovery.get(req.account)?.email != null
       });
     },
     /**
@@ -178,10 +179,9 @@ export default {
      * @param {Request} [req]
      */
     users: (req,res) => {
-      console.log(accountDriver.getUsers())
       return res.render('dashboard/users', {
         title: res.__('Users'),
-        users: accountDriver.getUsers(),
+        users: accountService.getAll(),
       });
     },
     /**
@@ -194,7 +194,7 @@ export default {
         title: res.__('Managing User'),
         errors: errors,
         formData: formData,
-        managingAccount: accountDriver.findAccountWithId(userId),
+        managingAccount: accountService.find.withId(userId),
       });
     },
     /**

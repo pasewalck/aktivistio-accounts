@@ -1,8 +1,8 @@
 import { doubleCsrf } from 'csrf-csrf';
-import secretDriver from '../drivers/secret.driver.js';
-import { generateSecret } from 'speakeasy';
+import secretService from '../services/secret.service.js';
+import { generateSecret } from '../helpers/generate-secrets.js';
 
-const secret = await secretDriver.getSecretEntries("CSRF_SECRET",() => generateSecret(40),{lifeTime:120,graceTime:2})
+const secret = await secretService.getEntries("CSRF_SECRET",() => generateSecret(40),{lifeTime:120,graceTime:2})
 
 const {doubleCsrfProtection} = doubleCsrf(
   {

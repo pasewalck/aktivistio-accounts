@@ -4,7 +4,7 @@ import dbDriver from "./db.driver.js";
 dbDriver.db.exec(`
     create table IF NOT EXISTS adapter_values (
         id text PRIMARY KEY,
-        value text not null,
+        value text NOT NULL,
         expire INTEGER
     );
 `)
@@ -22,13 +22,7 @@ function remove (id) {
  * @returns {JSON}
  */
 function get (id) {
-    let result = dbDriver.db.prepare('SELECT value FROM adapter_values WHERE id = ?').get(id);
-    if(result == undefined)
-        return undefined;
-    else if(result.expire < Math.floor(Date.now() / 1000))
-        return undefined;
-    else
-        return JSON.parse(result.value);
+    return dbDriver.db.prepare('SELECT value FROM adapter_values WHERE id = ? AND expire >= ?').get(id,Math.floor(Date.now() / 1000));
 }
 /**
  * @description set entry from storage
@@ -36,17 +30,27 @@ function get (id) {
  * @param {string} [value]
  * @param {Number} [expire=null]
  */
-function set (id,value,expire=null) {
-    let encodedValue = JSON.stringify(value)
-    expire = expire ? expire + Math.floor(Date.now() / 1000) : null;
-    if(!get(id))
-        dbDriver.db.prepare('INSERT INTO adapter_values (id,value, expire) VALUES (?, ?,?)').run(id,encodedValue,expire);
-    else if (expire = null)
-        dbDriver.db.prepare('UPDATE adapter_values SET value = ? WHERE id = ?').run(encodedValue,id);
-    else
-        dbDriver.db.prepare('UPDATE adapter_values SET value = ?,expire = ? WHERE id = ?').run(encodedValue,expire,id);
+function insert (id,value,expire=null) {
+    dbDriver.db.prepare('INSERT INTO adapter_values (id,value, expire) VALUES (?, ?,?)').run(id,value,expire);
+}
+/**
+ * @description set entry from storage
+ * @param {string} [id]
+ * @param {string} [value]
+ */
+function setValue (id,value) {
+    dbDriver.db.prepare('UPDATE adapter_values SET value = ? WHERE id = ?').run(value,id);
+}
+
+/**
+ * @description set entry from storage
+ * @param {string} [id]
+ * @param {Number} [expire]
+ */
+function setExpire (id,expire) {
+    dbDriver.db.prepare('UPDATE adapter_values SET expire = ? WHERE id = ?').run(expire,id);
 }
 
 export default {
-    remove,get,set
+    remove,get,setExpire,setValue,insert
 }

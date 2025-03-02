@@ -1,7 +1,8 @@
 import dashboardRenderer from "../renderers/dashboard.renderer.js";
 import provider from "../oidc/provider.js";
-import accountDriver from "../drivers/account.driver.js";
 import { matchedData, validationResult } from "express-validator";
+import accountService from "../services/account.service.js";
+import invitesService from "../services/invites.service.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -50,7 +51,7 @@ export default {
             return dashboardRenderer.accountChangePassword(req,res,data,errors.mapped())
         }
 
-        await accountDriver.setPassword(req.account.id,data.newPassword)
+        await accountService.password.set(req.account,data.newPassword)
         res.redirect("/account")
 
     },
@@ -77,7 +78,7 @@ export default {
 
         const session = await provider.Session.get(provider.app.createContext(req,res))
         session.destroy();        
-        accountDriver.deleteAccount(req.account.id)
+        accountService.delete(req.account)
         res.redirect("/")
     },
     /**
@@ -110,7 +111,7 @@ export default {
             return dashboardRenderer.addTwoFactorAuth(req,res,data,errors.mapped())
         }
 
-        accountDriver.setAccount2fa(req.account.id,req.body.secret)
+        accountService.twoFactorAuth.set(req.account,req.body.secret)
         res.redirect("/account/2fa")
     },
     /**
@@ -119,7 +120,7 @@ export default {
      * @param {Request} [req]
      */
     accountRemove2faPost: async (req,res) => {
-        accountDriver.setAccount2fa(req.account.id,null)
+        accountService.twoFactorAuth.set(req.account,null)
         res.redirect("/account/2fa")
     },
     /**
@@ -175,7 +176,7 @@ export default {
             return dashboardRenderer.deleteRecoveryMethod(req,res,"email",data,errors.mapped())
         }
 
-        await accountDriver.setAccountRecoveryEmail(req.account.id,null)
+        await accountService.recovery.email.set(req.account,null)
         res.redirect("/account/recovery")
     },
     /**
@@ -191,7 +192,7 @@ export default {
             return dashboardRenderer.deleteRecoveryMethod(req,res,"email",data,errors.mapped())
         }
 
-        await accountDriver.setAccountRecoveryToken(req.account.id,null)
+        await accountService.recovery.token.set(req.account,null)
         res.redirect("/account/recovery")
     },
     /**
@@ -207,7 +208,7 @@ export default {
             return dashboardRenderer.setRecoveryEmail(req,res,data,errors.mapped())
         }
 
-        await accountDriver.setAccountRecoveryEmail(req.account.id,req.body.email)
+        await accountService.recovery.email.set(req.account,data.email)
         res.redirect("/account/recovery")
     },
     /**
@@ -223,7 +224,7 @@ export default {
             return dashboardRenderer.setRecoveryToken(req,res,data,errors.mapped())
         }
 
-        await accountDriver.setAccountRecoveryToken(req.account.id,req.body.token)
+        await accountService.recovery.token.set(req.account,req.body.token)
         res.redirect("/account/recovery")
     },
     /**
@@ -262,7 +263,7 @@ export default {
             throw new Error(errors.array()[0].msg)
         }
 
-        accountDriver.generateInvite(req.account,0,parseInt(data.count, 10),data.date ? data.date : null)
+        invitesService.generate.single({maxUses:parseInt(data.count, 10),linkedAccount:req.account,expireDate:data.date ? data.date : null})
         res.redirect("/invites")
     },
     /**
@@ -278,7 +279,7 @@ export default {
             throw new Error(errors.array()[0].msg)
         }
 
-        accountDriver.removeInvite(data.code)
+        invitesService.remove(data.code)
         res.redirect("/invites")
     },
     users: async (req,res) => {
@@ -302,7 +303,7 @@ export default {
             return dashboardRenderer.manageUser(req,res,data.id,data,errors.mapped())
         }
 
-        accountDriver.setAccountRole(data.id,data.accountUpdateRole)
+        accountService.setRole(accountService.find.withId(data.id),data.accountUpdateRole)
 
         res.redirect(`/user/${data.id}/`)
     },
@@ -316,7 +317,7 @@ export default {
             return dashboardRenderer.manageUser(req,res,data.id,data,errors.mapped())
         }
 
-        accountDriver.deleteAccount(data.id)
+        accountService.delete(accountService.find.withId(data.id))
 
         res.redirect("/users/")
 

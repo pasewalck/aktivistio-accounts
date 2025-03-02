@@ -1,12 +1,12 @@
 import { body } from "express-validator";
-import accountDriver from "../../../drivers/account.driver.js";
 import localize from "../../localize.js";
+import { Role } from "../../../models/roles.js";
 
 export default [
     body("accountUpdateRole")
       .exists({checkFalsy: true}).withMessage(localize('A new account role must be selected')).bail()
       .escape()
       .isString()
-      .isIn(accountDriver.Role.all()).withMessage(localize('A valid role be defined.')).bail()
+      .isIn(Role.all()).withMessage(localize('A valid role be defined.')).bail()
       .custom((value,{req}) => value < req.account.role).withMessage(localize('User can not be granted a higher role than admin granting it.')).bail(),
 ]

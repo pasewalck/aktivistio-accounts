@@ -1,4 +1,4 @@
-import adapterDriver from "../drivers/adapter.driver.js";
+import adapterService from "../services/adapter.service.js";
 
 /**
  * @description get grant key for id
@@ -60,16 +60,16 @@ class Adapter {
      */
     async destroy(id) {
       const key = this.key(id);
-      adapterDriver.remove(key);
+      adapterService.removeEntry(id)
     }
     /**
      * @description consume item with id of current model
      * @param {String} [id]
      */
     async consume(id) {
-      let v = adapterDriver.get(this.key(id))
+      let v = adapterService.getEntry(this.key(id))
       v.consumed = Math.floor(Date.now() / 1000);
-      adapterDriver.set(id,v)
+      adapterService.setEntry(id,v)
     }
     /**
      * @description find item with id of current model
@@ -77,7 +77,7 @@ class Adapter {
      * @returns {JSON}
      */
     async find(id) {
-      return adapterDriver.get(this.key(id));
+      return adapterService.getEntry(this.key(id));
     }
     /**
      * @description find item with uid of current model
@@ -85,7 +85,7 @@ class Adapter {
      * @returns {JSON}
      */
     async findByUid(uid) {
-      const id = adapterDriver.get(sessionUidKeyFor(uid));
+      const id = adapterService.getEntry(sessionUidKeyFor(uid));
       return this.find(id);
     }
     /**
@@ -94,7 +94,7 @@ class Adapter {
      * @returns {JSON}
      */
     async findByUserCode(userCode) {
-      const id = adapterDriver.get(userCodeKeyFor(userCode));
+      const id = adapterService.getEntry(userCodeKeyFor(userCode));
       return this.find(id);
     }
       /**
@@ -107,25 +107,25 @@ class Adapter {
       const key = this.key(id);
   
       if (this.model === 'Session') {
-        adapterDriver.set(sessionUidKeyFor(payload.uid), id, expiresIn);
+        adapterService.setEntry(sessionUidKeyFor(payload.uid), id, expiresIn);
       }
   
       const { grantId, userCode } = payload;
       if (grantable.has(this.model) && grantId) {
         const grantKey = grantKeyFor(grantId);
-        const grant = adapterDriver.get(grantKey);
+        const grant = adapterService.getEntry(grantKey);
         if (!grant) {
-          adapterDriver.set(grantKey, [key]);
+          adapterService.setEntry(grantKey, [key]);
         } else {
           grant.push(key);
         }
       }
   
       if (userCode) {
-        adapterDriver.set(userCodeKeyFor(userCode), id, expiresIn);
+        adapterService.setEntry(userCodeKeyFor(userCode), id, expiresIn);
       }
   
-      adapterDriver.set(key, payload, expiresIn);
+      adapterService.setEntry(key, payload, expiresIn);
     }
     /**
      * @description revoke by grantId
@@ -133,10 +133,10 @@ class Adapter {
      */
     async revokeByGrantId(grantId) {
       const grantKey = grantKeyFor(grantId);
-      const grant = adapterDriver.get(grantKey);
+      const grant = adapterService.getEntry(grantKey);
       if (grant) {
-        grant.forEach((token) => adapterDriver.remove(token));
-        adapterDriver.remove(grantKey);
+        grant.forEach((token) => adapterService.removeEntry(token));
+        adapterService.removeEntry(grantKey);
       }
     }
   }

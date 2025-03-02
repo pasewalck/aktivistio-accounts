@@ -7,9 +7,8 @@ import currentUserPasswordValidatorCopy from "../../util-validators/current-user
 export default [
     currentUserPasswordValidatorCopy(body('currentPassword')),
     createPasswordValidator(body('newPassword')),
-    body('passwordConfirm')
+    body('confirmNewPassword')
       .exists({checkFalsy: true}).withMessage(localize('Password must be confirmed.')).bail()
-      .escape()
-      .custom((value, {req}) => value === req.body.password).withMessage(localize('Your confirm password does not match.')),
+      .custom((value, {req}) => value === req.body.newPassword).withMessage(localize('Your confirm password does not match.')),
     
   ]

@@ -1,10 +1,4 @@
-import { body, oneOf } from "express-validator"
-import { isRecoveryToken } from "../../../helpers/recovery-token-string.js"
-import accountDriver from "../../../drivers/account.driver.js"
-import zxcvbn from "zxcvbn";
-import localize from "../../localize.js";
-import createPasswordValidator from "../../util-validators/create-password.validator.js";
-import recoveryTokenValidator from "../../util-validators/recovery-token.validator.js";
+import { body } from "express-validator"
 
 export default [
   body("verify")
