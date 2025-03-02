@@ -1,7 +1,7 @@
 import { generateTypeableCode } from "../helpers/generate-secrets.js";
 import { fingerprintString } from "../helpers/fingerprint-string.js";
 import { Account } from "../models/accounts.js";
-import userdataDriver from "../drivers/userdata.driver.js";
+import userdataDriver from "../drivers/data.driver.js";
 import secretService from "./secret.service.js";
 /**
  * @description Retrieves invite codes for a specific account.

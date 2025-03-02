@@ -1,7 +1,9 @@
-import dbDriver from "./db.driver.js";
+import { initDatabase } from "../helpers/database.js";
+
+const {db} = initDatabase("secrets",process.env.SECRETS_DATABASE_KEY)
 
 // Initialize tables for the storage
-dbDriver.db.exec(`
+db.exec(`
     create table IF NOT EXISTS secrets (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name text not null,
@@ -16,7 +18,7 @@ dbDriver.db.exec(`
  * @returns {Array<{}>} - An array of secret values
  */
 function getEntries(name) {
-    return dbDriver.db.prepare('SELECT value, created FROM secrets WHERE name = ? ORDER BY created DESC').all(name);
+    return db.prepare('SELECT value, created FROM secrets WHERE name = ? ORDER BY created DESC').all(name);
 }
 
 /**
@@ -26,7 +28,7 @@ function getEntries(name) {
  * @returns {Array<{}>} - An array of secret values
  */
 function cleanEntries(name,createdBefore) {
-    dbDriver.db.prepare(`DELETE FROM secrets WHERE created < ? AND name = ?`).run(createdBefore,name);
+    db.prepare(`DELETE FROM secrets WHERE created < ? AND name = ?`).run(createdBefore,name);
 }
 
 /**
@@ -36,7 +38,7 @@ function cleanEntries(name,createdBefore) {
  * @returns {JSON|String}
  */
 function addEntry (name,value) {
-    dbDriver.db.prepare('INSERT INTO secrets (name,value) VALUES (?,?)').run(name,value);
+    db.prepare('INSERT INTO secrets (name,value) VALUES (?,?)').run(name,value);
 }
 
 export default {

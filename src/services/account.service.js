@@ -1,7 +1,7 @@
 import { generatePassword } from "../helpers/generate-secrets.js";
 import logger from "../logger.js";
 import { Account } from "../models/accounts.js";
-import userdataDriver from "../drivers/userdata.driver.js";
+import userdataDriver from "../drivers/data.driver.js";
 import twoFactorAuth from "../helpers/two-factor-auth.js";
 import { hashPassword, isHashValid } from "../helpers/hash-string.js";
 import invitesService from "./invites.service.js";
@@ -216,7 +216,7 @@ function getAll() {
 }
 
 // Initialization block for creating an administration account if the database is initialized
-if (userdataDriver.dbDriver.isDbInit) {
+if (userdataDriver.isDbInit) {
     logger.debug(`Creating administration account`);
 
     const user = "admin";
