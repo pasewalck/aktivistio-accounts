@@ -60,7 +60,7 @@ class Adapter {
      */
     async destroy(id) {
       const key = this.key(id);
-      adapterService.removeEntry(id)
+      adapterService.removeEntry(key)
     }
     /**
      * @description consume item with id of current model
