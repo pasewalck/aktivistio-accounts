@@ -7,7 +7,6 @@ import accountService from "../services/account.service.js"
 import sharedRenderer from "../renderers/shared.renderer.js"
 import { generateNumberCode } from "../helpers/generate-secrets.js"
 import { hashPassword } from "../helpers/hash-string.js"
-import config from "../config.js"
 import invitesService from "../services/invites.service.js"
 import mailService from "../services/mail.service.js"
 
@@ -229,7 +228,7 @@ export default {
         }
 
         invitesService.consume(accountSession.inviteCode)
-        invitesService.generate.multi(config.inviteCodes.newUsers.count,{linkedAccount:account,validationDurationDays:config.inviteCodes.newUsers.waitDays})
+        invitesService.generate.multi(3,{linkedAccount:account,validationDurationDays:14})
 
         await setProviderSession(provider,req,res,{accountId: account.id})
         res.redirect('/');

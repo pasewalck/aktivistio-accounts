@@ -1,6 +1,7 @@
 import { initDatabase } from "../helpers/database.js";
+import env from "../helpers/env.js";
 
-const {db} = initDatabase("oidc",process.env.OIDC_DATABASE_KEY)
+const {db} = initDatabase("oidc",env.DATABASE_KEYS.OIDC)
 
 // Initialize tables for the storage
 db.exec(`

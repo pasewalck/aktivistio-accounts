@@ -1,4 +1,4 @@
-import logger from "../logger.js"
+import logger from "../helpers/logger.js"
 import sharedRenderer from "../renderers/shared.renderer.js"
 
 /**

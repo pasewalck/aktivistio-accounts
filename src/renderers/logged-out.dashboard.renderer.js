@@ -1,8 +1,7 @@
-import sharedRenderer from "./shared.renderer.js";
-import config from "../config.js";
 import { generateRecoveryToken } from "../helpers/recovery-token-string.js";
 import { marked } from "marked";
 import { readFileSync } from "fs";
+import env from "../helpers/env.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -68,7 +67,7 @@ export default {
             title: res.__('Request Invite'),
             errors: errors,
             formData: formData,
-            emailProviders: config.invitingMailProviders
+            emailProviders: env.WHITELISTED_MAIL_PROVIDERS
         });
     },
     /**

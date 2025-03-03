@@ -2,12 +2,12 @@ import Adapter from './adapter.js';
 import findAccount from './find-account.js';
 import Provider from 'oidc-provider'
 import configuration from './configuration.js';
-import config from '../config.js';
-import logger from '../logger.js';
+import logger from '../helpers/logger.js';
+import env from '../helpers/env.js';
 
 logger.debug("Initializing oidc provider")
 
-const provider = new Provider(`${config.baseUrl}/oidc`, {  adapter: Adapter, clients: config.clients, findAccount: findAccount,...configuration});
-provider.proxy = config.isBehindProxy
+const provider = new Provider(`${env.BASE_URL}/oidc`, {  adapter: Adapter, clients: [], findAccount: findAccount,...configuration});
+provider.proxy = env.IS_BEHIND_PROXY
 
 export default provider

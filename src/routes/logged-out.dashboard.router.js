@@ -1,5 +1,5 @@
 import dashboardAuthController from '../controllers/logged-out.dashboard.controller.js';
-import logger from '../logger.js';
+import logger from '../helpers/logger.js';
 
 import {setNoCache} from '../middlewares/set-no-cache.middleware.js'
 import {userAuthMiddlewareReverse} from '../middlewares/user-auth.middleware.js';
