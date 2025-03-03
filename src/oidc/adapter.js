@@ -119,6 +119,7 @@ class Adapter {
         } else {
           grant.push(key);
         }
+        adapterService.setEntry(grantKey,grant);
       }
   
       if (userCode) {
