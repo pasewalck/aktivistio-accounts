@@ -1,6 +1,6 @@
 import oidcController from '../controllers/oidc.controller.js';
 import sharedController from '../controllers/shared.controller.js';
-import logger from '../logger.js';
+import logger from '../helpers/logger.js';
 
 import {setNoCache} from '../middlewares/set-no-cache.middleware.js'
 import login2faValidations from '../validation/validators/logged-out/login-2fa.validations.js';

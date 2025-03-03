@@ -1,6 +1,6 @@
 import Database from 'better-sqlite3-multiple-ciphers';
 import fs from 'fs';
-import logger from '../logger.js';
+import logger from './logger.js';
 
 /**
  * @description Initializes a database for a given name using a specified encryption key. This function checks if the database file already exists. If it does not, a new database is created with the provided configuration settings.

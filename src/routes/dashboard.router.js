@@ -11,7 +11,7 @@ import deleteAccountValidations from '../validation/validators/dashboard/delete-
 import deleteInviteValidators from '../validation/validators/dashboard/delete.invite.validators.js';
 import generateInviteValidations from '../validation/validators/dashboard/generate-invite.validations.js';
 import dashboardController from '../controllers/dashboard.controller.js';
-import logger from '../logger.js';
+import logger from '../helpers/logger.js';
 import shareInviteValidators from '../validation/validators/dashboard/share.invite.validators.js';
 import userManageValidators from '../validation/validators/dashboard/user.manage.validators.js';
 import manageAccountUpdateValidations from '../validation/validators/dashboard/manage-account.update.validations.js';

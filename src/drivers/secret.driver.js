@@ -1,6 +1,7 @@
 import { initDatabase } from "../helpers/database.js";
+import env from "../helpers/env.js";
 
-const {db} = initDatabase("secrets",process.env.SECRETS_DATABASE_KEY)
+const {db} = initDatabase("secrets",env.DATABASE_KEYS.SECRETS)
 
 // Initialize tables for the storage
 db.exec(`

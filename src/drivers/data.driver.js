@@ -1,7 +1,8 @@
 import { initDatabase } from "../helpers/database.js";
+import env from "../helpers/env.js";
 import { Account } from "../models/accounts.js";
 
-const {db,isDbInit} = initDatabase("data",process.env.DATA_DATABASE_KEY)
+const {db,isDbInit} = initDatabase("data",env.DATABASE_KEYS.DATA)
 
 // Initialize the accounts table if it does not exist
 db.exec(`

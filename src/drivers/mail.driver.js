@@ -1,18 +1,18 @@
 import nodemailer from "nodemailer";
-import config from '../config.js';
-import logger from "../logger.js";
+import logger from "../helpers/logger.js";
 import { renderTemplate } from "../helpers/template-render.js";
 import { RenderMode } from "../models/email.render-mode.js"
 import { MessageType } from "../models/email.message-type.js";
+import env from "../helpers/env.js";
 
 const transporter = nodemailer.createTransport({
-  host: config.mail.host,
-  port: config.mail.port,
-  secure: config.mail.secure,
+  host: env.MAIL.HOST,
+  port: env.MAIL.PORT,
+  secure: env.MAIL.SECURE,
   auth: {
-    user: config.mail.user,
-    pass: config.mail.pass,
-  },
+    user: env.MAIL.USER,
+    pass: env.MAIL.PASS
+  }
 });
 /**
  * @description get full string for mail
@@ -45,7 +45,7 @@ export default {
     
     const data = {
         subject: subject,title: subject,
-        baseUrl:config.baseUrl,app: { name: config.applicationName, logo: config.applicationLogo },
+        baseUrl:env.BASE_URL,app: { name: env.APPLICATION_NAME, logo: env.APPLICATION_LOGO },
         ...locals,...extraData
     }
 
@@ -53,16 +53,16 @@ export default {
     const html = getFullMessageString(messageType,RenderMode.HTML,data)
 
     const info = await transporter.sendMail({
-        from: `${config.mail.name} <${config.mail.user}>`,
+        from: `${env.MAIL.SENDER_DISPLAY_NAME} <${env.MAIL.USER}>`,
         to: to,
         subject: subject,
         text: text,
         html: html,
         attachments: [
         {
-            filename: config.applicationLogo,
-            path: config.applicationLogo,
-            cid: config.applicationLogo
+            filename: env.APPLICATION_LOGO,
+            path: env.APPLICATION_LOGO,
+            cid: env.APPLICATION_LOGO
         }
         ]
     });

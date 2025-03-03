@@ -3,8 +3,8 @@ import QRCode from "qrcode"
 import { generateRecoveryToken } from "../helpers/recovery-token-string.js";
 
 import twoFactorAuth from "../helpers/two-factor-auth.js";
-import config from "../config.js";
 import accountService from "../services/account.service.js";
+import env from "../helpers/env.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -24,7 +24,7 @@ export default {
     services: (req,res) => {
       return res.render('dashboard/services', {
         title: res.__('Services'),
-        clients: config.clients
+        clients: []
       });
     },
     /**
@@ -73,7 +73,7 @@ export default {
      */
     addTwoFactorAuth: async (req,res,formData={},errors={}) => {
       let secret = formData.providedSecret || twoFactorAuth.generateSecret()
-      let url = twoFactorAuth.generateUrl(secret,config.applicationName,req.account.username);
+      let url = twoFactorAuth.generateUrl(secret,env.APPLICATION_NAME,req.account.username);
       let qrCodeSrc = await QRCode.toDataURL(url)
 
       return res.render('dashboard/account/add-2fa', {
@@ -203,7 +203,7 @@ export default {
      * @param {Request} [req]
      */
     inviteShare: async (req,res,invite) => {
-      var inviteURL = config.baseUrl + "/register/"+invite
+      var inviteURL = env.BASE_URL + "/register/"+invite
       return res.render('dashboard/invite-share', {
         title: res.__('Inviting'),
 

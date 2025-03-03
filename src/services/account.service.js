@@ -1,5 +1,5 @@
 import { generatePassword } from "../helpers/generate-secrets.js";
-import logger from "../logger.js";
+import logger from "../helpers/logger.js";
 import { Account } from "../models/accounts.js";
 import userdataDriver from "../drivers/data.driver.js";
 import twoFactorAuth from "../helpers/two-factor-auth.js";

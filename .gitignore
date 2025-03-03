@@ -1,9 +1,9 @@
 node_modules
 data.db
 data/
-config.json
 package-lock.json
 src/public/css
 logs
 app-logo.*
 configuration/consent.md
+.env

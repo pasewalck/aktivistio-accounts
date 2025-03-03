@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import i18n from 'i18n';
 
 import { fileURLToPath } from 'url';
+import { generateSecret } from './helpers/generate-secrets.js';
 
 import csrfProtection from './middlewares/csrf-protection.middleware.js';
 import dashboardRoutes from './routes/dashboard.router.js';
@@ -14,10 +15,9 @@ import sessionMiddleware from './middlewares/session.middleware.js';
 import provider from './oidc/provider.js';
 import langController from './controllers/lang.controller.js';
 import errorsMiddleware from './middlewares/errors.middleware.js';
-import config from './config.js';
-import logger from './logger.js';
-import { generateSecret } from './helpers/generate-secrets.js';
+import logger from './helpers/logger.js';
 import secretService from './services/secret.service.js';
+import env from './helpers/env.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,10 +27,10 @@ logger.debug("Initializing express")
 const app = express();
 
 app.locals = {
-    baseUrl:config.baseUrl,
+    baseUrl:env.BASE_URL,
     app: {
-        name: config.applicationName,
-        logo: config.applicationLogo
+        name: env.APPLICATION_NAME,
+        logo: env.APPLICATION_LOGO
     },
 };
 
@@ -82,9 +82,9 @@ logger.debug("Attaching errors middleware")
 
 app.use(errorsMiddleware)
 
-logger.debug(`Starting and trying to listen on PORT ${config.port}`)
+logger.debug(`Starting and trying to listen on PORT ${env.PORT}`)
 
-app.listen(config.port, function () {
-    logger.info(`Started on PORT ${config.port}`)
+app.listen(env.PORT, function () {
+    logger.info(`Started on PORT ${env.PORT}`)
 });
 

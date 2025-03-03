@@ -1,14 +1,14 @@
 import session from 'express-session';
 import betterSqlite3SessionStore from 'better-sqlite3-session-store';
 
-import config from '../config.js';
 import { generateSecret } from '../helpers/generate-secrets.js';
 import secretService from '../services/secret.service.js';
 import { initDatabase } from '../helpers/database.js';
+import env from '../helpers/env.js';
  
 const SqliteStore = betterSqlite3SessionStore(session)
 
-const {db} = initDatabase("sessions",process.env.SESSIONS_DATABASE_KEY)
+const {db} = initDatabase("sessions",env.DATABASE_KEYS.SESSIONS)
 
 const sessionMiddleware = session({
     store: new SqliteStore({
@@ -19,7 +19,7 @@ const sessionMiddleware = session({
       }
     }),
     cookie: {   
-      secure: config.isSecureContext,
+      secure: env.IS_SECURE_CONTEXT,
       httpOnly: true, 
       maxAge: 4*60*1000, // four minute timeout
     },
@@ -27,7 +27,7 @@ const sessionMiddleware = session({
     secret: await secretService.getEntries("EXPRESS_SESSION_SECRET",() => generateSecret(40),{lifeTime:120,graceTime:2}),
     resave: true,
     saveUninitialized: true,
-    proxy: config.isBehindProxy,
+    proxy: env.IS_BEHIND_PROXY,
   })
 
 export default sessionMiddleware

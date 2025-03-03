@@ -1,13 +1,4 @@
 {
-  "app_name": "Movement",
-  "mail": {
-    "host": "mail.example.com",
-    "port": 465,
-    "secure": true,
-    "user": "movement@example.com",
-    "pass": "password12345",
-    "name": "movement"
-  },
   "clients": [
     {
       "client_name": "Debug",
@@ -24,6 +15,5 @@
         "code"
       ]
     }
-  ],
-  "database_key": "super secret keyyyy"
+  ]
 }
