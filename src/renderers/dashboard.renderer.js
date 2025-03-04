@@ -5,6 +5,7 @@ import { generateRecoveryToken } from "../helpers/recovery-token-string.js";
 import twoFactorAuth from "../helpers/two-factor-auth.js";
 import accountService from "../services/account.service.js";
 import env from "../helpers/env.js";
+import adapterService from "../services/adapter.service.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -24,7 +25,7 @@ export default {
     services: (req,res) => {
       return res.render('dashboard/services', {
         title: res.__('Services'),
-        clients: []
+        clients: adapterService.getEntries("Client")
       });
     },
     /**
