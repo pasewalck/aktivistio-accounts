@@ -26,7 +26,8 @@ function getEntry(model, id) {
  */
 function getEntries(model) {
     let result = adapterDriver.getEntriesValues(model); // Retrieve the entries values
-    return result ? result.forEach((value) => JSON.parse(value)) : []; // Parse and return the results
+    console.log(result)
+    return result && result.length > 0 ? result.forEach((value) => JSON.parse(value)) : []; // Parse and return the results
 }
 
 /**
