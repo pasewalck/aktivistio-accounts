@@ -115,7 +115,7 @@ export default {
         multi: generateMultiple
     },
     getForAccount: {
-        allLocked: getForAccount,
+        all: getForAccount,
         allLocked: getLockedForAccount
     },
     consume,
