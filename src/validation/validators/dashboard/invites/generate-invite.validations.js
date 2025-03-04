@@ -1,5 +1,5 @@
 import { body } from "express-validator";
-import localize from "../../localize.js";
+import localize from "../../../localize.js";
 
 export default [
     body('count')
