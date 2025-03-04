@@ -10,12 +10,23 @@ function removeEntry(model, id) {
 
 /**
  * @description Get an entry from storage by its ID and model.
- * @param {string} model - The model associated with the entry. * @param {String} id - The ID of the entry to retrieve.
+ * @param {string} model - The model associated with the entry. 
+ * @param {String} id - The ID of the entry to retrieve.
  * @returns {Object|undefined} - The parsed entry value as an object, or undefined if not found.
  */
 function getEntry(model, id) {
     let result = adapterDriver.getEntryValue(model, id); // Retrieve the entry value from the adapter
     return result ? JSON.parse(result) : undefined; // Parse and return the result, or undefined if not found
+}
+
+/**
+ * @description Get all values/entries associated with a model
+ * @param {string} model - The model to lookup.
+ * @returns {Array<Object>} - The parsed entry value as an object, or undefined if not found.
+ */
+function getEntries(model) {
+    let result = adapterDriver.getEntriesValues(model); // Retrieve the entries values
+    return result ? result.forEach((value) => JSON.parse(value)) : []; // Parse and return the results
 }
 
 /**
@@ -90,6 +101,7 @@ export default {
     removeEntry,
     setEntry,
     getEntry,
+    getEntries,
     setLookupForEntry,
     getEntryByLookup,
     removeEntryByLookup

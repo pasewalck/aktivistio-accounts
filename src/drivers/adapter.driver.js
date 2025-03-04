@@ -43,6 +43,15 @@ function getEntryValue(model, id) {
 }
 
 /**
+ * @description Retrieve the valuues/all entries of a model from storage.
+ * @param {string} model - The model to lookup.
+ * @returns {string|null} - The value of the entry, or null if not found or expired.
+ */
+function getEntriesValues(model) {
+    return db.prepare('SELECT value FROM entries WHERE model = ? AND expire >= ?').pluck().all(model, Math.floor(Date.now() / 1000));
+}
+
+/**
  * @description Insert a new entry into storage.
  * @param {string} id - The ID of the entry.
  * @param {string} value - The value of the entry.
@@ -133,6 +142,7 @@ export default {
     setEntryExpire,
     setEntryValue,
     insertEntry,
+    getEntriesValues,
     addLookupValueForEntry,
     getEntryIdByLookup,
     updateLookupValueForEntry,
