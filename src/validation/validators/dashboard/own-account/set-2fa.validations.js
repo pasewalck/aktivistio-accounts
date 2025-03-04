@@ -1,6 +1,6 @@
 import { body } from "express-validator"
-import twoFactorAuth from "../../../helpers/two-factor-auth.js"
-import localize from "../../localize.js"
+import twoFactorAuth from "../../../../helpers/two-factor-auth.js"
+import localize from "../../../localize.js"
 
 export default [
     body("secret")

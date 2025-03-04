@@ -3,19 +3,19 @@ import {userAuthMiddleware} from '../middlewares/user-auth.middleware.js';
 import { generateCheckUserPersmission } from '../middlewares/generator/permission-check.user-role.middleware-generator.js';
 import { Permission, Role } from '../models/roles.js';
 
-import changePasswordValidationsCopy from '../validation/validators/dashboard/change-password.validations.js';
-import set2faValidations from '../validation/validators/dashboard/set-2fa.validations.js';
-import setRecoveryTokenValidations from '../validation/validators/dashboard/set-recovery-token.validations.js';
-import setRecoveryEmailValidations from '../validation/validators/dashboard/set-recovery-email.validations.js';
+import changePasswordValidationsCopy from '../validation/validators/dashboard/own-account/change-password.validations.js';
+import set2faValidations from '../validation/validators/dashboard/own-account/set-2fa.validations.js';
+import setRecoveryTokenValidations from '../validation/validators/dashboard/own-account/set-recovery-token.validations.js';
+import setRecoveryEmailValidations from '../validation/validators/dashboard/own-account/set-recovery-email.validations.js';
 import deleteRecoveryMethodValidations from '../validation/validators/dashboard/delete.recovery-method.validations.js';
-import deleteAccountValidations from '../validation/validators/dashboard/delete-account.validations.js';
-import deleteInviteValidators from '../validation/validators/dashboard/delete.invite.validators.js';
-import generateInviteValidations from '../validation/validators/dashboard/generate-invite.validations.js';
+import deleteAccountValidations from '../validation/validators/dashboard/own-account/delete-account.validations.js';
+import deleteInviteValidators from '../validation/validators/dashboard/invites/delete.invite.validators.js';
+import generateInviteValidations from '../validation/validators/dashboard/invites/generate-invite.validations.js';
 import dashboardController from '../controllers/dashboard.controller.js';
 import logger from '../helpers/logger.js';
-import shareInviteValidators from '../validation/validators/dashboard/share.invite.validators.js';
-import userManageValidators from '../validation/validators/dashboard/user.manage.validators.js';
-import manageAccountUpdateValidations from '../validation/validators/dashboard/manage-account.update.validations.js';
+import shareInviteValidators from '../validation/validators/dashboard/invites/share.invite.validators.js';
+import userManageValidators from '../validation/validators/dashboard/system-management/accounts/user.manage.validators.js';
+import manageAccountUpdateValidations from '../validation/validators/dashboard/system-management/accounts/manage-account.update.validations.js';
 import manageAccountDeleteValidations from '../validation/validators/dashboard/manage-account.delete.validations.js';
 
 /**

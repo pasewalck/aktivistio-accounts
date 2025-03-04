@@ -1,6 +1,6 @@
 import { param } from "express-validator";
-import localize from "../../localize.js";
-import accountService from "../../../services/account.service.js";
+import localize from "../../../../localize.js";
+import accountService from "../../../../../services/account.service.js";
 
 export default [
     param("id").exists({checkFalsy: true}).withMessage(localize('User id is not defined')).bail()

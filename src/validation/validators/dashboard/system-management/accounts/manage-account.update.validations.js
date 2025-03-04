@@ -1,6 +1,6 @@
 import { body } from "express-validator";
-import localize from "../../localize.js";
-import { Role } from "../../../models/roles.js";
+import localize from "../../../../localize.js";
+import { Role } from "../../../../../models/roles.js";
 
 export default [
     body("accountUpdateRole")
