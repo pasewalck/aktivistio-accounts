@@ -3,23 +3,25 @@ import {userAuthMiddleware} from '../middlewares/user-auth.middleware.js';
 import { generateCheckUserPersmission } from '../middlewares/generator/permission-check.user-role.middleware-generator.js';
 import { Permission, Role } from '../models/roles.js';
 
-import changePasswordValidationsCopy from '../validation/validators/dashboard/own-account/change-password.validations.js';
-import set2faValidations from '../validation/validators/dashboard/own-account/set-2fa.validations.js';
-import setRecoveryTokenValidations from '../validation/validators/dashboard/own-account/set-recovery-token.validations.js';
-import setRecoveryEmailValidations from '../validation/validators/dashboard/own-account/set-recovery-email.validations.js';
-import deleteRecoveryMethodValidations from '../validation/validators/dashboard/delete.recovery-method.validations.js';
-import deleteAccountValidations from '../validation/validators/dashboard/own-account/delete-account.validations.js';
-import deleteInviteValidators from '../validation/validators/dashboard/invites/delete.invite.validators.js';
-import generateInviteValidations from '../validation/validators/dashboard/invites/generate-invite.validations.js';
+import ownAccountChangePasswordValidations from '../validation/validators/dashboard/own-account/own-account.change-password.validations.js';
+import ownAccountSet2faValidations from '../validation/validators/dashboard/own-account/own-account.set-2fa.validations.js';
+import ownAccountRecoveryTokenSetValidations from '../validation/validators/dashboard/own-account/own-account.recovery-token.set.validations.js';
+import ownAccountRecoveryEmailSetValidations from '../validation/validators/dashboard/own-account/own-account.recovery-email.set.validations.js';
+import ownAccountRecoveryMethodDeleteValidations from '../validation/validators/dashboard/own-account/own-account.recovery-method.delete.validations.js';
+import ownAccountDeleteValidations from '../validation/validators/dashboard/own-account/own-account.delete.validations.js';
+import deleteInviteValidators from '../validation/validators/dashboard/invites/invite.delete.validators.js';
+import generateInviteValidations from '../validation/validators/dashboard/invites/invite.generate.validations.js';
 import dashboardController from '../controllers/dashboard.controller.js';
 import logger from '../helpers/logger.js';
-import shareInviteValidators from '../validation/validators/dashboard/invites/share.invite.validators.js';
-import userManageValidators from '../validation/validators/dashboard/system-management/accounts/user.manage.validators.js';
-import manageAccountUpdateValidations from '../validation/validators/dashboard/system-management/accounts/manage-account.update.validations.js';
-import manageAccountDeleteValidations from '../validation/validators/dashboard/manage-account.delete.validations.js';
+import shareInviteValidators from '../validation/validators/dashboard/invites/invite.share.validators.js';
+import userManageValidators from '../validation/validators/dashboard/system-management/accounts/manage.account.get.validators.js';
+import manageAccountUpdateValidations from '../validation/validators/dashboard/system-management/accounts/manage.account.update.validations.js';
+import manageAccountDeleteValidations from '../validation/validators/dashboard/system-management/accounts/manage-account.delete.validations.js';
+
 
 /**
- * @description bind controllers to routes for primary app
+ * @description bind controller
+ * s to routes for primary app
  * @param {import("express").Express} [app]
  */
 export default (app) => {
@@ -48,24 +50,24 @@ export default (app) => {
 
     app.get('/account/2fa',middlewares,dashboardController.account2fa);
     app.get('/account/2fa/add',middlewares,dashboardController.accountAdd2fa);
-    app.post('/account/2fa/set',middlewares,set2faValidations,dashboardController.accountChange2faPost);
+    app.post('/account/2fa/set',middlewares,ownAccountSet2faValidations,dashboardController.accountChange2faPost);
     app.post('/account/2fa/remove',middlewares,dashboardController.accountRemove2faPost);
 
     app.get('/account/password',middlewares,dashboardController.accountChangePassword);
-    app.post('/account/password',middlewares,changePasswordValidationsCopy,dashboardController.accountChangePasswordPost);
+    app.post('/account/password',middlewares,ownAccountChangePasswordValidations,dashboardController.accountChangePasswordPost);
 
     app.get('/account/recovery',middlewares,dashboardController.accountRecovery);
     app.get('/account/recovery/set-email',middlewares,dashboardController.accountRecoverySetEmail);
     app.get('/account/recovery/set-token',middlewares,dashboardController.accountRecoverySetToken);
     app.get('/account/recovery/delete-email',middlewares,dashboardController.accountRecoveryDeleteEmail);
     app.get('/account/recovery/delete-token',middlewares,dashboardController.accountRecoveryDeleteToken);
-    app.post('/account/recovery/set-email',middlewares,setRecoveryEmailValidations,dashboardController.accountRecoverySetEmailPost);
-    app.post('/account/recovery/set-token',middlewares,setRecoveryTokenValidations,dashboardController.accountRecoverySetTokenPost);
-    app.post('/account/recovery/delete-email',middlewares,deleteRecoveryMethodValidations,dashboardController.accountRecoveryDeleteEmailPost);
-    app.post('/account/recovery/delete-token',middlewares,deleteRecoveryMethodValidations,dashboardController.accountRecoveryDeleteTokenPost);
+    app.post('/account/recovery/set-email',middlewares,ownAccountRecoveryEmailSetValidations,dashboardController.accountRecoverySetEmailPost);
+    app.post('/account/recovery/set-token',middlewares,ownAccountRecoveryTokenSetValidations,dashboardController.accountRecoverySetTokenPost);
+    app.post('/account/recovery/delete-email',middlewares,ownAccountRecoveryMethodDeleteValidations,dashboardController.accountRecoveryDeleteEmailPost);
+    app.post('/account/recovery/delete-token',middlewares,ownAccountRecoveryMethodDeleteValidations,dashboardController.accountRecoveryDeleteTokenPost);
 
     app.get('/account/delete',middlewares,dashboardController.accountDelete);
-    app.post('/account/delete',middlewares,deleteAccountValidations,dashboardController.accountDeletePost);
+    app.post('/account/delete',middlewares,ownAccountDeleteValidations,dashboardController.accountDeletePost);
     
     app.get('/invites',middlewares,dashboardController.invites);
     app.post('/invites/generate',middlewares,generateInviteValidations,generateCheckUserPersmission(Permission.MANAGE_OWN_INVITES),dashboardController.invitesGeneratePost);
