@@ -40,6 +40,7 @@ export default (app) => {
     app.get('/services/add',middlewares,dashboardController.serviceAdd);
     app.get('/services/edit/:id',middlewares,dashboardController.serviceEdit);
 
+    app.post('/services/add',middlewares,dashboardController.serviceAdd);
     app.post('/services/edit/:id/save',middlewares,dashboardController.serviceEditSavePost);
     app.post('/services/edit/:id/delete',middlewares,dashboardController.serviceEditDeletePost);
 

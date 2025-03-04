@@ -30,6 +30,22 @@ export default {
       });
     },
     /**
+     * @description render function for dashboard service page
+     * @param {Response} [res]
+     * @param {Request} [req]
+     * @param {String} [currentClientId]
+     * @param {JSON} [formData]
+     * @param {JSON} [errors]
+     */
+    manageService: (req,res,currentClientId=null,formData={},errors={}) => {
+      return res.render('dashboard/service-management', {
+        title: res.__('Manage Service'),
+        errors:errors,
+        formData:formData,
+        currentClientId:currentClientId
+      });
+    },
+    /**
      * @description render function for dashboard user account page 
      * @param {Response} [res]
      * @param {Request} [req]

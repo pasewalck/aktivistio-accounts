@@ -180,5 +180,9 @@
 	"Missing confirmation": "Missing confirmation",
 	"Submit details": "Submit details",
 	"Your confirm password does not match.": "Your confirm password does not match.",
-	"Account 2fa": "Account 2fa"
+	"Account 2fa": "Account 2fa",
+	"Manage Service": "Manage Service",
+	"Create service": "Create service",
+	"Configuration (JSON)": "Configuration (JSON)",
+	"Create": "Create"
 }

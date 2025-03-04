@@ -3,6 +3,8 @@ import provider from "../oidc/provider.js";
 import { matchedData, validationResult } from "express-validator";
 import accountService from "../services/account.service.js";
 import invitesService from "../services/invites.service.js";
+import adapterDriver from "../drivers/adapter.driver.js";
+import adapterService from "../services/adapter.service.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -283,14 +285,87 @@ export default {
         res.redirect("/invites")
     },
     serviceAdd: async (req,res) => {
-        dashboardRenderer.serviceManage(req,res)
-    },
-    serviceEdit: async (req,res) => {
-        dashboardRenderer.serviceManage(req,res)
+        dashboardRenderer.manageService(req,res,null,{configuration:
+            JSON.stringify(
+            {
+                "client_name": "Example Name",
+                "client_id": "exampleClientIde",
+                "client_uri": "https://example.com",
+                "client_secret": "exampleSecret",
+                "grant_types": [
+                  "authorization_code"
+                ],
+                "redirect_uris": [
+                  "https://example.com/done"
+                ],
+                "response_types": [
+                  "code"
+                ]
+            }, null, "  ")})
     },
     serviceEditSavePost: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.manageService(req,res,null,data,errors)
+        }
+
+        const newClientId = data.configuration["client_id"]
+        adapterService.setEntry("Client",newClientId,data.configuration)
+
+        res.redirect(`/services/edit/${newClientId}/`)
+
+    },
+    serviceEdit: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            throw new Error(errors.array()[0].msg)
+        }
+
+        const clientId = data.id
+        dashboardRenderer.manageService(req,res,clientId,JSON.stringify(adapterService.getEntry("Client",clientId), null, "  "))
+
+    },
+    serviceEditSavePost: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        const clientId = data.id
+
+        if (!errors.isEmpty()) {
+            if(!clientId)
+                throw new Error(errors.array()[0].msg)
+            else
+                return dashboardRenderer.manageService(req,res,clientId,data,errors)
+        }
+
+        const newClientId = data.configuration["client_id"]
+
+        if(newClientId != clientId)
+            adapterService.removeEntry("Client",clientId)
+        adapterService.setEntry("Client",newClientId,data.configuration)
+
+        res.redirect(`/services/edit/${newClientId}/`)
+
     },
     serviceEditDeletePost: async (req,res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+        const clientId = data.id
+
+        if (!errors.isEmpty()) {
+            if(!clientId)
+                throw new Error(errors.array()[0].msg)
+            else
+                return dashboardRenderer.manageService(req,res,clientId,data,errors)
+        }
+
+        adapterService.removeEntry("Client",clientId)
+
+        res.redirect("/services")
     },
     users: async (req,res) => {
         dashboardRenderer.users(req,res)
