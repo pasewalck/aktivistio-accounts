@@ -282,6 +282,16 @@ export default {
         invitesService.remove(data.code)
         res.redirect("/invites")
     },
+    serviceAdd: async (req,res) => {
+        dashboardRenderer.serviceManage(req,res)
+    },
+    serviceEdit: async (req,res) => {
+        dashboardRenderer.serviceManage(req,res)
+    },
+    serviceEditSavePost: async (req,res) => {
+    },
+    serviceEditDeletePost: async (req,res) => {
+    },
     users: async (req,res) => {
         dashboardRenderer.users(req,res)
     },

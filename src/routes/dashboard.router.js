@@ -37,6 +37,11 @@ export default (app) => {
     app.post('/user/:id/update',middlewares,generateCheckUserPersmission(Permission.MANAGE_USERS),userManageValidators,manageAccountUpdateValidations,dashboardController.manageUserUpdatePost);
     app.post('/user/:id/delete',middlewares,generateCheckUserPersmission(Permission.DELETE_USERS),userManageValidators,manageAccountDeleteValidations,dashboardController.manageUserDeletePost);
 
+    app.get('/services/add',middlewares,dashboardController.serviceAdd);
+    app.get('/services/edit/:id',middlewares,dashboardController.serviceEdit);
+
+    app.post('/services/edit/:id/save',middlewares,dashboardController.serviceEditSavePost);
+    app.post('/services/edit/:id/delete',middlewares,dashboardController.serviceEditDeletePost);
 
     app.get('/account',middlewares,dashboardController.account);
 

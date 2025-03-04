@@ -1,6 +1,9 @@
 <%- include("../partials/dashboard-header.ejs") %>
 
 <div class="wrapper flex-container">
+
+    <% const canManage = hasPermission(account.role,Permission.MANAGE_SERVICES) %> 
+
     <div class="container container-large-width">
 
         <div class="grid-container">
@@ -13,6 +16,10 @@
                 <% if (client.client_uri) { %>
                     <a href="<%= client.client_uri %> "><%= __("Go to service ...") %> </a>
                 <% } %>
+
+                <% if (canManage) { %>
+                    <a href="/service/edit/<%= client.client_id %> "><%= __("Manage service ...") %> </a>
+                <% } %>
              </div>
             <% }) %>
             <div class="container-soft-filled-background"></div>
@@ -21,4 +28,13 @@
         </div>
         
     </div>
+
+    <% if (canManage) { %>
+        <div class="container container-large-width">
+
+            <a href="/service/add" class="button">Add Service</a>
+    
+        </div>
+    <% } %>
+
 </div>
