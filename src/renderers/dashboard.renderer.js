@@ -6,6 +6,7 @@ import twoFactorAuth from "../helpers/two-factor-auth.js";
 import accountService from "../services/account.service.js";
 import env from "../helpers/env.js";
 import adapterService from "../services/adapter.service.js";
+import invitesService from "../services/invites.service.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -170,8 +171,8 @@ export default {
     invites: (req,res) => {
       return res.render('dashboard/codes', {
         title: res.__('Codes'),
-        inviteCodes: req.account.getInvites(),
-        lockedInviteCodes: req.account.getLockedInvites(),
+        inviteCodes: invitesService.getForAccount.all(req.account),
+        lockedInviteCodes: invitesService.getForAccount.allLocked(req.account)
       });
     },
     /**

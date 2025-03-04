@@ -2,7 +2,7 @@
 
 <div class="wrapper flex-container">
 
-    <% const canGenerate = Role.canGenerateInvites(account.role) %> 
+    <% const canGenerate = hasPermission(account.role,Permission.MANAGE_OWN_INVITES) %> 
     
     <% if (inviteCodes.length > 0 || !canGenerate) { %>
         <div class="container container-medium-width container-filled-background">

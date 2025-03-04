@@ -1,6 +1,7 @@
 import {setNoCache} from '../middlewares/set-no-cache.middleware.js'
 import {userAuthMiddleware} from '../middlewares/user-auth.middleware.js';
 import { generateCheckUserPersmission } from '../middlewares/generator/permission-check.user-role.middleware-generator.js';
+import { Permission, Role } from '../models/roles.js';
 
 import changePasswordValidationsCopy from '../validation/validators/dashboard/change-password.validations.js';
 import set2faValidations from '../validation/validators/dashboard/set-2fa.validations.js';
@@ -16,7 +17,6 @@ import shareInviteValidators from '../validation/validators/dashboard/share.invi
 import userManageValidators from '../validation/validators/dashboard/user.manage.validators.js';
 import manageAccountUpdateValidations from '../validation/validators/dashboard/manage-account.update.validations.js';
 import manageAccountDeleteValidations from '../validation/validators/dashboard/manage-account.delete.validations.js';
-import { Role } from '../models/roles.js';
 
 /**
  * @description bind controllers to routes for primary app
@@ -31,8 +31,8 @@ export default (app) => {
     app.get('/',middlewares,dashboardController.services);
     app.get('/services',middlewares,dashboardController.services);
 
-    app.get('/users',middlewares,generateCheckUserPersmission(Role.canManageUsers),dashboardController.users);
-    app.get('/user/:id',middlewares,generateCheckUserPersmission(Role.canManageUsers),userManageValidators,dashboardController.manageUser);
+    app.get('/users',middlewares,generateCheckUserPersmission(Permission.MANAGE_USERS),dashboardController.users);
+    app.get('/user/:id',middlewares,generateCheckUserPersmission(Permission.MANAGE_USERS),userManageValidators,dashboardController.manageUser);
 
     app.post('/user/:id/update',middlewares,generateCheckUserPersmission(Role.canManageUsers),userManageValidators,manageAccountUpdateValidations,dashboardController.manageUserUpdatePost);
     app.post('/user/:id/delete',middlewares,generateCheckUserPersmission(Role.canManageUsers),userManageValidators,manageAccountDeleteValidations,dashboardController.manageUserDeletePost);
@@ -62,8 +62,8 @@ export default (app) => {
     app.post('/account/delete',middlewares,deleteAccountValidations,dashboardController.accountDeletePost);
     
     app.get('/invites',middlewares,dashboardController.invites);
-    app.post('/invites/generate',middlewares,generateInviteValidations,generateCheckUserPersmission(Role.canGenerateInvites),dashboardController.invitesGeneratePost);
+    app.post('/invites/generate',middlewares,generateInviteValidations,generateCheckUserPersmission(Permission.MANAGE_OWN_INVITES),dashboardController.invitesGeneratePost);
 
     app.get('/invites/share/:invite',middlewares,shareInviteValidators,dashboardController.inviteShare);
-    app.post('/invites/terminate',middlewares,deleteInviteValidators,generateCheckUserPersmission(Role.canGenerateInvites),dashboardController.terminateInvitePost);
+    app.post('/invites/terminate',middlewares,deleteInviteValidators,generateCheckUserPersmission(Permission.MANAGE_OWN_INVITES),dashboardController.terminateInvitePost);
 }

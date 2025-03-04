@@ -50,7 +50,9 @@ export class Role {
 // Define the hierarchy of roles
 export const roleHierarchy = {
     [Role.USER]: [],
-    [Role.MODERATOR]: [Role.USER],
+    [Role.MULTIPLIER]: [Role.USER],
+    [Role.MULTIPLIER_UNLIMITED]: [Role.MULTIPLIER],
+    [Role.MODERATOR]: [Role.MULTIPLIER_UNLIMITED],
     [Role.ADMIN]: [Role.MODERATOR],
     [Role.SUPER_ADMIN]: [Role.ADMIN]
 };
