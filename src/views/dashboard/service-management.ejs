@@ -1,14 +1,62 @@
 <%- include("../partials/dashboard-header.ejs") %>
 
 <div class="wrapper flex-container">
-    <div class="container container-large-width">
+    <div class="container container-medium-width container-filled-background">
 
-        manage service configuration
+        <h2><%= currentClientId ? __("Update service") : __("Create service") %> </h2>
+    
+        <form class="form" action="<%= currentClientId ? `/services/edit/${currentClientId}/delete` : `/services/add` %>" method="post">
+            <fieldset>
+
+                <div class="form-group">
+                    <label class="label"><%= __('Configuration (JSON)') %></label>
+                    <%- include("../partials/form/input-textarea.ejs",{textarea: {name:"configuration",required:true}}) %> 
+                </div>
+
+                <div class="form-group">
+                    <label class="label"><%= __('Your password (as admin)') %></label>
+                    <%- include("../partials/form/input-field.ejs",{field: {name:"adminPassword",type:"password",required:true}}) %> 
+                </div>
+
+            </fieldset>
+
+            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+            <div class="form-action-group">
+                <button class="button red" type="submit"><%= currentClientId ? __("Update") : __("Create") %> </button>
+            </div>     
+
+        </form>
 
     </div>
-    <div class="container container-large-width">
 
-        delete service
+    <% if (currentClientId) { %>
+        <div class="container container-medium-width container-filled-background">
 
-    </div>
+            <h2><%= __("Delete service") %> </h2>
+    
+            <form class="form" action="/services/edit/<%= currentClientId %>/delete" method="post">
+                <fieldset>
+    
+                    <div class="form-group">
+                        <label class="label"><%= __('Your password (as admin)') %></label>
+                        <%- include("../partials/form/input-field.ejs",{field: {name:"adminPassword",type:"password",required:true}}) %> 
+                    </div>
+    
+                    <div class="form-group">
+                        <label class="label"><%= __('Confirm your action') %></label>
+                        <%- include("../partials/form/input-checkbox.ejs",{checkbox: {name:"actionConfirm",msg:__('I take responsability for deleting %s',currentClientId)}}) %>             
+                    </div>
+    
+                </fieldset>
+    
+                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                <div class="form-action-group">
+                    <button class="button red" type="submit"><%= __("Delete Forever") %> </button>
+                </div>     
+    
+            </form>
+    
+        </div>
+    <% } %>
+    
 </div>

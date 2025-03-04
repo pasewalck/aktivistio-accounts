@@ -448,7 +448,8 @@ h5 { font-size: 17px; padding-bottom: 6px; }
 
     .input-field-error,
     .input-checkbox-error,
-    .input-select-error {
+    .input-select-error,
+    .input-textarea-error {
         font-size: 14px;
         color: #cf1a1a;
         font-weight: 300;
@@ -484,7 +485,7 @@ h5 { font-size: 17px; padding-bottom: 6px; }
         }
 
         .select,
-        .input-field {
+        .input-field,.input-textarea {
             display: block;
             position: relative;
             background: transparent;
@@ -505,6 +506,11 @@ h5 { font-size: 17px; padding-bottom: 6px; }
             &:focus {
                 border: 1px solid variables.$greenSeaweed;
             }
+        }
+
+        .input-textarea {
+            height: 300px;
+            resize: vertical;
         }
 
         .select {
