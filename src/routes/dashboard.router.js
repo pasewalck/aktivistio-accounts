@@ -34,8 +34,8 @@ export default (app) => {
     app.get('/users',middlewares,generateCheckUserPersmission(Permission.MANAGE_USERS),dashboardController.users);
     app.get('/user/:id',middlewares,generateCheckUserPersmission(Permission.MANAGE_USERS),userManageValidators,dashboardController.manageUser);
 
-    app.post('/user/:id/update',middlewares,generateCheckUserPersmission(Role.canManageUsers),userManageValidators,manageAccountUpdateValidations,dashboardController.manageUserUpdatePost);
-    app.post('/user/:id/delete',middlewares,generateCheckUserPersmission(Role.canManageUsers),userManageValidators,manageAccountDeleteValidations,dashboardController.manageUserDeletePost);
+    app.post('/user/:id/update',middlewares,generateCheckUserPersmission(Permission.MANAGE_USERS),userManageValidators,manageAccountUpdateValidations,dashboardController.manageUserUpdatePost);
+    app.post('/user/:id/delete',middlewares,generateCheckUserPersmission(Permission.DELETE_USERS),userManageValidators,manageAccountDeleteValidations,dashboardController.manageUserDeletePost);
 
 
     app.get('/account',middlewares,dashboardController.account);
