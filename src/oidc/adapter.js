@@ -78,7 +78,7 @@ class Adapter {
      * @param {Number} expiresIn - The expiration time in seconds for the entry.
      */
     async upsert(id, payload, expiresIn) {
-      const key = this.key(id);
+      await adapterService.setEntry(this.model, id, payload, expiresIn);
 
       if (this.model === 'Session') {
         await adapterService.setLookupForEntry(this.model, id, "SessionUid", payload.uid);
@@ -93,7 +93,6 @@ class Adapter {
         await adapterService.setLookupForEntry(this.model, id, "UserCode", userCode);
       }
 
-      await adapterService.setEntry(this.model, key, payload, expiresIn);
     }
 
     /**
