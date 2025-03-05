@@ -292,8 +292,8 @@ export default {
      * @param {String} emailFingerprint - The fingerprint of the email to check.
      * @returns {String|null} - The invite code if found, otherwise null.
      */
-    getInviteCodeByLinkedEmail: (emailFingerprint) => {
-        return db.prepare('SELECT code FROM email_invite_requests WHERE email_fingerprint = ?').pluck().get(emailFingerprint);
+    getInviteCodeEntryByLinkedEmail: (emailFingerprint) => {
+        return db.prepare('SELECT code FROM email_invite_requests WHERE email_fingerprint = ?').get(emailFingerprint);
     },
 
     /**
