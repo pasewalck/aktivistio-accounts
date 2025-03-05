@@ -8,19 +8,22 @@
 
         <div class="grid-container">
             <% clients.forEach(client => { %>
-             <div class="container-filled-background">
-                <h2><%= client.client_name %></h2>
-                <% if (client.initiate_login_uri) { %>
-                    <a href="<%= client.initiate_login_uri %> "><%= __("Login ...") %> </a>
+                <% if (client.client_name || client.client_id) { %>
+                    <div class="container-filled-background">
+                        <h2><%= client.client_name || client.client_id %></h2>
+                        <% if (client.initiate_login_uri) { %>
+                            <a href="<%= client.initiate_login_uri %> "><%= __("Login ...") %> </a>
+                        <% } %>
+                        <% if (client.client_uri) { %>
+                            <a href="<%= client.client_uri %> "><%= __("Go to service ...") %> </a>
+                        <% } %>
+        
+                        <% if (canManage) { %>
+                            <a href="/services/edit/<%= client.client_id %> "><%= __("Manage service ...") %> </a>
+                        <% } %>
+                    </div>
                 <% } %>
-                <% if (client.client_uri) { %>
-                    <a href="<%= client.client_uri %> "><%= __("Go to service ...") %> </a>
-                <% } %>
-
-                <% if (canManage) { %>
-                    <a href="/service/edit/<%= client.client_id %> "><%= __("Manage service ...") %> </a>
-                <% } %>
-             </div>
+             
             <% }) %>
             <div class="container-soft-filled-background"></div>
             <div class="container-soft-filled-background"></div>

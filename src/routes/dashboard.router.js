@@ -17,6 +17,9 @@ import shareInviteValidators from '../validation/validators/dashboard/invites/in
 import userManageValidators from '../validation/validators/dashboard/system-management/accounts/manage.account.get.validators.js';
 import manageAccountUpdateValidations from '../validation/validators/dashboard/system-management/accounts/manage.account.update.validations.js';
 import manageAccountDeleteValidations from '../validation/validators/dashboard/system-management/accounts/manage-account.delete.validations.js';
+import manageServiceGetValidators from '../validation/validators/dashboard/system-management/services/manage.service.get.validators.js';
+import manageServiceUpdateValidations from '../validation/validators/dashboard/system-management/services/manage.service.update.validations.js';
+import manageServiceDeleteValidations from '../validation/validators/dashboard/system-management/services/manage.service.delete.validations.js';
 
 
 /**
@@ -39,12 +42,12 @@ export default (app) => {
     app.post('/user/:id/update',middlewares,generateCheckUserPersmission(Permission.MANAGE_USERS),userManageValidators,manageAccountUpdateValidations,dashboardController.manageUserUpdatePost);
     app.post('/user/:id/delete',middlewares,generateCheckUserPersmission(Permission.DELETE_USERS),userManageValidators,manageAccountDeleteValidations,dashboardController.manageUserDeletePost);
 
-    app.get('/services/add',middlewares,dashboardController.serviceAdd);
-    app.get('/services/edit/:id',middlewares,dashboardController.serviceEdit);
+    app.get('/services/add',middlewares,generateCheckUserPersmission(Permission.MANAGE_SERVICES),dashboardController.serviceAdd);
+    app.get('/services/edit/:id',middlewares,generateCheckUserPersmission(Permission.MANAGE_SERVICES),manageServiceGetValidators,dashboardController.serviceEdit);
 
-    app.post('/services/add',middlewares,dashboardController.serviceAdd);
-    app.post('/services/edit/:id/save',middlewares,dashboardController.serviceEditSavePost);
-    app.post('/services/edit/:id/delete',middlewares,dashboardController.serviceEditDeletePost);
+    app.post('/services/add',middlewares,generateCheckUserPersmission(Permission.MANAGE_SERVICES),manageServiceUpdateValidations,dashboardController.serviceAddPost);
+    app.post('/services/edit/:id/save',middlewares,generateCheckUserPersmission(Permission.MANAGE_SERVICES),manageServiceUpdateValidations,manageServiceGetValidators,dashboardController.serviceEditSavePost);
+    app.post('/services/edit/:id/delete',middlewares,generateCheckUserPersmission(Permission.MANAGE_SERVICES),manageServiceDeleteValidations,manageServiceGetValidators,dashboardController.serviceEditDeletePost);
 
     app.get('/account',middlewares,dashboardController.account);
 

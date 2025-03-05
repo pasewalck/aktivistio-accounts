@@ -184,5 +184,10 @@
 	"Manage Service": "Manage Service",
 	"Create service": "Create service",
 	"Configuration (JSON)": "Configuration (JSON)",
-	"Create": "Create"
+	"Create": "Create",
+	"Not Client found for specified ID": "Not Client found for specified ID",
+	"Update service": "Update service",
+	"Delete service": "Delete service",
+	"Manage service ...": "Manage service ...",
+	"Password is required.": "Password is required."
 }

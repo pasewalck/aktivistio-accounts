@@ -39,12 +39,12 @@
     
                     <div class="form-group">
                         <label class="label"><%= __('Your password (as admin)') %></label>
-                        <%- include("../partials/form/input-field.ejs",{field: {name:"adminPassword",type:"password",required:true}}) %> 
+                        <%- include("../partials/form/input-field.ejs",{field: {name:"deletePermAdminPassword",type:"password",required:true}}) %> 
                     </div>
     
                     <div class="form-group">
                         <label class="label"><%= __('Confirm your action') %></label>
-                        <%- include("../partials/form/input-checkbox.ejs",{checkbox: {name:"actionConfirm",msg:__('I take responsability for deleting %s',currentClientId)}}) %>             
+                        <%- include("../partials/form/input-checkbox.ejs",{checkbox: {name:"deleteAdminConfirm",msg:__('I take responsability for deleting %s',currentClientId)}}) %>             
                     </div>
     
                 </fieldset>
