@@ -26,8 +26,18 @@ function getEntry(model, id) {
  */
 function getEntries(model) {
     let result = adapterDriver.getEntriesValues(model); // Retrieve the entries values
-    console.log(result)
-    return result && result.length > 0 ? result.forEach((value) => JSON.parse(value)) : []; // Parse and return the results
+
+    if(result && result.length > 0)
+    {
+        // Parse and return the results
+        var array = [result.length]
+        for (let i = 0; i < array.length; i++) 
+            array[i] = JSON.parse(result[i])
+            
+        return array
+    }
+    else
+        return []; 
 }
 
 /**
@@ -38,6 +48,7 @@ function getEntries(model) {
  * @param {Number|null} expire - Optional expiration time (in seconds from now).
  */
 function setEntry(model, id, value, expire = null) {
+    console.log(model, id, value)
     let encodedValue = JSON.stringify(value); // Convert the value to a JSON string
     expire = expire ? expire + Math.floor(Date.now() / 1000) : null; // Calculate the expiration timestamp
 
