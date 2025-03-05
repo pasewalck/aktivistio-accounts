@@ -1,4 +1,4 @@
-import { generateTypeableCode } from "../helpers/generate-secrets.js";
+import { generateSecret, generateTypeableCode } from "../helpers/generate-secrets.js";
 import { fingerprintString } from "../helpers/fingerprint-string.js";
 import { Account } from "../models/accounts.js";
 import userdataDriver from "../drivers/data.driver.js";
@@ -89,7 +89,7 @@ function generate(options = {}) {
 /**
  * @description Requests an invite code for a given email address.
  * @param {String} email - The email address to request an invite code for.
- * @returns {String|Boolean} - The invite code or false if an error occurs.
+ * @returns {String|Boolean} - The invite code or false if can't request code
  */
 async function requestWithEmail(email) {
     const emailFingerprint = await fingerprintString(
@@ -98,16 +98,18 @@ async function requestWithEmail(email) {
     );
 
     // Get any invite code that is already linked to the email fingerprint
-    let inviteCode = userdataDriver.getInviteCodeByLinkedEmail(emailFingerprint);
-    
+    let inviteCodeEntry = userdataDriver.getInviteCodeEntryByLinkedEmail(emailFingerprint);
+    let inviteCode = inviteCodeEntry.code;
+
     // If no invite code exists, generate a new one
-    if (!inviteCode) {
-        inviteCode = generateInviteCode();
+    if (!inviteCodeEntry) {
+        inviteCode = generate();
         userdataDriver.linkInviteCodeToEmail(inviteCode, emailFingerprint);
     }
     
-    return inviteCode;
+    return inviteCode ? inviteCode : false;
 }
+
 
 export default {
     generate: {
