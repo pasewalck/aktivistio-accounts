@@ -303,16 +303,17 @@ export default {
                 ]
             }, null, "  ")})
     },
-    serviceEditSavePost: async (req,res) => {
+    serviceAddPost: async (req,res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            return dashboardRenderer.manageService(req,res,null,data,errors)
+            return dashboardRenderer.manageService(req,res,null,data,errors.mapped())
         }
 
-        const newClientId = data.configuration["client_id"]
-        adapterService.setEntry("Client",newClientId,data.configuration)
+        const configuration = JSON.parse(data.configuration)
+        const newClientId = configuration["client_id"]
+        adapterService.setEntry("Client",newClientId,configuration)
 
         res.redirect(`/services/edit/${newClientId}/`)
 
@@ -326,7 +327,7 @@ export default {
         }
 
         const clientId = data.id
-        dashboardRenderer.manageService(req,res,clientId,JSON.stringify(adapterService.getEntry("Client",clientId), null, "  "))
+        dashboardRenderer.manageService(req,res,clientId,{configuration:JSON.stringify(adapterService.getEntry("Client",clientId), null, "  ")})
 
     },
     serviceEditSavePost: async (req,res) => {
@@ -339,14 +340,16 @@ export default {
             if(!clientId)
                 throw new Error(errors.array()[0].msg)
             else
-                return dashboardRenderer.manageService(req,res,clientId,data,errors)
+                return dashboardRenderer.manageService(req,res,clientId,data,errors.mapped())
         }
 
-        const newClientId = data.configuration["client_id"]
+        const configuration = JSON.parse(data.configuration)
+
+        const newClientId = configuration["client_id"]
 
         if(newClientId != clientId)
             adapterService.removeEntry("Client",clientId)
-        adapterService.setEntry("Client",newClientId,data.configuration)
+        adapterService.setEntry("Client",newClientId,configuration)
 
         res.redirect(`/services/edit/${newClientId}/`)
 
@@ -360,7 +363,7 @@ export default {
             if(!clientId)
                 throw new Error(errors.array()[0].msg)
             else
-                return dashboardRenderer.manageService(req,res,clientId,data,errors)
+                return dashboardRenderer.manageService(req,res,clientId,{configuration:JSON.stringify(adapterService.getEntry("Client",clientId),null,"  "),...data},errors.mapped())
         }
 
         adapterService.removeEntry("Client",clientId)
