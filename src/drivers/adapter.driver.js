@@ -39,7 +39,7 @@ function removeEntry(model, id) {
  * @returns {string|null} - The value of the entry, or null if not found or expired.
  */
 function getEntryValue(model, id) {
-    return db.prepare('SELECT value FROM entries WHERE model = ? AND id = ? AND expire >= ?').pluck().get(model, id, Math.floor(Date.now() / 1000));
+    return db.prepare('SELECT value FROM entries WHERE model = ? AND id = ? AND (expire is null OR expire >= ?)').pluck().get(model, id, Math.floor(Date.now() / 1000));
 }
 
 /**
@@ -48,19 +48,19 @@ function getEntryValue(model, id) {
  * @returns {string|null} - The value of the entry, or null if not found or expired.
  */
 function getEntriesValues(model) {
-    return db.prepare('SELECT value FROM entries WHERE model = ? AND expire >= ?').pluck().all(model, Math.floor(Date.now() / 1000));
+    return db.prepare('SELECT value FROM entries WHERE model = ? AND (expire is null OR expire >= ?)').pluck().all(model, Math.floor(Date.now() / 1000));
 }
 
 /**
  * @description Insert a new entry into storage.
+ * @param {string} model - The model associated with the entry.
  * @param {string} id - The ID of the entry.
  * @param {string} value - The value of the entry.
  * @param {number|null} expire - Optional expiration timestamp (in seconds).
  */
 function insertEntry(model, id, value, expire = null) {
-    db.prepare('INSERT INTO entries (model, id, value, expire) VALUES (?, ?, ?, ?)').run(model, id, value, expire);
+    db.prepare('INSERT INTO entries (model, id, value, expire) VALUES (?, ?, ?, ?)').run(model, id, value, expire ? expire : null);
 }
-
 /**
  * @description Update the value of an existing entry in storage.
  * @param {string} model - The model associated with the entry.
@@ -130,7 +130,7 @@ function getEntriesIdsByLookup(model, name, lookup_value) {
  */
 function cleanupExpiredEntries() {
     const currentTime = Math.floor(Date.now() / 1000); // Get the current time in seconds since epoch
-    db.prepare('DELETE FROM entries WHERE expire < ?').run(currentTime); // Delete expired entries
+    db.prepare('DELETE FROM entries WHERE expire < ? AND expire is not null').run(currentTime); // Delete expired entries
 }
 
 // Schedule cleanup of expired entries every hour
