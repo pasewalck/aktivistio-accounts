@@ -8,10 +8,8 @@ import sharedRenderer from "../renderers/shared.renderer.js"
  * @param {import("express").Response} [res]
  * @param {import("express").NextFunction} [next]
  */
-const errorMiddleware = (error, req, res, next) => {
-    logger.error(error)
-    //Todo: find a way to render the error message
-    res.redirect("/")
+const errorMiddleware = (err, req, res, next) => {
+    sharedRenderer.error(res,err)
 }
 export default errorMiddleware
   

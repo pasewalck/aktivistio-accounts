@@ -37,5 +37,17 @@ export default {
             errors: errors
         });
     },    
-
+    /**
+     * @description shared renderer for login page
+     * @param {Response} [res]
+     * @param {JSON|undefined} [interactionDetails]
+     * @param {JSON} [formData]
+     * @param {JSON} [errors]
+     */
+    error: (res,error) => {
+        return res.render('cards/error', {
+            title: res.__('Error'),
+            error: error
+        });
+    },   
 }
