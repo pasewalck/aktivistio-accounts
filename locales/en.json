@@ -189,5 +189,6 @@
 	"Update service": "Update service",
 	"Delete service": "Delete service",
 	"Manage service ...": "Manage service ...",
-	"Password is required.": "Password is required."
+	"Password is required.": "Password is required.",
+	"Error": "Error"
 }
