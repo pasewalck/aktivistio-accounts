@@ -50,11 +50,13 @@ Invite codes are generally linked to an account; however, accounts created with 
 - [x] Fix any bugs or issues that come up
 - [x] Cleanup Code
 - [x] (not optinal) Take a break
-
+- [ ] Proper Error rendering!
+- [ ] Proper rendering of consent and other oidc pages!
+ 
 ### Know Bugs
 
 - [ ] Errors caused by parsing body twice and sending headers to clients from multiple places. This is due to how the current setup interacts with the oidc provider.
-- [ ] Invite code claiming is not checked again if invites are expired.
+- [x] Invite code claiming is not checked again if invites are expired.
 - [x] Multiple POST submit field entries are not checked for validity on server side, such as emails for recovering. None of these fields should able to cause any breaking changes.
 
 ## Setup
