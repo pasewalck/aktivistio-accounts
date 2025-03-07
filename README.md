@@ -40,11 +40,11 @@ Invite codes are generally linked to an account; however, accounts created with 
 
 ## Roadmap
 
-- Config Rewrite! Support for encrypted config file. At the moment all session secrets and database keys are stored in plaintext within the config.json file. This defeats the point of an encrypted database!
+- [x] Config Rewrite! Support for encrypted config file. At the moment all session secrets and database keys are stored in plaintext within the config.json file. This defeats the point of an encrypted database!
 - [x] Error message rewrite. Expecially for register flow!
 - Decide on a LICENSE model (at the moment we have a GNU license)
 - [x] More admin features!
-- (optinal) Rewrite how OIDC clients are loaded. Add support for dynamic clients.
+- [x] (optinal) Rewrite how OIDC clients are loaded. Add support for dynamic clients.
 - Get a docker image going.
 - Run security audits
 - [x] Fix any bugs or issues that come up
@@ -53,9 +53,9 @@ Invite codes are generally linked to an account; however, accounts created with 
 
 ### Know Bugs
 
-- Errors caused by parsing body twice and sending headers to clients from multiple places. This is due to how the current setup interacts with the oidc provider.
-- Invite code claiming is not checked agains if invites are expired.
-- Multiple POST submit field entries are not checked for validity on server side, such as emails for recovering. None of these fields should able to cause any breaking changes.
+- [ ] Errors caused by parsing body twice and sending headers to clients from multiple places. This is due to how the current setup interacts with the oidc provider.
+- [ ] Invite code claiming is not checked again if invites are expired.
+- [x] Multiple POST submit field entries are not checked for validity on server side, such as emails for recovering. None of these fields should able to cause any breaking changes.
 
 ## Setup
 
