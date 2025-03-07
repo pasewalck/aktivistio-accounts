@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import logger from "../helpers/logger.js";
-import { renderTemplate } from "../helpers/template-render.js";
+import { renderTemplate } from "../helpers/ejs-render.js";
 import { RenderMode } from "../models/email.render-mode.js"
 import { MessageType } from "../models/email.message-type.js";
 import env from "../helpers/env.js";
@@ -20,8 +20,8 @@ const transporter = nodemailer.createTransport({
  * @param {RenderMode} [renderMode]
  * @param {JSON} [data]
  */
-function getFullMessageString(messageType,renderMode,data) {
-  return render(`layouts`,renderMode,{...data,body:render(messageType,renderMode,data)})
+async function getFullMessageString(messageType,renderMode,data) {
+  return await render(`layouts`,renderMode,{...data,body:render(messageType,renderMode,data)})
 }
 /**
  * @description render email partial string
@@ -29,8 +29,8 @@ function getFullMessageString(messageType,renderMode,data) {
  * @param {RenderMode} [renderMode]
  * @param {JSON} [data]
  */
-function render(view,renderMode,data) {
-  return renderTemplate(`./src/email-views/${view}/${renderMode}.ejs`,data)
+async function render(view,renderMode,data) {
+  return await renderTemplate(`./src/email-views/${view}/${renderMode}.ejs`,data)
 }
 export default {
   /**
@@ -49,8 +49,8 @@ export default {
         ...locals,...extraData
     }
 
-    const text = getFullMessageString(messageType,RenderMode.PLAIN_TEXT,data)
-    const html = getFullMessageString(messageType,RenderMode.HTML,data)
+    const text = await getFullMessageString(messageType,RenderMode.PLAIN_TEXT,data)
+    const html = await getFullMessageString(messageType,RenderMode.HTML,data)
 
     const info = await transporter.sendMail({
         from: `${env.MAIL.SENDER_DISPLAY_NAME} <${env.MAIL.USER}>`,
