@@ -2,6 +2,19 @@ import jose from 'node-jose';
 
 import logger from "../helpers/logger.js";
 import secretService from "../services/secret.service.js";
+import { emulatedEjs } from '../helpers/ejs-render.js';
+import env from '../helpers/env.js';
+
+const emulatedEjsInstance = await emulatedEjs()
+
+function render (path,data,title,ctx) {
+  return emulatedEjsInstance.render(path,{
+    title:title,
+    baseUrl:env.BASE_URL,
+    app: { name: env.APPLICATION_NAME, logo: env.APPLICATION_LOGO },
+    ...ctx.res.locals,
+    ...data})
+}
 
 export default {
     features: {
@@ -9,26 +22,17 @@ export default {
         rpInitiatedLogout: {
           enabled:true,
           logoutSource: async (ctx, form) => {
-            ctx.res.redirect("/interaction/logout")
+            console.log(form)
+            ctx.body = (await render("cards/logout",{secret:ctx.oidc.session.state.secret},ctx.res.__('Logout'),ctx))
           },
-          postLogoutSuccessSource: async (ctx, form) => {
+          postLogoutSuccessSource: async (ctx) => {
             ctx.res.redirect("/")
           }
         }
     },
     renderError: async function renderError(ctx, out, error) {
-      if(error.message == "Cannot set headers after they are sent to the client")
-        return;
-      logger.error(error)
-      /**
-       * @todo find a way to render the error message without causing a fatal error
-       */
-      try {
-        ctx.res.redirect("/")
-      } catch (error) {
-        if(error.message != "Cannot set headers after they are sent to the client")
-          throw(error)
-      }
+      ctx.type = 'html';
+      ctx.body = (await render("cards/error",{error:error},ctx.res.__('Error'),ctx))
     },
     conformIdTokenClaims: false,
     claims: {

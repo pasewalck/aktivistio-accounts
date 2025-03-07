@@ -190,5 +190,7 @@
 	"Delete service": "Delete service",
 	"Manage service ...": "Manage service ...",
 	"Password is required.": "Password is required.",
-	"Error": "Error"
+	"Error": "Error",
+	"Error occured": "Error occured",
+	"Logout Success": "Logout Success"
 }

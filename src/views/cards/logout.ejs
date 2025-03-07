@@ -4,7 +4,8 @@
         <h1><%= __("Logout") %></h1>
         <p><%= __("Are you sure you want to logout?") %> </p>
 
-        <form class="form" id="op.logoutForm" autocomplete="off" action="<%= urls.action %>"method="post">
+        
+        <form class="form" id="op.logoutForm" autocomplete="off" action="/oidc/session/end/confirm/"method="post">
         
             <input type="hidden" name="xsrf" value="<%= secret %>"/>
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
