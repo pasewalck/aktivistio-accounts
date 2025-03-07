@@ -30,7 +30,6 @@ export default {
      * @param {JSON} [errors]
      */
     login: (res,interactionDetails=null,formData={},errors={}) => {
-        console.log(errors)
         return res.render('cards/login', {
             title: res.__('Login'),
             interactionDetails: interactionDetails,
@@ -38,4 +37,5 @@ export default {
             errors: errors
         });
     },    
+
 }
