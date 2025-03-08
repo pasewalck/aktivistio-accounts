@@ -12,7 +12,7 @@ export default [
       var json = JSON.parse(value)
       if(!json["client_id"])
         throw new Error(req.__("Client ID ('client_id') must be specifier"))
-      if(adapterService.getEntry("Client",json["client_id"]))
+      if(adapterService.getEntry("Client",json["client_id"]) && req.params?.id != json["client_id"])
         throw new Error(req.__('Client ID already is use!'))
       return true
     }),
