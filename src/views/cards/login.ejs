@@ -3,7 +3,7 @@
 
         <h1><%= __('Login') %></h1>
 
-        <% const relativBaseUrl = app.baseUrl + "/" + (interactionDetails ? interactionDetails.uid + "/" : "") %> 
+        <% const relativBaseUrl = app.baseUrl + "/" + (interactionDetails ? "interaction/" + interactionDetails.uid + "/" : "") %> 
 
         <form class="form" autocomplete="off" action="<% relativBaseUrl %>/login/" method="post">
 
