@@ -8,415 +8,513 @@ import adapterService from "../services/adapter.service.js";
 
 /**
  * @typedef {import("express").Request} Request
+ * Represents an HTTP request in Express.
  */
 
 /**
  * @typedef {import("express").Response} Response
+ * Represents an HTTP response in Express.
  */
 
 export default {
     /**
-     * @description controller function for dashboard service page
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Renders the dashboard services page.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    services: (req,res) => {
-        dashboardRenderer.services(req,res)
+    services: (req, res) => {
+        dashboardRenderer.services(req, res);
     },
-    /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
-     */
-    account: (req,res) => {
-        dashboardRenderer.account(req,res)
-    },
-    /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
-     */
-    accountChangePassword: (req,res) => {
-        dashboardRenderer.accountChangePassword(req,res)
-    },
-    /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
-     */
-    accountChangePasswordPost: async (req,res) => {
 
+    /**
+     * @description Renders the user account page in the dashboard.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    account: (req, res) => {
+        dashboardRenderer.account(req, res);
+    },
+
+    /**
+     * @description Renders the change password page for the user account.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    accountChangePassword: (req, res) => {
+        dashboardRenderer.accountChangePassword(req, res);
+    },
+
+    /**
+     * @description Handles the POST request to change the user's password.
+     * Validates the request data and updates the password if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    accountChangePasswordPost: async (req, res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            return dashboardRenderer.accountChangePassword(req,res,data,errors.mapped())
+            return dashboardRenderer.accountChangePassword(req, res, data, errors.mapped());
         }
 
-        await accountService.password.set(req.account,data.newPassword)
-        res.redirect("/account")
+        await accountService.password.set(req.account, data.newPassword);
+        res.redirect("/account");
+    },
 
-    },
     /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Renders the account deletion confirmation page.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountDelete: (req,res) => {
-        dashboardRenderer.delete(req,res)
+    accountDelete: (req, res) => {
+        dashboardRenderer.delete(req, res);
     },
+
     /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Handles the POST request to delete the user's account.
+     * Validates the request data and deletes the account if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountDeletePost: async (req,res) => {
+    accountDeletePost: async (req, res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            return dashboardRenderer.delete(req,res,data,errors.mapped())
+            return dashboardRenderer.delete(req, res, data, errors.mapped());
         }
 
-        const session = await provider.Session.get(provider.app.createContext(req,res))
-        session.destroy();        
-        accountService.delete(req.account)
-        res.redirect("/")
+        const session = await provider.Session.get(provider.app.createContext(req, res));
+        session.destroy();
+        await accountService.delete(req.account);
+        res.redirect("/");
     },
+
     /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Renders the two-factor authentication (2FA) page for the user account.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    account2fa: (req,res) => {
-        dashboardRenderer.twoFactorAuth(req,res)
+    account2fa: (req, res) => {
+        dashboardRenderer.twoFactorAuth(req, res);
     },
-    
+
     /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Renders the page to add two-factor authentication (2FA) for the user account.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountAdd2fa: (req,res) => {
-        dashboardRenderer.addTwoFactorAuth(req,res)
+    accountAdd2fa: (req, res) => {
+        dashboardRenderer.addTwoFactorAuth(req, res);
     },
+
     /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Handles the POST request to change the user's two-factor authentication (2FA) settings.
+     * Validates the request data and updates the 2FA secret if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountChange2faPost: async (req,res) => {
+    accountChange2faPost: async (req, res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            return dashboardRenderer.addTwoFactorAuth(req,res,data,errors.mapped())
+            return dashboardRenderer.addTwoFactorAuth(req, res, data, errors.mapped());
         }
 
-        accountService.twoFactorAuth.set(req.account,req.body.secret)
-        res.redirect("/account/2fa")
+        accountService.twoFactorAuth.set(req.account, req.body.secret);
+        res.redirect("/account/2fa");
     },
+
     /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Handles the POST request to remove two-factor authentication (2FA) for the user account.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountRemove2faPost: async (req,res) => {
-        accountService.twoFactorAuth.set(req.account,null)
-        res.redirect("/account/2fa")
+    accountRemove2faPost: async (req, res) => {
+        accountService.twoFactorAuth.set(req.account, null);
+        res.redirect("/account/2fa");
     },
+
     /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Renders the account recovery page.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountRecovery: (req,res) => {
-        dashboardRenderer.recovery(req,res)
+    accountRecovery: (req, res) => {
+        dashboardRenderer.recovery(req, res);
     },
+
     /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Renders the page to set the recovery email for the user account.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountRecoverySetEmail: (req,res) => {
-        dashboardRenderer.setRecoveryEmail(req,res)
+    accountRecoverySetEmail: (req, res) => {
+        dashboardRenderer.setRecoveryEmail(req, res);
     },
+
     /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Renders the page to set the recovery token for the user account.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountRecoverySetToken: (req,res) => {
-        dashboardRenderer.setRecoveryToken(req,res)
+    accountRecoverySetToken: (req, res) => {
+        dashboardRenderer.setRecoveryToken(req, res);
     },
+
     /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Handles the request to delete the recovery email method for the user account.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountRecoveryDeleteEmail: (req,res) => {
-        dashboardRenderer.deleteRecoveryMethod(req,res,"email")
+    accountRecoveryDeleteEmail: (req, res) => {
+        dashboardRenderer.deleteRecoveryMethod(req, res, "email");
     },
+
     /**
-     * @description controller function for dashboard user account page 
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Handles the request to delete the recovery token method for the user account.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountRecoveryDeleteToken: (req,res) => {
-        dashboardRenderer.deleteRecoveryMethod(req,res,"token")
+    accountRecoveryDeleteToken: (req, res) => {
+        dashboardRenderer.deleteRecoveryMethod(req, res, "token");
     },
+
     /**
-     * @description controller function for dashboard invites page
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Handles the POST request to delete the recovery email method.
+     * Validates the request data and deletes the email if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountRecoveryDeleteEmailPost: async (req,res) => {
+    accountRecoveryDeleteEmailPost: async (req, res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            return dashboardRenderer.deleteRecoveryMethod(req,res,"email",data,errors.mapped())
+            return dashboardRenderer.deleteRecoveryMethod(req, res, "email", data, errors.mapped());
         }
 
-        await accountService.recovery.email.set(req.account,null)
-        res.redirect("/account/recovery")
+        await accountService.recovery.email.set(req.account, null);
+        res.redirect("/account/recovery");
     },
+
     /**
-     * @description controller function for dashboard invites page
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Handles the POST request to delete the recovery token method.
+     * Validates the request data and deletes the token if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountRecoveryDeleteTokenPost: async (req,res) => {
+    accountRecoveryDeleteTokenPost: async (req, res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            return dashboardRenderer.deleteRecoveryMethod(req,res,"email",data,errors.mapped())
+            return dashboardRenderer.deleteRecoveryMethod(req, res, "token", data, errors.mapped());
         }
 
-        await accountService.recovery.token.set(req.account,null)
-        res.redirect("/account/recovery")
+        await accountService.recovery.token.set(req.account, null);
+        res.redirect("/account/recovery");
     },
+
     /**
-     * @description controller function for dashboard invites page
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Handles the POST request to set the recovery email method.
+     * Validates the request data and sets the email if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountRecoverySetEmailPost: async (req,res) => {
+    accountRecoverySetEmailPost: async (req, res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            return dashboardRenderer.setRecoveryEmail(req,res,data,errors.mapped())
+            return dashboardRenderer.setRecoveryEmail(req, res, data, errors.mapped());
         }
 
-        await accountService.recovery.email.set(req.account,data.email)
-        res.redirect("/account/recovery")
+        await accountService.recovery.email.set(req.account, data.email);
+        res.redirect("/account/recovery");
     },
+
     /**
-     * @description controller function for dashboard invites page
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Handles the POST request to set the recovery token method.
+     * Validates the request data and sets the token if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    accountRecoverySetTokenPost: async (req,res) => {
+    accountRecoverySetTokenPost: async (req, res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            return dashboardRenderer.setRecoveryToken(req,res,data,errors.mapped())
+            return dashboardRenderer.setRecoveryToken(req, res, data, errors.mapped());
         }
 
-        await accountService.recovery.token.set(req.account,req.body.token)
-        res.redirect("/account/recovery")
+        await accountService.recovery.token.set(req.account, req.body.token);
+        res.redirect("/account/recovery");
     },
-    /**
-     * @description controller function for dashboard invites page
-     * @param {Response} [res]
-     * @param {Request} [req]
-    */
-    invites: (req,res) => {
-        dashboardRenderer.invites(req,res)
-    },
-    /**
-     * @description controller function for dashboard invites page
-     * @param {Response} [res]
-     * @param {Request} [req]
-    */
-    inviteShare: async (req,res) => {
-        const errors = await validationResult(req);
-        const data = await matchedData(req);
 
-        if (!errors.isEmpty()) {
-            throw new Error(errors.array()[0].msg)
-        }
-
-        dashboardRenderer.inviteShare(req,res,data.invite)
-    },
     /**
-     * @description controller for invite generation
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Renders the invites page in the dashboard.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    invitesGeneratePost: async (req,res) => {
-        const errors = await validationResult(req);
-        const data = await matchedData(req);
-
-        if (!errors.isEmpty()) {
-            throw new Error(errors.array()[0].msg)
-        }
-
-        invitesService.generate.single({maxUses:parseInt(data.count, 10),linkedAccount:req.account,expireDate:data.date ? data.date : null})
-        res.redirect("/invites")
+    invites: (req, res) => {
+        dashboardRenderer.invites(req, res);
     },
+
     /**
-     * @description controller for invite terminatation
-     * @param {Response} [res]
-     * @param {Request} [req]
+     * @description Handles the request to share an invite.
+     * Validates the request data and renders the invite share page if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    terminateInvitePost: async (req,res) => {
+    inviteShare: async (req, res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            throw new Error(errors.array()[0].msg)
+            throw new Error(errors.array()[0].msg);
         }
 
-        invitesService.remove(data.code)
-        res.redirect("/invites")
+        dashboardRenderer.inviteShare(req, res, data.invite);
     },
-    serviceAdd: async (req,res) => {
-        dashboardRenderer.manageService(req,res,null,{configuration:
-            JSON.stringify(
-            {
+
+    /**
+     * @description Handles the POST request to generate a new invite.
+     * Validates the request data and creates the invite if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    invitesGeneratePost: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            throw new Error(errors.array()[0].msg);
+        }
+
+        invitesService.generate.single({
+            maxUses: parseInt(data.count, 10),
+            linkedAccount: req.account,
+            expireDate: data.date ? data.date : null
+        });
+        res.redirect("/invites");
+    },
+
+    /**
+     * @description Handles the POST request to terminate an existing invite.
+     * Validates the request data and removes the invite if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    terminateInvitePost: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            throw new Error(errors.array()[0].msg);
+        }
+
+        invitesService.remove(data.code);
+        res.redirect("/invites");
+    },
+
+    /**
+     * @description Renders the service management page for adding a new service.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    serviceAdd: async (req, res) => {
+        dashboardRenderer.manageService(req, res, null, {
+            configuration: JSON.stringify({
                 "client_name": "Example Name",
-                "client_id": "exampleClientIde",
+                "client_id": "exampleClientId",
                 "client_uri": "https://example.com",
                 "client_secret": "exampleSecret",
                 "grant_types": [
-                  "authorization_code"
+                    "authorization_code"
                 ],
                 "redirect_uris": [
-                  "https://example.com/done"
+                    "https://example.com/done"
                 ],
                 "response_types": [
-                  "code"
+                    "code"
                 ]
-            }, null, "  ")})
+            }, null, "  ")
+        });
     },
-    serviceAddPost: async (req,res) => {
-        const errors = await validationResult(req);
-        const data = await matchedData(req);
 
-        if (!errors.isEmpty()) {
-            return dashboardRenderer.manageService(req,res,null,data,errors.mapped())
-        }
-
-        const configuration = JSON.parse(data.configuration)
-        const newClientId = configuration["client_id"]
-        adapterService.setEntry("Client",newClientId,configuration)
-
-        res.redirect(`/services/edit/${newClientId}/`)
-
-    },
-    serviceEdit: async (req,res) => {
-        const errors = await validationResult(req);
-        const data = await matchedData(req);
-
-        if (!errors.isEmpty()) {
-            throw new Error(errors.array()[0].msg)
-        }
-
-        const clientId = data.id
-        dashboardRenderer.manageService(req,res,clientId,{configuration:JSON.stringify(adapterService.getEntry("Client",clientId), null, "  ")})
-
-    },
-    serviceEditSavePost: async (req,res) => {
-        const errors = await validationResult(req);
-        const data = await matchedData(req);
-
-        const clientId = data.id
-
-        if (!errors.isEmpty()) {
-            if(!clientId)
-                throw new Error(errors.array()[0].msg)
-            else
-                return dashboardRenderer.manageService(req,res,clientId,data,errors.mapped())
-        }
-
-        const configuration = JSON.parse(data.configuration)
-
-        const newClientId = configuration["client_id"]
-
-        if(newClientId != clientId)
-            adapterService.removeEntry("Client",clientId)
-        adapterService.setEntry("Client",newClientId,configuration)
-
-        res.redirect(`/services/edit/${newClientId}/`)
-
-    },
-    serviceEditDeletePost: async (req,res) => {
-        const errors = await validationResult(req);
-        const data = await matchedData(req);
-        const clientId = data.id
-
-        if (!errors.isEmpty()) {
-            if(!clientId)
-                throw new Error(errors.array()[0].msg)
-            else
-                return dashboardRenderer.manageService(req,res,clientId,{configuration:JSON.stringify(adapterService.getEntry("Client",clientId),null,"  "),...data},errors.mapped())
-        }
-
-        adapterService.removeEntry("Client",clientId)
-
-        res.redirect("/services")
-    },
-    users: async (req,res) => {
-        dashboardRenderer.users(req,res)
-    },
-    manageUser: async (req,res) => {
-        const errors = await validationResult(req);
-        const data = await matchedData(req);
-
-        if (!errors.isEmpty()) {
-            throw new Error(errors.array()[0].msg)
-        }
-
-        dashboardRenderer.manageUser(req,res,data.id)
-    },
-    manageUserUpdatePost: async (req,res) => {
-        const errors = await validationResult(req);
-        const data = await matchedData(req);
-
-        if (!errors.isEmpty()) {
-            return dashboardRenderer.manageUser(req,res,data.id,data,errors.mapped())
-        }
-
-        accountService.setRole(accountService.find.withId(data.id),data.accountUpdateRole)
-
-        res.redirect(`/user/${data.id}/`)
-    },
-    manageUserDeletePost: async (req,res) => {
-        const errors = await validationResult(req);
-        const data = await matchedData(req);
-
-        if (!errors.isEmpty()) {
-            return dashboardRenderer.manageUser(req,res,data.id,data,errors.mapped())
-        }
-
-        accountService.delete(accountService.find.withId(data.id))
-
-        res.redirect("/users/")
-
-    },
     /**
-     * @description controller for oidc logout page
-     * @param {Request} [req]
-     * @param {Response} [res]
+     * @description Handles the POST request to add a new service.
+     * Validates the request data and saves the service configuration if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
      */
-    logoutPost: async (req,res) => {
-        const session = await provider.Session.get(provider.app.createContext(req,res))
-        session.destroy(); 
-    
-        return res.redirect("/login/")
-    },    
-}
+    serviceAddPost: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.manageService(req, res, null, data, errors.mapped());
+        }
+
+        const configuration = JSON.parse(data.configuration);
+        const newClientId = configuration["client_id"];
+        adapterService.setEntry("Client", newClientId, configuration);
+
+        res.redirect(`/services/edit/${newClientId}/`);
+    },
+
+    /**
+     * @description Renders the service management page for editing an existing service.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    serviceEdit: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            throw new Error(errors.array()[0].msg);
+        }
+
+        const clientId = data.id;
+        dashboardRenderer.manageService(req, res, clientId, {
+            configuration: JSON.stringify(adapterService.getEntry("Client", clientId), null, "  ")
+        });
+    },
+
+    /**
+     * @description Handles the POST request to save changes to an existing service.
+     * Validates the request data and updates the service configuration if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    serviceEditSavePost: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+        const clientId = data.id;
+
+        if (!errors.isEmpty()) {
+            if (!clientId) {
+                throw new Error(errors.array()[0].msg);
+            } else {
+                return dashboardRenderer.manageService(req, res, clientId, data, errors.mapped());
+            }
+        }
+
+        const configuration = JSON.parse(data.configuration);
+        const newClientId = configuration["client_id"];
+
+        // Remove the old entry if the client ID has changed
+        if (newClientId !== clientId) {
+            adapterService.removeEntry("Client", clientId);
+        }
+        adapterService.setEntry("Client", newClientId, configuration);
+
+        res.redirect(`/services/edit/${newClientId}/`);
+    },
+
+    /**
+     * @description Handles the POST request to delete an existing service.
+     * Validates the request data and removes the service if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    serviceEditDeletePost: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+        const clientId = data.id;
+
+        if (!errors.isEmpty()) {
+            if (!clientId) {
+                throw new Error(errors.array()[0].msg);
+            } else {
+                return dashboardRenderer.manageService(req, res, clientId, {
+                    configuration: JSON.stringify(adapterService.getEntry("Client", clientId), null, "  "),
+                    ...data
+                }, errors.mapped());
+            }
+        }
+
+        adapterService.removeEntry("Client", clientId);
+        res.redirect("/services");
+    },
+
+    /**
+     * @description Renders the users management page in the dashboard.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    users: async (req, res) => {
+        dashboardRenderer.users(req, res);
+    },
+
+    /**
+     * @description Renders the user management page for a specific user.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    manageUser: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            throw new Error(errors.array()[0].msg);
+        }
+
+        dashboardRenderer.manageUser(req, res, data.id);
+    },
+
+    /**
+     * @description Handles the POST request to update a user's role.
+     * Validates the request data and updates the user's role if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    manageUserUpdatePost: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.manageUser(req, res, data.id, data, errors.mapped());
+        }
+
+        accountService.setRole(accountService.find.withId(data.id), data.accountUpdateRole);
+        res.redirect(`/user/${data.id}/`);
+    },
+
+    /**
+     * @description Handles the POST request to delete a user.
+     * Validates the request data and deletes the user if valid.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    manageUserDeletePost: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.manageUser(req, res, data.id, data, errors.mapped());
+        }
+
+        accountService.delete(accountService.find.withId(data.id));
+        res.redirect("/users/");
+    },
+
+    /**
+     * @description Handles the POST request for user logout.
+     * Destroys the user session and redirects to the login page.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    logoutPost: async (req, res) => {
+        const session = await provider.Session.get(provider.app.createContext(req, res));
+        session.destroy();
+
+        return res.redirect("/login/");
+    },
+};
+
+
