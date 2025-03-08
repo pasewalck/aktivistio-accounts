@@ -643,7 +643,9 @@ h5 { font-size: 17px; padding-bottom: 6px; }
                 padding: 4px;
                 border-radius: 4px;
 
-                a {
+                a,button {
+                    background-color: transparent;
+                    cursor: pointer;
                     img {
                         opacity: 0.8;
                         height: 20px;

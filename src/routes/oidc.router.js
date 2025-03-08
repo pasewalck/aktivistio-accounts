@@ -15,7 +15,6 @@ export default (app) => {
   logger.debug("Initializing oidc router")
 
   app.get('/interaction/:uid/abort', setNoCache, oidcController.abort);
-  app.get('/interaction/logout', setNoCache, oidcController.logout);
   app.get('/interaction/:uid', setNoCache, oidcController.interaction);
 
   app.post('/interaction/:uid/login', setNoCache,loginValidations, sharedController.loginPost);

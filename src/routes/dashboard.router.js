@@ -77,4 +77,7 @@ export default (app) => {
 
     app.get('/invites/share/:invite',middlewares,shareInviteValidators,dashboardController.inviteShare);
     app.post('/invites/terminate',middlewares,deleteInviteValidators,generateCheckUserPersmission(Permission.MANAGE_OWN_INVITES),dashboardController.terminateInvitePost);
+
+    app.post('/logout',middlewares,dashboardController.logoutPost);
+
 }
