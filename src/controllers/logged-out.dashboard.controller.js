@@ -64,7 +64,7 @@ export default {
 
         const email = data.email;
         const inviteCode = await invitesService.requestWithEmail(email)
-        console.log(inviteCode)
+
         mailService.send.inviteCode(inviteCode,email,res.locals)     
         res.redirect("/register")
 

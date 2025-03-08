@@ -8,7 +8,6 @@ export default [
         .toInt(),
     body('date')
         .optional({checkFalsy:true})
-        .custom((value) => console.log(value))
         .isDate().withMessage(localize('Invalid date format'))
         .toDate()
 ];

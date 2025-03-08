@@ -399,8 +399,6 @@ export default {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
-        console.log(errors.array())
-
         if (!errors.isEmpty()) {
             return dashboardRenderer.manageUser(req,res,data.id,data,errors.mapped())
         }
