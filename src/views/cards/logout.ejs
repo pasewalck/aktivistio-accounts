@@ -2,18 +2,17 @@
     <div class="container-medium-width container-filled-background">
 
         <h1><%= __("Logout") %></h1>
-        <p><%= __("Are you sure you want to logout?") %> </p>
+        <p><%= __("Do you want to logout everywhere?") %> </p>
 
-        
-        <form class="form" id="op.logoutForm" autocomplete="off" action="/oidc/session/end/confirm/"method="post">
+        <form class="form" autocomplete="off" action="/oidc/session/end/confirm/"method="post">
         
             <input type="hidden" name="xsrf" value="<%= secret %>"/>
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
             <div class="form-action-group">
                 <div class="button-group">
-                    <button autofocus type="submit" form="op.logoutForm" value="yes" name="logout" class="button primary"><%= __('Yes') %></button>
-                    <button type="submit" form="op.logoutForm" class="button red"><%= __('Abort') %></button>
+                    <button autofocus type="submit" value="yes" name="logout" class="button primary"><%= __('Yes') %></button>
+                    <button type="submit" class="button red"><%= __('No') %></button>
                 </div>
             </div>
 
