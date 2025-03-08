@@ -1,10 +1,11 @@
-import { AlphanumericCleaned, Alphanumeric } from "./character-arrays.js";
+import { AlphanumericMoreReadable, Alphanumeric } from "./character-arrays.js";
 
 /**
- * @description return a random int using crypto module.Inspired by a solution from  https://stackoverflow.com/a/18230432
- * @param {Number} [min]
- * @param {Number} [max]
- * @returns {String}
+ * @description Returns a random integer between min and max (inclusive) using the crypto module.
+ * Inspired by a solution from https://stackoverflow.com/a/18230432
+ * @param {Number} min - The minimum value of the random integer.
+ * @param {Number} max - The maximum value of the random integer.
+ * @returns {Number} A random integer between min and max.
  */
 const randomInt = (min, max) => {       
     var byteArray = new Uint8Array(1);
@@ -16,67 +17,81 @@ const randomInt = (min, max) => {
         return randomInt(min, max);
     return min + (byteArray[0] % range);
 }
+
 /**
- * @description Get a random character from an array of strings
- * @param {String[]} [strings]
- * @returns {String}
+ * @description Get a random character from an array of strings.
+ * @param {String[]} strings - An array of strings to choose from.
+ * @returns {String} A random character from the concatenated strings.
  */
 export const getRandomCharFromStrings = (strings) => {
-    return getRandomCharFromString(strings.join(''))
+    return getRandomCharFromString(strings.join(''));
 }
+
 /**
- * @description Get a random character from a string
- * @param {String} [string]
- * @returns {String}
+ * @description Get a random character from a string.
+ * @param {String} string - The string to choose a character from.
+ * @returns {String} A random character from the string.
  */
 export const getRandomCharFromString = (string) => {
-    return string.charAt(Math.floor(randomInt(0, string.length-1)))
+    return string.charAt(randomInt(0, string.length - 1));
 }
+
 /**
- * @description Generate an alphanumeric secret
- * @param {Number} [length]
- * @param {Boolean} [cleaned]
- * @returns {String}
+ * @description Generate an alphanumeric secret of a specified length.
+ * @param {Number} [length] - The length of the secret to generate (Default is 30).
+ * @param {Boolean} [moreReadable] - Whether to use the more readable alphanumeric collection (Default is false).
+ * @returns {String} The generated alphanumeric secret.
  */
-export const generateSecret = (length=30,cleaned=false) => {
-    let secret = "";
-    for (let i = 0; i < length; i++)
-        secret += getRandomCharFromStrings(Object.values(cleaned ? AlphanumericCleaned : Alphanumeric));
-    return secret
+export const generateSecret = (length = 30, moreReadable = false) => {
+    const charSet = Object.values(moreReadable ? AlphanumericMoreReadable : Alphanumeric).join('');
+    return Array.from({ length }, () => getRandomCharFromString(charSet)).join('');
 };
+
 /**
- * @description Generate an alphanumeric password
- * @param {Number} [length]
- * @returns {String}
+ * @description Generate an alphanumeric password of a specified length.
+ * @param {Number} [length] - The length of the password to generate (Default is 20).
+ * @returns {String} The generated alphanumeric password.
  */
-export const generatePassword = (length=20) => {
-    let pwd = "";
-    for (let i = 0; i < length; i++)
-        pwd += getRandomCharFromStrings(Object.values(AlphanumericCleaned));
-    return pwd
+export const generatePassword = (length = 20) => {
+    const charSet = Object.values(AlphanumericMoreReadable).join('');
+    return Array.from({ length }, () => getRandomCharFromString(charSet)).join('');
 };
+
 /**
- * @description Generate numeric code as a string
- * @param {Number} [length]
- * @returns {String}
+ * @description Generate a numeric code as a string of a specified length.
+ * @param {Number} [length] - The length of the numeric code to generate (Default is 8).
+ * @returns {String} The generated numeric code.
+ * @throws {Error} Throws an error if length is less than 1.
  */
-export const generateNumberCode = (length=8) => {
+export const generateNumberCode = (length = 8) => {
+    if (length < 1)
+        throw new Error("Length must be at least 1.");
+    return Array.from({ length }, () => getRandomCharFromString(Alphanumeric.Numbers)).join('');
+};
+
+/**
+ * @description Generate an alphanumeric code with a ratio-based distribution between numbers and letters with focus on it being typeable.
+ * @param {Number} [length] - The length of the code to generate (Default is 8).
+ * @param {Number} [ratio] - The ratio of numbers to letters in the generated code (Can be between 0 and 10. Default is 5).
+ * @returns {String} The generated typeable code.
+ * @throws {Error} Throws an error if length is less than 1 or ratio is negative or bigger than 10.
+ */
+export const generateTypeableCode = (length = 8, ratio = 5) => {
+    if (length < 1) {
+        throw new Error("Length must be at least 1.");
+    }
+    if (ratio < 0) {
+        throw new Error("Ratio cannot be negative.");
+    }
+    if (ratio > 10) {
+        throw new Error("Ratio cannot be above 10.");
+    }
     let code = "";
-    for (let i = 0; i < length; i++)
-        code += getRandomCharFromString(Alphanumeric.Numbers);
- 
-    return code
-};
-/**
- * @description Generate an alphanumeric code with a ratio-based distribution between numbers and letters.
- * @param {Number} [length]
- * @returns {String}
- */
-export const generateTypeableCode = (length=8,ratio=5) => {
-    
-    let code = "";
-    for (let i = 0; i < length; i++)
-        code += randomInt(0,10) <= ratio ? getRandomCharFromString(AlphanumericCleaned.Numbers) : getRandomCharFromStrings([AlphanumericCleaned.Lowers,AlphanumericCleaned.Uppers]);
- 
-    return code
+    for (let i = 0; i < length; i++) {
+        // Randomly determine whether to add a number or a letter based on the ration
+        code += randomInt(0, 10) <= ratio 
+            ? getRandomCharFromString(AlphanumericMoreReadable.Numbers) 
+            : getRandomCharFromStrings([AlphanumericMoreReadable.Lowers, AlphanumericMoreReadable.Uppers]);
+    }
+    return code;
 };

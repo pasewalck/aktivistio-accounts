@@ -1,29 +1,57 @@
-import { AlphanumericCleaned } from "./character-arrays.js";
+import { AlphanumericMoreReadable } from "./character-arrays.js";
 import { getRandomCharFromString } from "./generate-secrets.js";
 
-const tokenTemplate = "xxxxxx-xxxxxx-xxxxxx-xxxxxx-xxxxxx"
+/**
+ * @description Template for recovery token
+ * The template uses 'x' to be filled with random alphanumeric characters
+ */
+const TOKEN_TEMPLATE = "xxxxxx-xxxxxx-xxxxxx-xxxxxx-xxxxxx";
 
 /**
- * @description returns a recovery string in a recovery token format
- * @returns {String}
+ * @description Generate a recovery token.
+ * @returns {String} The generated recovery token.
  */
 export const generateRecoveryToken = () => {
-    let token = [];
-    for (let i = 0; i < tokenTemplate.length; i++) {
-        token.push(tokenTemplate[i] != "x" ? tokenTemplate[i] : getRandomCharFromString(Object.values(AlphanumericCleaned).join('')))
+    const token = [];
+
+    for (let i = 0; i < TOKEN_TEMPLATE.length; i++) {
+        // If the current character in the template is 'x', replace it with a random character
+        // Otherwise, keep the character from the template
+        const currentChar = TOKEN_TEMPLATE[i];
+        token.push(currentChar !== "x" ? currentChar : getRandomCharFromString(Object.values(AlphanumericMoreReadable).join('')));
     }
+
     return token.join('');
 };
+
 /**
- * @description returns a true or false based on if a recovery token fits the format
- * @returns {String}
+ * @description Validates if a given string matches the recovery token format.
+ * @param {String} string - The string to validate.
+ * @returns {Boolean} True if the string is a valid recovery token, otherwise false.
  */
 export const isRecoveryToken = (string) => {
-    if(string.length != tokenTemplate.length)
-        return false
-    for (let i = 0; i < tokenTemplate.length; i++) {
-        if(tokenTemplate[i] != "x" ? string[i] != tokenTemplate[i] : !Object.values(AlphanumericCleaned).join('').includes(string[i]))
-            return false
+    // Check if the length of the string matches the token template
+    if (string.length !== TOKEN_TEMPLATE.length) {
+        return false;
     }
-    return true
-}
+
+    for (let i = 0; i < TOKEN_TEMPLATE.length; i++) {
+        const templateChar = TOKEN_TEMPLATE[i];
+        const currentChar = string[i];
+
+        // Validate character based on the template
+        if (templateChar !== "x") {
+            // If the template character is not 'x', it must match exactly
+            if (currentChar !== templateChar) {
+                return false;
+            }
+        } else {
+            // If the template character is 'x', it must be an alphanumeric character
+            if (!Object.values(AlphanumericMoreReadable).join('').includes(currentChar)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+};

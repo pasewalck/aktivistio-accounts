@@ -1,34 +1,37 @@
 /**
- * @description check if a string is alphanumeric
- * @param {String} [string]
- * @returns {Boolean}
+ * @description Checks if a string is alphanumeric (contains only letters and numbers).
+ * @param {String} string - The string to check.
+ * @returns {Boolean} True if the string is alphanumeric, otherwise false.
  */
 export function isAlphanumeric(string) {
-    return string.toLowerCase().match(/^[0-9a-z]+$/) != null
+    return /^[0-9a-zA-Z]+$/.test(string);
 }
+
 /**
- * @description check if a string is alphanumeric lowercase
- * @param {String} [string]
- * @returns {Boolean}
+ * @description Checks if a string is alphanumeric and in lowercase (contains only lowercase letters and numbers).
+ * @param {String} string - The string to check.
+ * @returns {Boolean} True if the string is alphanumeric and lowercase, otherwise false.
  */
 export function isAlphanumericLowerCase(string) {
-    return string.match(/^[0-9a-z]+$/) != null
+    return /^[0-9a-z]+$/.test(string);
 }
+
 /**
- * @description check if a string is numeric
- * @param {String} [string]
- * @returns {Boolean}
+ * @description Checks if a string is numeric (contains only digits).
+ * @param {String} string - The string to check.
+ * @returns {Boolean} True if the string is numeric, otherwise false.
  */
 export function isNumeric(string) {
-    return string.match(/^[0-9]+$/) != null
+    return /^[0-9]+$/.test(string);
 }
+
 /**
- * @description check if a string is in range by length
- * @param {string} [string]
- * @param {Number} [min]
- * @param {Number} [max]
- * @returns {Boolean}
+ * @description Checks if a string's length is within a specified range.
+ * @param {String} string - The string to check.
+ * @param {Number} min - The minimum length.
+ * @param {Number} max - The maximum length.
+ * @returns {Boolean} True if the string's length is within the range, otherwise false.
  */
-export function isInLengthRange(string,min,max) {
-    return min <= string.length && string.length <= max
+export function isInLengthRange(string, min, max) {
+    return string.length >= min && string.length <= max;
 }
