@@ -2,6 +2,7 @@ import assert from "assert"
 
 import oidcRenderer from "../renderers/oidc.renderer.js"
 import provider from "../oidc/provider.js";
+import sharedRenderer from "../renderers/shared.renderer.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -18,13 +19,14 @@ export default {
      * @param {Response} [res]
      */
     interaction: async (req,res) => {
+        const interactionDetails = await provider.interactionDetails(req,res);
         const {
             uid, prompt, params,
-        } = await provider.interactionDetails(req,res);
+        } = interactionDetails
                 
         switch (prompt.name) {
         case 'login': {
-            return sharedRenderer.login(res,uid)
+            return sharedRenderer.login(res,interactionDetails)
         }
         case 'consent': {
             return oidcRenderer.consent(req,res,uid,params.clientId)
