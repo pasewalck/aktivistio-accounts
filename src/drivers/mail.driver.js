@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import logger from "../helpers/logger.js";
-import { renderTemplate } from "../helpers/ejs-render.js";
+import { renderEjsFile } from "../helpers/ejs-render.js";
 import { RenderMode } from "../models/email.render-mode.js"
 import { MessageType } from "../models/email.message-type.js";
 import env from "../helpers/env.js";
@@ -30,7 +30,7 @@ async function getFullMessageString(messageType,renderMode,data) {
  * @param {JSON} [data]
  */
 async function render(view,renderMode,data) {
-  return await renderTemplate(`./src/email-views/${view}/${renderMode}.ejs`,data)
+  return await renderEjsFile(`./src/email-views/${view}/${renderMode}.ejs`,data)
 }
 export default {
   /**
