@@ -8,7 +8,7 @@ export default [
   body("configuration")
     .exists({checkFalsy: true}).withMessage(localize('A configuration must be setup')).bail()
     .isString().withMessage(localize('A configuration must be a string')).bail()
-    .custom(async (value) => {
+    .custom(async (value,{req}) => {
       var json = JSON.parse(value)
       if(!json["client_id"])
         throw new Error(req.__("Client ID ('client_id') must be specifier"))
