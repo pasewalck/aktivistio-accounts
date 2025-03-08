@@ -30,7 +30,7 @@ class Adapter {
      * @param {String} id - The ID of the entry to delete.
      */
     async destroy(id) {
-      await adapterService.removeEntry(this.model, id);
+      adapterService.removeEntry(this.model, id);
     }
 
     /**
@@ -38,9 +38,9 @@ class Adapter {
      * @param {String} id - The ID of the entry to consume.
      */
     async consume(id) {
-      const entry = await adapterService.getEntry(this.model, id);
+      const entry = adapterService.getEntry(this.model, id);
       entry.consumed = Math.floor(Date.now() / 1000);
-      await adapterService.setEntry(this.model, id, entry);
+      adapterService.setEntry(this.model, id, entry);
     }
 
     /**
@@ -49,7 +49,7 @@ class Adapter {
      * @returns {Promise<JSON>} - The found entry as a JSON object.
      */
     async find(id) {
-      return await adapterService.getEntry(this.model, id);
+      return adapterService.getEntry(this.model, id);
     }
 
     /**
@@ -58,8 +58,7 @@ class Adapter {
      * @returns {Promise<JSON>} - The found entry as a JSON object.
      */
     async findByUid(uid) {
-      const id = await adapterService.getEntryByLookup(this.model, "SessionUid", uid);
-      return this.find(id);
+      return adapterService.getEntryByLookup(this.model, "SessionUid", uid);
     }
 
     /**
@@ -68,7 +67,7 @@ class Adapter {
      * @returns {Promise<JSON>} - The found entry as a JSON object.
      */
     async findByUserCode(userCode) {
-      return await adapterService.getEntryByLookup(this.model, "UserCode", userCode);
+      return adapterService.getEntryByLookup(this.model, "UserCode", userCode);
     }
 
     /**
@@ -78,19 +77,19 @@ class Adapter {
      * @param {Number} expiresIn - The expiration time in seconds for the entry.
      */
     async upsert(id, payload, expiresIn) {
-      await adapterService.setEntry(this.model, id, payload, expiresIn);
+      adapterService.setEntry(this.model, id, payload, expiresIn);
 
       if (this.model === 'Session') {
-        await adapterService.setLookupForEntry(this.model, id, "SessionUid", payload.uid);
+        adapterService.setLookupForEntry(this.model, id, "SessionUid", payload.uid);
       }
 
       const { grantId, userCode } = payload;
       if (grantable.has(this.model) && grantId) {
-        await adapterService.setLookupForEntry(this.model, id, "Grant", grantId);
+        adapterService.setLookupForEntry(this.model, id, "Grant", grantId);
       }
 
       if (userCode) {
-        await adapterService.setLookupForEntry(this.model, id, "UserCode", userCode);
+        adapterService.setLookupForEntry(this.model, id, "UserCode", userCode);
       }
 
     }
@@ -100,7 +99,7 @@ class Adapter {
      * @param {String} grantId - The grant ID of the entry to revoke.
      */
     async revokeByGrantId(grantId) {
-      await adapterService.removeEntryByLookup(this.model, "Grant", grantId);
+      adapterService.removeEntryByLookup(this.model, "Grant", grantId);
     }
 }
   
