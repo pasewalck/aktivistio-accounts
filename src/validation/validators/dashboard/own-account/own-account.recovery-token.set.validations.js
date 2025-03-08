@@ -7,7 +7,6 @@ export default [
     recoveryTokenValidator(body('token')),
     body("tokenVerify")
         .customSanitizer(input => {
-            console.log(input)
             return Boolean(input)
         })
         .custom((value) => value == true).withMessage("Recovery token must be confirmed").bail()

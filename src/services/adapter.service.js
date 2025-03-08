@@ -48,7 +48,6 @@ function getEntries(model) {
  * @param {Number|null} expire - Optional expiration time (in seconds from now).
  */
 function setEntry(model, id, value, expire = null) {
-    console.log(model, id, value)
     let encodedValue = JSON.stringify(value); // Convert the value to a JSON string
     expire = expire ? expire + Math.floor(Date.now() / 1000) : null; // Calculate the expiration timestamp
 

@@ -70,7 +70,6 @@
     updateRecovery()
     function updateRecovery () {
         selected = document.getElementById('recoverySelect').value
-        console.log(selected)
         document.getElementById('recoveryEmailSection').style.display = selected == "email" ? "" : "none";
         document.getElementById('recoveryTokenSection').style.display = selected == "token" ? "": "none";
     }

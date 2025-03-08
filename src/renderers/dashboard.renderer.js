@@ -63,7 +63,6 @@ export default {
      * @param {JSON} [errors]
      */
     accountChangePassword: (req,res,formData={},errors={}) => {
-      console.log(errors)
       return res.render('dashboard/account/password', {
         title: res.__('Account Password'),
         errors:errors,

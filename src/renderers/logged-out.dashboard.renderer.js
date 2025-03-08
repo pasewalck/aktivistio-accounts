@@ -19,7 +19,6 @@ export default {
      * @param {JSON} [formData]
      */
     register: (res,formData={},errors={}) => {
-        console.log(errors)
         return res.render('cards/register/details', {
             title: res.__('Register'),
             formData: formData,
