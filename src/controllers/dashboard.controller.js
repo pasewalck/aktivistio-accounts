@@ -410,4 +410,15 @@ export default {
         res.redirect("/users/")
 
     },
+    /**
+     * @description controller for oidc logout page
+     * @param {Request} [req]
+     * @param {Response} [res]
+     */
+    logoutPost: async (req,res) => {
+        const session = await provider.Session.get(provider.app.createContext(req,res))
+        session.destroy(); 
+    
+        return res.redirect("/login/")
+    },    
 }

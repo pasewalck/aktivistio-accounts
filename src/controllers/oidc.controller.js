@@ -13,17 +13,6 @@ import provider from "../oidc/provider.js";
 
 export default {
     /**
-     * @description controller for oidc logout page
-     * @param {Request} [req]
-     * @param {Response} [res]
-     */
-    logout: async (req,res) => {
-        const ctx = provider.app.createContext(req,res)
-        const session = await provider.Session.get(ctx)
-    
-        return oidcRenderer.logout(req,res,session.state.secret,session.state.clientId)
-    },
-    /**
      * @description controller for oidc interation page
      * @param {Request} [req]
      * @param {Response} [res]

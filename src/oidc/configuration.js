@@ -22,7 +22,6 @@ export default {
         rpInitiatedLogout: {
           enabled:true,
           logoutSource: async (ctx, form) => {
-            console.log(form)
             ctx.body = (await render("cards/logout",{secret:ctx.oidc.session.state.secret},ctx.res.__('Logout'),ctx))
           },
           postLogoutSuccessSource: async (ctx) => {
