@@ -9,6 +9,8 @@ import sharedRenderer from "../renderers/shared.renderer.js"
  * @param {import("express").NextFunction} [next]
  */
 const errorMiddleware = (err, req, res, next) => {
+    logger.error(err)
+
     sharedRenderer.error(res,err)
 }
 export default errorMiddleware

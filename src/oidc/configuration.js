@@ -31,6 +31,7 @@ export default {
     },
     renderError: async function renderError(ctx, out, error) {
       ctx.type = 'html';
+      logger.error(error)
       ctx.body = (await render("cards/error",{error:error},ctx.res.__('Error'),ctx))
     },
     conformIdTokenClaims: false,
