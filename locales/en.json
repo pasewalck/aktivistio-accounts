@@ -192,5 +192,7 @@
 	"Password is required.": "Password is required.",
 	"Error": "Error",
 	"Error occured": "Error occured",
-	"Logout Success": "Logout Success"
+	"Logout Success": "Logout Success",
+	"Client ID already is use!": "Client ID already is use!",
+	"Authorize": "Authorize"
 }
