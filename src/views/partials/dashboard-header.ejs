@@ -23,12 +23,11 @@
             </div>
             <nav class="account-nav">
                 <a href="/account"><img src="/icons/settings.svg" alt=""></a>
-
-                <button form="op.logoutForm"><img src="/icons/logout.svg" alt=""></button>
-
-                <form id="op.logoutForm" method="post" action="/logout"><input type="hidden" value="<%= csrfToken %>" name="_csrf"></form>            
+                <button form="logoutForm"><img src="/icons/logout.svg" alt=""></button>
             </nav>
         </div>
 
     </div>
 </header>
+
+<form style="display: none;" id="logoutForm" method="post" action="/logout"><input type="hidden" value="<%= csrfToken %>" name="_csrf"></form>            
