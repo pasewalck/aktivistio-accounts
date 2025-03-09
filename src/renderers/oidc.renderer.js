@@ -10,32 +10,37 @@ import sharedRenderer from "./shared.renderer.js";
 
 export default {
     /**
-     * @description render function for consenting login
-     * @param {Response} [res]
-     * @param {Request} [req]
-     * @param {string} [uid]
-     * @param {string} [clientId]
+     * @description Renders the consent page for login authorization.
+     * Displays the consent form to the user, allowing them to authorize the requested action.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     * @param {string} uid - The unique identifier for the interaction session.
+     * @param {string} clientId - The ID of the client requesting authorization.
      */
-    consent: (req,res,uid,clientId) => {
+    consent: (req, res, uid, clientId) => {
         return res.render('cards/consent', {
-        title: res.__('Authorize'),
-        clientId,
-        urls: {action: `/interaction/${uid}/confirm/`,abort:`/interaction/${uid}/abort/`}
+            title: res.__('Authorize'),
+            clientId,
+            urls: {
+                action: `/interaction/${uid}/confirm/`,
+                abort: `/interaction/${uid}/abort/`
+            }
         });
     },
+
     /**
-     * @description render function for logout page
-     * @param {Response} [res]
-     * @param {Request} [req]
-     * @param {string} [secret]
-     * @param {string} [clientId]
+     * @description Renders the logout page.
+     * Displays the logout confirmation form to the user, allowing them to confirm their logout action.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     * @param {string} secret - The secret associated with the session to be logged out.
+     * @param {string} clientId - The ID of the client initiating the logout.
      */
-    logout: (req,res,secret,clientId) => {
+    logout: (req, res, secret, clientId) => {
         return res.render('cards/logout', {
             title: res.__('Logout'),
             secret,
             clientId,
-            urls: {action: `/oidc/session/end/confirm/`}
         });
     },
-}
+};
