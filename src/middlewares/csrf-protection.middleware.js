@@ -5,7 +5,10 @@ import { generateSecret } from '../helpers/generate-secrets.js';
 // Retrieve or generate a CSRF secret
 const secret = await secretService.getEntries("CSRF_SECRET", () => generateSecret(40), { lifeTime: 120, graceTime: 2 });
 
-// Configuration for CSRF protection middleware.
+/**
+ * @description Configuration for CSRF protection middleware.
+ * @type {Object}
+ */
 const { doubleCsrfProtection } = doubleCsrf({
   getSecret: () => secret,
   getSessionIdentifier: (req) => req.session.id || "", // Use session ID for better identification
