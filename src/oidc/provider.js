@@ -1,4 +1,4 @@
-import Adapter from './adapter.js';
+import Adapter from '../models/oidc-adapter.js';
 import findAccount from './find-account.js';
 import Provider from 'oidc-provider'
 import configuration from './configuration.js';
