@@ -1,5 +1,5 @@
 import dashboardRenderer from "../renderers/dashboard.renderer.js";
-import provider from "../oidc/create-provider.js";
+import provider from "../oidc/provider.js";
 import { matchedData, validationResult } from "express-validator";
 import accountService from "../services/account.service.js";
 import invitesService from "../services/invites.service.js";

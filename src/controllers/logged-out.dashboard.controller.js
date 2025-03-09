@@ -1,5 +1,5 @@
 import dashboardAuthRenderer from "../renderers/logged-out.dashboard.renderer.js";
-import provider from "../oidc/create-provider.js";
+import provider from "../oidc/provider.js";
 
 import { matchedData, validationResult } from "express-validator";
 import { setProviderSession } from "../oidc/session.js";

@@ -1,7 +1,7 @@
 import assert from "assert";
 
 import oidcRenderer from "../renderers/oidc.renderer.js";
-import provider from "../oidc/create-provider.js";
+import provider from "../oidc/provider.js";
 import sharedRenderer from "../renderers/shared.renderer.js";
 
 /**
