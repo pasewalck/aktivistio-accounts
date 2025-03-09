@@ -24,7 +24,8 @@ Keycloak provides an amazing and open-source identity and access management syst
     - invite codes
     - user roles
 - Somewhat modern User Interface (happy for improvements)
-- ...
+    - Basic admin features for managing users and services (oidc clients)
+- Secret storage with rotating secrets
 
 ## Data privacy and security
 
@@ -40,27 +41,14 @@ Invite codes are generally linked to an account; however, accounts created with 
 
 ## Roadmap
 
-- [x] Config Rewrite! Support for encrypted config file. At the moment all session secrets and database keys are stored in plaintext within the config.json file. This defeats the point of an encrypted database!
-- [x] Error message rewrite. Expecially for register flow!
-- Decide on a LICENSE model (at the moment we have a GNU license)
-- [x] More admin features!
-- [x] (optinal) Rewrite how OIDC clients are loaded. Add support for dynamic clients.
+- Check alllocalized fields for spelling and consistency.
+- Document environment variables.
 - Get a docker image going.
-- Run security audits
-- [x] Fix any bugs or issues that come up
-- [x] Cleanup Code
-- [x] (not optinal) Take a break
-- [x] Proper Error rendering!
-- [x] Proper rendering of consent and other oidc pages!
- 
-### Know Bugs
-
-- [x] Invite code claiming is not checked again if invites are expired.
-- [x] Multiple POST submit field entries are not checked for validity on server side, such as emails for recovering. None of these fields should able to cause any breaking changes.
+- Run security audits.
 
 ## Setup
 
-Simply run the script. Most config varaibles will be auto generated. However make sure to configure email and oidc clients in the config file. See example.config for details!
+Simply run the script.
 
 ### Run with node directly 
 - Install npm packages: ```npm install```
