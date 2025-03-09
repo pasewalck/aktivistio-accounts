@@ -1,8 +1,8 @@
 import jose from 'node-jose';
-import logger from "../helpers/logger.js";
-import secretService from "../services/secret.service.js";
-import { emulatedEjs } from '../helpers/ejs-render.js';
-import env from '../helpers/env.js';
+import logger from "../logger.js";
+import secretService from "../../services/secret.service.js";
+import { emulatedEjs } from '../ejs-render.js';
+import env from '../env.js';
 
 // Initialize the emulated EJS instance for rendering templates
 const emulatedEjsInstance = await emulatedEjs();

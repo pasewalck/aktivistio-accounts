@@ -1,9 +1,9 @@
-import Adapter from '../models/oidc-adapter.js';
+import Adapter from '../../models/oidc-adapter.js';
 import findAccount from './find-account.js';
 import Provider from 'oidc-provider';
 import configuration from './configuration.js';
-import logger from '../helpers/logger.js';
-import env from '../helpers/env.js';
+import logger from '../logger.js';
+import env from '../env.js';
 
 // Log the initialization of the OIDC provider
 logger.debug("Initializing OIDC provider");

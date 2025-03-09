@@ -1,8 +1,8 @@
 import dashboardAuthRenderer from "../renderers/logged-out.dashboard.renderer.js";
-import provider from "../oidc/provider.js";
+import provider from "../helpers/oidc/provider.js";
 
 import { matchedData, validationResult } from "express-validator";
-import { setProviderSession } from "../oidc/session.js";
+import { setProviderSession } from "../helpers/oidc/session.js";
 import accountService from "../services/account.service.js";
 import sharedRenderer from "../renderers/shared.renderer.js";
 import { generateNumberCode } from "../helpers/generate-secrets.js";
