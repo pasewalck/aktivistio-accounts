@@ -45,6 +45,12 @@ i18n.configure({
     cookie: 'i18n',
 });
 
+// Session and cookie parsing middleware
+app.use(shortSessionMiddleware);
+app.use(cookieParser(await secretService.getEntries("COOKIE_PARSER_SECRET", () => generateSecret(40), { lifeTime: 365, graceTime: 30 })));
+app.use(express.urlencoded({ extended: true }));
+
+
 // Initialize i18n middleware
 app.use(i18n.init);
 
@@ -61,11 +67,6 @@ logger.debug("Setting public express route");
 app.use(express.static('src/public'));
 
 logger.debug("Initializing middlewares");
-
-// Session and cookie parsing middleware
-app.use(shortSessionMiddleware);
-app.use(cookieParser(await secretService.getEntries("COOKIE_PARSER_SECRET", () => generateSecret(40), { lifeTime: 365, graceTime: 30 })));
-app.use(express.urlencoded({ extended: true }));
 
 // CSRF protection middleware
 app.use(csrfProtection);
