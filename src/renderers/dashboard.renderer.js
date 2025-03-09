@@ -25,7 +25,7 @@ export default {
    * @param {Response} res - The response object.
    */
   services: (req, res) => {
-    return res.render('dashboard/services', {
+    return res.render('pages/dashboard/services', {
         title: res.__('Services'),
         clients: adapterService.getEntries("Client")
     });
@@ -41,7 +41,7 @@ export default {
   * @param {JSON} [errors] - Any validation errors to display (optional).
   */
   manageService: (req, res, currentClientId = null, formData = {}, errors = {}) => {
-    return res.render('dashboard/service-management', {
+    return res.render('pages/dashboard/service-management', {
         title: res.__('Manage Service'),
         errors: errors,
         formData: formData,
@@ -56,7 +56,7 @@ export default {
   * @param {Response} res - The response object.
   */
   account: (req, res) => {
-    return res.render('dashboard/account', {
+    return res.render('pages/dashboard/account', {
         title: res.__('Account'),
     });
   },
@@ -70,7 +70,7 @@ export default {
   * @param {JSON} [errors] - Any validation errors to display (optional).
   */
   accountChangePassword: (req, res, formData = {}, errors = {}) => {
-    return res.render('dashboard/account/password', {
+    return res.render('pages/dashboard/account/password', {
         title: res.__('Account Password'),
         errors: errors,
         formData: formData,
@@ -85,7 +85,7 @@ export default {
   * @param {Response} res - The response object.
   */
   twoFactorAuth: (req, res) => {
-    return res.render('dashboard/account/2fa', {
+    return res.render('pages/dashboard/account/2fa', {
         title: res.__('Account 2fa'),
         has2fa: accountService.twoFactorAuth.get(req.account) != null
     });
@@ -105,7 +105,7 @@ export default {
     let url = twoFactorAuth.generateUrl(secret, env.APPLICATION_NAME, req.account.username);
     let qrCodeSrc = await QRCode.toDataURL(url);
 
-    return res.render('dashboard/account/add-2fa', {
+    return res.render('pages/dashboard/account/add-2fa', {
       title: res.__('Account 2fa'),
       accountInQuestion: req.account,
       secret: secret,
@@ -123,7 +123,7 @@ export default {
    * @param {Response} res - The response object.
    */
   recovery: (req, res) => {
-      return res.render('dashboard/account/recovery', {
+      return res.render('pages/dashboard/account/recovery', {
           title: res.__('Account Recovery'),
           currentRecovery: accountService.recovery.get(req.account)
       });
@@ -138,7 +138,7 @@ export default {
    * @param {JSON} [errors] - Any validation errors to display (optional).
    */
   setRecoveryToken: (req, res, formData = {}, errors = {}) => {
-      return res.render('dashboard/account/set-recovery-token', {
+      return res.render('pages/dashboard/account/set-recovery-token', {
           title: res.__('Account Recovery'),
           accountInQuestion: req.account,
           errors: errors,
@@ -157,7 +157,7 @@ export default {
    * @param {JSON} [errors] - Any validation errors to display (optional).
    */
   setRecoveryEmail: (req, res, formData = {}, errors = {}) => {
-      return res.render('dashboard/account/set-recovery-email', {
+      return res.render('pages/dashboard/account/set-recovery-email', {
           title: res.__('Account Recovery'),
           errors: errors,
           formData: formData,
@@ -176,7 +176,7 @@ export default {
    * @param {JSON} [errors] - Any validation errors to display (optional).
    */
   deleteRecoveryMethod: (req, res, method, formData = {}, errors = {}) => {
-      return res.render('dashboard/account/remove-recovery-confirm', {
+      return res.render('pages/dashboard/account/remove-recovery-confirm', {
           title: res.__('Account Recovery'),
           accountInQuestion: req.account,
           errors: errors,
@@ -194,7 +194,7 @@ export default {
    * @param {JSON} [errors] - Any validation errors to display (optional).
    */
   delete: (req, res, formData = {}, errors = {}) => {
-      return res.render('dashboard/account/delete', {
+      return res.render('pages/dashboard/account/delete', {
           title: res.__('Delete Account'),
           errors: errors,
           formData: formData,
@@ -209,7 +209,7 @@ export default {
    * @param {Response} res - The response object.
    */
   invites: (req, res) => {
-    return res.render('dashboard/codes', {
+    return res.render('pages/dashboard/codes', {
       title: res.__('Codes'),
       inviteCodes: invitesService.getForAccount.all(req.account),
       lockedInviteCodes: invitesService.getForAccount.allLocked(req.account)
@@ -223,7 +223,7 @@ export default {
   * @param {Response} res - The response object.
   */
   users: (req, res) => {
-    return res.render('dashboard/users', {
+    return res.render('pages/dashboard/users', {
         title: res.__('Users'),
         users: accountService.getAll(),
     });
@@ -239,7 +239,7 @@ export default {
   * @param {JSON} [errors] - Any validation errors to display (optional).
   */
   manageUser: (req, res, userId, formData = {}, errors = {}) => {
-    return res.render('dashboard/manage-user', {
+    return res.render('pages/dashboard/manage-user', {
         title: res.__('Managing User'),
         errors: errors,
         formData: formData,
@@ -256,7 +256,7 @@ export default {
   */
   inviteShare: async (req, res, invite) => {
     var inviteURL = env.BASE_URL + "/register/" + invite;
-    return res.render('dashboard/invite-share', {
+    return res.render('pages/dashboard/invite-share', {
         title: res.__('Inviting'),
         invite: invite,
         inviteURL: inviteURL,
