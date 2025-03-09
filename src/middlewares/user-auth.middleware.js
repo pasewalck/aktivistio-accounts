@@ -1,6 +1,6 @@
 import { hasPermission, Permission, Role } from "../models/roles.js";
 
-import provider from "../oidc/provider.js";
+import provider from "../oidc/create-provider.js";
 import accountService from "../services/account.service.js";
 
 /**
