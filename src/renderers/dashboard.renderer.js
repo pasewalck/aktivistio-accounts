@@ -36,9 +36,9 @@ export default {
   * Allows the user to manage a specific service, including displaying any errors or pre-filled form data.
   * @param {Request} req - The request object.
   * @param {Response} res - The response object.
-  * @param {String} currentClientId - The ID of the currently selected client (optional).
-  * @param {JSON} formData - Data to pre-fill the form (optional).
-  * @param {JSON} errors - Any validation errors to display (optional).
+  * @param {String} [currentClientId] - The ID of the currently selected client (optional).
+  * @param {JSON} [formData] - Data to pre-fill the form (optional).
+  * @param {JSON} [errors] - Any validation errors to display (optional).
   */
   manageService: (req, res, currentClientId = null, formData = {}, errors = {}) => {
     return res.render('dashboard/service-management', {
@@ -66,8 +66,8 @@ export default {
   * Allows the user to change their account password, displaying any errors or pre-filled data.
   * @param {Request} req - The request object.
   * @param {Response} res - The response object.
-  * @param {JSON} formData - Data to pre-fill the form (optional).
-  * @param {JSON} errors - Any validation errors to display (optional).
+  * @param {JSON} [formData] - Data to pre-fill the form (optional).
+  * @param {JSON} [errors] - Any validation errors to display (optional).
   */
   accountChangePassword: (req, res, formData = {}, errors = {}) => {
     return res.render('dashboard/account/password', {
@@ -80,6 +80,7 @@ export default {
   /**
   * @description Renders the two-factor authentication (2FA) settings page.
   * Displays whether 2FA is enabled for the user's account.
+  * 
   * @param {Request} req - The request object.
   * @param {Response} res - The response object.
   */
@@ -95,9 +96,9 @@ export default {
   * Generates a QR code for the user to scan, along with a secret key.
   * @param {Request} req - The request object.
   * @param {Response} res - The response object.
-  * @param {String} secret - The secret key for 2FA (optional).
-  * @param {JSON} formData - Data to pre-fill the form (optional).
-  * @param {JSON} errors - Any validation errors to display (optional).
+  * @param {String} [secret] - The secret key for 2FA (optional).
+  * @param {JSON} [formData] - Data to pre-fill the form (optional).
+  * @param {JSON} [errors] - Any validation errors to display (optional).
   */
   addTwoFactorAuth: async (req, res, formData = {}, errors = {}) => {
     let secret = formData.providedSecret || twoFactorAuth.generateSecret();
@@ -133,8 +134,8 @@ export default {
    * Displays any existing recovery token and allows the user to generate a new one if needed.
    * @param {Request} req - The request object.
    * @param {Response} res - The response object.
-   * @param {JSON} formData - Data to pre-fill the form (optional).
-   * @param {JSON} errors - Any validation errors to display (optional).
+   * @param {JSON} [formData] - Data to pre-fill the form (optional).
+   * @param {JSON} [errors] - Any validation errors to display (optional).
    */
   setRecoveryToken: (req, res, formData = {}, errors = {}) => {
       return res.render('dashboard/account/set-recovery-token', {
@@ -152,8 +153,8 @@ export default {
    * Displays any existing recovery email and allows the user to set a new one.
    * @param {Request} req - The request object.
    * @param {Response} res - The response object.
-   * @param {JSON} formData - Data to pre-fill the form (optional).
-   * @param {JSON} errors - Any validation errors to display (optional).
+   * @param {JSON} [formData] - Data to pre-fill the form (optional).
+   * @param {JSON} [errors] - Any validation errors to display (optional).
    */
   setRecoveryEmail: (req, res, formData = {}, errors = {}) => {
       return res.render('dashboard/account/set-recovery-email', {
@@ -171,8 +172,8 @@ export default {
    * @param {Request} req - The request object.
    * @param {Response} res - The response object.
    * @param {String} method - The recovery method to be deleted.
-   * @param {JSON} formData - Data to pre-fill the form (optional).
-   * @param {JSON} errors - Any validation errors to display (optional).
+   * @param {JSON} [formData] - Data to pre-fill the form (optional).
+   * @param {JSON} [errors] - Any validation errors to display (optional).
    */
   deleteRecoveryMethod: (req, res, method, formData = {}, errors = {}) => {
       return res.render('dashboard/account/remove-recovery-confirm', {
@@ -189,8 +190,8 @@ export default {
    * Allows the user to confirm the deletion of their account, displaying any errors or pre-filled data.
    * @param {Request} req - The request object.
    * @param {Response} res - The response object.
-   * @param {JSON} formData - Data to pre-fill the form (optional).
-   * @param {JSON} errors - Any validation errors to display (optional).
+   * @param {JSON} [formData] - Data to pre-fill the form (optional).
+   * @param {JSON} [errors] - Any validation errors to display (optional).
    */
   delete: (req, res, formData = {}, errors = {}) => {
       return res.render('dashboard/account/delete', {
@@ -234,8 +235,8 @@ export default {
   * @param {Request} req - The request object.
   * @param {Response} res - The response object.
   * @param {String} userId - The ID of the user to be managed.
-  * @param {JSON} formData - Data to pre-fill the form (optional).
-  * @param {JSON} errors - Any validation errors to display (optional).
+  * @param {JSON} [formData] - Data to pre-fill the form (optional).
+  * @param {JSON} [errors] - Any validation errors to display (optional).
   */
   manageUser: (req, res, userId, formData = {}, errors = {}) => {
     return res.render('dashboard/manage-user', {
@@ -262,5 +263,4 @@ export default {
         inviteQR: await QRCode.toDataURL(inviteURL, { width: 300 })
     });
   },
-
 };
