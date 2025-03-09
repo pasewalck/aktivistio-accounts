@@ -1,4 +1,4 @@
-<%- include("../partials/dashboard-header.ejs") %>
+<%- include("../../partials/dashboard-header.ejs") %>
 
 <div class="wrapper flex-container">
 
@@ -11,9 +11,9 @@
                 <% if (inviteCodes.length <= 0) { %>
                     <% if (lockedInviteCodes.length > 0 && !canGenerate) { %>
                         <% var daysLeft = (new Date(lockedInviteCodes[0].createDate*1000)-new Date().getTime()) / 1000 / (60 * 60 * 24) %> 
-                        <%- include("../partials/alert-info.ejs",{info: __("Your invites will be unlocked in %s days.",Number.parseFloat(daysLeft).toFixed(0)),moreInfoLink:false}) %> 
+                        <%- include("../../partials/alert-info.ejs",{info: __("Your invites will be unlocked in %s days.",Number.parseFloat(daysLeft).toFixed(0)),moreInfoLink:false}) %> 
                     <% } else { %>
-                        <%- include("../partials/alert-info.ejs",{info: __("You don't have any invites. Reach out for more invites."),moreInfoLink: "mailto:todomail"}) %> 
+                        <%- include("../../partials/alert-info.ejs",{info: __("You don't have any invites. Reach out for more invites."),moreInfoLink: "mailto:todomail"}) %> 
                     <% } %>
                 <% } %>
                 <% for( let index = 0; index < inviteCodes.length; index++ ) { %>
