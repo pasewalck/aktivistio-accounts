@@ -1,5 +1,5 @@
 /**
- * Enum for render modes
+ * Enum for render modes.
  * @readonly
  * @enum {{name: string, id: string}}
  */
