@@ -11,7 +11,7 @@ import csrfProtection from './middlewares/csrf-protection.middleware.js';
 import dashboardRoutes from './routes/dashboard.router.js';
 import oidcRoutes from './routes/oidc.router.js';
 import loggedOutDashboardRouter from './routes/logged-out.dashboard.router.js';
-import sessionMiddleware from './middlewares/session.middleware.js';
+import shortSessionMiddleware from './middlewares/session.middleware.js';
 import provider from './oidc/provider.js';
 import langController from './controllers/lang.controller.js';
 import errorsMiddleware from './middlewares/errors.middleware.js';
@@ -49,7 +49,7 @@ app.use(express.static('src/public'))
 
 logger.debug("Initializing middlewares")
 
-app.use(sessionMiddleware)
+app.use(shortSessionMiddleware)
 app.use(cookieParser(await secretService.getEntries("COOKIE_PARSER_SECRET",() => generateSecret(40),{lifeTime:365,graceTime:30})))
 app.use(express.urlencoded({ extended: true }));
 
