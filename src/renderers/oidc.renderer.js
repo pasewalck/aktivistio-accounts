@@ -1,5 +1,3 @@
-import sharedRenderer from "./shared.renderer.js";
-
 /**
  * @typedef {import("express").Request} Request
  */
