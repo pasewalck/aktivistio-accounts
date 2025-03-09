@@ -1,17 +1,16 @@
-import logger from "../helpers/logger.js"
-import sharedRenderer from "../renderers/shared.renderer.js"
-
+import logger from "../helpers/logger.js";
+import sharedRenderer from "../renderers/shared.renderer.js";
 /**
- * @description middleware for error rendering
- * @param {import("express").ErrorRequestHandler} [err] // I am unsure if ErrorRequestHandler is correct here
- * @param {import("express").Request} [req]
- * @param {import("express").Response} [res]
- * @param {import("express").NextFunction} [next]
+ * @description Middleware for handling errors in the application.
+ * This middleware logs the error and renders an error response using a shared renderer.
+ * @param {Error} err - The error object that was thrown.
+ * @param {import("express").Request} req - The request object.
+ * @param {import("express").Response} res - The response object.
+ * @param {import("express").NextFunction} next - The next middleware function.
  */
 const errorMiddleware = (err, req, res, next) => {
-    logger.error(err)
+    logger.error(err); // Log the error
+    sharedRenderer.error(res, err); // Render an error response
+};
 
-    sharedRenderer.error(res,err)
-}
-export default errorMiddleware
-  
+export default errorMiddleware;

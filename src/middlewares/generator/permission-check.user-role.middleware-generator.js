@@ -1,20 +1,28 @@
 import { hasPermission, Permission } from "../../models/roles.js";
 
 /**
- * @description generate middleware to be used to check for certain permission
- * @param {Permission} [permission]
+ * @description Generate middleware to check for a specific permission
+ * @param {Permission} [permission] - The permission to check for
+ * @returns {function} Middleware function
  */
-export function generateCheckUserPersmission (permission) {
-  /**
-   * @description middleware 
-   * @param {import("express").Request} [req]
-   * @param {import("express").Response} [res]
-   * @param {import("express").NextFunction} [next]
-   */
-  return (req,res,next) => {
-    if(!hasPermission(req.account.role,permission))
-      throw Error("Missing permissions for invite generation")
-    next();
+export function generateCheckUserPermission(permission) {
+
+  if (!permission) {
+    return res.status(400).json({ error: "Permission not specified" });
   }
 
+  /**
+   * @description Middleware to check user permissions
+   * @param {import("express").Request} req - The request object
+   * @param {import("express").Response} res - The response object
+   * @param {import("express").NextFunction} next - The next middleware function
+   */
+  return (req, res, next) => {
+
+    if (!hasPermission(req.account.role, permission)) {
+      return res.status(403).json({ error: "Missing permissions for this action" });
+    }
+
+    next();
+  };
 }
