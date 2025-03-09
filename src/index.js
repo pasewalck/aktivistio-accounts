@@ -12,7 +12,7 @@ import dashboardRoutes from './routes/dashboard.router.js';
 import oidcRoutes from './routes/oidc.router.js';
 import loggedOutDashboardRouter from './routes/logged-out.dashboard.router.js';
 import shortSessionMiddleware from './middlewares/session.middleware.js';
-import provider from './oidc/provider.js';
+import provider from './helpers/oidc/provider.js';
 import langController from './controllers/lang.controller.js';
 import errorsMiddleware from './middlewares/errors.middleware.js';
 import logger from './helpers/logger.js';

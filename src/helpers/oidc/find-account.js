@@ -1,4 +1,4 @@
-import accountService from "../services/account.service.js";
+import accountService from "../../services/account.service.js";
 
 export default async function findAccount(ctx, id) {
     const account = accountService.find.withId(id);
