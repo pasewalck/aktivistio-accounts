@@ -16,7 +16,7 @@ export default {
      * @param {string} clientId - The ID of the client requesting authorization.
      */
     consent: (req, res, uid, clientId) => {
-        return res.render('oidc/consent', {
+        return res.render('pages/oidc/consent', {
             title: res.__('Authorize'),
             clientId,
             urls: {

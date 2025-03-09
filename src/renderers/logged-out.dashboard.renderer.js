@@ -22,7 +22,7 @@ export default {
      * @param {JSON} [errors] - Any validation errors to display (optional).
      */
     register: (res, formData = {}, errors = {}) => {
-        return res.render('logged-out/register/details', {
+        return res.render('pages/logged-out/register/details', {
             title: res.__('Register'),
             formData: formData,
             recoveryToken: formData.recoveryToken ? formData.recoveryToken : generateRecoveryToken(),
@@ -39,7 +39,7 @@ export default {
      * @param {JSON} [errors] - Any validation errors to display (optional).
      */
     registerConsent: async (res, formData = {}, errors = {}) => {
-        return res.render('logged-out/register/consent', {
+        return res.render('pages/logged-out/register/consent', {
             title: res.__('Register'),
             formData: formData,
             // TODO: Handle consent text in a more robust way
@@ -56,7 +56,7 @@ export default {
      * @param {JSON} [errors] - Any validation errors to display (optional).
      */
     recoveryRequest: (res, formData = {}, errors = {}) => {
-        return res.render('logged-out/recovery/request', {
+        return res.render('pages/logged-out/recovery/request', {
             title: res.__('Request Invite'),
             errors: errors,
             formData: formData
@@ -72,7 +72,7 @@ export default {
      * @param {JSON} [errors] - Any validation errors to display (optional).
      */
     inviteRequest: (res, formData = {}, errors = {}) => {
-        return res.render('logged-out/request-invite', {
+        return res.render('pages/logged-out/request-invite', {
             title: res.__('Request Invite'),
             errors: errors,
             formData: formData,
@@ -88,7 +88,7 @@ export default {
      * @param {JSON} [errors] - Any validation errors to display (optional).
      */
     recoveryConfirmCode: (res, formData = {}, errors = {}) => {
-        return res.render('logged-out/recovery/confirm', {
+        return res.render('pages/logged-out/recovery/confirm', {
             title: res.__('Recovery'),
             errors: errors,
             formData: formData,
@@ -103,7 +103,7 @@ export default {
      * @param {JSON} [errors] - Any validation errors to display (optional).
      */
     recoveryPasswordPrompt: (res, formData = {}, errors = {}) => {
-        return res.render('logged-out/recovery/reset', {
+        return res.render('pages/logged-out/recovery/reset', {
             title: res.__('Recovery'),
             errors: errors,
             formData: formData,

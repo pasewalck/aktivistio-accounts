@@ -16,7 +16,7 @@ export default {
      * @param {JSON} [errors] - Any validation errors to display (optional).
      */
     twoFactorAuth: (res, loginToken, interactionDetails = null, errors = {}) => {
-        return res.render('logged-out/2fa', {
+        return res.render('pages/logged-out/2fa', {
             title: res.__('Login'),
             urls: { action: actionUrl, abort: abortUrl }, // URLs for action and abort
             interactionDetails: interactionDetails,
@@ -34,7 +34,7 @@ export default {
      * @param {JSON} [errors] - Any validation errors to display (optional).
      */
     login: (res, interactionDetails = null, formData = {}, errors = {}) => {
-        return res.render('shared/login', {
+        return res.render('pages/shared/login', {
             title: res.__('Login'),
             interactionDetails: interactionDetails,
             formData: formData,
@@ -49,7 +49,7 @@ export default {
      * @param {JSON} error - The error details to display.
      */
     error: (res, error) => {
-        return res.render('shared/error', {
+        return res.render('pages/shared/error', {
             title: res.__('Error'),
             error: error
         });
