@@ -1,4 +1,4 @@
-import provider from "../oidc/create-provider.js";
+import provider from "../oidc/provider.js";
 import { matchedData, validationResult } from "express-validator";
 import { setProviderSession } from "../oidc/session.js";
 import sharedRenderer from "../renderers/shared.renderer.js";
