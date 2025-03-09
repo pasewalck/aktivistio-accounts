@@ -1,7 +1,6 @@
 import { body } from "express-validator"
 
 import localize from "../../localize.js";
-import twoFactorAuth from "../../../helpers/two-factor-auth.js";
 import accountService from "../../../services/account.service.js";
 
 export default [
