@@ -45,6 +45,17 @@ i18n.configure({
     cookie: 'i18n',
 });
 
+// Initialize i18n middleware
+app.use(i18n.init);
+
+logger.debug("Initializing express views and layouts");
+
+// Set up view engine and layout
+app.set('views', path.join(__dirname, 'views'));
+app.use(expressLayouts);
+app.set('view engine', 'ejs');
+app.set('layout', './layouts/main');
+
 // Serve static files from the public directory
 logger.debug("Setting public express route");
 app.use(express.static('src/public'));
@@ -58,17 +69,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // CSRF protection middleware
 app.use(csrfProtection);
-
-// Initialize i18n middleware
-app.use(i18n.init);
-
-logger.debug("Initializing express views and layouts");
-
-// Set up view engine and layout
-app.set('views', path.join(__dirname, 'views'));
-app.use(expressLayouts);
-app.set('view engine', 'ejs');
-app.set('layout', './layouts/main');
 
 // Attach OIDC callback
 logger.debug("Attaching OIDC callback");
