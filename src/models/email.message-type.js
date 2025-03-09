@@ -1,7 +1,7 @@
 /**
- * Enum for message types
+ * Enum for message types.
  * @readonly
- * @enum {{name: string, id: string}}
+ * @enum {string}
  */
 export class MessageType {
     static INVITE_CODE = "invite";
