@@ -1,4 +1,4 @@
-import { body, param } from "express-validator";
+import { body } from "express-validator";
 
 import localize from "../../../localize.js";
 import invitesService from "../../../../services/invites.service.js";
