@@ -13,7 +13,7 @@ body {
 }
 
 // Font Styles
-p, button, a, span, input, label, ul, li, h1, h2, h3, h4, h5, div {
+p, button, a, span, input, label, ul, li, h1, h2, h3, h4, h5, div, select, option {
     font-family: variables.$titlefont;
 }
 
@@ -667,8 +667,9 @@ h5 { font-size: 17px; padding-bottom: 6px; }
     border-radius: 4px;
 
     select {
-        font-size: 23px;
+        font-size: 22px;
         background: transparent;
+        padding: 0 1px 2px 0;
     }
 
     button {
