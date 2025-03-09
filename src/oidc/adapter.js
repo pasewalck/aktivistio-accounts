@@ -2,7 +2,7 @@ import adapterService from "../services/adapter.service.js";
 
 /**
  * @description Set of grantable types for token management.
- * @type {Set<String>}
+ * @type {Set<string>}
  */
 const grantable = new Set([
   'AccessToken',
@@ -13,13 +13,23 @@ const grantable = new Set([
 ]);
 
 /**
+ * @description Enum for lookup keys used in the adapter.
+ * @enum {string}
+ */
+const LookupKeys = {
+  SESSION_UID: "SessionUid",
+  USER_CODE: "UserCode",
+  GRANT: "Grant"
+};
+
+/**
  * @description Adapter class for managing OIDC entries.
  * @class Adapter
  */
 class Adapter {
     /**
      * @constructor
-     * @param {String} model - The type of model this adapter will manage (e.g., AccessToken, Session).
+     * @param {string} model - The type of model this adapter will manage (e.g., AccessToken, Session).
      */
     constructor(model) {
       this.model = model;
@@ -27,7 +37,8 @@ class Adapter {
 
     /**
      * @description Deletes an entry identified by the given ID from the current model.
-     * @param {String} id - The ID of the entry to delete.
+     * @param {string} id - The ID of the entry to delete.
+     * @returns {Promise<void>} - A promise that resolves when the entry is deleted.
      */
     async destroy(id) {
       adapterService.removeEntry(this.model, id);
@@ -35,18 +46,22 @@ class Adapter {
 
     /**
      * @description Marks an entry identified by the given ID as consumed.
-     * @param {String} id - The ID of the entry to consume.
+     * @param {string} id - The ID of the entry to consume.
+     * @returns {Promise<void>} - A promise that resolves when the entry is marked as consumed.
      */
     async consume(id) {
-      const entry = adapterService.getEntry(this.model, id);
+      // Retrieve the entry from the adapter service
+      const entry = await adapterService.getEntry(this.model, id);
+      // Set the consumed timestamp to the current time in seconds
       entry.consumed = Math.floor(Date.now() / 1000);
-      adapterService.setEntry(this.model, id, entry);
+      // Update the entry in the adapter service
+      await adapterService.setEntry(this.model, id, entry);
     }
 
     /**
      * @description Retrieves an entry identified by the given ID from the current model.
-     * @param {String} id - The ID of the entry to find.
-     * @returns {Promise<JSON>} - The found entry as a JSON object.
+     * @param {string} id - The ID of the entry to find.
+     * @returns {Promise<object|null>} - The found entry as a JSON object, or null if not found.
      */
     async find(id) {
       return adapterService.getEntry(this.model, id);
@@ -54,52 +69,59 @@ class Adapter {
 
     /**
      * @description Finds an entry using its unique identifier (UID).
-     * @param {String} uid - The UID of the entry to find.
-     * @returns {Promise<JSON>} - The found entry as a JSON object.
+     * @param {string} uid - The UID of the entry to find.
+     * @returns {Promise<object|null>} - The found entry as a JSON object, or null if not found.
      */
     async findByUid(uid) {
-      return adapterService.getEntryByLookup(this.model, "SessionUid", uid);
+      return adapterService.getEntryByLookup(this.model, LookupKeys.SESSION_UID, uid);
     }
 
     /**
      * @description Finds an entry using its user code.
-     * @param {String} userCode - The user code of the entry to find.
-     * @returns {Promise<JSON>} - The found entry as a JSON object.
+     * @param {string} userCode - The user code of the entry to find.
+     * @returns {Promise<object|null>} - The found entry as a JSON object, or null if not found.
      */
     async findByUserCode(userCode) {
-      return adapterService.getEntryByLookup(this.model, "UserCode", userCode);
+      return adapterService.getEntryByLookup(this.model, LookupKeys.USER_CODE, userCode);
     }
 
     /**
      * @description Inserts or updates an entry with the given ID and payload, setting an expiration time.
-     * @param {String} id - The ID of the entry to upsert.
-     * @param {JSON} payload - The data to store in the entry.
-     * @param {Number} expiresIn - The expiration time in seconds for the entry.
+     * @param {string} id - The ID of the entry to upsert.
+     * @param {object} payload - The data to store in the entry.
+     * @param {number} expiresIn - The expiration time in seconds for the entry.
+     * @returns {Promise<void>} - A promise that resolves when the entry is upserted.
      */
     async upsert(id, payload, expiresIn) {
-      adapterService.setEntry(this.model, id, payload, expiresIn);
+      // Store the entry in the adapter service with the specified expiration time
+      await adapterService.setEntry(this.model, id, payload, expiresIn);
 
+      // If the model is 'Session', set the lookup for the entry using the UID
       if (this.model === 'Session') {
-        adapterService.setLookupForEntry(this.model, id, "SessionUid", payload.uid);
+          await adapterService.setLookupForEntry(this.model, id, LookupKeys.SESSION_UID, payload.uid);
       }
 
-      const { grantId, userCode } = payload;
+      const { grantId, userCode } = payload; // Destructure grantId and userCode from the payload for easier access
+
+
+      // If the model is grantable and grantId is provided, set the lookup for the grant ID
       if (grantable.has(this.model) && grantId) {
-        adapterService.setLookupForEntry(this.model, id, "Grant", grantId);
+          await adapterService.setLookupForEntry(this.model, id, LookupKeys.GRANT, grantId);
       }
 
+      // If userCode is provided, set the lookup for the user code
       if (userCode) {
-        adapterService.setLookupForEntry(this.model, id, "UserCode", userCode);
+        await adapterService.setLookupForEntry(this.model, id, LookupKeys.USER_CODE, userCode);
       }
-
     }
 
     /**
      * @description Revokes an entry by its grant ID.
-     * @param {String} grantId - The grant ID of the entry to revoke.
+     * @param {string} grantId - The grant ID of the entry to revoke.
+     * @returns {Promise<void>} - A promise that resolves when the entry is revoked.
      */
     async revokeByGrantId(grantId) {
-      adapterService.removeEntryByLookup(this.model, "Grant", grantId);
+      adapterService.removeEntryByLookup(this.model, LookupKeys.GRANT, grantId);
     }
 }
   
