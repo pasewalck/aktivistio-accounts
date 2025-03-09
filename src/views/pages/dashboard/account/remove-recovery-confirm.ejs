@@ -1,4 +1,4 @@
-<%- include("../../partials/dashboard-header.ejs") %>
+<%- include("../../../partials/dashboard-header.ejs") %>
 
 <div class="wrapper flex-container">
 
@@ -15,10 +15,10 @@
       
             <fieldset>
                 
-                <%- include("../../partials/alert-info.ejs",{info: __("You are about to remove one of your recovery methods. This might lead to you losing your account if you lose your password!"),moreInfoLink: "https"}) %> 
+                <%- include("../../../partials/alert-info.ejs",{info: __("You are about to remove one of your recovery methods. This might lead to you losing your account if you lose your password!"),moreInfoLink: "https"}) %> 
                 <div class="form-group">
                     <label class="label"><%= __('Current password') %></label>
-                    <%- include("../../partials/form/input-field.ejs",{field: {name:"currentPassword",type:"password",required:true}}) %> 
+                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"currentPassword",type:"password",required:true}}) %> 
                 </div>
 
             </fieldset>

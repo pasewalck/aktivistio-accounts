@@ -1,4 +1,4 @@
-<%- include("../../partials/dashboard-header.ejs") %>
+<%- include("../../../partials/dashboard-header.ejs") %>
 
 <div class="wrapper flex-container">
     <div class="container container-medium-width container-filled-background">
@@ -6,8 +6,8 @@
         <h2><%= __("Add two factor authentication") %> ></h2>
 
         <div class="qr-code-box">
-            <img src="<%- qrCodeSrc %> " alt="">   
-            <div><%- secret %></div>
+            <img src="<%= qrCodeSrc %> " alt="">   
+            <div><%= secret %></div>
         </div>
 
         <form class="form" action="/account/2fa/set" method="post">
@@ -18,7 +18,7 @@
 
                 <div class="form-group">
                     <label class="label"><%= __('Enter Code') %></label>
-                    <%- include("../../partials/form/input-field.ejs",{field: {name:"token",type:"text",required:true}}) %> 
+                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"token",type:"text",required:true}}) %> 
                 </div>
         
             </fieldset>

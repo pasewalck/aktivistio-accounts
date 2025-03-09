@@ -1,12 +1,12 @@
-<%- include("../partials/dashboard-header.ejs") %>
+<%- include("../../partials/dashboard-header.ejs") %>
 
 <div class="wrapper flex-container">
     <div class="container container-medium-width container-filled-background">
 
         <h1 class="center"><%= __("Join %s",app.name) %> </h1>
         <div class="qr-code-box">
-            <img src="<%- inviteQR %> " alt="">   
-            <div><%- inviteURL %></div>
+            <img src="<%= inviteQR %> " alt="">   
+            <div><%= inviteURL %></div>
         </div>
     </div>
 

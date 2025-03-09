@@ -13,7 +13,7 @@
             <p><%= __('You are able to request an invite with a whitelisten email provider. Whitelisted providers:') %>
                 <% for( let index = 0; index < emailProviders.length; index++ ) { %>
                 <%if(index != 0) {%><%= index+1 == emailProviders.length ? " and " : ", " %><%}%>
-                <a href="https://<%- emailProviders[index] %>"><%- emailProviders[index] %></a>
+                <a href="https://<%= emailProviders[index] %>"><%= emailProviders[index] %></a>
                 <%}%>
 
             </p>
@@ -22,7 +22,7 @@
 
             <div class="form-group">
                 <label class="label"><%= __('Email') %></label>
-                <%- include("../partials/form/input-field.ejs",{field: {name:"email",type:"email",required:true}}) %> 
+                <%- include("../../partials/form/input-field.ejs",{field: {name:"email",type:"email",required:true}}) %> 
             </div>
 
         </fieldset>

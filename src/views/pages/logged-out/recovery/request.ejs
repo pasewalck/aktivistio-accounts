@@ -10,12 +10,12 @@
 
             <div class="form-group">
                 <label class="label"><%= __('Your Username') %></label>
-                <%- include("../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
+                <%- include("../../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
             </div>
 
             <div class="form-group" >
                 <label class="label"><%= __('Recovery Method') %></label> 
-                <%- include("../../partials/form/input-select.ejs",{select: {name:"method",id:"recoverySelect",options:[
+                <%- include("../../../partials/form/input-select.ejs",{select: {name:"method",id:"recoverySelect",options:[
                     {value:"email",displayName:__('Recovery Email')},
                     {value:"token",displayName:__('Recovery Token')}
                 ],defaultNone:{msg:__('-- select a method --')}}}) %>
@@ -23,12 +23,12 @@
             
             <div id="recoveryEmailSection" class="form-group">
                 <label class="label"><%= __('Recovery Email') %></label> 
-                <%- include("../../partials/form/input-field.ejs",{field: {name:"email",type:"email"}}) %> 
+                <%- include("../../../partials/form/input-field.ejs",{field: {name:"email",type:"email"}}) %> 
             </div>
             
             <div id="recoveryTokenSection" class="form-group">
                 <label class="label"><%= __('Recovery Token') %></label> 
-                <%- include("../../partials/form/input-field.ejs",{field: {name:"token",type:"text"}}) %> 
+                <%- include("../../../partials/form/input-field.ejs",{field: {name:"token",type:"text"}}) %> 
             </div>
 
         </fieldset>

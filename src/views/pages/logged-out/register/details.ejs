@@ -10,37 +10,37 @@
 
             <div class="form-group">
                 <label class="label"><%= __('Invite Code') %></label>
-                <%- include("../../partials/form/input-field.ejs",{field: {name:"inviteCode",type:"text",required:true}}) %> 
+                <%- include("../../../partials/form/input-field.ejs",{field: {name:"inviteCode",type:"text",required:true}}) %> 
                 <a class="input-field-help-link" target="_blank" href="/invite-request"><%= __('No invite code?') %></a>
             </div>
 
             <div class="form-group">
                 <label class="label"><%= __('Username') %></label>
-                <%- include("../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
+                <%- include("../../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
             </div>
 
             <div class="form-group">
                 <label class="label"><%= __('Password') %></label>
-                <%- include("../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true}}) %> 
+                <%- include("../../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true}}) %> 
             </div>
 
             <div class="form-group">
                 <label class="label"><%= __('Confirm password') %></label>
-                <%- include("../../partials/form/input-field.ejs",{field: {name:"passwordConfirm",type:"password",required:true}}) %> 
+                <%- include("../../../partials/form/input-field.ejs",{field: {name:"passwordConfirm",type:"password",required:true}}) %> 
             </div>
 
             <div class="form-group" >
                 <label class="label"><%= __('Recovery Method') %></label> 
-                <%- include("../../partials/form/input-select.ejs",{select: {name:"recoveryMethod",id:"recoverySelect",options:[
+                <%- include("../../../partials/form/input-select.ejs",{select: {name:"recoveryMethod",id:"recoverySelect",options:[
                     {value:"email",displayName:__('Recovery Email')},
                     {value:"token",displayName:__('Recovery Token')}
                 ],defaultNone:{msg:__('-- select a method --')}}}) %>
             </div>
             
             <div id="recoveryEmailSection" class="form-group">
-                <%- include("../../partials/alert-info.ejs",{info: __("Your email is stored encrypted and even our admins can't see it."),moreInfoLink: "https"}) %> 
+                <%- include("../../../partials/alert-info.ejs",{info: __("Your email is stored encrypted and even our admins can't see it."),moreInfoLink: "https"}) %> 
                 <label class="label"><%= __('Recovery Email') %></label> 
-                <%- include("../../partials/form/input-field.ejs",{field: {name:"recoveryEmail",type:"text"}}) %>             
+                <%- include("../../../partials/form/input-field.ejs",{field: {name:"recoveryEmail",type:"text"}}) %>             
             </div>
             
             <div id="recoveryTokenSection" class="form-group">
@@ -49,7 +49,7 @@
                 <div class="output-field">
                     <p><%= recoveryToken %></p>
                 </div>
-                <%- include("../../partials/form/input-checkbox.ejs",{checkbox: {name:"recoveryTokenVerify",msg:__('I have written down the code')}}) %>             
+                <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"recoveryTokenVerify",msg:__('I have written down the code')}}) %>             
             </div>
             
         </fieldset>

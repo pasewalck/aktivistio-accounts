@@ -12,14 +12,14 @@
 
             <div class="form-group">
                 <label class="label"><%= __('Username') %></label>
-                <%- include("../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
+                <%- include("../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
 
             </div>
 
             <div class="form-group">
                 <label class="label"><%= __('Password') %></label>
-                <%- include("../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true,blockValue:true}}) %> 
-                <a class="input-field-help-link" target="_blank" href="<%- app.baseUrl %> /account-recovery/"><%= __('Lost your password?') %></a>
+                <%- include("../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true,blockValue:true}}) %> 
+                <a class="input-field-help-link" target="_blank" href="<%= app.baseUrl %> /account-recovery/"><%= __('Lost your password?') %></a>
             </div>
             
         </fieldset>
@@ -31,7 +31,7 @@
                 <a class="button red" href="<%= relativBaseUrl %>/abort/"><%= __('Abort') %></a>
             <% } %>
             </div>
-            <p><%= __('No account?') %> <a href="<%- app.baseUrl %>/register/"><%= __('Create an account') %></a></p>
+            <p><%= __('No account?') %> <a href="<%= app.baseUrl %>/register/"><%= __('Create an account') %></a></p>
         </div>
 
         </form>
