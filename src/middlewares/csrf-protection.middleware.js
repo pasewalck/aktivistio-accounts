@@ -11,7 +11,7 @@ const secret = await secretService.getEntries("CSRF_SECRET", () => generateSecre
  */
 const { doubleCsrfProtection } = doubleCsrf({
   getSecret: () => secret,
-  getSessionIdentifier: (req) => req.session.id || "", // Use session ID for better identification
+  getSessionIdentifier: (req) => "", // Use session ID for better identification
   cookieName: "__Host-psifi.x-csrf-token",
   cookieOptions: {
     sameSite: "strict",
