@@ -19,72 +19,78 @@ import logger from './helpers/logger.js';
 import secretService from './services/secret.service.js';
 import env from './helpers/env.js';
 
+// Get the current file and directory names
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-logger.debug("Initializing express")
+logger.debug("Initializing express");
 
 const app = express();
 
+// Set application locals for use in views
 app.locals = {
-    baseUrl:env.BASE_URL,
+    baseUrl: env.BASE_URL,
     app: {
         name: env.APPLICATION_NAME,
         logo: env.APPLICATION_LOGO
     },
 };
 
-logger.debug("Initializing i18n")
+logger.debug("Initializing i18n for internationalization");
 
 i18n.configure({
-    locales:['en', 'de'],
+    locales: ['en', 'de'],
     directory: 'locales',
     defaultLocale: 'de',
     cookie: 'i18n',
 });
 
-logger.debug("Setting public express route")
+// Serve static files from the public directory
+logger.debug("Setting public express route");
+app.use(express.static('src/public'));
 
-app.use(express.static('src/public'))
+logger.debug("Initializing middlewares");
 
-logger.debug("Initializing middlewares")
-
-app.use(shortSessionMiddleware)
-app.use(cookieParser(await secretService.getEntries("COOKIE_PARSER_SECRET",() => generateSecret(40),{lifeTime:365,graceTime:30})))
+// Session and cookie parsing middleware
+app.use(shortSessionMiddleware);
+app.use(cookieParser(await secretService.getEntries("COOKIE_PARSER_SECRET", () => generateSecret(40), { lifeTime: 365, graceTime: 30 })));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(csrfProtection)
+// CSRF protection middleware
+app.use(csrfProtection);
 
+// Initialize i18n middleware
 app.use(i18n.init);
 
-logger.debug("Initializing express views and layouts")
+logger.debug("Initializing express views and layouts");
 
+// Set up view engine and layout
 app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
 app.set('layout', './layouts/main');
 
-logger.debug("Attaching oidc callback")
+// Attach OIDC callback
+logger.debug("Attaching OIDC callback");
+app.use("/oidc", await provider.callback());
 
-app.use("/oidc",await provider.callback());
+logger.debug("Initializing routers");
 
-logger.debug("Initializing routers")
-
+// Bind routes to the application
 oidcRoutes(app);
 dashboardRoutes(app);
 loggedOutDashboardRouter(app);
 
-logger.debug("Attaching language controller")
-
+// Attach language change controller
+logger.debug("Attaching language controller");
 app.get('/change-language', langController.changeLanguage);
 
-logger.debug("Attaching errors middleware")
+// Attach error handling middleware
+logger.debug("Attaching errors middleware");
+app.use(errorsMiddleware);
 
-app.use(errorsMiddleware)
-
-logger.debug(`Starting and trying to listen on PORT ${env.PORT}`)
-
+// Start the server and listen on the specified port
+logger.debug(`Starting and trying to listen on PORT ${env.PORT}`);
 app.listen(env.PORT, function () {
-    logger.info(`Started on PORT ${env.PORT}`)
+    logger.info(`Started on PORT ${env.PORT}`);
 });
-
