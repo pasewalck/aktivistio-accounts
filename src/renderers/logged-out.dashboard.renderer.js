@@ -12,13 +12,16 @@ import env from "../helpers/env.js";
  */
 
 export default {
+
     /**
-     * @description shared renderer for register page
-     * @param {Response} [res]
-     * @param {JSON} [errors]
-     * @param {JSON} [formData]
+     * @description Renders the registration details page.
+     * Displays the registration form along with any errors and pre-filled data.
+     * Generates a recovery token if one is not provided.
+     * @param {Response} res - The response object.
+     * @param {JSON} [formData] - Data to pre-fill the form (optional).
+     * @param {JSON} [errors] - Any validation errors to display (optional).
      */
-    register: (res,formData={},errors={}) => {
+    register: (res, formData = {}, errors = {}) => {
         return res.render('cards/register/details', {
             title: res.__('Register'),
             formData: formData,
@@ -26,42 +29,49 @@ export default {
             errors: errors
         });
     },
+
     /**
-     * @description
-     * @param {Response} [res]
-     * @param {JSON} [errors]
-     * @param {JSON} [formData]
+     * @description Renders the registration consent page.
+     * Displays the consent form along with any errors and pre-filled data.
+     * Reads consent text from a Markdown file and converts it to HTML.
+     * @param {Response} res - The response object.
+     * @param {JSON} [formData] - Data to pre-fill the form (optional).
+     * @param {JSON} [errors] - Any validation errors to display (optional).
      */
-    registerConsent: async (res,formData={},errors={}) => {
-        
+    registerConsent: async (res, formData = {}, errors = {}) => {
         return res.render('cards/register/consent', {
             title: res.__('Register'),
             formData: formData,
-            //Todo handle this in some other way
+            // TODO: Handle consent text in a more robust way
             consents: await marked(readFileSync("configuration/consent.md").toString()),
             errors: errors
         });
     },
+
     /**
-     * @description render function for recovery page
-     * @param {Response} [res]
-     * @param {JSON} [errors]
-     * @param {JSON} [formData]
+     * @description Renders the recovery request page.
+     * Displays the form for users to request an account recovery.
+     * @param {Response} res - The response object.
+     * @param {JSON} [formData] - Data to pre-fill the form (optional).
+     * @param {JSON} [errors] - Any validation errors to display (optional).
      */
-    recoveryRequest: (res,formData={},errors={}) => {
+    recoveryRequest: (res, formData = {}, errors = {}) => {
         return res.render('cards/recovery/request', {
             title: res.__('Request Invite'),
             errors: errors,
             formData: formData
         });
     },
+
     /**
-     * @description render function for requesting an invite page
-     * @param {Response} [res]
-     * @param {JSON} [errors]
-     * @param {JSON} [formData]
+     * @description Renders the invite request page.
+     * Displays the form for users to request an invite, including a list of whitelisted email providers.
+     * 
+     * @param {Response} res - The response object.
+     * @param {JSON} [formData] - Data to pre-fill the form (optional).
+     * @param {JSON} [errors] - Any validation errors to display (optional).
      */
-    inviteRequest: (res,formData={},errors={}) => {
+    inviteRequest: (res, formData = {}, errors = {}) => {
         return res.render('cards/request-invite', {
             title: res.__('Request Invite'),
             errors: errors,
@@ -69,33 +79,37 @@ export default {
             emailProviders: env.WHITELISTED_MAIL_PROVIDERS
         });
     },
+
     /**
-     * @description 
-     * @param {Response} [res]
-     * @param {JSON} [errors]
-     * @param {JSON} [formData]
+     * @description Renders the recovery confirmation code page.
+     * Displays the form for users to confirm their recovery code, along with any errors and pre-filled data.
+     * @param {Response} res - The response object.
+     * @param {JSON} [formData] - Data to pre-fill the form (optional).
+     * @param {JSON} [errors] - Any validation errors to display (optional).
      */
-    recoveryConfirmCode: (res,formData={},errors={}) => {
+    recoveryConfirmCode: (res, formData = {}, errors = {}) => {
         return res.render('cards/recovery/confirm', {
             title: res.__('Recovery'),
             errors: errors,
             formData: formData,
         });
     },
+
     /**
-     * @description render function for requesting an account recovery
-     * @param {Response} [res]
-     * @param {string|undefined} [confirmCode]
-     * @param {JSON} [errors]
-     * @param {JSON} [formData]
+     * @description Renders the password reset prompt page.
+     * Displays the form for users to reset their password, including the confirmation code if provided.
+     * @param {Response} res - The response object.
+     * @param {JSON} [formData] - Data to pre-fill the form (optional).
+     * @param {JSON} [errors] - Any validation errors to display (optional).
      */
-    recoveryPasswordPrompt: (res,formData={},errors={}) => {
+    recoveryPasswordPrompt: (res, formData = {}, errors = {}) => {
         return res.render('cards/recovery/reset', {
             title: res.__('Recovery'),
             errors: errors,
             formData: formData,
-            confirmCode: formData?.confirmCode
+            confirmCode: formData?.confirmCode // Passes the confirmation code if available
         });
     },
-}
-
+    
+};
+    
