@@ -5,7 +5,7 @@ import logger from './logger.js';
  * @param {import("express").Request} req - The request to parse
  * @returns {String|null} The IP Address found or null if not found
  */
-function parseIP(req) {
+export function parseIP(req) {
     try {
         // Check for x-forwarded-for header and split it to get the first IP
         const ip = req.headers["x-forwarded-for"] 
