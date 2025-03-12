@@ -21,6 +21,9 @@
                 <%- include("../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true,blockValue:true}}) %> 
                 <a class="input-field-help-link" target="_blank" href="<%= app.baseUrl %> /account-recovery/"><%= __('Lost your password?') %></a>
             </div>
+
+            <%- include("../../partials/form/errors.ejs") %> 
+
             
         </fieldset>
 
@@ -34,6 +37,8 @@
             <p><%= __('No account?') %> <a href="<%= app.baseUrl %>/register/"><%= __('Create an account') %></a></p>
         </div>
 
+
+        
         </form>
 
     </div>

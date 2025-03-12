@@ -11,5 +11,6 @@
 
 </select>
 <% if (errors[select.name]) { %>
+    <% errors[select.name].rendered = true %> 
     <p class="input-field-error"><%= errors[select.name].msg %></p>
 <% } %>

@@ -3,5 +3,6 @@
     <% if (!field.blockValue && (formData[field.name] || errors[field.name]?.value)) { %>value="<%= formData[field.name] ? formData[field.name] : errors[field.name].value %>"<% } %>
 />
 <% if (errors[field.name]) { %>
+    <% errors[field.name].rendered = true %> 
     <p class="input-field-error"><%= errors[field.name].msg %></p>
 <% } %>

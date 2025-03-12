@@ -2,5 +2,6 @@
 <% if (!textarea.blockValue && (formData[textarea.name] || errors[textarea.name]?.value)) { %><%= formData[textarea.name] ? formData[textarea.name] : errors[textarea.name].value %><% } %>
 </textarea>
 <% if (errors[textarea.name]) { %>
+    <% errors[textarea.name].rendered = true %> 
     <p class="input-textarea-error"><%= errors[textarea.name].msg %></p>
 <% } %>

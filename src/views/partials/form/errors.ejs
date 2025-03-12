@@ -1,0 +1,8 @@
+<% for (const key in errors) { %>
+    <% if (!errors[key].rendered) { %>
+        <% errors[key].rendered = true %> 
+        <%- include("../alert-info.error.ejs",{info: errors[key].msg,moreInfoLink: false}) %> 
+    <% } %>
+<% } %>
+
+
