@@ -53,6 +53,7 @@ export default {
         OIDC: load("DATABASE_KEY_OIDC", { warning: true }),
         SECRETS: load("DATABASE_KEY_SECRETS", { warning: true }),
         SESSIONS: load("DATABASE_KEY_SESSIONS", { warning: true }),
+        BRUTE: load("DATABASE_KEY_BRUTE", { warning: true }),
     },
     MAIL: {
         HOST: load("MAIL_HOST", { warning: true }),
