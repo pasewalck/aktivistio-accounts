@@ -194,5 +194,7 @@
 	"Error occured": "Error occured",
 	"Logout Success": "Logout Success",
 	"Client ID already is use!": "Client ID already is use!",
-	"Authorize": "Authorize"
+	"Authorize": "Authorize",
+	"Password is incorrect.": "Password is incorrect.",
+	"Too many attempts. You will need to wait %s seconds.": "Too many attempts. You will need to wait %s seconds."
 }

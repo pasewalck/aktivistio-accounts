@@ -4,13 +4,24 @@ import createPasswordValidator from "../../util-validators/create-password.valid
 import recoveryTokenValidator from "../../util-validators/recovery-token.validator.js";
 import invitesService from "../../../services/invites.service.js";
 import accountService from "../../../services/account.service.js";
+import bruteProtectionServices from "../../../services/brute-protection.services.js";
 
 export default [
   body("inviteCode")
     .exists({checkFalsy: true}).withMessage(localize('Invite code is not defined')).bail()
     .escape()
     .isAlphanumeric().withMessage(localize('Invite code format is invalid')).bail()
-    .custom((value) => (!!invitesService.validate(value))).withMessage(localize('Invite code is invalid')),    
+    .custom(async (value,{req}) => {
+      const bruteResult = await bruteProtectionServices.check(req,"registerAccount",req.body.username)
+      if(bruteResult.blocked)
+        throw Error(req.__(`Too many attempts. You will need to wait %s seconds.`,bruteResult.waitTime))
+    
+      if (invitesService.validate(value))
+        return true;
+                
+      await bruteProtectionServices.addFail(req,"registerAccount",req.body.username)
+      throw Error(req.__("Invite code is invalid"))
+    }),
   body("username")
     .exists({checkFalsy: true}).bail()
     .isString()
