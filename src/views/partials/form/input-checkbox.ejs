@@ -5,5 +5,6 @@
     <label><%= checkbox.msg %></label> 
 </div>
 <% if (errors[checkbox.name]) { %>
+    <% errors[checkbox.name].rendered = true %> 
     <p class="input-checkbox-error"><%= errors[checkbox.name].msg %></p>
 <% } %>
