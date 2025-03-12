@@ -16,7 +16,7 @@ export default {
      * @param {JSON} [errors] - Any validation errors to display (optional).
      */
     twoFactorAuth: (res, loginToken, interactionDetails = null, errors = {}) => {
-        return res.render('pages/logged-out/2fa', {
+        return res.render('pages/shared/2fa', {
             title: res.__('Login'),
             urls: { action: actionUrl, abort: abortUrl }, // URLs for action and abort
             interactionDetails: interactionDetails,
