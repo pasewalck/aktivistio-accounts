@@ -123,7 +123,7 @@ export default {
             return dashboardRenderer.addTwoFactorAuth(req, res, data, errors.mapped());
         }
 
-        accountService.twoFactorAuth.set(req.account, req.body.secret);
+        accountService.twoFactorAuth.set(req.account, data.secret);
         res.redirect("/account/2fa");
     },
 
