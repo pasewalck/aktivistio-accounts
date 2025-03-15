@@ -29,7 +29,7 @@ This project is currently in development and is not yet ready for production use
 
 ## Notes on Data Privacy and Security
 
-In the design of our systems, we employ a low trust model and strive to minimize the data stored by this software. All storage solutions support full encryption at rest. In addition to passwords, we also hash emails and recovery tokens. For more information, read more [about Privacy and Security.](https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/dokumentation/SECURITY.md?ref_type=heads)
+In the design of our systems, we employ a low trust model and strive to minimize the data stored by this software. All storage solutions support full encryption at rest. In addition to passwords, we also hash emails and recovery tokens. For more information, read more [about Privacy and Security.](https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md)
 
 ## Roadmap
 
