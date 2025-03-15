@@ -1,4 +1,4 @@
-# User Data Security Overview
+# Security and Privacy Overview
 
 The goal of our design was to strike a good balance between security and usability.
 
