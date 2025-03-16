@@ -12,6 +12,5 @@ export default [
     body("twoFactorLoginToken")
       .notEmpty().withMessage(localize("Two factor login token missing"))
       .escape()
-      .isAlphanumeric().withMessage(localize("Two factor login token invalid"))
       .custom((value, {req}) => req.session.twoFactorLogin?.loginToken == value),
   ]
