@@ -6,7 +6,7 @@ import env from "./env.js"
  * @param  {...String} relativePaths - One or more relative paths to append to the base URL.
  * @returns {URL} The resulting URL.
  */
-export function appendToBaseUrl(baseURL, ...relativePaths) { 
+export function extendUrl(baseURL, ...relativePaths) { 
     return createURL(baseURL.href, ...relativePaths);
 }
 
@@ -16,6 +16,6 @@ export function appendToBaseUrl(baseURL, ...relativePaths) {
  * @param  {...String} segments - The segments to be combined into a single URL.
  * @returns {URL} The resulting URL.
  */
-export function createURL(...segments) {
+export function assembleUrl(...segments) {
     return new URL(segments.map(segment => segment.replace(/\/+$/, '').replace(/^\/+/, '')).join('/'));
 }
