@@ -5,8 +5,7 @@ import localize from "../../../localize.js"
 export default [
     body("secret")
         .notEmpty().withMessage(localize("Secret must be defined"))
-        .escape()
-        .isBase32().withMessage(localize("Secret must be in base32 format")),
+        .escape(),
     body("token")
       .notEmpty().withMessage(localize("Token must be defined"))
       .escape()
