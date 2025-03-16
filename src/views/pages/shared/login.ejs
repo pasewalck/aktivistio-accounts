@@ -2,10 +2,9 @@
     <div class="container-medium-width container-filled-background">
 
         <h1><%= __('Login') %></h1>
-
-        <% const relativBaseUrl = app.baseUrl + "/" + (interactionDetails ? "interaction/" + interactionDetails.uid + "/" : "") %> 
-
-        <form class="form" autocomplete="off" action="<% relativBaseUrl %>/login/" method="post">
+        <% const relativBaseUrl = baseUrl + "/" + (interactionDetails ? "interaction/" + interactionDetails.uid + "/" : "") %> 
+        
+        <form class="form" autocomplete="off" action="<%= relativBaseUrl %>login/" method="post">
 
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
         <fieldset>
@@ -19,7 +18,7 @@
             <div class="form-group">
                 <label class="label"><%= __('Password') %></label>
                 <%- include("../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true,blockValue:true}}) %> 
-                <a class="input-field-help-link" target="_blank" href="<%= app.baseUrl %> /account-recovery/"><%= __('Lost your password?') %></a>
+                <a class="input-field-help-link" target="_blank" href="<%= baseUrl %> /account-recovery/"><%= __('Lost your password?') %></a>
             </div>
 
             <%- include("../../partials/form/errors.ejs") %> 
@@ -34,7 +33,7 @@
                 <a class="button red" href="<%= relativBaseUrl %>/abort/"><%= __('Abort') %></a>
             <% } %>
             </div>
-            <p><%= __('No account?') %> <a href="<%= app.baseUrl %>/register/"><%= __('Create an account') %></a></p>
+            <p><%= __('No account?') %> <a href="<%= baseUrl %>/register/"><%= __('Create an account') %></a></p>
         </div>
 
 
