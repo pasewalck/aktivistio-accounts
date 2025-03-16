@@ -19,8 +19,7 @@
                         <% } %>
         
                         <% if (canManage) { %>
-                            <a href="/services/edit/<%= client.client_id %> "><%= __("Manage service ...") %> </a>
-                        <% } %>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, `services`,`edit`,`${client.client_id}`).href %>"><%= __("Manage service ...") %></a>                        <% } %>
                     </div>
                 <% } %>
              
@@ -35,8 +34,8 @@
     <% if (canManage) { %>
         <div class="container container-large-width">
 
-            <a href="/services/add" class="button">Add Service</a>
-    
+            <a href="<%= urlUtils.extendUrl(baseUrl, 'services/add').href %>" class="button">Add Service</a>
+
         </div>
     <% } %>
 

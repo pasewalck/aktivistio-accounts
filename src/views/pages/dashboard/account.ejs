@@ -5,21 +5,21 @@
     <div class="container container-medium-width container-filled-background">
         <h2>Security and Access</h2>
         <div class="button-group">
-            <a class="button" href="/account/password/"><%= __("Change Password") %> </a>
-            <a class="button" href="/account/2fa"><%= __("Manage multi-factor authentication") %> </a>
+            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/password/').href %>"><%= __("Change Password") %></a>
+            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/2fa').href %>"><%= __("Manage multi-factor authentication") %></a>
         </div>
     </div>
 
     <div class="container container-medium-width container-filled-background">
-        <h2>Account recovery</h2>
+        <h2>Account Recovery</h2>
         <div class="button-group">
-            <a class="button" href="/account/recovery"><%= __("Manage account recovery") %> </a>
+            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery').href %>"><%= __("Manage account recovery") %></a>
         </div>
     </div>
 
     <div class="container container-medium-width container-filled-background">
         <h2>Deletion</h2>
-        <a class="button" href="/account/delete/"><%= __("Proceed to delete page") %> </a>
+        <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/delete/').href %>"><%= __("Proceed to delete page") %></a>
     </div>
 
 </div>

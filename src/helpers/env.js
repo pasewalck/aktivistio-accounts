@@ -39,7 +39,7 @@ function load(name, options = {}) {
 export default {
     APPLICATION_NAME: load("APP_NAME", { default: "Unnamed Application" }),
     APPLICATION_LOGO: `configuration/${load("APP_LOGO", { default: "app-logo.jpeg" })}`,
-    BASE_URL: load("BASE_URL", { default: "http://localhost:3000" }),
+    BASE_URL: new URL(load("BASE_URL", { default: "http://localhost:3000" })),
     PORT: load("PORT", { default: 3000, parse: Number }),
     IS_SECURE_CONTEXT: load("IS_SECURE", { default: false, parse: Boolean }),
     IS_BEHIND_PROXY: load("IS_BEHIND_PROXY", { default: false, parse: Boolean }),
