@@ -7,7 +7,7 @@ import env from "./env.js"
  * @returns {URL} The resulting URL.
  */
 export function extendUrl(baseURL, ...relativePaths) { 
-    return createURL(baseURL.href, ...relativePaths);
+    return assembleUrl(baseURL.href, ...relativePaths);
 }
 
 /**
