@@ -101,7 +101,7 @@ export default {
   * @param {JSON} [errors] - Any validation errors to display (optional).
   */
   addTwoFactorAuth: async (req, res, formData = {}, errors = {}) => {
-    let secret = formData.providedSecret || twoFactorAuth.generateSecret();
+    let secret = formData.secret || twoFactorAuth.generateSecret();
     let url = twoFactorAuth.generateUrl(secret, env.APPLICATION_NAME, req.account.username);
     let qrCodeSrc = await QRCode.toDataURL(url);
 
