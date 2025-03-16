@@ -1,58 +1,58 @@
 <!DOCTYPE html>
-<html lang="<%= locals.getLocale() %> ">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <style>
-        .container {
-            max-width: 600px;
-            width: 100%;
-            padding: 40px;
-            margin: auto;
-        }
-        .app-info {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-            color: unset;
-        }
-        .app-info .logo {
-            height: 30px;
-        }
-        .app-info .name {
-            font-size: 15px;
-            font-weight: 500;
-        }
-        h1 {
-            font-weight: 700;
-            font-size: 26px;
-        }
-        p {
-            font-weight: 400;
-            font-size: 14px;
-        }
-        p.code {
-            font-weight: 500;
-            font-size: 18px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <a class="app-info" href="<%= baseUrl.href %> ">
-                <img class="logo" src="cid:<%= app.logo %>" alt="<%= app.name %> Logo">
-                <p class="name"><%= app.name %></p>
-            </a>
-            <h1><%= title %></h1>
-        </div>
-        <div class="content">
-            <%- body %> 
-        </div>
+<html lang="<%= locals.getLocale() %>">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><%= title %></title>
+        <style>
+            .container {
+                max-width: 600px;
+                width: 100%;
+                padding: 40px;
+                margin: auto;
+            }
+            .app-info {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 6px;
+                text-decoration: none;
+                color: unset;
+            }
+            .app-info .logo {
+                height: 30px;
+            }
+            .app-info .name {
+                font-size: 15px;
+                font-weight: 500;
+            }
+            h1 {
+                font-weight: 700;
+                font-size: 26px;
+            }
+            p {
+                font-weight: 400;
+                font-size: 14px;
+            }
+            p.code {
+                font-weight: 500;
+                font-size: 18px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <a class="app-info" href="<%= baseUrl.href %> ">
+                    <img class="logo" src="cid:<%= app.logo %>" alt="<%= app.name %> Logo">
+                    <p class="name"><%= app.name %></p>
+                </a>
+                <h1><%= title %></h1>
+            </div>
+            <div class="content">
+                <%- body %> 
+            </div>
 
-    </div>
-</body>
+        </div>
+    </body>
 </html>
