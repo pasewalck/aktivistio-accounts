@@ -3,7 +3,9 @@ import secretDriver from "../drivers/secret.driver.js";
  * @description Get entries from secret storage
  * @param {string} name - The name of the secret
  * @param {Function} generator - A function to generate a new secret (can be async or sync)
- * @param {{lifeTime: Number, graceTime: Number}} [rotation] - Optional rotation settings
+ * @param {{lifeTime: number, graceTime: number}} [rotation] - Optional settings for secret rotation
+ * @param {number} [rotation.lifeTime] - The lifetime of the secret in days. After this period a new secret is generated.
+ * @param {number} [rotation.graceTime] - The grace period in seconds during which the secret remains valid after its lifetime has expired.
  * @returns {Promise<Array<string|JSON>>} - An array of secret values
  */
 async function getEntries(name, generator, rotation = false) {
