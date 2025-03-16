@@ -118,27 +118,40 @@ export default {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
+        // Validate that validators parsed a valid two factor login token
+        if(!data.twoFactorLoginToken) {
+            // 
+            throw new Error("Could not parse valid two factor login token!");
+        }
+
         // If there are validation errors, render the two-factor authentication page with error messages
         if (!errors.isEmpty()) {
             sharedRenderer.twoFactorAuth(res, interactionDetails, data.twoFactorLoginToken, errors.mapped());
         } else {
             // Retrieve the account ID from the session for the two-factor login
-            let { accountId } = req.session.twoFactorLogin;
+            let { accountId, loginToken } = req.session.twoFactorLogin;
 
-            // Get the two-factor authentication secret for the account
-            let secret = accountService.twoFactorAuth.get(accountService.find.withId(accountId));
-            if (secret == null) {
-                // If no two-factor authentication secret is found, throw an error
-                throw new Error("No 2FA found for user");
+            // Verify the provided login token against the login token from the user session
+            if(data.twoFactorLoginToken != loginToken) {
+                //This should never be triggered, as login token validation is already done in validators!
+                throw new Error("Login token provided is invalid-");
             }
 
-            // Verify the provided token against the stored secret
-            if (twoFactorAuth.verify(secret, data.token)) {
+            // Retrieve the account for account id from account service.
+            let account = accountService.find.withId(accountId)
+            if (account == null) {
+                // This should never be triggered, as two factor validation is already done in validators!
+                throw new Error("No account found for provided id.");
+            }
+
+            // Verify the provided token against account secret
+            if (accountService.twoFactorAuth.check(account, data.token)) {
                 // If the token is valid, proceed with the login
                 doLogin(res, req, interactionDetails, accountId);
             } else {
                 // If the token is invalid, throw an error
-                throw new Error("Login failed");
+                //This should never be triggered, as two factor validation is already done in validators!
+                throw new Error("Login failed due to invalid 2fa token.");
             }
         }
     },
