@@ -5,6 +5,7 @@ import accountService from "../services/account.service.js";
 import env from "../helpers/env.js";
 import adapterService from "../services/adapter.service.js";
 import invitesService from "../services/invites.service.js";
+import { extendUrl } from "../helpers/url.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -255,7 +256,7 @@ export default {
   * @param {String} invite - The invite code to be shared.
   */
   inviteShare: async (req, res, invite) => {
-    var inviteURL = env.BASE_URL + "/register/" + invite;
+    var inviteURL = extendUrl(env.BASE_URL,"register",invite).href;
     return res.render('pages/dashboard/invite-share', {
         title: res.__('Inviting'),
         invite: invite,

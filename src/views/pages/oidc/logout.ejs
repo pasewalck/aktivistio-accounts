@@ -4,7 +4,7 @@
         <h1><%= __("Logout") %></h1>
         <p><%= __("Do you want to logout everywhere?") %> </p>
 
-        <form class="form" autocomplete="off" action="/oidc/session/end/confirm/"method="post">
+        <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(baseUrl, 'oidc/session/end/confirm/').href %>" method="post">
         
             <input type="hidden" name="xsrf" value="<%= secret %>"/>
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">

@@ -3,16 +3,16 @@
 <div class="wrapper flex-container">
     <div class="container container-medium-width container-filled-background">
 
-        <h2><%= __("Two Factor Authentication (2fa)") %> </h2>
+        <h2><%= __("Two Factor Authentication (2fa)") %></h2>
 
         <% if (has2fa) { %>
-            <p><%= __("Amazing! You have 2fa setup.") %> </p>
-            <form action="/account/2fa/remove" method="post">
+            <p><%= __("Amazing! You have 2fa setup.") %></p>
+            <form action="<%= urlUtils.extendUrl(baseUrl, 'account/2fa/remove').href %>" method="post">
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-                <button class="button red"><%= __("Remove 2fa") %> </button>
+                <button class="button red"><%= __("Remove 2fa") %></button>
             </form>
         <% } else { %>
-            <a class="button primary" href="/account/2fa/add"><%= __("Add 2fa") %></a>
+            <a class="button primary" href="<%= urlUtils.extendUrl(baseUrl, 'account/2fa/add').href %>"><%= __("Add 2fa") %></a>
         <% } %>
 
     </div>

@@ -12,8 +12,8 @@
                     <li>
                         <p><%= __("Recovery Token") %> </p>
                         <div class="actions">
-                            <a href="/account/recovery/set-token"><%= __("New Token") %> </a>
-                            <a href="/account/recovery/delete-token" class="red"><%= __("Delete") %></a>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>"><%= __("New Token") %></a>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-token').href %>" class="red"><%= __("Delete") %></a>
                         </div>
                     </li>
                 <% } %>
@@ -21,8 +21,8 @@
                     <li>
                         <p><%= __("Recovery Email") %> </p>
                         <div class="actions">
-                            <a href="/account/recovery/set-email"><%= __("Modify") %></a>
-                            <a href="/account/recovery/delete-email" class="red"><%= __("Delete") %></a>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>"><%= __("Modify") %></a>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-email').href %>" class="red"><%= __("Delete") %></a>
                         </div>
                     </li>
                 <% } %>
@@ -32,10 +32,10 @@
         <% } %>
         <div class="button-group">
             <% if (!currentRecovery?.email) { %>
-                <a class="button" href="/account/recovery/set-email"><%= __("Add recovery Email") %> </a>
+                <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>"><%= __("Add recovery Email") %></a>
             <% } %>
             <% if (!currentRecovery?.token) { %>
-                <a class="button" href="/account/recovery/set-token"><%= __("Add recovery Token") %> </a>
+                <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>"><%= __("Add recovery Token") %></a>
             <% } %>
         </div>
 

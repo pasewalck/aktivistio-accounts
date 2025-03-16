@@ -4,12 +4,13 @@ import Provider from 'oidc-provider';
 import configuration from './configuration.js';
 import logger from '../logger.js';
 import env from '../env.js';
+import { extendUrl } from '../url.js';
 
 // Log the initialization of the OIDC provider
 logger.debug("Initializing OIDC provider");
 
 // Create a new instance of the OIDC provider
-const provider = new Provider(`${env.BASE_URL}/oidc`, {
+const provider = new Provider(extendUrl(env.BASE_URL,`oidc`).href, {
     adapter: Adapter,
     clients: [],
     findAccount: findAccount,

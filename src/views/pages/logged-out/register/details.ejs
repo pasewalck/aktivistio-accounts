@@ -3,7 +3,7 @@
 
         <h1><%= __('Register your details') %></h1>
     
-        <form class="form" autocomplete="off" action="<%= baseUrl %>/register/"method="post">
+        <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(baseUrl,`register`).href %>"method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
         <fieldset>
@@ -11,7 +11,7 @@
             <div class="form-group">
                 <label class="label"><%= __('Invite Code') %></label>
                 <%- include("../../../partials/form/input-field.ejs",{field: {name:"inviteCode",type:"text",required:true}}) %> 
-                <a class="input-field-help-link" target="_blank" href="/invite-request"><%= __('No invite code?') %></a>
+                <a class="input-field-help-link" target="_blank" href="<%= urlUtils.extendUrl(baseUrl, 'invite-request').href %>"><%= __('No invite code?') %></a>
             </div>
 
             <div class="form-group">

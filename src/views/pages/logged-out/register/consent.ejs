@@ -9,7 +9,7 @@
            </div>
         </div>
     
-        <form class="form" autocomplete="off" action="<%= baseUrl %>/register/consent/"method="post">
+        <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(baseUrl,`register`,`consent`).href %>"method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
         <fieldset>

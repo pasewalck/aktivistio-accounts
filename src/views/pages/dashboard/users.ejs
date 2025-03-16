@@ -15,8 +15,7 @@
                     </div>
                     <% if (user.role < account.role) { %>
                         <div class="links">
-                            <a href="/user/<%= user.id %>/"><img src="/icons/settings.svg" alt=""></a>
-                        </div>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, `user`,`${user.id}`).href %>"><img src="<%= urlUtils.extendUrl(baseUrl, 'icons/settings.svg').href %>" alt=""></a>                        </div>
                     <% } %>
                 </li>
             <% }) %>

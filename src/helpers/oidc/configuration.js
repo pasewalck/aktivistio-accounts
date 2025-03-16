@@ -3,6 +3,7 @@ import logger from "../logger.js";
 import secretService from "../../services/secret.service.js";
 import { emulatedEjs } from '../ejs-render.js';
 import env from '../env.js';
+import { assembleUrl, extendUrl } from '../url.js';
 
 // Initialize the emulated EJS instance for rendering templates
 const emulatedEjsInstance = await emulatedEjs();
@@ -19,6 +20,10 @@ function render(path, data, title, ctx) {
     return emulatedEjsInstance.render(path, {
         title: title,
         baseUrl: env.BASE_URL,
+        urlUtils: {
+            assembleUrl,
+            extendUrl
+        },
         app: { name: env.APPLICATION_NAME, logo: env.APPLICATION_LOGO },
         ...ctx.res.locals,
         ...data
