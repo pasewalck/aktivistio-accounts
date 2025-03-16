@@ -11,7 +11,6 @@ const secrets = await secretService.getEntries("CSRF_SECRET", () => generateSecr
  */
 const { doubleCsrfProtection } = doubleCsrf({
   getSecret: () => secrets,
-  getSessionIdentifier: (req) => "", // Use session ID for better identification
   cookieName: "__Host-psifi.x-csrf-token",
   cookieOptions: {
     sameSite: "strict",
@@ -29,16 +28,14 @@ const { doubleCsrfProtection } = doubleCsrf({
 });
 
 /**
- * @description Middleware to apply CSRF protection to incoming requests.
+ * @description Middleware to apply CSRF protection locals to be used later in rendering.
  * @param {import("express").Request} req - The request object.
  * @param {import("express").Response} res - The response object.
  * @param {import("express").NextFunction} next - The next middleware function.
  */
-const csrfProtection = (req, res, next) => {
-  doubleCsrfProtection(req, res, () => {
-    res.locals.csrfToken = req.csrfToken(); // Set CSRF token in response locals
-    next();
-  });
+const csrfProtectionSetLocals = (req, res, next) => {
+  res.locals.csrfToken = req.csrfToken(); // Set CSRF token in response locals
+  next();
 };
 
-export default csrfProtection;
+export default [doubleCsrfProtection,csrfProtectionSetLocals];
