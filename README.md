@@ -33,6 +33,7 @@ In the design of our systems, we employ a low trust model and strive to minimize
 
 ## Roadmap
 
+- Rewrite/Write url builder
 - Add brute force protection
 - Conduct more security audits.
 - Check all localized fields for spelling and consistency.
