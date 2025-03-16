@@ -2,15 +2,15 @@ import { doubleCsrf } from 'csrf-csrf';
 import secretService from '../services/secret.service.js';
 import { generateSecret } from '../helpers/generate-secrets.js';
 
-// Retrieve or generate a CSRF secret
-const secret = await secretService.getEntries("CSRF_SECRET", () => generateSecret(40), { lifeTime: 120, graceTime: 2 });
+// Retrieve or generate one or more CSRF secrets
+const secrets = await secretService.getEntries("CSRF_SECRET", () => generateSecret(40), { lifeTime: 120, graceTime: 2 });
 
 /**
  * @description Configuration for CSRF protection middleware.
  * @type {Object}
  */
 const { doubleCsrfProtection } = doubleCsrf({
-  getSecret: () => secret,
+  getSecret: () => secrets,
   getSessionIdentifier: (req) => "", // Use session ID for better identification
   cookieName: "__Host-psifi.x-csrf-token",
   cookieOptions: {

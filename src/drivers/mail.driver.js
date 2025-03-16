@@ -4,6 +4,7 @@ import { renderEjsFile } from "../helpers/ejs-render.js";
 import { RenderMode } from "../models/email.render-mode.js"
 import { MessageType } from "../models/email.message-type.js";
 import env from "../helpers/env.js";
+import { assembleUrl, extendUrl } from "../helpers/url.js";
 
 const transporter = nodemailer.createTransport({
   host: env.MAIL.HOST,
@@ -44,8 +45,17 @@ export default {
   sendEmail: async (to,subject,messageType,locals,extraData) => {
     
     const data = {
-        subject: subject,title: subject,
-        baseUrl:env.BASE_URL,app: { name: env.APPLICATION_NAME, logo: env.APPLICATION_LOGO },
+        subject: subject,
+        title: subject,
+        baseUrl:env.BASE_URL,
+        urlUtils: {
+          assembleUrl,
+          extendUrl
+        },
+        app: {
+          name: env.APPLICATION_NAME, 
+          logo: env.APPLICATION_LOGO
+        },
         ...locals,...extraData
     }
 
