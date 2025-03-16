@@ -9,6 +9,7 @@ import { generateNumberCode } from "../helpers/generate-secrets.js";
 import { hashPassword } from "../helpers/hash-string.js";
 import invitesService from "../services/invites.service.js";
 import mailService from "../services/mail.service.js";
+import { ClientError } from "../models/errors.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -105,7 +106,7 @@ export default {
         // Attempt to find the account associated with the provided username
         let account = accountService.find.withUsername(data.username);
         // If no account is found, throw an error indicating the username does not exist
-        if (!account) throw new Error("No account for username");
+        if (!account) throw new ClientError("No account for username");
     
         // Determine the recovery method chosen by the user
         switch (data.method) {
@@ -130,7 +131,7 @@ export default {
                 break;
             default:
                 // If an unsupported recovery method is provided, throw an error
-                throw new Error("Unsupported recovery method");
+                throw new ClientError("Unsupported recovery method");
         }
     },
 
@@ -152,7 +153,7 @@ export default {
         let { confirmCode, accountId } = req.session.accountRecovery;
         // Extra check for security: ensure the provided confirmation code matches the stored one
         if (confirmCode !== data.confirmCode) {
-            throw new Error("Missing confirm token");
+            throw new ClientError("Missing confirm token");
         }
 
         validateAccountRecoverySession(req); // Mark the session as validated
@@ -177,7 +178,7 @@ export default {
         let { validated, accountId } = req.session.accountRecovery;
         // Extra check for security: ensure the recovery session has been validated
         if (!validated) {
-            throw new Error("Missing confirm token");
+            throw new ClientError("Missing confirm token");
         }
 
         const account = accountService.find.withId(accountId); // Retrieve the account by ID

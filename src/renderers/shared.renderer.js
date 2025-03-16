@@ -45,12 +45,13 @@ export default {
      * @description Renders the error page.
      * Displays an error message to the user.
      * @param {Response} res - The response object.
-     * @param {JSON} error - The error details to display.
+     * @param {string} errorMessage - The error string message to display.
+     * @param {Number} statusCode - The html status code to return
      */
-    error: (res, error) => {
-        return res.render('pages/shared/error', {
+    error: (res, errorMessage, statusCode) => {
+        return res.status(statusCode).render('pages/shared/error', {
             title: res.__('Error'),
-            error: error
+            errorMessage: errorMessage
         });
     },
 };

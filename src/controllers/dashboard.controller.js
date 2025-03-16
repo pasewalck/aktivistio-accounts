@@ -5,6 +5,7 @@ import accountService from "../services/account.service.js";
 import invitesService from "../services/invites.service.js";
 import adapterDriver from "../drivers/adapter.driver.js";
 import adapterService from "../services/adapter.service.js";
+import { ClientError } from "../models/errors.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -274,7 +275,7 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            throw new Error(errors.array()[0].msg);
+            throw new ClientError(errors.array()[0].msg);
         }
 
         dashboardRenderer.inviteShare(req, res, data.invite);
@@ -291,7 +292,7 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            throw new Error(errors.array()[0].msg);
+            throw new ClientError(errors.array()[0].msg);
         }
 
         invitesService.generate.single({
@@ -313,7 +314,7 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            throw new Error(errors.array()[0].msg);
+            throw new ClientError(errors.array()[0].msg);
         }
 
         invitesService.remove(data.code);
@@ -376,7 +377,7 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            throw new Error(errors.array()[0].msg);
+            throw new ClientError(errors.array()[0].msg);
         }
 
         const clientId = data.id;
@@ -398,7 +399,7 @@ export default {
 
         if (!errors.isEmpty()) {
             if (!clientId) {
-                throw new Error(errors.array()[0].msg);
+                throw new ClientError(errors.array()[0].msg);
             } else {
                 return dashboardRenderer.manageService(req, res, clientId, data, errors.mapped());
             }
@@ -429,7 +430,7 @@ export default {
 
         if (!errors.isEmpty()) {
             if (!clientId) {
-                throw new Error(errors.array()[0].msg);
+                throw new ClientError(errors.array()[0].msg);
             } else {
                 return dashboardRenderer.manageService(req, res, clientId, {
                     configuration: JSON.stringify(adapterService.getEntry("Client", clientId), null, "  "),
@@ -461,7 +462,7 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            throw new Error(errors.array()[0].msg);
+            throw new ClientError(errors.array()[0].msg);
         }
 
         dashboardRenderer.manageUser(req, res, data.id);

@@ -3,6 +3,7 @@ import { matchedData, validationResult } from "express-validator";
 import { setProviderSession } from "../helpers/oidc/session.js";
 import sharedRenderer from "../renderers/shared.renderer.js";
 import accountService from "../services/account.service.js";
+import { ClientError } from "../models/errors.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -94,7 +95,7 @@ export default {
                 }
             } else {
                 // If login fails, throw an error
-                throw new Error("Login failed");
+                throw new ClientError("Login failed");
             }
         }
     },
@@ -121,7 +122,7 @@ export default {
         // Validate that validators parsed a valid two factor login token
         if(!data.twoFactorLoginToken) {
             // 
-            throw new Error("Could not parse valid two factor login token!");
+            throw new ClientError("Could not parse valid two factor login token!");
         }
 
         // If there are validation errors, render the two-factor authentication page with error messages
@@ -134,14 +135,14 @@ export default {
             // Verify the provided login token against the login token from the user session
             if(data.twoFactorLoginToken != loginToken) {
                 //This should never be triggered, as login token validation is already done in validators!
-                throw new Error("Login token provided is invalid-");
+                throw new ClientError("Login token provided is invalid-");
             }
 
             // Retrieve the account for account id from account service.
             let account = accountService.find.withId(accountId)
             if (account == null) {
                 // This should never be triggered, as two factor validation is already done in validators!
-                throw new Error("No account found for provided id.");
+                throw new ClientError("No account found for provided id.");
             }
 
             // Verify the provided token against account secret
@@ -151,7 +152,7 @@ export default {
             } else {
                 // If the token is invalid, throw an error
                 //This should never be triggered, as two factor validation is already done in validators!
-                throw new Error("Login failed due to invalid 2fa token.");
+                throw new ClientError("Login failed due to invalid 2fa token.");
             }
         }
     },

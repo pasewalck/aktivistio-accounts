@@ -3,6 +3,7 @@ import assert from "assert";
 import oidcRenderer from "../renderers/oidc.renderer.js";
 import provider from "../helpers/oidc/provider.js";
 import sharedRenderer from "../renderers/shared.renderer.js";
+import { ClientError } from "../models/errors.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -39,7 +40,7 @@ export default {
             }
             default:
                 // If the prompt type is not recognized, return throw an error
-                throw new Error("Invalid prompt");
+                throw new ClientError("Invalid prompt");
         }
     },
 
