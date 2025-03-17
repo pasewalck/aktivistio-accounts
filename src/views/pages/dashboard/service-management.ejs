@@ -34,7 +34,7 @@
 
             <h2><%= __("Delete service") %> </h2>
     
-            <form class="form" action="/services/edit/<%= currentClientId %>/delete" method="post">
+            <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `services/edit/${currentClientId}/delete`).href %>" method="post">
                 <fieldset>
     
                     <div class="form-group">

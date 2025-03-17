@@ -10,7 +10,7 @@
             <div><%= secret %></div>
         </div>
 
-        <form class="form" action="/account/2fa/set" method="post">
+        <form class="form" action="<%= urlUtils.extendUrl(baseUrl, 'account/2fa/set').href %>" method="post">
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
             <input type="hidden" name="secret" value="<%= secret %> ">
             

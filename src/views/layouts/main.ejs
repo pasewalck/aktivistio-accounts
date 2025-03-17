@@ -1,19 +1,14 @@
 <!DOCTYPE html>
-
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <title><%= title %> - <%= app.name %></title>
-    <link href="/css/style.css" rel="stylesheet" type="text/css" />
-</head>
-
-<html>
+<html lang="<%= locals.getLocale() %>">
+  <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <title><%= title %> - <%= app.name %></title>
+      <link href="<%= urlUtils.extendUrl(baseUrl, 'css/style.css').href %>" rel="stylesheet" type="text/css" />
+  </head>
   <body>
-    <%- body %>
-    <%- include("../partials/footer.ejs") %>
+      <%- body %>
+      <%- include("../partials/footer.ejs") %>
   </body>
 </html>

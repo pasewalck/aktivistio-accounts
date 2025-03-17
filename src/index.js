@@ -18,6 +18,7 @@ import errorsMiddleware from './middlewares/errors.middleware.js';
 import logger from './helpers/logger.js';
 import secretService from './services/secret.service.js';
 import env from './helpers/env.js';
+import { assembleUrl, extendUrl } from './helpers/url.js';
 
 // Get the current file and directory names
 const __filename = fileURLToPath(import.meta.url);
@@ -30,6 +31,10 @@ const app = express();
 // Set application locals for use in views
 app.locals = {
     baseUrl: env.BASE_URL,
+    urlUtils: {
+        assembleUrl,
+        extendUrl
+    },
     app: {
         name: env.APPLICATION_NAME,
         logo: env.APPLICATION_LOGO

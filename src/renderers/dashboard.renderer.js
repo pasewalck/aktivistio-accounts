@@ -5,6 +5,7 @@ import accountService from "../services/account.service.js";
 import env from "../helpers/env.js";
 import adapterService from "../services/adapter.service.js";
 import invitesService from "../services/invites.service.js";
+import { extendUrl } from "../helpers/url.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -101,7 +102,7 @@ export default {
   * @param {JSON} [errors] - Any validation errors to display (optional).
   */
   addTwoFactorAuth: async (req, res, formData = {}, errors = {}) => {
-    let secret = formData.providedSecret || twoFactorAuth.generateSecret();
+    let secret = formData.secret || twoFactorAuth.generateSecret();
     let url = twoFactorAuth.generateUrl(secret, env.APPLICATION_NAME, req.account.username);
     let qrCodeSrc = await QRCode.toDataURL(url);
 
@@ -255,7 +256,7 @@ export default {
   * @param {String} invite - The invite code to be shared.
   */
   inviteShare: async (req, res, invite) => {
-    var inviteURL = env.BASE_URL + "/register/" + invite;
+    var inviteURL = extendUrl(env.BASE_URL,"register",invite).href;
     return res.render('pages/dashboard/invite-share', {
         title: res.__('Inviting'),
         invite: invite,

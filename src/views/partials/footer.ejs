@@ -1,4 +1,4 @@
-<form class="language-dropdown" action="/change-language">
+<form class="language-dropdown" action="<%= urlUtils.extendUrl(baseUrl, 'change-language').href %>">
     <select name="lng" onchange='this.form.submit()'>
         <option selected value="<%= locals.getLocale() %>"><%= __({ phrase: "🇬🇧", locale: locals.getLocale() }) %></option>
         <% for(var i=0; i < locals.getLocales().length; i++) { %>

@@ -4,7 +4,7 @@
         <h1><%= __('Account Recovery') %></h1>
         <p><%= __("We sent you a confirmation code to your provided email") %> </p>
 
-        <form class="form" autocomplete="off" action="<% app.baseUrl %>/account-recovery/confirm/" method="post">
+        <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(baseUrl,`account-recovery`,`confirm`).href %>" method="post">
         
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
         <fieldset>

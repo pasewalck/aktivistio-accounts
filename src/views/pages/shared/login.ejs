@@ -1,11 +1,11 @@
 <div class="wrapper flex-container flex-container-vertical">
     <div class="container-medium-width container-filled-background">
 
+        <% const relativBaseUrl = interactionDetails ? urlUtils.extendUrl(baseUrl,`interaction`,interactionDetails) : baseUrl %> 
+
         <h1><%= __('Login') %></h1>
-
-        <% const relativBaseUrl = app.baseUrl + "/" + (interactionDetails ? "interaction/" + interactionDetails.uid + "/" : "") %> 
-
-        <form class="form" autocomplete="off" action="<% relativBaseUrl %>/login/" method="post">
+        
+        <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(relativBaseUrl,`login`).href %>" method="post">
 
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
         <fieldset>
@@ -19,7 +19,7 @@
             <div class="form-group">
                 <label class="label"><%= __('Password') %></label>
                 <%- include("../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true,blockValue:true}}) %> 
-                <a class="input-field-help-link" target="_blank" href="<%= app.baseUrl %> /account-recovery/"><%= __('Lost your password?') %></a>
+                <a class="input-field-help-link" target="_blank" href="<%= urlUtils.extendUrl(baseUrl,`account-recovery`)  %>"><%= __('Lost your password?') %></a>
             </div>
 
             <%- include("../../partials/form/errors.ejs") %> 
@@ -31,10 +31,10 @@
             <div class="button-group">
             <button type="submit" class="button primary"><%= __('Login') %></button>
             <% if (interactionDetails) { %>
-                <a class="button red" href="<%= relativBaseUrl %>/abort/"><%= __('Abort') %></a>
+                <a class="button red" href="<%= urlUtils.extendUrl(relativBaseUrl,`abort`).href %>"><%= __('Abort') %></a>
             <% } %>
             </div>
-            <p><%= __('No account?') %> <a href="<%= app.baseUrl %>/register/"><%= __('Create an account') %></a></p>
+            <p><%= __('No account?') %> <a href="<%= urlUtils.extendUrl(baseUrl,`register`).href %>"><%= __('Create an account') %></a></p>
         </div>
 
 
