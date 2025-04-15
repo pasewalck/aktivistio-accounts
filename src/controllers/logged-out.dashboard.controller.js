@@ -100,6 +100,7 @@ export default {
         const data = await matchedData(req);
     
         if (!errors.isEmpty()) {
+            await req.bruteProtection.fail("recovery",data.username) 
             return dashboardAuthRenderer.recoveryRequest(res, data, errors.mapped());
         }
     
@@ -147,6 +148,7 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
+            await req.bruteProtection.fail("recovery",data.username) 
             return dashboardAuthRenderer.recoveryConfirmCode(res, data, errors.mapped());
         }
 
@@ -226,6 +228,7 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
+            await req.bruteProtection.fail("register",null) 
             return dashboardAuthRenderer.register(res, data, errors.mapped());
         }
 

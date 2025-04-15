@@ -20,7 +20,7 @@ import manageAccountDeleteValidations from '../validation/validators/dashboard/s
 import manageServiceGetValidators from '../validation/validators/dashboard/system-management/services/manage.service.get.validators.js';
 import manageServiceUpdateValidations from '../validation/validators/dashboard/system-management/services/manage.service.update.validations.js';
 import manageServiceDeleteValidations from '../validation/validators/dashboard/system-management/services/manage.service.delete.validations.js';
-
+import bruteProtectionMiddleware from '../middlewares/brute-protection.middleware.js'
 /**
  * @description Binds controller actions to routes for the primary app.
  * @param {import("express").Express} app - The Express application instance.
@@ -30,7 +30,7 @@ export default (app) => {
     logger.debug("Initializing dashboard router");
 
     // Common middlewares for all routes
-    const middlewares = [setNoCache, userAuthMiddleware];
+    const middlewares = [setNoCache, userAuthMiddleware, bruteProtectionMiddleware];
 
     // Dashboard routes
     app.get('/', middlewares, dashboardController.services);

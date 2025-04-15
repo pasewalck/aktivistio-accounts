@@ -73,6 +73,7 @@ export default {
 
         // If there are validation errors, render the login page with error messages
         if (!errors.isEmpty()) {
+            await req.bruteProtection.fail("login",data.username) 
             sharedRenderer.login(res, interactionDetails, data, errors.mapped());
         } else {
             // Check the provided username and password against the account service
@@ -127,6 +128,7 @@ export default {
 
         // If there are validation errors, render the two-factor authentication page with error messages
         if (!errors.isEmpty()) {
+            await req.bruteProtection.fail("login-second-factor",req.session?.twoFactorLogin?.accountId) 
             sharedRenderer.twoFactorAuth(res, interactionDetails, data.twoFactorLoginToken, errors.mapped());
         } else {
             // Retrieve the account ID from the session for the two-factor login

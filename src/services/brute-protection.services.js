@@ -1,73 +1,98 @@
 import bruteProtectionDriver from "../drivers/brute-protection.driver.js";
-import { fibonacciArray } from "../helpers/fibonacci.js";
 import { fingerprintString } from "../helpers/fingerprint-string.js";
 import { parseIP } from "../helpers/ip-parser.js";
 import secretService from "./secret.service.js";
 
-const FREE_ATTEMPTS = 5; // Maximum number of allowed attempts for normal users
-const ABUSER_FREE_ATTEMPTS = 2; // Maximum number of allowed attempts for suspected abusers
+const FREE_ATTEMPTS = [
+    [8, 3, 2, 2, 1],
+    [3, 2, 1],
+    [2, 1],
+];
+const WAIT_TIME_ARRAY_MAP = [
+    [3,10,10,30,60*1,60*5,60*10,60*30,60*30,60*60*1,60*60*1,60*60*6],
+    [3,10,60,60,60*2,60*5,60*15,60*30,60*60,60*60*6],
+    [6,30,60,60,60*2,60*5,60*30,60*60,60*60,60*60*6],
+    [9,60,60,60,60*3,60*9,60*30,60*60,60*60,60*60*6],
+]
 
-const BASE_WAIT_TIME = 5; // Base wait time in seconds (5 seconds)
-const MAX_WAIT_TIME = 60 * 60 * 2; // Maximum wait time (2 hours)
-
-const fiboArray = fibonacciArray(MAX_WAIT_TIME)
-const ipSalt = await secretService.getEntry("IP_SALT", () => generateSecret(10))
+const ipSalt = await secretService.getEntry("IP_SALT", () => generateSecret(10));
 
 /**
- * @description Checks if a login attempt should be allowed based on previous failed attempts.
- * @param {Object} req - The request object containing the user's request data.
- * @param {string} action - The action being performed (e.g., "login").
- * @param {string} key - A unique key associated with the action (e.g., username).
- * @param {{freeAttempts:{unflagged:number,flagged:number},}} rules - A unique key associated with the action (e.g., username).
- * @returns {Promise<number|boolean>} - Returns the actual wait time if the login attempt is denied, or true if allowed.
+ * @description Generates a hash for the client's IP address.
+ * @param {Object} req - The request object containing the client's IP.
+ * @returns {Promise<string>} - A promise that resolves to the fingerprint hash of the IP address.
  */
-async function check(req, action, key, rules) {
-    const addressHash = await fingerprintString(parseIP(req), ipSalt);
-    
-    const entry = bruteProtectionDriver.get(addressHash, action, key);
-
-    // Determine if the action/key is a possible target or if the IP is a possible abuser
-    const isActionKeyPossibleTarget = bruteProtectionDriver.countActionAndKeySpecific(action, key) > 5;
-    const isIpPossibleAbuser = bruteProtectionDriver.countByIpHash(addressHash) > 20;
-
-    const isPossibleAbuser = isActionKeyPossibleTarget || isIpPossibleAbuser;
-
-    // Set the maximum allowed attempts based on whether the user is suspected of abuse
-    const max = isPossibleAbuser ? ABUSER_FREE_ATTEMPTS : FREE_ATTEMPTS;
-
-    // If the entry exists and the count exceeds the maximum allowed attempts
-    if (entry && entry.count >= max) {
-        // Calculate the wait time based on the number of attempts
-        const waitTime = BASE_WAIT_TIME + fiboArray[Math.min(array.length-1,entry.count - max)];
-        const lastAttemptTime = entry.lastUpdate; // Assuming time is stored in seconds
-
-        // Check if the current time is less than the last attempt time plus the wait time
-        const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-        const actualWaitTime = lastAttemptTime + waitTime - currentTime;
-
-        if (actualWaitTime > 0) {
-            return {blocked: true,waitTime:actualWaitTime}; // Too many attempts; user must wait
-        }
-    }
-    
-    return {blocked: false, count: entry ? entry.count : 0}; // The login attempt is allowed
+async function getAddressHash(req) {
+    return await fingerprintString(parseIP(req), ipSalt);
 }
 
 /**
- * @description Records a failed login attempt.
- * @param {Object} req - The request object containing the user's request data.
- * @param {string} action - The action being performed (e.g., "login").
- * @param {string} key - A unique key associated with the action (e.g., username).
+ * @description Checks if the client is blocked based on their address hash.
+ * @param {string} addressHash - The hashed IP address of the client.
+ * @returns {Promise<{ isBlocked: boolean, waitTime?: number, blockUntil?: number }>} - An object indicating if the client is blocked and the wait time if applicable.
  */
-async function addFail(req, action, key) {
-    const addressHash = await fingerprintString(parseIP(req),ipSalt);
-
-    const entry = bruteProtectionDriver.get(addressHash, action, key);
-    if (entry) {
-        bruteProtectionDriver.updateCount(addressHash, action, key, entry.count + 1);
-    } else {
-        bruteProtectionDriver.insert(addressHash, action, key);
+async function doCheck(addressHash) {
+    const client = bruteProtectionDriver.getActiveClientBlocked(addressHash);
+    if (client) {
+        const currentTime = Math.floor(Date.now() / 1000);
+        const waitTime = client.blockUntil - currentTime;
+        if (waitTime > 0) return { isBlocked: true, waitTime: waitTime, blockUntil: client.blockUntil };
     }
+    return { isBlocked: false };
 }
 
-export default { check, addFail };
+/**
+ * @description Adds a client block.
+ * @param {string} addressHash - The hashed IP address of the client.
+ * @param {number} waitTime - The wait time for blocking.
+ * @returns {Promise<{ isBlocked: boolean, blockUntil: number }>} - An object indicating if the client is blocked and the block until time.
+ */
+async function addClientBlock(addressHash, waitTime) {
+    const currentTime = Math.floor(Date.now() / 1000);
+    const blockUntil = currentTime + waitTime;
+
+    await bruteProtectionDriver.addClientBlock(addressHash, blockUntil);
+
+    return { isBlocked: true, blockUntil: blockUntil };
+}
+
+/**
+ * @description Registers a failed attempt for the client and apply block if needed.
+ * @param {string} addressHash - The hashed IP address of the client.
+ * @param {string} action - The action that failed.
+ * @param {string} [key] - An optional key associated with the action.
+ * @returns {Promise<{ isBlocked: boolean, waitTime?: number, blockUntil?: number }>} - An object indicating if the client is blocked and the wait time if applicable.
+ */
+async function addFail(addressHash, action, key) {
+    if (key === undefined || key === null) key = null;
+
+    bruteProtectionDriver.registerFail(addressHash, action, key);
+
+    const clientBlock = bruteProtectionDriver.getLastClientBlocked(addressHash);
+    const blockCount = bruteProtectionDriver.getClientBlockClount(addressHash);
+
+    const attemptsSinceBlock = clientBlock ?
+        bruteProtectionDriver.failCountActionSpecific(addressHash, action,clientBlock.blockUntil) :
+        bruteProtectionDriver.failCountActionSpecific(addressHash, action);
+
+    const failsOtherForKey = key ? bruteProtectionDriver.failCountKeySpecific(key,addressHash) : null;
+    const failsOtherForAddress = bruteProtectionDriver.failCountByIpHash(addressHash,action);
+
+    const currentRiskLevel = failsOtherForKey + failsOtherForAddress;
+
+    const freeAttemptArray = FREE_ATTEMPTS[Math.min(currentRiskLevel, FREE_ATTEMPTS.length - 1)];
+    const freeAttemptCount = freeAttemptArray[Math.min(blockCount, freeAttemptArray.length - 1)];
+
+    console.log(freeAttemptCount,attemptsSinceBlock,currentRiskLevel,blockCount)
+
+    if (attemptsSinceBlock >= freeAttemptCount) 
+    {
+        const waitTimeArray = WAIT_TIME_ARRAY_MAP[Math.round(Math.min(WAIT_TIME_ARRAY_MAP.length - 1, currentRiskLevel))]
+        const waitTime = waitTimeArray[Math.round(Math.min(waitTimeArray.length - 1, blockCount))]
+        return await addClientBlock(addressHash, waitTime);
+    }
+
+    return { isBlocked: false };
+}
+
+export default { doCheck, addFail, getAddressHash };

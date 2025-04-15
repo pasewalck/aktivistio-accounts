@@ -13,6 +13,7 @@ import registerConsentValidations from '../validation/validators/logged-out/regi
 import recoveryConfirmStepValidations from '../validation/validators/logged-out/recovery.confirm-step.validations.js';
 import recoveryRequestStepValidations from '../validation/validators/logged-out/recovery.request.validations.js';
 import recoveryResetStepValidations from '../validation/validators/logged-out/recovery.reset-step.validations.js';
+import bruteProtectionMiddleware from '../middlewares/brute-protection.middleware.js';
 
 /**
  * @description Binds controllers to routes for the primary app.
@@ -22,8 +23,9 @@ export default (app) => {
 
     logger.debug("Initializing logged-out router");
 
+    
     // Common middlewares for all routes
-    const middlewares = [setNoCache, userAuthMiddlewareReverse];
+    const middlewares = [setNoCache, bruteProtectionMiddleware, userAuthMiddlewareReverse];
 
     // Invite request routes
     app.get('/invite-request', middlewares, dashboardAuthController.inviteRequest);

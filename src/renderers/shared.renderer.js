@@ -54,4 +54,18 @@ export default {
             errorMessage: errorMessage
         });
     },
+
+    /**
+     * @description Renders the brute force timeout page.
+     * @param {Response} res - The response object.
+     * @param {string} errorMessage - The error string message to display.
+     * @param {Number} blockUntil - The time stamp in seconds until a client is blocked
+     */
+    bruteForceTimeout: (res, blockUntil) => {
+        return res.status(400).render('pages/shared/brute-force-error', {
+            title: res.__('Timeout'),
+            blockUntil: blockUntil,
+            waitTime: Math.round(blockUntil-Math.floor(Date.now() / 1000)+0.5)
+        });
+    },
 };

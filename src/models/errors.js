@@ -29,3 +29,19 @@ export class ClientError extends Error {
         this.statusCode = 400; // Bad Request
     }
 }
+
+/**
+ * Represents a brute force block error.
+ * @extends ClientError
+ */
+export class BruteForceBlockError extends ClientError {
+    /**
+     * Creates an instance of BruteForceBlockError.
+     * @param {number} blockUntil - The time in seconds for blocking
+     */
+    constructor(blockUntil) {
+        const currentTime = Math.floor(Date.now() / 1000);
+        super(`Client is blocked for ${Math.floor(blockUntil-currentTime)} seconds`);
+        this.blockUntil = blockUntil;
+    }
+}
