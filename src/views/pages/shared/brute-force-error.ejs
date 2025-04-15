@@ -1,21 +1,30 @@
 <div class="wrapper flex-container flex-container-vertical">
     <div class="container-medium-width container-filled-background">
 
-        <h1><%= __('Too many requests') %></h1>
-        <p><%= __("Our brute force protection has flagged your connection.") %> </p>
+        <h1>
+            <%= __('Too many requests') %>
+        </h1>
+        <p>
+            <%= __("Our brute force protection has flagged your connection.") %>
+        </p>
 
-        <p><%= __("You are blocked for") %> <span id="countdown"><%= waitTime %></span> <%= __("seconds.") %> </p>
+        <p>
+            <%= __("You are blocked for") %> <span id="countdown">
+                    <%= waitTime %>
+                </span>
+                <%= __("seconds.") %>
+        </p>
     </div>
 </div>
 
 <script>
     const countdownElement = document.getElementById('countdown');
-    let timeRemaining = parseInt(countdownElement.textContent);
+    let blockSecondsRemaining = parseInt(countdownElement.textContent);
 
     function updateCountdown() {
-        if (timeRemaining > 0) {
-            timeRemaining--;
-            countdownElement.textContent = timeRemaining;
+        if (blockSecondsRemaining > 0) {
+            blockSecondsRemaining--;
+            countdownElement.textContent = blockSecondsRemaining;
         } else {
             clearInterval(countdownInterval);
             location.reload();
