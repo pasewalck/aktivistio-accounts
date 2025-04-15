@@ -69,7 +69,7 @@ async function addFail(addressHash, action, key) {
     bruteProtectionDriver.registerFail(addressHash, action, key);
 
     const clientBlock = bruteProtectionDriver.getLastClientBlocked(addressHash);
-    const blockCount = bruteProtectionDriver.getClientBlockClount(addressHash);
+    const blockCount = bruteProtectionDriver.getClientBlockCount(addressHash);
 
     const attemptsSinceBlock = clientBlock ?
         bruteProtectionDriver.failCountActionSpecific(addressHash, action,clientBlock.blockUntil) :
