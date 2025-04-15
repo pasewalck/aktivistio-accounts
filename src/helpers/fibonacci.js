@@ -5,8 +5,8 @@
  */
 export function fibonacciArray(limit) {
     // Initialize Fibonacci array and populate up to certain point
-    var fibonacciArray = [];
-    for (let i = 0; limit > fibonacciArray[i]; i++) 
+    var fibonacciArray = [0];
+    for (let i = 0; fibonacciArray.length == 0 || limit > fibonacciArray[i]; i++) 
     {
         if(i == 0)
             fibonacciArray.push(0)
@@ -15,5 +15,6 @@ export function fibonacciArray(limit) {
         else
             fibonacciArray.push(fibonacciArray[i - 1] + fibonacciArray[i - 2]);
     }
+
     return fibonacciArray;
 }
