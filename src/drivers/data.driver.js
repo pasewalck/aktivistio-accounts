@@ -17,6 +17,18 @@ db.exec(`
     );
 `);
 
+// Initialize the accounts audit log table if it does not exist
+db.exec(`
+    create table IF NOT EXISTS account_audit_log (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        account_id TEXT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
+        action_time INTEGER NOT NULL,
+        success BOOLEAN DEFAULT FALSE,
+        ip_address_hash BLOB NOT NULL,
+        action_type TEXT NOT NULL
+    );
+`);
+
 // Initialize the invites table if it does not exist
 db.exec(`
     create table IF NOT EXISTS invites (
@@ -84,6 +96,48 @@ export default {
             ORDER BY invites.validation_date
         `).all(id);
     },
+
+    /**
+     * @description Retrieves all actions for a specific account by ID.
+     * @param {String} accountId - The ID of the account.
+     * @returns {Array<Object>} - An array of audit log entries for the account.
+     */
+    getAuditLogForAccount: (accountId) => {
+        return db.prepare(`
+            SELECT * FROM audit_log
+            WHERE account_id = ?
+            ORDER BY action_time DESC
+        `).all(accountId);
+    },
+
+    /**
+     * @description Inserts a new entry into the audit log.
+     * @param {String} accountId - The ID of the account.
+     * @param {Boolean} success - Indicates if the action was successful.
+     * @param {Buffer} ipAddressHash - The IP address from which the action was initiated.
+     * @param {String} actionType - The type of action.
+     */
+    insertAuditLogEntry: (accountId, success, ipAddressHash, actionType) => {
+        return db.prepare(`
+            INSERT INTO audit_log (account_id, success, ip_address_hash, action_type, action_time)
+            VALUES (?, ?, ?, ?, strftime('%s','now'))
+        `).run(accountId, success, ipAddressHash, actionType);
+    },
+
+    /**
+     * @description Counts the number of failed recovery attempts for a specific account in the last hour.
+     * @param {String} accountId - The ID of the account.
+     * @param {String} actionType - The type of action.
+     * @param {Number} since - Filter event by time.
+     * @returns {Number} - The count of failed recovery attempts.
+     */
+    countAuditLogFails: (accountId,actionType,since) => {
+        return db.prepare(`
+            SELECT COUNT(*) FROM audit_log
+            WHERE account_id = ? AND success = FALSE AND action_type = ? AND action_time > ?
+        `).pluck().get(accountId, actionType, since);
+    },
+
 
     /**
      * @description Finds an account by its username.
