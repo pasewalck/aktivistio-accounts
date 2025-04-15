@@ -29,7 +29,8 @@ const shortSessionMiddleware = session({
     cookie: {
         secure: env.IS_SECURE_CONTEXT, // Use secure cookies in secure contexts
         httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
-        maxAge: 10 * 60 * 1000 // Session timeout set to 10 minutes
+        maxAge: 10 * 60 * 1000, // Session timeout set to 10 minutes
+        expires: 15 * 60 * 1000 // Session expire set to 15 minutes
     },
     cookieName: 'express-session', // Name of the session cookie
     secret: await secretService.getEntries("EXPRESS_SESSION_SECRET", () => generateSecret(40), { lifeTime: 120, graceTime: 2 }),
