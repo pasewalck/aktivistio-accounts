@@ -20,13 +20,13 @@ Passwords supplied by users are tested using [zxcvbn](https://github.com/dropbox
 
 We allow accounts to be recovered in two ways: email and recovery token. Users can choose to use both, either, or neither for their account.
 
-## Two-Factor Authentication
-
-Alongside passwords, we allow the optional use of two-factor authentication. Currently, only TOTP tokens are available as an option; however, we are considering adding support for more two-factor options.
-
 ### Balance of Security and Usability
 
 From a security standpoint, we recommend recovery tokens, as this prevents email account compromise from being used to maliciously recover the account. However, we understand that security tokens can be messy and overwhelming, which is why we allow both methods. While we generally don't recommend enabling both at the same time, we do not prohibit it.
+
+## Two-Factor Authentication
+
+Alongside passwords, we allow the optional use of two-factor authentication. Currently, only TOTP tokens are available as an option; however, we are considering adding support for more two-factor options.
 
 ## Readability of Tokens
 
