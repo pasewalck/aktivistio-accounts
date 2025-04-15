@@ -146,13 +146,19 @@ export default {
     recoveryConfirmPost: async (req, res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
-
-        if (!errors.isEmpty()) {
-            await req.bruteProtection.fail("recovery",data.username) 
-            return dashboardAuthRenderer.recoveryConfirmCode(res, data, errors.mapped());
+        
+        // Throw an error direclty if account recovery session is missing
+        if (!req.session.accountRecovery) {
+            throw new ClientError("Missing account recovery session");
         }
 
         let { confirmCode, accountId } = req.session.accountRecovery;
+
+        if (!errors.isEmpty()) {
+            await req.bruteProtection.fail("recovery",accountId) 
+            return dashboardAuthRenderer.recoveryConfirmCode(res, data, errors.mapped());
+        }
+
         // Extra check for security: ensure the provided confirmation code matches the stored one
         if (confirmCode !== data.confirmCode) {
             throw new ClientError("Missing confirm token");
@@ -228,8 +234,8 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-if(errors.mapped()["inviteCode"]) // Only trigger brute force fail if error is related to invite code
-            await req.bruteProtection.fail("register",null) 
+            if(errors.mapped()["inviteCode"]) // Only trigger brute force fail if error is related to invite code
+                await req.bruteProtection.fail("register",null) 
             return dashboardAuthRenderer.register(res, data, errors.mapped());
         }
 
