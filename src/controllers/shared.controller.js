@@ -120,15 +120,11 @@ export default {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
-        // Validate that validators parsed a valid two factor login token
-        if(!data.twoFactorLoginToken) {
-            // 
-            throw new ClientError("Could not parse valid two factor login token!");
-        }
-
         // If there are validation errors, render the two-factor authentication page with error messages
         if (!errors.isEmpty()) {
             await req.bruteProtection.fail("login-second-factor",req.session?.twoFactorLogin?.accountId) 
+            if(errors.mapped()["twoFactorLoginToken"]) 
+                throw new ClientError("Could not parse valid two factor login token!");
             sharedRenderer.twoFactorAuth(res, interactionDetails, data.twoFactorLoginToken, errors.mapped());
         } else {
             // Retrieve the account ID from the session for the two-factor login
