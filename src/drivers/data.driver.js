@@ -30,7 +30,7 @@ db.exec(`
 // Initialize the email invite requests table if it does not exist
 db.exec(`
     create table IF NOT EXISTS email_invite_requests (
-      email_fingerprint INTEGER BLOB NOT NULL PRIMARY KEY,
+      email_fingerprint BLOB NOT NULL PRIMARY KEY,
       code TEXT REFERENCES invites (code) ON DELETE SET NULL
     );
 `);
