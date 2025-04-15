@@ -228,6 +228,7 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
+if(errors.mapped()["inviteCode"]) // Only trigger brute force fail if error is related to invite code
             await req.bruteProtection.fail("register",null) 
             return dashboardAuthRenderer.register(res, data, errors.mapped());
         }
