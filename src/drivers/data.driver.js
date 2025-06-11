@@ -24,7 +24,6 @@ db.exec(`
         account_id TEXT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
         action_time INTEGER NOT NULL,
         success BOOLEAN DEFAULT FALSE,
-        ip_address_hash BLOB NOT NULL,
         action_type TEXT NOT NULL
     );
 `);
@@ -114,14 +113,13 @@ export default {
      * @description Inserts a new entry into the audit log.
      * @param {String} accountId - The ID of the account.
      * @param {Boolean} success - Indicates if the action was successful.
-     * @param {Buffer} ipAddressHash - The IP address from which the action was initiated.
      * @param {String} actionType - The type of action.
      */
-    insertAuditLogEntry: (accountId, success, ipAddressHash, actionType) => {
+    insertAuditLogEntry: (accountId, success, actionType) => {
         return db.prepare(`
-            INSERT INTO audit_log (account_id, success, ip_address_hash, action_type, action_time)
+            INSERT INTO audit_log (account_id, success, action_type, action_time)
             VALUES (?, ?, ?, ?, strftime('%s','now'))
-        `).run(accountId, success, ipAddressHash, actionType);
+        `).run(accountId, success, actionType);
     },
 
     /**
@@ -358,6 +356,7 @@ export default {
     linkInviteCodeToEmail: (inviteCode, emailFingerprint) => {
         db.prepare('INSERT INTO email_invite_requests (email_fingerprint, code) VALUES (?, ?)').run(emailFingerprint, inviteCode);
     },
+
     isDbInit: isDbInit
 };
 
