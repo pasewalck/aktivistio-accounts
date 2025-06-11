@@ -19,7 +19,7 @@ db.exec(`
 
 // Initialize the accounts audit log table if it does not exist
 db.exec(`
-    create table IF NOT EXISTS account_audit_log (
+    create table IF NOT EXISTS audit_log (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         account_id TEXT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
         action_time INTEGER NOT NULL,
