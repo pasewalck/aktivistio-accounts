@@ -9,7 +9,6 @@ import ipTokenizerService from "../services/ip-tokenizer.service.js";
 async function ipTokenizationMiddleware(req, res, next) {
   
   req.uniqueToken = ipTokenizerService.tokenForIp(req.ip)
-  console.log(req.uniqueToken)
   next();
   
 }
