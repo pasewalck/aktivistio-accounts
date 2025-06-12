@@ -9,6 +9,7 @@ import { generateNumberCode } from "../helpers/generate-secrets.js";
 import { hashPassword } from "../helpers/hash-string.js";
 import invitesService from "../services/invites.service.js";
 import mailService from "../services/mail.service.js";
+import { Role } from "../models/roles.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -260,7 +261,7 @@ export default {
         req.session.accountCreation = null; // Clear the session data after use
 
         // Create a new account with the provided username from session and default role
-        let account = await accountService.create(accountSession.username, accountService.Role.USER);
+        let account = await accountService.create(accountSession.username, Role.USER);
         accountService.password.set(account, accountSession.passwordHash); // Set the hashed password for the account
 
         // Set the recovery method based on the user's choice saved in session
