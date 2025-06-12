@@ -11,6 +11,7 @@ import csrfProtection from './middlewares/csrf-protection.middleware.js';
 import dashboardRoutes from './routes/dashboard.router.js';
 import oidcRoutes from './routes/oidc.router.js';
 import loggedOutDashboardRouter from './routes/logged-out.dashboard.router.js';
+import ipTokenizationMiddleware from './middlewares/ipTokenization.middleware.js';
 import shortSessionMiddleware from './middlewares/session.middleware.js';
 import provider from './helpers/oidc/provider.js';
 import langController from './controllers/lang.controller.js';
@@ -50,11 +51,11 @@ i18n.configure({
     cookie: 'i18n',
 });
 
-// Session and cookie parsing middleware
+// Session, cookie parsing and ip tokenization middleware
+app.use(ipTokenizationMiddleware)
 app.use(shortSessionMiddleware);
 app.use(cookieParser(await secretService.getEntries("COOKIE_PARSER_SECRET", () => generateSecret(40), { lifeTime: 365, graceTime: 30 })));
 app.use(express.urlencoded({ extended: true }));
-
 
 // Initialize i18n middleware
 app.use(i18n.init);
