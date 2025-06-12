@@ -1,38 +1,56 @@
-const ipTokenMap = new Map(); // In-memory map to store IP tokens
-const expirationList = []; // In-memory array to store expiration times and corresponding IP addresses
+const ipTokenMap = new Map(); // Map to store IP tokens and their expiration
+const ipExpirationList = []; // Array to track IP addresses and their expiration times
 
-const EXPIRATION_TIME = 60 * 60 * 1000; // 1 hour in milliseconds
+const TOKEN_EXPIRATION_TIME = 60 * 60 * 1000; // 1 hour in milliseconds
 
 /**
- * @description Tokenizes an IP address by generating a unique token.
+ * @description Generates a unique token for a given IP address.
  * @param {String} ipAddress - The IP address to tokenize.
- * @returns {String} - The tokenized IP address.
+ * @returns {String} - The generated token for the IP address.
  */
-export const getToken = (ipAddress) => {
+const tokenForIp = (ipAddress) => {
+    const currentTime = Date.now();
+
     // Check if the IP address is not already tokenized
     if (!ipTokenMap.has(ipAddress)) {
-        const token = crypto.randomUUID()
-        ipTokenMap.set(ipAddress, token);
+        const token = crypto.randomUUID();
+        ipTokenMap.set(ipAddress, { token, expirationTime: currentTime + TOKEN_EXPIRATION_TIME });
+        ipExpirationList.push(ipAddress);
+    } else {
+        const entry = ipTokenMap.get(ipAddress);
+        if (entry.expirationTime <= currentTime) {
+            const token = crypto.randomUUID();
+            ipTokenMap.set(ipAddress, { token, expirationTime: currentTime + TOKEN_EXPIRATION_TIME });
 
-        const currentTime = Date.now();
-        // Add expiration time to the list
-        expirationList.push({ ipAddress, expirationTime: currentTime + EXPIRATION_TIME });
+            while (expirationList.length > 0)
+            {
+                const entry = expirationList[0];
+                expirationList.shift();
+                if(entry == ipAddress)
+                    break;
+            }
+            ipExpirationList.push(ipAddress);
+        }
     }
 
-    return ipTokenMap.get(ipAddress);
+    return ipTokenMap.get(ipAddress).token;
 };
 
 /**
- * @description Cleans up expired tokens from the map and the expiration list.
+ * @description Cleans up expired tokens from the maps and lists.
  */
-export const cleanupExpired = () => {
+const cleanupExpiredTokens = () => {
     const currentTime = Date.now();
     
-    while (expirationList.length > 0 && expirationList[0].expirationTime <= currentTime) {
-        const { ipAddress } = expirationList.shift(); // Remove the first element (expired)
-        ipTokenMap.delete(ipAddress); // Remove from the map
+    // Clean up expired IP tokens
+    while (ipExpirationList.length > 0 && ipTokenMap.get(ipExpirationList[0]).expirationTime <= currentTime) {
+        const expiredIpAddress = ipExpirationList.shift(); // Remove the first element (expired)
+        ipTokenMap.delete(expiredIpAddress); // Remove from the map
     }
 };
 
-// Optional: Set an interval to clean up expired tokens every 10 minutes
-setInterval(cleanupExpired, 30 * 60 * 1000);
+setInterval(cleanupExpiredTokens, 30 * 60 * 1000);
+
+export default {
+    tokenForIp
+}
