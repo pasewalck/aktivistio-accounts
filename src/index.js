@@ -50,6 +50,10 @@ i18n.configure({
     cookie: 'i18n',
 });
 
+// Serve static files from the public directory
+logger.debug("Setting public express route");
+app.use(express.static('src/public'));
+
 // Session and cookie parsing middleware
 app.use(shortSessionMiddleware);
 app.use(cookieParser(await secretService.getEntries("COOKIE_PARSER_SECRET", () => generateSecret(40), { lifeTime: 365, graceTime: 30 })));
@@ -66,10 +70,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
 app.set('layout', './layouts/main');
-
-// Serve static files from the public directory
-logger.debug("Setting public express route");
-app.use(express.static('src/public'));
 
 logger.debug("Initializing middlewares");
 
