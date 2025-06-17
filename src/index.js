@@ -11,7 +11,6 @@ import csrfProtection from './middlewares/csrf-protection.middleware.js';
 import dashboardRoutes from './routes/dashboard.router.js';
 import oidcRoutes from './routes/oidc.router.js';
 import loggedOutDashboardRouter from './routes/logged-out.dashboard.router.js';
-import ipTokenizationMiddleware from './middlewares/ipTokenization.middleware.js';
 import shortSessionMiddleware from './middlewares/session.middleware.js';
 import provider from './helpers/oidc/provider.js';
 import langController from './controllers/lang.controller.js';
@@ -55,8 +54,7 @@ i18n.configure({
 logger.debug("Setting public express route");
 app.use(express.static('src/public'));
 
-// Session, cookie parsing and ip tokenization middleware
-app.use(ipTokenizationMiddleware)
+// Session, cookie parsing and url encoding middleware
 app.use(shortSessionMiddleware);
 app.use(cookieParser(await secretService.getEntries("COOKIE_PARSER_SECRET", () => generateSecret(40), { lifeTime: 365, graceTime: 30 })));
 app.use(express.urlencoded({ extended: true }));
