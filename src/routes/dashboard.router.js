@@ -20,6 +20,7 @@ import manageAccountDeleteValidations from '../validation/validators/dashboard/s
 import manageServiceGetValidators from '../validation/validators/dashboard/system-management/services/manage.service.get.validators.js';
 import manageServiceUpdateValidations from '../validation/validators/dashboard/system-management/services/manage.service.update.validations.js';
 import manageServiceDeleteValidations from '../validation/validators/dashboard/system-management/services/manage.service.delete.validations.js';
+import ownAccountAuditLogValidations from '../validation/validators/dashboard/own-account/own-account.audit-log.validations.js';
 
 /**
  * @description Binds controller actions to routes for the primary app.
@@ -41,7 +42,7 @@ export default (app) => {
     app.get('/user/:id', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), userManageValidators, dashboardController.manageUser);
     app.post('/user/:id/update', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), userManageValidators, manageAccountUpdateValidations, dashboardController.manageUserUpdatePost);
     app.post('/user/:id/delete', middlewares, generateCheckUserPermission(Permission.DELETE_USERS), userManageValidators, manageAccountDeleteValidations, dashboardController.manageUserDeletePost);
-
+    
     // Service management routes
     app.get('/services/add', middlewares, generateCheckUserPermission(Permission.MANAGE_SERVICES), dashboardController.serviceAdd);
     app.get('/services/edit/:id', middlewares, generateCheckUserPermission(Permission.MANAGE_SERVICES), manageServiceGetValidators, dashboardController.serviceEdit);
@@ -53,6 +54,9 @@ export default (app) => {
     app.get('/account', middlewares, dashboardController.account);
     app.get('/account/2fa', middlewares, dashboardController.account2fa);
     app.get('/account/2fa/add', middlewares, dashboardController.accountAdd2fa);
+    app.get('/account/password', middlewares, dashboardController.accountChangePassword);
+    app.get('/account/audit-log', middlewares, ownAccountAuditLogValidations, dashboardController.auditLog);
+
     app.post('/account/2fa/set', middlewares, ownAccountSet2faValidations, dashboardController.accountChange2faPost);
     app.post('/account/2fa/remove', middlewares, dashboardController.accountRemove2faPost);
     app.post('/account/password', middlewares, ownAccountChangePasswordValidations, dashboardController.accountChangePasswordPost);

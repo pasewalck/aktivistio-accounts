@@ -6,6 +6,7 @@ import env from "../helpers/env.js";
 import adapterService from "../services/adapter.service.js";
 import invitesService from "../services/invites.service.js";
 import { extendUrl } from "../helpers/url.js";
+import auditService from "../services/audit.service.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -227,6 +228,28 @@ export default {
     return res.render('pages/dashboard/users', {
         title: res.__('Users'),
         users: accountService.getAll(),
+    });
+  },
+
+  /**
+  * @description Renders the audit log page.
+  * Displays a list of audit logs. Either since last login or all of them.
+  * @param {Request} req - The request object.
+  * @param {Response} res - The response object.
+  * @param {boolean} onlySinceLastLogin - 
+  */
+  auditLog: (req, res, weeksBack) => {
+    // Fetch the full audit log
+    const since = Math.round(Date.now()/1000)-weeksBack*60*60*24*7
+    const auditLog = auditService.getFullAuditLog(req.account, since);
+
+    // Sort the audit log entries by timestamp in descending order
+    auditLog.sort((a, b) => new Date(b.time) - new Date(a.time));
+    return res.render('pages/dashboard/account/audit-log', {
+        title: res.__('Audit Log'),
+        weeksBack,
+        moreEntries: since > auditService.getFirstEntryFullAuditLog(req.account).time,
+        auditLog,
     });
   },
 

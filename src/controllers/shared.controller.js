@@ -3,6 +3,8 @@ import { matchedData, validationResult } from "express-validator";
 import { setProviderSession } from "../helpers/oidc/session.js";
 import sharedRenderer from "../renderers/shared.renderer.js";
 import accountService from "../services/account.service.js";
+import auditService from "../services/audit.service.js";
+import { AuditActionType } from "../models/audit-action-types.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -36,6 +38,7 @@ async function getInteractionDetailsNullable(req, res) {
  * @param {String} accountId - The ID of the authenticated account.
  */
 async function doLogin(res, req, interactionDetails, accountId) {
+    auditService.appendAuditLog({id:accountId},AuditActionType.LOGIN_SUCCESS,req)
     if (interactionDetails) {
         // If interaction details are present, finish the interaction with the account ID
         await provider.interactionFinished(req, res, {
@@ -72,6 +75,7 @@ export default {
 
         // If there are validation errors, render the login page with error messages
         if (!errors.isEmpty()) {
+            auditService.appendAuditLog(accountService.find.withUsername(data.username),AuditActionType.LOGIN_FAIL,req)
             sharedRenderer.login(res, interactionDetails, data, errors.mapped());
         } else {
             // Check the provided username and password against the account service
@@ -126,6 +130,7 @@ export default {
 
         // If there are validation errors, render the two-factor authentication page with error messages
         if (!errors.isEmpty()) {
+            auditService.appendAuditLog(accountService.find.withUsername(data.username),AuditActionType.LOGIN_2FA_FAIL,req)
             sharedRenderer.twoFactorAuth(res, interactionDetails, data.twoFactorLoginToken, errors.mapped());
         } else {
             // Retrieve the account ID from the session for the two-factor login
