@@ -1,10 +1,182 @@
 /**
- * @enum {String}
- * Enum for action types in the audit log.
+ * Enum for Audit Action Types.
+ * @readonly
+ * @class
  */
-export const AuditActionType = {
-    LOGIN: 'login',
-    PASSWORD_RECOVERY: 'password_recovery',
-    ACCOUNT_CREATION: 'account_creation',
-    ACCOUNT_DELETION: 'account_deletion',
-};
+export class AuditActionType {
+
+    static REGISTER = { 
+        id: 0, 
+        type: 'REGISTER', 
+        displayName: 'User Registration Completed', 
+        alertLevel: 0,
+        replaceActionTypes: []
+    };
+
+    static LOGIN_FAIL = { 
+        id: 2, 
+        type: 'LOGIN_FAIL', 
+        displayName: 'User Login Attempt Blocked', 
+        alertLevel: 1,
+        replaceActionTypes: []
+    };
+
+    static LOGIN_2FA_FAIL = { 
+        id: 3, 
+        type: 'LOGIN_2FA_FAIL', 
+        displayName: 'Two-Factor Authentication Failed During Login', 
+        alertLevel: 2,
+        replaceActionTypes: []
+    };
+
+    static LOGIN_SUCCESS = { 
+        id: 1, 
+        type: 'LOGIN_SUCCESS', 
+        displayName: 'User Successfully Logged In', 
+        alertLevel: 0,
+        replaceActionTypes: [AuditActionType.LOGIN_FAIL]
+    };
+
+
+    static PASSWORD_RECOVERY_WITH_EMAIL_STARTED = { 
+        id: 4, 
+        type: 'PASSWORD_RECOVERY_WITH_EMAIL_STARTED', 
+        displayName: 'Password Recovery with Email Started', 
+        alertLevel: 1,
+        replaceActionTypes: []
+    };
+
+    static PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_TOKEN = { 
+        id: 5, 
+        type: 'PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_TOKEN', 
+        displayName: 'Password Recovery Email Token Hard Fail', 
+        alertLevel: 2,
+        replaceActionTypes: [AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_STARTED]
+    };
+
+    static PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_EMAIL = { 
+        id: 6, 
+        type: 'PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_EMAIL', 
+        displayName: 'Password Recovery Email Hard Fail', 
+        alertLevel: 2,
+        replaceActionTypes: [AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_STARTED]
+    };
+
+    static PASSWORD_RECOVERY_WITH_EMAIL_COMPLETE = { 
+        id: 7, 
+        type: 'PASSWORD_RECOVERY_WITH_EMAIL_COMPLETE', 
+        displayName: 'Password Recovery with Email Complete', 
+        alertLevel: 0,
+        replaceActionTypes: [AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_STARTED,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_TOKEN,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_STARTED]
+    };
+
+    static PASSWORD_RECOVERY_WITH_TOKEN_STARTED = { 
+        id: 8, 
+        type: 'PASSWORD_RECOVERY_WITH_TOKEN_STARTED', 
+        displayName: 'Password Recovery with Token Started', 
+        alertLevel: 1,
+        replaceActionTypes: []
+    };
+
+    static PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL = { 
+        id: 9, 
+        type: 'PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL', 
+        displayName: 'Password Recovery Token Hard Fail', 
+        alertLevel: 1,
+        replaceActionTypes: [AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_STARTED]
+    };
+
+    static PASSWORD_RECOVERY_WITH_TOKEN_COMPLETE = { 
+        id: 10,
+        type: 'PASSWORD_RECOVERY_WITH_TOKEN_COMPLETE', 
+        displayName: 'Password Recovery with Token Complete', 
+        alertLevel: 0,
+        replaceActionTypes: [AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_STARTED]
+    };
+
+    static TWO_FACTOR_AUTH_ENABLED = { 
+        id: 11,
+        type: 'TWO_FACTOR_AUTH_ENABLED', 
+        displayName: 'Two-Factor Authentication Enabled', 
+        alertLevel: 0,
+        replaceActionTypes: [AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_STARTED]
+    };
+
+    static TWO_FACTOR_AUTH_DISABLED = { 
+        id: 12, 
+        type: 'TWO_FACTOR_AUTH_DISABLED', 
+        displayName: 'Two-Factor Authentication Disabled', 
+        alertLevel: 1,
+        replaceActionTypes: []
+    };
+
+    static PASSWORD_CHANGED = { 
+        id: 13, 
+        type: 'PASSWORD_CHANGED', 
+        displayName: 'User Password Changed', 
+        alertLevel: 1,
+        replaceActionTypes: []
+    };
+
+    static PASSWORD_CHANGE_FAIL = { 
+        id: 14, 
+        type: 'PASSWORD_CHANGE_FAIL', 
+        displayName: 'Password Change Attempt Blocked', 
+        alertLevel: 2,
+        replaceActionTypes: []
+    };
+
+
+    static RECOVERY_METHOD_UPDATE_FAIL = { 
+        id: 15, 
+        type: 'RECOVERY_METHOD_UPDATE_FAIL', 
+        displayName: 'User Recovery Method Update Blocked', 
+        alertLevel: 2,
+        replaceActionTypes: []
+    };
+
+    static RECOVERY_METHOD_UPDATED = { 
+        id: 16, 
+        type: 'RECOVERY_METHOD_UPDATED', 
+        displayName: 'User Recovery Method Updated', 
+        alertLevel: 0,
+        replaceActionTypes: []
+    };
+
+
+
+    /**
+     * @description Get all defined action types as an array.
+     * @returns {Array<Object>} - An array of all action type objects.
+     */
+    static all() {
+        return [
+            AuditActionType.REGISTER,
+            AuditActionType.LOGIN_SUCCESS,
+            AuditActionType.LOGIN_FAIL,
+            AuditActionType.LOGIN_2FA_FAIL,
+            AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_STARTED,
+            AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_TOKEN,
+            AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_EMAIL,
+            AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_COMPLETE,
+            AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_STARTED,
+            AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL,
+            AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_COMPLETE,
+            AuditActionType.TWO_FACTOR_AUTH_ENABLED,
+            AuditActionType.TWO_FACTOR_AUTH_DISABLED,
+            AuditActionType.PASSWORD_CHANGED,
+            AuditActionType.PASSWORD_CHANGE_FAIL,
+            AuditActionType.RECOVERY_METHOD_UPDATE_FAIL,
+            AuditActionType.RECOVERY_METHOD_UPDATED
+        ];
+    }
+
+    /**
+     * @description Retrieve a specific AuditActionType by its Id.
+     * @param {number} actionTypeId - The ID of the action type.
+     * @returns {AuditActionType} - The action type object.
+     */
+    static byId(actionTypeId) {
+        return AuditActionType.all()[actionTypeId];
+    }
+}

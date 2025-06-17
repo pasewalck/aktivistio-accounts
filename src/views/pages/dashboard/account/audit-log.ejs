@@ -1,0 +1,63 @@
+<%- include("../../../partials/dashboard-header.ejs") %>
+
+<div class="wrapper flex-container">
+
+    <div class="container container-medium-width container-filled-background">
+        <h1>
+            <%= __("Account Audit Log") %>
+        </h1>
+
+        <% if (moreEntries) { %>
+            <p>
+                <%= __("Displaying audit log entries since %s weeks",weeksBack) %>
+                <a href="<%= urlUtils.extendUrl(baseUrl, 'account/audit-log?weeks='+(weeksBack+1)).href %>" class="link">(<%= __("View More") %>)</a>
+            </p>
+        <% } %>
+        <% function formatTimestamp(timestamp) {
+            const logDate = new Date(timestamp);
+            const now = new Date();
+                    
+            if (logDate.toDateString() === now.toDateString()) {
+                const delta = Math.floor((now - logDate) / 1000);
+                if (delta < 60) return __("%s seconds ago",delta);
+                if (delta < 3600) return __("%s seconds ago",Math.floor(delta / 60));
+                return __("%s seconds ago",Math.floor(delta / 3600));
+            } else {
+                return logDate.toLocaleDateString();
+            }
+        } %> 
+        <ul class="audit-log-list">
+            <% for (let index=0; index < auditLog.length; index++) { const logEntry=auditLog[index]; %>
+                <li class="audit-log-entry alert-level-<%= logEntry.actionType.alertLevel %>">
+        
+                    <span class="audit-log-type">
+                        <%= logEntry.count %>x
+                        <% if (logEntry.actionType.alertLevel == 1) { %>
+                            ⚠️
+                        <% } else if (logEntry.actionType.alertLevel == 2) { %>
+                            ⛔
+                        <% } %>
+                        <%= logEntry.actionType.displayName %>
+                    </span>
+                    <span class="audit-log-timestamp">
+                        <%= formatTimestamp(logEntry.time*1000) %>
+                    </span>
+
+                </li>
+            <% } %>
+        </ul>
+    </div>
+
+    <div class="container container-medium-width container-filled-background">
+        <h2><%= __("Legend") %></h2>
+        <p>
+            <span class="audit-log-symbol">⚠️</span>
+            <b><%= __("Warning") %></b>: <%= __("Indicates a potential event to keep an eye on, but which is expected within normal operation.") %>
+        </p>
+        <p>
+            <span class="audit-log-symbol">⛔</span>
+            <b><%= __("Critical") %></b>: <%= __("Indicates a potential threat that requires attention.") %>
+        </p>
+    </div>
+
+</div>

@@ -1,6 +1,7 @@
 import { initDatabase } from "../helpers/database.js";
 import env from "../helpers/env.js";
 import { Account } from "../models/accounts.js";
+import { AuditActionType } from "../models/audit-action-types.js";
 
 const {db,isDbInit} = initDatabase("data",env.DATABASE_KEYS.DATA)
 
@@ -22,9 +23,10 @@ db.exec(`
     create table IF NOT EXISTS audit_log (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         account_id TEXT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
-        action_time INTEGER NOT NULL,
-        success BOOLEAN DEFAULT FALSE,
-        action_type TEXT NOT NULL
+        start_time INTEGER NOT NULL,
+        end_time INTEGER NOT NULL,
+        action_type_id INTEGER NOT NULL,
+        count INTEGER NOT NULL DEFAULT 1
     );
 `);
 
@@ -97,45 +99,129 @@ export default {
     },
 
     /**
-     * @description Retrieves all actions for a specific account by ID.
-     * @param {String} accountId - The ID of the account.
-     * @returns {Array<Object>} - An array of audit log entries for the account.
-     */
-    getAuditLogForAccount: (accountId) => {
-        return db.prepare(`
-            SELECT * FROM audit_log
-            WHERE account_id = ?
-            ORDER BY action_time DESC
-        `).all(accountId);
-    },
-
-    /**
      * @description Inserts a new entry into the audit log.
      * @param {String} accountId - The ID of the account.
      * @param {Boolean} success - Indicates if the action was successful.
-     * @param {String} actionType - The type of action.
+     * @param {AuditActionType} actionType - The type of action.
      */
-    insertAuditLogEntry: (accountId, success, actionType) => {
+    insertAuditLogEntry: (accountId, actionType) => {
         return db.prepare(`
-            INSERT INTO audit_log (account_id, success, action_type, action_time)
-            VALUES (?, ?, ?, ?, strftime('%s','now'))
-        `).run(accountId, success, actionType);
+            INSERT INTO audit_log (account_id, action_type_id, start_time, end_time)
+            VALUES (?, ?, strftime('%s','now'), strftime('%s','now'))
+        `).run(accountId, actionType.id);
     },
 
     /**
-     * @description Counts the number of failed recovery attempts for a specific account in the last hour.
+     * @description Increments the count for a specific audit log entry based on action type and account ID.
      * @param {String} accountId - The ID of the account.
-     * @param {String} actionType - The type of action.
-     * @param {Number} since - Filter event by time.
-     * @returns {Number} - The count of failed recovery attempts.
+     * @param {AuditActionType} actionType - The type of action.
+     * @returns {Boolean} - Returns true if the count was incremented, false if no entry was found.
      */
-    countAuditLogFails: (accountId,actionType,since) => {
-        return db.prepare(`
-            SELECT COUNT(*) FROM audit_log
-            WHERE account_id = ? AND success = FALSE AND action_type = ? AND action_time > ?
-        `).pluck().get(accountId, actionType, since);
+    incrementAuditLogCountTimeBased: (accountId, actionType) => {
+        const result = db.prepare(`
+            UPDATE audit_log 
+            SET count = count + 1, end_time = strftime('%s','now')
+            WHERE action_type_id = ? AND account_id = ? AND start_time >= strftime('%s', 'now', '-15 minutes')
+        `).run(actionType.id, accountId);
+
+        return result.changes > 0;
     },
 
+    /**
+     * @description Deletes entries from the audit log based on action type and account ID.
+     * @param {AuditActionType} actionType - The type of action.
+     * @param {String} accountId - The ID of the account.
+     * @returns {Boolean} - Returns true if entries were deleted, false if no entries were found.
+     */
+    deleteAuditLogEntriesTimeBased: (accountId, actionType) => {
+        const result = db.prepare(`
+            DELETE FROM audit_log 
+            WHERE action_type_id = ? AND account_id = ? AND start_time >= strftime('%s', 'now', '-15 minutes')
+        `).run(actionType.id, accountId);
+
+        return result.changes > 0;
+    },
+
+    /**
+     * @description Deletes an entry from the audit log by ID.
+     * @param {Number} id - The ID of the audit log entry to delete.
+     */
+    deleteAuditLogEntry: (id) => {
+        return db.prepare(`
+            DELETE FROM audit_log WHERE id = ?
+        `).run(id);
+    },
+
+    /**
+     * @description Retrieves the most recent audit log entry for a specific account.
+     * @param {String} accountId - The ID of the account.
+     * @returns {Object} - An object representing an audit log entry.
+     */
+    getFirstEntryFullAuditLog: (accountId) => {
+        const log = db.prepare(`
+            SELECT end_time as time,count,action_type_id as actionTypeId, account_id as accountId
+            FROM audit_log
+            WHERE account_id = ? ORDER BY end_time
+        `).get(accountId)
+        
+        return log ? {
+                time: log.time,
+                count: log.count,
+                actionType: AuditActionType.byId(log.actionTypeId),
+                accountId: log.accountId,
+                clientIdentifier: log.clientIdentifier
+        } : null;
+    },
+
+    /**
+     * @description Retrieves the full audit log for a specific account, filtered by time.
+     * @param {String} accountId - The ID of the account.
+     * @param {Number|null} since - Filter event by time.
+     * @returns {Array<Object>} - An array of objects representing audit log entries.
+     */
+    getFullAuditLog: (accountId,since) => {
+        const auditLogs = db.prepare(`
+            SELECT end_time as time,count,action_type_id as actionTypeId, account_id as accountId
+            FROM audit_log
+            WHERE account_id = ? AND end_time >= ?
+        `).all(accountId, since ? since : 0);
+        
+        return auditLogs.map(log => {
+            const actionInfo = AuditActionType.byId(log.actionTypeId);
+            return {
+                time: log.time,
+                count: log.count,
+                actionType: actionInfo, // Replace ID with the action object
+                accountId: log.accountId,
+                clientIdentifier: log.clientIdentifier
+            };
+        });
+    },
+
+    /**
+     * @description Retrieves the audit log for a specific account, filtered by time and actionType.
+     * @param {String} accountId - The ID of the account.
+     * @param {AuditActionType} actionType - The type of action.
+     * @param {Number|null} since - Filter event by time.
+     * @returns {Array<Object>} - An array of objects representing audit log entries.
+     */
+    getAuditLog: (accountId,actionType,since) => {
+        const auditLogs = db.prepare(`
+            SELECT end_time as time,count,action_type_id as actionTypeId, account_id as accountId FROM audit_log
+            WHERE account_id = ? AND action_type_id = ? AND end_time >= ?
+        `).all(accountId,actionType.id,since ? since : 0);
+
+        return auditLogs.map(log => {
+            const actionInfo = AuditActionType.byId(log.actionTypeId);
+            return {
+                time: log.time,
+                count: log.count,
+                actionType: actionInfo,
+                accountId: log.accountId,
+                clientIdentifier: log.clientIdentifier
+            };
+        });
+    },
 
     /**
      * @description Finds an account by its username.

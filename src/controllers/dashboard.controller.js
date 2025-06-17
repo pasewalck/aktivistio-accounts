@@ -3,8 +3,9 @@ import provider from "../helpers/oidc/provider.js";
 import { matchedData, validationResult } from "express-validator";
 import accountService from "../services/account.service.js";
 import invitesService from "../services/invites.service.js";
-import adapterDriver from "../drivers/adapter.driver.js";
 import adapterService from "../services/adapter.service.js";
+import auditService from "../services/audit.service.js";
+import { AuditActionType } from "../models/audit-action-types.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -55,8 +56,13 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
+            // Append password change fail if fail is due to incorrect password
+            if(errors.mapped()["currentPassword"])
+                auditService.appendAuditLog(req.account,AuditActionType.PASSWORD_CHANGE_FAIL,req)
             return dashboardRenderer.accountChangePassword(req, res, data, errors.mapped());
         }
+
+        auditService.appendAuditLog(req.account,AuditActionType.PASSWORD_CHANGED,req)
 
         await accountService.password.set(req.account, data.newPassword);
         res.redirect("/account");
@@ -123,6 +129,8 @@ export default {
             return dashboardRenderer.addTwoFactorAuth(req, res, data, errors.mapped());
         }
 
+        auditService.appendAuditLog(req.account,data.secret ? AuditActionType.TWO_FACTOR_AUTH_ENABLED : AuditActionType.TWO_FACTOR_AUTH_DISABLED,req)
+
         accountService.twoFactorAuth.set(req.account, data.secret);
         res.redirect("/account/2fa");
     },
@@ -133,6 +141,8 @@ export default {
      * @param {Response} res - The response object.
      */
     accountRemove2faPost: async (req, res) => {
+        auditService.appendAuditLog(req.account,AuditActionType.TWO_FACTOR_AUTH_DISABLED,req)
+
         accountService.twoFactorAuth.set(req.account, null);
         res.redirect("/account/2fa");
     },
@@ -193,8 +203,13 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
+            // Append recovery method change fail if fail is due to incorrect password
+            if(errors.mapped()["currentPassword"])
+                auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATE_FAIL,req)
             return dashboardRenderer.deleteRecoveryMethod(req, res, "email", data, errors.mapped());
         }
+
+        auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATED,req)
 
         await accountService.recovery.email.set(req.account, null);
         res.redirect("/account/recovery");
@@ -211,8 +226,13 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
+            // Append recovery method change fail if fail is due to incorrect password
+            if(errors.mapped()["currentPassword"])
+                auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATE_FAIL,req)
             return dashboardRenderer.deleteRecoveryMethod(req, res, "token", data, errors.mapped());
         }
+
+        auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATED,req)
 
         await accountService.recovery.token.set(req.account, null);
         res.redirect("/account/recovery");
@@ -229,8 +249,13 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
+            // Append recovery method change fail if fail is due to incorrect password
+            if(errors.mapped()["currentPassword"])
+                auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATE_FAIL,req)
             return dashboardRenderer.setRecoveryEmail(req, res, data, errors.mapped());
         }
+
+        auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATED,req)
 
         await accountService.recovery.email.set(req.account, data.email);
         res.redirect("/account/recovery");
@@ -247,8 +272,13 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
+            // Append recovery method change fail if fail is due to incorrect password
+            if(errors.mapped()["currentPassword"])
+                auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATE_FAIL,req)
             return dashboardRenderer.setRecoveryToken(req, res, data, errors.mapped());
         }
+
+        auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATED,req)
 
         await accountService.recovery.token.set(req.account, req.body.token);
         res.redirect("/account/recovery");
@@ -465,6 +495,22 @@ export default {
         }
 
         dashboardRenderer.manageUser(req, res, data.id);
+    },
+
+
+    /**
+     * @description Renders the audit log overview.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    auditLog: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            throw new Error(errors.array()[0].msg);
+        }
+        dashboardRenderer.auditLog(req, res,data.weeks ? data.weeks : 1);
     },
 
     /**

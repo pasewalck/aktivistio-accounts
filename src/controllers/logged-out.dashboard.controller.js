@@ -10,6 +10,8 @@ import { hashPassword } from "../helpers/hash-string.js";
 import invitesService from "../services/invites.service.js";
 import mailService from "../services/mail.service.js";
 import { Role } from "../models/roles.js";
+import auditService from "../services/audit.service.js";
+import { AuditActionType } from "../models/audit-action-types.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -29,10 +31,12 @@ import { Role } from "../models/roles.js";
  * @param {String} [accountId] - The ID of the account being recovered.
  * @param {Number} [confirmCode] - The confirmation code for recovery.
  * @param {Boolean} [validated] - Indicates whether the recovery has been validated.
+ * @param {String} [recoveryMethod] - The recovery method used.
  */
-function setAccountRecoverySession(req, accountId = null, confirmCode = null, validated = true) {
+function setAccountRecoverySession(req,recoveryMethod = null, accountId = null, confirmCode = null, validated = true) {
     req.session.accountRecovery = {
         confirmCode: confirmCode,
+        recoveryMethod: recoveryMethod,
         accountId: accountId,
         validated: validated
     };
@@ -100,6 +104,17 @@ export default {
         const data = await matchedData(req);
     
         if (!errors.isEmpty()) {
+
+            switch (data.method) {
+                case "email":
+                    auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_EMAIL)
+                    break;
+                case "token":
+                    auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL)
+                    break;
+                default:
+                    break;
+            }
             return dashboardAuthRenderer.recoveryRequest(res, data, errors.mapped());
         }
     
@@ -114,25 +129,31 @@ export default {
                 // Generate a confirmation code for email recovery
                 const confirmCode = generateNumberCode();
                 // Set the account recovery session with the account ID and confirmation code
-                setAccountRecoverySession(req, account.id, confirmCode);
+                setAccountRecoverySession(req, data.method, account.id, confirmCode);
                 // Send the recovery code to the user's email address
                 mailService.send.recoveryCode(confirmCode, data.email, res.locals);
                 // Render the confirmation code page to inform the user that the code has been sent
                 dashboardAuthRenderer.recoveryConfirmCode(res);
+                // Append password recovery request with email audit log
+                auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_STARTED)
                 break;
     
             case "token":
                 // Set the account recovery session with the account ID (no confirmation code needed for token method)
-                setAccountRecoverySession(req, account.id);
+                setAccountRecoverySession(req, data.method, account.id);
                 // Validate the recovery session to indicate that the user has initiated the recovery process
                 validateAccountRecoverySession(req);
                 // Render the password prompt page to allow the user to set a new password
                 dashboardAuthRenderer.recoveryPasswordPrompt(res);
+                // Append password recovery request with email audit log
+                auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_STARTED)
                 break;
             default:
                 // If an unsupported recovery method is provided, throw an error
                 throw new Error("Unsupported recovery method");
         }
+
+
     },
 
     /**
@@ -146,14 +167,29 @@ export default {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
-        if (!errors.isEmpty()) {
-            return dashboardAuthRenderer.recoveryConfirmCode(res, data, errors.mapped());
-        }
-
-        let { confirmCode, accountId } = req.session.accountRecovery;
+        let { confirmCode, accountId, recoveryMethod } = req.session.accountRecovery;
         // Extra check for security: ensure the provided confirmation code matches the stored one
         if (confirmCode !== data.confirmCode) {
             throw new Error("Missing confirm token");
+        }
+
+        // Attempt to find the account associated with userId from session
+        let account = accountService.find.withId(accountId);
+        // If no account is found, throw an error indicating the username does not exist
+        if (!account) throw new Error("Missing valid user");
+
+        if (!errors.isEmpty()) {
+            switch (recoveryMethod) {
+                case "email":
+                    auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_TOKEN)
+                    break;
+                case "token":
+                    auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL)
+                    break;
+                default:
+                    break;
+            }
+            return dashboardAuthRenderer.recoveryConfirmCode(res, data, errors.mapped());
         }
 
         validateAccountRecoverySession(req); // Mark the session as validated
@@ -187,6 +223,16 @@ export default {
         await accountService.password.set(account, data.password);
         await accountService.twoFactorAuth.set(account, null);
 
+        switch (recoveryMethod) {
+            case "email":
+                auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_COMPLETE)
+                break;
+            case "token":
+                auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_COMPLETE)
+                break;
+            default:
+                break;
+        }
         req.session.accountRecovery = null; // Clear the recovery session
         res.redirect('/login/'); // Redirect to the login page
     },
@@ -278,6 +324,8 @@ export default {
         invitesService.consume(accountSession.inviteCode);
         // Generate additional invite codes for the new account
         invitesService.generate.multi(3, { linkedAccount: account, validationDurationDays: 14 });
+
+        auditService.appendAuditLog(account,AuditActionType.REGISTER)
 
         // Set the provider session for the newly created account
         await setProviderSession(provider, req, res, { accountId: account.id });
