@@ -29,3 +29,18 @@ export class ClientError extends Error {
         this.statusCode = 400; // Bad Request
     }
 }
+
+/**
+ * Represents an unexpected client error.
+ * @extends ClientError
+ */
+export class UnexpectedClientError extends ClientError {
+    /**
+     * Creates an instance of UnexpectedClientError.
+     * @param {string} message - The error message.
+     */
+    constructor(message) {
+        super(message);
+        this.name = "UnexpectedClientError";
+    }
+}
