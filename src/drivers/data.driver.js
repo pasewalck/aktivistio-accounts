@@ -224,6 +224,21 @@ export default {
     },
 
     /**
+     * @description Sums up all counts of audit log entries for a specific account, filtered by time and actionType.
+     * @param {String} accountId - The ID of the account.
+     * @param {AuditActionType} actionType - The type of action.
+     * @param {Number|null} since - Filter event by time.
+     * @returns {Number} - The sum of counts of audit log entries.
+     */
+    sumAuditLogCounts: (accountId, actionType, since) => {
+        const result = db.prepare(`
+            SELECT SUM(count) as totalCount FROM audit_log
+            WHERE account_id = ? AND action_type_id = ? AND end_time >= ?
+        `).get(accountId, actionType.id, since ? since : 0);
+        return result.totalCount || 0;
+    },
+
+    /**
      * @description Finds an account by its username.
      * @param {String} username - The username of the account.
      * @returns {Account|null} - The account object if found, otherwise null.

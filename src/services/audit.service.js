@@ -51,9 +51,22 @@ function getFirstEntryFullAuditLog(account) {
     return dataDriver.getFirstEntryFullAuditLog(account.id);
 }
 
+/**
+ * @description Retrieves the total sum of counts of audit log entries for a specific account and action type since a given date.
+ * @param {Account} account - The account object containing account details.
+ * @param {AuditActionType} actionType - The type of action for which the count is retrieved.
+ * @param {Number|null} since - The time in seconds from which to sum counts. Null or 0 to sum all counts.
+ * @returns {Number} - The total sum of counts of audit log entries.
+ */
+function getAuditLogCount(account, actionType, since) {
+    return dataDriver.sumAuditLogCounts(account.id, actionType, since);
+}
+
+
 export default {
     appendAuditLog,
     getAuditLog,
     getFullAuditLog,
+    getAuditLogCount,
     getFirstEntryFullAuditLog
 };
