@@ -9,7 +9,7 @@ const {db,isDbInit} = initDatabase("data",env.DATABASE_KEYS.DATA)
 db.exec(`
     create table IF NOT EXISTS accounts (
       id TEXT NOT NULL PRIMARY KEY,
-      username TEXT NOT NULL,
+      username TEXT NOT NULL UNIQUE,
       password_hash TEXT,
       recovery_token_hash TEXT,
       recovery_email_hash TEXT,
