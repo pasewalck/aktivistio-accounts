@@ -22,7 +22,7 @@ const transporter = nodemailer.createTransport({
  * @param {JSON} [data]
  */
 async function getFullMessageString(messageType,renderMode,data) {
-  return await render(`layouts`,renderMode,{...data,body:render(messageType,renderMode,data)})
+  return await render(`layouts`,renderMode,{...data,body:await render(messageType,renderMode,data)})
 }
 /**
  * @description render email partial string
@@ -43,7 +43,6 @@ export default {
    * @param {JSON} [extraData]
    */
   sendEmail: async (to,subject,messageType,locals,extraData) => {
-    
     const data = {
         subject: subject,
         title: subject,
