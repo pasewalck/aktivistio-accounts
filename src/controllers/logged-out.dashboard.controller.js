@@ -328,6 +328,13 @@ export default {
         const accountSession = req.session.accountCreation; // Retrieve the account creation session data
         req.session.accountCreation = null; // Clear the session data after use
 
+        // Check if invite code is still valid.
+        if(!invitesService.validate(accountSession.inviteCode))
+            throw new Error("Invite code used in previous step is no longer valid.")
+        // Check if username still does not exist.
+        if(accountService.find.withUsername(accountSession.username))
+            throw new Error("Username selected in previous step hast been taken now.")
+
         // Create a new account with the provided username from session and default role
         let account = await accountService.create(accountSession.username, Role.USER);
         accountService.password.set(account, accountSession.passwordHash); // Set the hashed password for the account
