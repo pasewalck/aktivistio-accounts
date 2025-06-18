@@ -13,6 +13,7 @@ import registerConsentValidations from '../validation/validators/logged-out/regi
 import recoveryConfirmStepValidations from '../validation/validators/logged-out/recovery.confirm-step.validations.js';
 import recoveryRequestStepValidations from '../validation/validators/logged-out/recovery.request.validations.js';
 import recoveryResetStepValidations from '../validation/validators/logged-out/recovery.reset-step.validations.js';
+import { loginRecoveryRateLimiterMiddleware, registerInviteRequestRateLimiterMiddleware } from '../middlewares/rate-limiter.middlewares.js';
 
 /**
  * @description Binds controllers to routes for the primary app.
@@ -27,23 +28,23 @@ export default (app) => {
 
     // Invite request routes
     app.get('/invite-request', middlewares, dashboardAuthController.inviteRequest);
-    app.post('/invite-request', middlewares, requestInviteValidations, dashboardAuthController.inviteRequestPost);
+    app.post('/invite-request', middlewares, registerInviteRequestRateLimiterMiddleware, requestInviteValidations, dashboardAuthController.inviteRequestPost);
 
     // Account recovery routes
     app.get('/account-recovery', middlewares, dashboardAuthController.recovery);
-    app.post('/account-recovery/request', middlewares, recoveryRequestStepValidations, dashboardAuthController.recoveryRequestPost);
+    app.post('/account-recovery/request', middlewares, loginRecoveryRateLimiterMiddleware, recoveryRequestStepValidations, dashboardAuthController.recoveryRequestPost);
     app.post('/account-recovery/confirm', middlewares, recoveryConfirmStepValidations, dashboardAuthController.recoveryConfirmPost);
     app.post('/account-recovery/reset', middlewares, recoveryResetStepValidations, dashboardAuthController.recoveryResetPost);
 
     // Login routes
     app.get('/login', middlewares, dashboardAuthController.login);
-    app.post('/login', middlewares, loginValidations, sharedController.loginPost);
+    app.post('/login', middlewares, loginRecoveryRateLimiterMiddleware, loginValidations, sharedController.loginPost);
     app.post('/login/2fa', middlewares, login2faValidations, sharedController.loginSecondFactorPost);
 
     // Registration routes
     app.get('/register', middlewares, dashboardAuthController.register);
     app.get('/register/:invite', middlewares, dashboardAuthController.register);
-    app.post('/register/', middlewares, registerValidations, dashboardAuthController.registerPost);
+    app.post('/register/', middlewares, registerInviteRequestRateLimiterMiddleware, registerValidations, dashboardAuthController.registerPost);
     app.post('/register/consent/', middlewares, registerConsentValidations, dashboardAuthController.registerConsentPost);
 
 }

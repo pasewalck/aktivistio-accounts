@@ -53,4 +53,15 @@ export default {
             error: error
         });
     },
+
+    /**
+     * @description Renders the rate limiter.
+     * @param {Response} res - The response object.
+     * @param {Number} retrySecs - The retry seconds to display.
+     */
+    rateLimiter: (res, msBeforeNext) => {
+        const retrySecs = Math.round(msBeforeNext / 1000) || 1;
+        res.set('Retry-After', String(retrySecs));
+        res.status(429).send(res.__("Too many requests! Retry in %s seconds.",retrySecs));
+    },
 };

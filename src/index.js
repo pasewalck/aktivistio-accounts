@@ -6,6 +6,8 @@ import i18n from 'i18n';
 
 import { fileURLToPath } from 'url';
 import { generateSecret } from './helpers/generate-secrets.js';
+import { assembleUrl, extendUrl } from './helpers/url.js';
+import { ipRateLimiterMiddleware } from './middlewares/rate-limiter.middlewares.js';
 
 import csrfProtection from './middlewares/csrf-protection.middleware.js';
 import dashboardRoutes from './routes/dashboard.router.js';
@@ -18,7 +20,6 @@ import errorsMiddleware from './middlewares/errors.middleware.js';
 import logger from './helpers/logger.js';
 import secretService from './services/secret.service.js';
 import env from './helpers/env.js';
-import { assembleUrl, extendUrl } from './helpers/url.js';
 
 // Get the current file and directory names
 const __filename = fileURLToPath(import.meta.url);
@@ -74,6 +75,9 @@ logger.debug("Initializing middlewares");
 
 // CSRF protection middleware
 app.use(csrfProtection);
+
+// Global rate limiter middleware
+app.use(ipRateLimiterMiddleware)
 
 // Attach OIDC callback
 logger.debug("Attaching OIDC callback");
