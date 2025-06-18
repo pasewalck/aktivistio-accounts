@@ -1,4 +1,4 @@
-import { generateSecret, generateTypeableCode } from "../helpers/generate-secrets.js";
+import { generateAlphanumericSecret, generateRandomAsciiString, generateTypeableCode } from "../helpers/generate-secrets.js";
 import { fingerprintString } from "../helpers/fingerprint-string.js";
 import { Account } from "../models/accounts.js";
 import userdataDriver from "../drivers/data.driver.js";
@@ -94,7 +94,7 @@ function generate(options = {}) {
 async function requestWithEmail(email) {
     const emailFingerprint = await fingerprintString(
         email,
-        await secretService.getEntry("FINGERPRINT_SALT", () => generateSecret(18))
+        await secretService.getEntry("FINGERPRINT_SALT", () => generateRandomAsciiString(18))
     );
 
     // Get any invite code that is already linked to the email fingerprint
