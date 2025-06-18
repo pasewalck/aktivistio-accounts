@@ -1,5 +1,5 @@
 import logger from "../helpers/logger.js";
-import { ClientError, InternalError } from "../models/errors.js";
+import { ClientError, InternalError, UnexpectedClientError } from "../models/errors.js";
 import sharedRenderer from "../renderers/shared.renderer.js";
 /**
  * @description Middleware for handling errors in the application.
@@ -15,6 +15,9 @@ const errorMiddleware = (err, req, res, next) => {
         case err instanceof InternalError:
             console.error(err); // Log the internal error for debugging
             return sharedRenderer.error(res,res.__('An internal error occurred. Please try again later.'),err.statusCode); // Render an error response
+
+        case err instanceof UnexpectedClientError:
+            return sharedRenderer.error(res,res.__("An unexpected error occurred with the following message: %s",res.__(err.message)),err.statusCode); // Render an error response
 
         case err instanceof ClientError || err.constructor.name === "ForbiddenError":
             return sharedRenderer.error(res,res.__("An error occurred with the following message: %s",res.__(err.message)),err.statusCode); // Render an error response

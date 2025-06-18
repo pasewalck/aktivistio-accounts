@@ -122,7 +122,7 @@ export default {
         // Attempt to find the account associated with the provided username
         let account = accountService.find.withUsername(data.username);
         // If no account is found, throw an error indicating the username does not exist
-        if (!account) throw new Error("No account for username");
+        if (!account) throw new UnexpectedClientError("No account for username");
     
         // Determine the recovery method chosen by the user
         switch (data.method) {
@@ -153,7 +153,7 @@ export default {
                 break;
             default:
                 // If an unsupported recovery method is provided, throw an error
-                throw new Error("Unsupported recovery method");
+                throw new UnexpectedClientError("Unsupported recovery method");
         }
 
 
@@ -179,7 +179,7 @@ export default {
         // Attempt to find the account associated with userId from session
         let account = accountService.find.withId(accountId);
         // If no account is found, throw an error indicating the username does not exist
-        if (!account) throw new Error("Missing valid user");
+        if (!account) throw new UnexpectedClientError("Missing valid user");
 
         if (!errors.isEmpty()) {
 
@@ -211,7 +211,7 @@ export default {
 
         // Extra check for security: ensure the provided confirmation code matches the stored one
         if (confirmCode !== data.confirmCode) {
-            throw new Error("Missing or invalid confirm token");
+            throw new UnexpectedClientError("Missing or invalid confirm token");
         }
 
         validateAccountRecoverySession(req); // Mark the session as validated
@@ -236,7 +236,7 @@ export default {
         let { validated, accountId, recoveryMethod } = req.session.accountRecovery;
         // Extra check for security: ensure the recovery session has been validated
         if (!validated) {
-            throw new Error("Missing confirm token");
+            throw new UnexpectedClientError("Missing confirm token");
         }
 
         const account = accountService.find.withId(accountId); // Retrieve the account by ID
@@ -330,10 +330,10 @@ export default {
 
         // Check if invite code is still valid.
         if(!invitesService.validate(accountSession.inviteCode))
-            throw new Error("Invite code used in previous step is no longer valid.")
+            throw new UnexpectedClientError("Invite code used in previous step is no longer valid.")
         // Check if username still does not exist.
         if(accountService.find.withUsername(accountSession.username))
-            throw new Error("Username selected in previous step hast been taken now.")
+            throw new UnexpectedClientError("Username selected in previous step hast been taken now.")
 
         // Create a new account with the provided username from session and default role
         let account = await accountService.create(accountSession.username, Role.USER);
