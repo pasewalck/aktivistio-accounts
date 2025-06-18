@@ -1,7 +1,7 @@
 import session from 'express-session';
 import betterSqlite3SessionStore from 'better-sqlite3-session-store';
 
-import { generateSecret } from '../helpers/generate-secrets.js';
+import { generateRandomAsciiString } from '../helpers/generate-secrets.js';
 import { initDatabase } from '../helpers/database.js';
 
 import secretService from '../services/secret.service.js';
@@ -33,7 +33,7 @@ const shortSessionMiddleware = session({
         expires: 15 * 60 * 1000 // Session expire set to 15 minutes
     },
     cookieName: 'express-session', // Name of the session cookie
-    secret: await secretService.getEntries("EXPRESS_SESSION_SECRET", () => generateSecret(40), { lifeTime: 120, graceTime: 2 }),
+    secret: await secretService.getEntries("EXPRESS_SESSION_SECRET", () => generateRandomAsciiString(40), { lifeTime: 120, graceTime: 2 }),
     resave: true, // Save session even if it was not modified
     saveUninitialized: true, // Save uninitialized sessions
     proxy: env.IS_BEHIND_PROXY // Trust the proxy if the app is behind one

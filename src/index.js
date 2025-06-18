@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import i18n from 'i18n';
 
 import { fileURLToPath } from 'url';
-import { generateSecret } from './helpers/generate-secrets.js';
+import { generateRandomAsciiString } from './helpers/generate-secrets.js';
 import { assembleUrl, extendUrl } from './helpers/url.js';
 import { ipRateLimiterMiddleware } from './middlewares/rate-limiter.middlewares.js';
 
@@ -57,7 +57,7 @@ app.use(express.static('src/public'));
 
 // Session, cookie parsing and url encoding middleware
 app.use(shortSessionMiddleware);
-app.use(cookieParser(await secretService.getEntries("COOKIE_PARSER_SECRET", () => generateSecret(40), { lifeTime: 365, graceTime: 30 })));
+app.use(cookieParser(await secretService.getEntries("COOKIE_PARSER_SECRET", () => generateRandomAsciiString(40), { lifeTime: 365, graceTime: 30 })));
 app.use(express.urlencoded({ extended: true }));
 
 // Initialize i18n middleware

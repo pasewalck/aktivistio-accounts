@@ -42,11 +42,10 @@ export const getRandomCharFromString = (string) => {
  * @param {Boolean} [moreReadable] - Whether to use the more readable alphanumeric collection (Default is false).
  * @returns {String} The generated alphanumeric secret.
  */
-export const generateSecret = (length = 30, moreReadable = false) => {
+export const generateAlphanumericSecret = (length = 30, moreReadable = false) => {
     const charSet = Object.values(moreReadable ? AlphanumericMoreReadable : Alphanumeric).join('');
     return Array.from({ length }, () => getRandomCharFromString(charSet)).join('');
 };
-
 /**
  * @description Generate an alphanumeric password of a specified length.
  * @param {Number} [length] - The length of the password to generate (Default is 20).
@@ -95,3 +94,15 @@ export const generateTypeableCode = (length = 8, ratio = 5) => {
     }
     return code;
 };
+
+/**
+ * @description Generate a random ascii string.
+ * @param {Number} [length] - The length of the string to generate (Default is 40).
+ * @returns {String} The generated string.
+ */
+export function generateRandomAsciiString(length=40) {
+    const randomValues = new Uint8Array(length);
+    crypto.getRandomValues(randomValues);    
+    const asciiString = String.fromCharCode(...randomValues);
+    return asciiString
+}
