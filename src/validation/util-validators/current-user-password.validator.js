@@ -12,6 +12,6 @@ export default (validationChain) => {
             if(await accountService.password.check(req.account,value))
                 return true
             else
-                throw new InternalError(req.__('Password is incorrent.'));
+                throw new Error(req.__('Password is incorrent.'));
         })
 } 

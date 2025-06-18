@@ -3,6 +3,7 @@ import assert from "assert";
 import oidcRenderer from "../renderers/oidc.renderer.js";
 import provider from "../helpers/oidc/provider.js";
 import sharedRenderer from "../renderers/shared.renderer.js";
+import { UnexpectedClientError } from "../models/errors.js";
 
 /**
  * @typedef {import("express").Request} Request

@@ -1,3 +1,4 @@
+import { InternalError } from "../models/errors.js";
 import { AlphanumericMoreReadable, Alphanumeric } from "./character-arrays.js";
 
 /**

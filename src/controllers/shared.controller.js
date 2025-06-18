@@ -5,6 +5,7 @@ import sharedRenderer from "../renderers/shared.renderer.js";
 import accountService from "../services/account.service.js";
 import auditService from "../services/audit.service.js";
 import { AuditActionType } from "../models/audit-action-types.js";
+import { UnexpectedClientError } from "../models/errors.js";
 
 /**
  * @typedef {import("express").Request} Request

@@ -23,7 +23,7 @@ export default (validationChain) => {
                 passwordStrg.feedback.suggestions.forEach(suggestion => {
                     messages.push(req.__(suggestion))
                 });
-                throw new InternalError(messages.join(" "))
+                throw new Error(messages.join(" "))
             }
                   
             return true;
