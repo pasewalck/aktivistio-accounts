@@ -12,6 +12,7 @@ import mailService from "../services/mail.service.js";
 import { Role } from "../models/roles.js";
 import auditService from "../services/audit.service.js";
 import { AuditActionType } from "../models/audit-action-types.js";
+import { ClientError, UnexpectedClientError } from "../models/errors.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -330,10 +331,10 @@ export default {
 
         // Check if invite code is still valid.
         if(!invitesService.validate(accountSession.inviteCode))
-            throw new UnexpectedClientError("Invite code used in previous step is no longer valid.")
+            throw new ClientError("Invite code used in previous step is no longer valid.")
         // Check if username still does not exist.
         if(accountService.find.withUsername(accountSession.username))
-            throw new UnexpectedClientError("Username selected in previous step hast been taken now.")
+            throw new ClientError("Username selected in previous step hast been taken now.")
 
         // Create a new account with the provided username from session and default role
         let account = await accountService.create(accountSession.username, Role.USER);
