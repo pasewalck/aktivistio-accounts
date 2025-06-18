@@ -5,7 +5,7 @@ import { matchedData, validationResult } from "express-validator";
 import { setProviderSession } from "../helpers/oidc/session.js";
 import accountService from "../services/account.service.js";
 import sharedRenderer from "../renderers/shared.renderer.js";
-import { generateNumberCode } from "../helpers/generate-secrets.js";
+import { generateTypeableCode } from "../helpers/generate-secrets.js";
 import { hashPassword } from "../helpers/hash-string.js";
 import invitesService from "../services/invites.service.js";
 import mailService from "../services/mail.service.js";
@@ -38,6 +38,7 @@ function setAccountRecoverySession(req,recoveryMethod = null, accountId = null, 
         confirmCode: confirmCode,
         recoveryMethod: recoveryMethod,
         accountId: accountId,
+        attempts: 0,
         validated: validated
     };
 }
@@ -126,8 +127,10 @@ export default {
         // Determine the recovery method chosen by the user
         switch (data.method) {
             case "email":
+                // Determine length of confirm token based on audit log for user
+                const confirmCodeLength = Math.max(auditService.getAuditLogCount(account,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_TOKEN)+6,10)
                 // Generate a confirmation code for email recovery
-                const confirmCode = generateNumberCode();
+                const confirmCode = await generateTypeableCode(confirmCodeLength);
                 // Set the account recovery session with the account ID and confirmation code
                 setAccountRecoverySession(req, data.method, account.id, confirmCode);
                 // Send the recovery code to the user's email address
@@ -167,18 +170,32 @@ export default {
         const errors = await validationResult(req);
         const data = await matchedData(req);
 
-        let { confirmCode, accountId, recoveryMethod } = req.session.accountRecovery;
-        // Extra check for security: ensure the provided confirmation code matches the stored one
-        if (confirmCode !== data.confirmCode) {
-            throw new Error("Missing confirm token");
+        if (!req.session.accountRecovery) {
+            return dashboardAuthRenderer.recoveryRequest(res);
         }
 
+        let { confirmCode, attempts, accountId, recoveryMethod } = req.session.accountRecovery;
+    
         // Attempt to find the account associated with userId from session
         let account = accountService.find.withId(accountId);
         // If no account is found, throw an error indicating the username does not exist
         if (!account) throw new Error("Missing valid user");
 
         if (!errors.isEmpty()) {
+
+            // Check if user still has attempts left
+            if(attempts > 4) {
+                // Terminate session and render recovery request page
+                req.session.accountRecovery = null;
+                return dashboardAuthRenderer.recoveryRequest(res, data, {
+                    tooManyFails: {
+                        msg: res.__("Too many failed attempts. Recovery process terminated.")
+                    }
+                })
+            }
+            // Increment attempts stored in session
+            req.session.accountRecovery.attempts++;
+
             switch (recoveryMethod) {
                 case "email":
                     auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_TOKEN)
@@ -190,6 +207,11 @@ export default {
                     break;
             }
             return dashboardAuthRenderer.recoveryConfirmCode(res, data, errors.mapped());
+        }
+
+        // Extra check for security: ensure the provided confirmation code matches the stored one
+        if (confirmCode !== data.confirmCode) {
+            throw new Error("Missing or invalid confirm token");
         }
 
         validateAccountRecoverySession(req); // Mark the session as validated
