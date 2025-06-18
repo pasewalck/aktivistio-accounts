@@ -31,6 +31,12 @@ const ipRateLimiter = new RateLimiterMemory(ipRateLimiterConfig);
  * @returns {Function} Middleware function for rate limiting.
  */
 const createRateLimiterMiddleware = (rateLimiter, keyGenerator) => {
+    /**
+   * @description Middleware to check apply rate limiter
+   * @param {import("express").Request} req - The request object
+   * @param {import("express").Response} res - The response object
+   * @param {import("express").NextFunction} next - The next middleware function
+   */
     return async (req, res, next) => {
         const key = keyGenerator(req);
         try {
@@ -48,21 +54,21 @@ const createRateLimiterMiddleware = (rateLimiter, keyGenerator) => {
 
 /**
  * @description Key generator for login and recovery routes.
- * @param {Object} req - The request object.
+ * @param {import("express").Request} req - The request object.
  * @returns {string} Unique key for the request.
  */
 const loginRecoveryKeyGenerator = (req) => req.ip + req.body.username;
 
 /**
  * @description Key generator for register and invite request routes.
- * @param {Object} req - The request object.
+ * @param {import("express").Request} req - The request object.
  * @returns {string} Unique key for the request.
  */
 const registerInviteRequestKeyGenerator = (req) => req.ip;
 
 /**
  * @description Key generator for IP-based rate limiting.
- * @param {Object} req - The request object.
+ * @param {import("express").Request} req - The request object.
  * @returns {string} Unique key for the request.
  */
 const ipKeyGenerator = (req) => req.ip;
