@@ -64,7 +64,7 @@ export const generatePassword = (length = 20) => {
  */
 export const generateNumberCode = (length = 8) => {
     if (length < 1)
-        throw new Error("Length must be at least 1.");
+        throw new InternalError("Length must be at least 1.");
     return Array.from({ length }, () => getRandomCharFromString(Alphanumeric.Numbers)).join('');
 };
 
@@ -77,13 +77,13 @@ export const generateNumberCode = (length = 8) => {
  */
 export const generateTypeableCode = (length = 8, ratio = 5) => {
     if (length < 1) {
-        throw new Error("Length must be at least 1.");
+        throw new InternalError("Length must be at least 1.");
     }
     if (ratio < 0) {
-        throw new Error("Ratio cannot be negative.");
+        throw new InternalError("Ratio cannot be negative.");
     }
     if (ratio > 10) {
-        throw new Error("Ratio cannot be above 10.");
+        throw new InternalError("Ratio cannot be above 10.");
     }
     let code = "";
     for (let i = 0; i < length; i++) {

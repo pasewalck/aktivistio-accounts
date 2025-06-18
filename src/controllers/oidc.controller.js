@@ -39,7 +39,7 @@ export default {
             }
             default:
                 // If the prompt type is not recognized, return throw an error
-                throw new Error("Invalid prompt");
+                throw new UnexpectedClientError("Invalid prompt");
         }
     },
 
