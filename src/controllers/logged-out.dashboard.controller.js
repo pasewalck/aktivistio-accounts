@@ -233,7 +233,7 @@ export default {
             return dashboardAuthRenderer.recoveryPasswordPrompt(res, data, errors.mapped());
         }
 
-        let { validated, accountId } = req.session.accountRecovery;
+        let { validated, accountId, recoveryMethod } = req.session.accountRecovery;
         // Extra check for security: ensure the recovery session has been validated
         if (!validated) {
             throw new Error("Missing confirm token");
