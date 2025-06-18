@@ -5,7 +5,7 @@
 
         <h2><%= currentClientId ? __("Update service") : __("Create service") %> </h2>
     
-        <form class="form" action="<%= currentClientId ? `/services/edit/${currentClientId}/save` : `/services/add` %>" method="post">
+        <form class="form" action="<%= urlUtils.extendUrl(baseUrl, currentClientId ? `services/edit/${currentClientId}/save` : `services/add`).href %>" method="post">
             <fieldset>
 
                 <div class="form-group">
