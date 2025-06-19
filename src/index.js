@@ -55,6 +55,9 @@ i18n.configure({
 logger.debug("Setting public express route");
 app.use(express.static('src/public'));
 
+// Serve tailwind css file
+app.use(express.static('src/tailwind/dist'));
+
 // Session, cookie parsing and url encoding middleware
 app.use(shortSessionMiddleware);
 app.use(cookieParser(await secretService.getEntries("COOKIE_PARSER_SECRET", () => generateRandomAsciiString(40), { lifeTime: 365, graceTime: 30 })));
