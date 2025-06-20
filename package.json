@@ -6,8 +6,7 @@
   "scripts": {
     "compose:up": "docker compose up -d",
     "compose:down": "docker compose down",
-    "tailwind:build": "npx tailwindcss -i ./src/scss/tailwind.css -o ./src/scss/tailwind_output.css --watch",
-    "development": "npm run scss:watch & npm run tailwind:build & npm run start-server:debug",
+    "develepment": "npm run scss:watch & npm run start-server:debug",
     "production": "npm run start-server:production",
     "start-server:debug": "nodemon -r dotenv/config --inspect=0.0.0.0 src/index.js",
     "start-server:production": "node -r dotenv/config src/index.js",
@@ -18,7 +17,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.10",
     "bcrypt": "^5.1.1",
     "better-sqlite3-multiple-ciphers": "^11.8.0",
     "better-sqlite3-session-store": "^0.1.0",
@@ -47,9 +45,6 @@
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.21",
-    "nodemon": "^3.1.7",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.10"
+    "nodemon": "^3.1.7"
   }
 }
