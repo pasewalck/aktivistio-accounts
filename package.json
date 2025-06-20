@@ -6,7 +6,7 @@
   "scripts": {
     "compose:up": "docker compose up -d",
     "compose:down": "docker compose down",
-    "develepment": "npm-run-all --parallel tailwind:watch start-server:debug scss:watch",
+    "development": "npm-run-all --parallel tailwind:watch start-server:debug scss:watch",
     "production": "npm run start-server:production",
     "tailwind:watch": "npx @tailwindcss/cli -i ./src/tailwind/input.css -o ./src/tailwind/dist/tailwind.css --watch",
     "start-server:debug": "nodemon -r dotenv/config --inspect=0.0.0.0 src/index.js",
