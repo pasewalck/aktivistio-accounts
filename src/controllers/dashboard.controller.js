@@ -94,7 +94,7 @@ export default {
 
         const session = await provider.Session.get(provider.app.createContext(req, res));
         session.destroy();
-        await accountService.delete(req.account);
+        await accountService.purge(req.account);
         res.redirect("/");
     },
 
@@ -394,7 +394,7 @@ export default {
         const newClientId = configuration["client_id"];
         adapterService.setEntry("Client", newClientId, configuration);
 
-        res.redirect(`/services/edit/${newClientId}/`);
+        res.redirect(`/services/`);
     },
 
     /**
@@ -546,7 +546,7 @@ export default {
             return dashboardRenderer.manageUser(req, res, data.id, data, errors.mapped());
         }
 
-        accountService.delete(accountService.find.withId(data.id));
+        accountService.purge(accountService.find.withId(data.id));
         res.redirect("/users/");
     },
 

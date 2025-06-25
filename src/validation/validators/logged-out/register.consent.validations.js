@@ -1,9 +1,10 @@
 import { body } from "express-validator"
+import localize from "../../localize.js"
 
 export default [
   body("verify")
     .customSanitizer(input => {
       return Boolean(input)
     })
-    .custom((value) => value == true).withMessage("Consent must be confirmed").bail(),
+    .custom((value) => value == true).withMessage(localize("Consent must be confirmed")).bail(),
 ]

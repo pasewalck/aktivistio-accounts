@@ -195,5 +195,22 @@
 	"Logout Success": "Logout Success",
 	"Client ID already is use!": "Client ID already is use!",
 	"Authorize": "Authorize",
-	"Your Invite Codes": "Your Invite Codes"
+	"Your Invite Codes": "Your Invite Codes",
+	"Invalid CSRF token.": "Invalid CSRF token.",
+	"An error occurred with the following message: %s": "An error occurred with the following message: %s",
+	"View Account Audit Log": "View Account Audit Log",
+	"Dates are often easy to guess": "Dates are often easy to guess",
+	"Avoid dates and years that are associated with you": "Avoid dates and years that are associated with you",
+	"A recovery request has been issued for your account linked to this email address. If this was you, please use the following code to confirm your identity: %s": "A recovery request has been issued for your account linked to this email address. If this was you, please use the following code to confirm your identity: %s",
+	"If this was not you, it may indicate that someone is attempting to access your account. We recommend changing your password to secure your account.": "If this was not you, it may indicate that someone is attempting to access your account. We recommend changing your password to secure your account.",
+	"A recovery request has been issued for your account linked to this email address. If this was you, please use the following code to confirm your identity:": "A recovery request has been issued for your account linked to this email address. If this was you, please use the following code to confirm your identity:",
+	"Remove recovery email": "Remove recovery email",
+	"Audit Log": "Audit Log",
+	"Account Audit Log": "Account Audit Log",
+	"%s seconds ago": "%s seconds ago",
+	"Legend": "Legend",
+	"Warning": "Warning",
+	"Indicates a potential event to keep an eye on, but which is expected within normal operation.": "Indicates a potential event to keep an eye on, but which is expected within normal operation.",
+	"Critical": "Critical",
+	"Indicates a potential threat that requires attention.": "Indicates a potential threat that requires attention."
 }

@@ -9,7 +9,7 @@ const {db,isDbInit} = initDatabase("data",env.DATABASE_KEYS.DATA)
 db.exec(`
     create table IF NOT EXISTS accounts (
       id TEXT NOT NULL PRIMARY KEY,
-      username TEXT NOT NULL,
+      username TEXT NOT NULL UNIQUE,
       password_hash TEXT,
       recovery_token_hash TEXT,
       recovery_email_hash TEXT,
@@ -442,7 +442,7 @@ export default {
 
     /**
      * @description Retrieves an invite code linked to a given email fingerprint.
-     * @param {String} emailFingerprint - The fingerprint of the email to check.
+     * @param {Blob} emailFingerprint - The fingerprint of the email to check.
      * @returns {String|null} - The invite code if found, otherwise null.
      */
     getInviteCodeEntryByLinkedEmail: (emailFingerprint) => {
