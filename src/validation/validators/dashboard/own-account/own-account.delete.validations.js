@@ -1,9 +1,9 @@
 import { body } from "express-validator";
 import localize from "../../../localize.js";
-import currentUserPasswordValidatorCopy from "../../../util-validators/current-user-password.validator.js";
+import currentUserPasswordValidator from "../../../util-validators/current-user-password.validator.js";
 
 export default [
-    currentUserPasswordValidatorCopy(body('currentPassword')),
+    currentUserPasswordValidator(body('password')),
     body("confirm")
         .customSanitizer(input => {
             return Boolean(input)
