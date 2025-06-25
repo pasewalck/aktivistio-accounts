@@ -91,7 +91,7 @@ export class AuditActionType {
         type: 'PASSWORD_RECOVERY_WITH_TOKEN_COMPLETE', 
         displayName: 'Password Recovery with Token Complete', 
         alertLevel: 0,
-        replaceActionTypes: [AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_STARTED]
+        replaceActionTypes: [AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_STARTED,AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL]
     };
 
     static TWO_FACTOR_AUTH_ENABLED = { 
