@@ -546,7 +546,7 @@ export default {
             return dashboardRenderer.manageUser(req, res, data.id, data, errors.mapped());
         }
 
-        accountService.delete(accountService.find.withId(data.id));
+        accountService.purge(accountService.find.withId(data.id));
         res.redirect("/users/");
     },
 
