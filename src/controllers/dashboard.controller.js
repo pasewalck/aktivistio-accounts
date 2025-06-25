@@ -94,7 +94,7 @@ export default {
 
         const session = await provider.Session.get(provider.app.createContext(req, res));
         session.destroy();
-        await accountService.delete(req.account);
+        await accountService.purge(req.account);
         res.redirect("/");
     },
 
