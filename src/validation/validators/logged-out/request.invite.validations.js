@@ -8,5 +8,8 @@ export default [
       .escape()
       .isEmail().withMessage("Email must be a valid email.").bail()
       .isEmail({host_whitelist:env.WHITELISTED_MAIL_PROVIDERS}).withMessage("Email provider is not whitelisted.")
-      .custom(async (value) => (await invitesService.requestWithEmail(value) != null)).withMessage("Email address already used for creating account."),
+      .custom(async (value,{req}) => {
+        if(await invitesService.requestWithEmail(value) === false)
+          throw new Error(req.__("Email address already used for creating account."))
+      }),
   ]

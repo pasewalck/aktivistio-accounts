@@ -99,15 +99,16 @@ async function requestWithEmail(email) {
 
     // Get any invite code that is already linked to the email fingerprint
     let inviteCodeEntry = userdataDriver.getInviteCodeEntryByLinkedEmail(emailFingerprint);
-    let inviteCode = inviteCodeEntry.code;
 
     // If no invite code exists, generate a new one
     if (!inviteCodeEntry) {
-        inviteCode = generate();
+        let inviteCode = generate();
         userdataDriver.linkInviteCodeToEmail(inviteCode, emailFingerprint);
+        return inviteCode
     }
-    
-    return inviteCode ? inviteCode : false;
+    else {
+        return inviteCodeEntry.code && inviteCodeEntry.code != null ? inviteCodeEntry.code : false;
+    }
 }
 
 
