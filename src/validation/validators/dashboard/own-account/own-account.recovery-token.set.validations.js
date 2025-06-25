@@ -1,6 +1,7 @@
 import { body } from "express-validator";
-import currentUserPasswordValidator from "../../../util-validators/create-password.validator.js";
+import currentUserPasswordValidator from "../../../util-validators/current-user-password.validator.js";
 import recoveryTokenValidator from "../../../util-validators/recovery-token.validator.js";
+import localize from "../../../localize.js";
 
 export default [
     currentUserPasswordValidator(body('currentPassword')),
@@ -9,5 +10,5 @@ export default [
         .customSanitizer(input => {
             return Boolean(input)
         })
-        .custom((value) => value == true).withMessage("Recovery token must be confirmed").bail()
+        .custom((value) => value == true).withMessage(localize("Recovery token must be confirmed")).bail()
 ]

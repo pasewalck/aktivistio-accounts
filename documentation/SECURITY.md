@@ -40,11 +40,13 @@ This security practice prevents attackers or malicious parties with control over
 
 We also considered hashing usernames; however, this does not prove practical, as usernames will be passed to OIDC clients and will be exposed that way.
 
-## Additional Privacy Measures
+## Audit Log
 
-**No Trackers:** The system currently has zero trackers to enhance user privacy.
+There is an active audit log system. In order to maintain user privacy we don't log IPs or client fingerprints. Also we purge the logs regularly and allow users to clear them (to be implemented) for their account.
 
-**Logging System:** No active file-based logging system is implemented. Future plans may include a basic audit log with auto-deleting functionality.
+## Rate limiting
+
+There are a few simple rate limiters implemented. They limit the total number of requests per IP, requests to log in and recover password per User & IP and limit the number of tries for registering and invite requests. There is no storage backend for simplicity and to make sure IPs never leave the ram and get written down in storage.
 
 ## OIDC Claims
 
