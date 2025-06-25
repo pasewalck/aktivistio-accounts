@@ -338,7 +338,7 @@ export default {
 
         // Create a new account with the provided username from session and default role
         let account = await accountService.create(accountSession.username, Role.USER);
-        accountService.password.set(account, accountSession.passwordHash); // Set the hashed password for the account
+        accountService.password.setHash(account, accountSession.passwordHash); // Set the hashed password for the account
 
         // Set the recovery method based on the user's choice saved in session
         switch (accountSession.recoveryMethod) {
