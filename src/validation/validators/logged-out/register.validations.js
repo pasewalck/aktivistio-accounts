@@ -44,5 +44,5 @@ export default [
     })
     .if(body('recoveryMethod')
       .equals('token'))
-        .custom((value) => value == true).withMessage("Recovery must be confirmed").bail()
+        .custom((value) => value == true).withMessage(localize("Recovery must be confirmed")).bail()
 ]
