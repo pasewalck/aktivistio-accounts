@@ -21,17 +21,17 @@
     - Use Recovery Email
         - **Expected Outcome**: Users should be able to use their recovery email to regain access to their account (reset password and remove 2fa).
     - Remove Token Recovery Method
-            - **Expected Outcome**: Users should be able to remove the recovery token method from their account.
+        - **Expected Outcome**: Users should be able to remove the recovery token method from their account.
     - Remove Email Recovery Method
-            - **Expected Outcome**: Users should be able to remove the recovery email method from their account.
+        - **Expected Outcome**: Users should be able to remove the recovery email method from their account.
 
 3) Two-Factor Authentication (2FA) Actions
     - Add 2FA
-            - **Expected Outcome**: Users should be able to enable two-factor authentication for their account.
+        - **Expected Outcome**: Users should be able to enable two-factor authentication for their account.
     - Remove 2FA
-            - **Expected Outcome**: Users should be able to disable two-factor authentication for their account.
+        - **Expected Outcome**: Users should be able to disable two-factor authentication for their account.
     - Use 2FA for Login
-            - **Expected Outcome**: Users should be able to log in using two-factor authentication.
+        - **Expected Outcome**: Users should be able to log in using two-factor authentication.
 
 4) Invite Actions
     - Generate Invites (if User Has Permission)
