@@ -26,13 +26,12 @@ function getEntry(model, id) {
  */
 function getEntries(model) {
     let result = adapterDriver.getEntriesValues(model); // Retrieve the entries values
-
     if(result && result.length > 0)
     {
         // Parse and return the results
-        var array = [result.length]
-        for (let i = 0; i < array.length; i++) 
-            array[i] = JSON.parse(result[i])
+        var array = []
+        for (let i = 0; i < result.length; i++) 
+            array.push(JSON.parse(result[i]))
             
         return array
     }
