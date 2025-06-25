@@ -442,7 +442,7 @@ export default {
 
     /**
      * @description Retrieves an invite code linked to a given email fingerprint.
-     * @param {String} emailFingerprint - The fingerprint of the email to check.
+     * @param {Blob} emailFingerprint - The fingerprint of the email to check.
      * @returns {String|null} - The invite code if found, otherwise null.
      */
     getInviteCodeEntryByLinkedEmail: (emailFingerprint) => {
