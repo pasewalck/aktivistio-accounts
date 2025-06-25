@@ -394,7 +394,7 @@ export default {
         const newClientId = configuration["client_id"];
         adapterService.setEntry("Client", newClientId, configuration);
 
-        res.redirect(`/services/edit/${newClientId}/`);
+        res.redirect(`/services/`);
     },
 
     /**
