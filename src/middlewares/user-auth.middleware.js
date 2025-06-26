@@ -32,6 +32,7 @@ export async function userAuthMiddleware(req, res, next) {
 
     // Set account information in the request
     req.account = account; 
+    req.loginTs = session.loginTs
 
     // Set account options in response locals to be used in ejsrendering
     res.locals.account = account;
