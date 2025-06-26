@@ -77,7 +77,8 @@ logger.debug("Initializing middlewares");
 app.use(csrfProtection);
 
 // Global rate limiter middleware
-app.use(ipRateLimiterMiddleware)
+if(env.RATE_LIMITER.USE_GLOBAL_PROTECTION)
+    app.use(ipRateLimiterMiddleware)
 
 // Attach OIDC callback
 logger.debug("Attaching OIDC callback");
