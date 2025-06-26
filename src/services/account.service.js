@@ -6,6 +6,7 @@ import twoFactorAuth from "../helpers/two-factor-auth.js";
 import { hashPassword, isHashValid } from "../helpers/hash-string.js";
 import invitesService from "./invites.service.js";
 import { Role } from "../models/roles.js";
+import { AuditActionType } from "../models/audit-action-types.js";
 
 /**
  * @description Finds an account by username.
@@ -46,6 +47,18 @@ async function checkLogin(username, password) {
 function getRecovery(account) {
     return userdataDriver.getAccountRecoveryById(account.id)
 }
+
+/**
+ * @description Get last login for account before a specific time in seconds
+ * @param {Account} account - The account
+ * @param {Number} before - The time in seconds
+ * @returns {Number|null} - The last login time or null if not found.
+ */
+function getLastLogin(account,before) {
+    const result = userdataDriver.getAuditLog(account.id,AuditActionType.LOGIN_SUCCESS,before)
+    return result ? result[0].time : null
+}
+
 /**
  * Validates the recovery email for an account.
  * @param {Account} account - The account.
@@ -106,7 +119,6 @@ function getTwoFactorSecret(account) {
 function checkTwoFactorSecret(account,token) {
     return twoFactorAuth.verify(userdataDriver.getAccountTwoFactorSecretWithId(account.id),token)
 }
-
 
 /**
  * Creates a new user account.
@@ -261,6 +273,7 @@ export default {
         set: setTwoFactorAuthSecret
     },
     getAll,
+    getLastLogin,
     checkLogin,
     create: create,
     purge: purge,
