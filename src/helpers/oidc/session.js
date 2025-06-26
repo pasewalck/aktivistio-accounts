@@ -26,9 +26,9 @@ import assert from "assert";
  * @name setProviderSession
  * @api public
  * @description Sets the provider session for a user, creating a session and associated grants.
- * @param {Object} provider - The OIDC provider instance.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
+ * @param {import("oidc-provider").Provider} provider - The OIDC provider instance.
+ * @param {import("express").Request} req - The request object.
+ * @param {import("express").Response} res - The response object.
  * @param {{accountId: String,loginTs: Number,remember: Boolean,clients: Array<String>}} options - Options for setting the session.
  * @param {String} options.accountId - The ID of the account to associate with the session.
  * @param {Number} [options.loginTs] - The login timestamp.
