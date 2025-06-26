@@ -1,9 +1,9 @@
 import { doubleCsrf } from 'csrf-csrf';
 import secretService from '../services/secret.service.js';
-import { generateRandomAsciiString } from '../helpers/generate-secrets.js';
+import { generateAsciiSecret } from '../helpers/generate-secrets.js';
 
 // Retrieve or generate one or more CSRF secrets
-const secrets = await secretService.getEntries("CSRF_SECRET", () => generateRandomAsciiString(40), { lifeTime: 120, graceTime: 2 });
+const secrets = await secretService.getEntries("CSRF_SECRET", () => generateAsciiSecret(40), { lifeTime: 120, graceTime: 2 });
 
 /**
  * @description Configuration for CSRF protection middleware.
