@@ -39,7 +39,7 @@ function load(name, options = {}) {
 export default {
     APPLICATION_NAME: load("APP_NAME", { default: "Unnamed Application" }),
     APPLICATION_LOGO: `configuration/${load("APP_LOGO", { default: "app-logo.jpeg" })}`,
-    BASE_URL: new URL(load("BASE_URL", { default: "http://localhost:3000" })),
+    BASE_URL: new URL(load("BASE_URL", { default: "http://localhost:3000",warning: true })),
     PORT: load("PORT", { default: 3000, parse: Number }),
     RATE_LIMITER: {
         USE_GLOBAL_PROTECTION: load("USE_GLOBAL_PROTECTION_RATE_LIMITER", { default: false }),
