@@ -101,7 +101,7 @@ export const generateTypeableCode = (length = 8, ratio = 5) => {
  * @param {Number} [length] - The length of the string to generate (Default is 40).
  * @returns {String} The generated string.
  */
-export function generateRandomAsciiString(length=40) {
+export function generateAsciiSecret(length=40) {
     const randomValues = new Uint8Array(length);
     crypto.getRandomValues(randomValues);    
     const asciiString = String.fromCharCode(...randomValues);
