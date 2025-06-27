@@ -58,10 +58,11 @@ export default {
      * @description Renders the rate limiter.
      * @param {Response} res - The response object.
      * @param {Number} retrySecs - The retry seconds to display.
+     *  @param {string} messageKey - Custom message key for message to display.
      */
-    rateLimiter: (res, msBeforeNext) => {
+    rateLimiter: (res, msBeforeNext,messageKey) => {
         const retrySecs = Math.round(msBeforeNext / 1000) || 1;
         res.set('Retry-After', String(retrySecs));
-        res.status(429).send(res.__("Too many requests! Retry in %s seconds.",retrySecs));
+        res.status(429).send(`${res.__(messageKey)} ${res.__("Retry in %s seconds.",retrySecs)}`);
     },
 };
