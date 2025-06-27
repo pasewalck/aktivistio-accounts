@@ -57,12 +57,34 @@ export default {
     /**
      * @description Renders the rate limiter.
      * @param {Response} res - The response object.
-     * @param {Number} retrySecs - The retry seconds to display.
-     *  @param {string} messageKey - Custom message key for message to display.
+     * @param {Number} msBeforeNext - The milliseconds before the next request is allowed.
+     * @param {string} messageKey - Custom message key for the message to display.
      */
-    rateLimiter: (res, msBeforeNext,messageKey) => {
+    rateLimiter: (res, msBeforeNext, messageKey) => {
         const retrySecs = Math.round(msBeforeNext / 1000) || 1;
+        const retryHours = Math.floor(retrySecs / 3600);
+        const remainingSecs = retrySecs % 3600;
+        const retryMinutes = Math.floor(remainingSecs / 60);
+        const finalSecs = remainingSecs % 60;
+
         res.set('Retry-After', String(retrySecs));
-        res.status(429).send(`${res.__(messageKey)} ${res.__("Retry in %s seconds.",retrySecs)}`);
+        res.status(429);
+
+        let messageParts = [res.__(messageKey)];
+
+        if (retryHours > 0) {
+            messageParts.push(res.__("Retry in %s hours", retryHours));
+        }
+        else if (retryMinutes > 0) {
+            messageParts.push(res.__("Retry in %s minutes", retryMinutes));
+        }
+        else if (finalSecs > 0 || (retryHours === 0 && retryMinutes === 0)) { // Show seconds if no hours or minutes
+            messageParts.push(res.__("Retry in %s seconds", finalSecs));
+        }
+
+        const message = messageParts.join(' ');
+
+        res.send(message);
     },
+
 };
