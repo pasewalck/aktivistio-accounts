@@ -186,7 +186,7 @@ export default {
             if(attempts > 4) {
                 // Terminate session and render recovery request page
                 req.session.accountRecovery = null;
-                return dashboardAuthRenderer.recoveryRequest(res, data, {
+                return dashboardAuthRenderer.recoveryRequest(res, {}, {
                     tooManyFails: {
                         msg: res.__("Too many failed attempts. Recovery process terminated.")
                     }
