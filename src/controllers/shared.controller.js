@@ -89,7 +89,8 @@ export default {
                     let token = crypto.randomUUID();
                     req.session.twoFactorLogin = {
                         loginToken: token,
-                        accountId: account.id
+                        accountId: account.id,
+                        attempts: 0
                     };
                     // Render the two-factor authentication page
                     sharedRenderer.twoFactorAuth(res, interactionDetails, token);
@@ -125,22 +126,42 @@ export default {
 
         // Validate that validators parsed a valid two factor login token
         if(!data.twoFactorLoginToken) {
-            // 
             throw new UnexpectedClientError("Could not parse valid two factor login token!");
         }
 
+        // Validate that two factor login session exists
+        if (!req.session.twoFactorLogin) {
+            throw new UnexpectedClientError("Could not find a valid two factor login session!");
+        }
+        
+        // Retrieve the account ID from the session for the two-factor login
+        let { accountId, loginToken, attempts } = req.session.twoFactorLogin;
+
         // If there are validation errors, render the two-factor authentication page with error messages
         if (!errors.isEmpty()) {
+
+            // Check if user still has attempts left
+            if(attempts > 2) {
+                // Terminate session and render login page
+                req.session.twoFactorLogin = null;
+                return sharedRenderer.login(res, interactionDetails, {}, {
+                    tooManyFails: {
+                        msg: res.__("Too many failed attempts. Recovery process terminated.")
+                    }
+                })
+            }
+            // Increment attempts stored in session
+            req.session.twoFactorLogin.attempts++;
+
             auditService.appendAuditLog(accountService.find.withUsername(data.username),AuditActionType.LOGIN_2FA_FAIL,req)
             sharedRenderer.twoFactorAuth(res, interactionDetails, data.twoFactorLoginToken, errors.mapped());
         } else {
-            // Retrieve the account ID from the session for the two-factor login
-            let { accountId, loginToken } = req.session.twoFactorLogin;
-
+ 
+            
             // Verify the provided login token against the login token from the user session
             if(data.twoFactorLoginToken != loginToken) {
                 //This should never be triggered, as login token validation is already done in validators!
-                throw new UnexpectedClientError("Login token provided is invalid-");
+                throw new UnexpectedClientError("Login token provided is invalid.");
             }
 
             // Retrieve the account for account id from account service.
