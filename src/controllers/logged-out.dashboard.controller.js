@@ -128,10 +128,8 @@ export default {
         // Determine the recovery method chosen by the user
         switch (data.method) {
             case "email":
-                // Determine length of confirm token based on audit log for user
-                const confirmCodeLength = Math.max(auditService.getAuditLogCount(account,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_TOKEN)+6,10)
                 // Generate a confirmation code for email recovery
-                const confirmCode = await generateTypeableCode(confirmCodeLength);
+                const confirmCode = await generateTypeableCode(12);
                 // Set the account recovery session with the account ID and confirmation code
                 setAccountRecoverySession(req, data.method, account.id, confirmCode);
                 // Send the recovery code to the user's email address
