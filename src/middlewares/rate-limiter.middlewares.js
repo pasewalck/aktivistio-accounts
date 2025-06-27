@@ -1,5 +1,4 @@
 import { RateLimiterMemory } from "rate-limiter-flexible";
-
 import sharedRenderer from "../renderers/shared.renderer.js";
 
 const loginRecoveryRateLimiterConfig = {
@@ -35,15 +34,10 @@ const twoFactorLoginRateLimiter = new RateLimiterMemory(twoFactorLoginRateLimite
  * @description Creates a rate limiter middleware.
  * @param {RateLimiterMemory} rateLimiter - The rate limiter instance.
  * @param {Function} keyGenerator - Function to generate a unique key for each request.
+ * @param {string} customMessage - Custom message to return on rate limit rejection.
  * @returns {Function} Middleware function for rate limiting.
  */
-const createRateLimiterMiddleware = (rateLimiter, keyGenerator) => {
-    /**
-   * @description Middleware to check apply rate limiter
-   * @param {import("express").Request} req - The request object
-   * @param {import("express").Response} res - The response object
-   * @param {import("express").NextFunction} next - The next middleware function
-   */
+const createRateLimiterMiddleware = (rateLimiter, keyGenerator, customMessage) => {
     return async (req, res, next) => {
         const key = keyGenerator(req);
         try {
@@ -53,47 +47,35 @@ const createRateLimiterMiddleware = (rateLimiter, keyGenerator) => {
             if (rejRes instanceof Error) {
                 throw rejRes;
             } else {
-                sharedRenderer.rateLimiter(res, rejRes.msBeforeNext);
+                sharedRenderer.rateLimiter(res, rejRes.msBeforeNext, customMessage);
             }
         }
     };
 };
 
-/**
- * @description Key generator for login and recovery routes.
- * @param {import("express").Request} req - The request object.
- * @returns {string} Unique key for the request.
- */
+// Key generators
 const loginRecoveryKeyGenerator = (req) => req.ip + req.body.username;
-
-/**
- * @description Key generator for register and invite request routes.
- * @param {import("express").Request} req - The request object.
- * @returns {string} Unique key for the request.
- */
 const registerInviteRequestKeyGenerator = (req) => req.ip;
-
-/**
- * @description Key generator for IP-based rate limiting.
- * @param {import("express").Request} req - The request object.
- * @returns {string} Unique key for the request.
- */
 const ipKeyGenerator = (req) => req.ip;
-
-/**
- * @description Key generator for 2 Factor login attempts.
- * @param {import("express").Request} req - The request object.
- * @returns {string} Unique key for the request.
- */
 const twoFactorKeyGenerator = (req) => req.session?.twoFactorLogin?.accountId;
 
-const loginRecoveryRateLimiterMiddleware = createRateLimiterMiddleware(loginRecoveryRateLimiter, loginRecoveryKeyGenerator);
-const registerInviteRequestRateLimiterMiddleware = createRateLimiterMiddleware(registerInviteRequestRateLimiter, registerInviteRequestKeyGenerator);
-const ipRateLimiterMiddleware = createRateLimiterMiddleware(ipRateLimiter, ipKeyGenerator);
-const twoFactorLoginRateLimiterMiddleware = createRateLimiterMiddleware(twoFactorLoginRateLimiter, twoFactorKeyGenerator);
+// Custom messages
+const loginMessage = "Too many login attempts.";
+const recoveryMessage = "Too many recovery attempts.";
+const registerInviteRequestMessage = "You have exceeded the number of invite requests.";
+const ipRateLimitMessage = "Too many requests from your IP address.";
+const twoFactorLoginMessage = "Too many two-factor login attempts.";
+
+// Middleware instances
+const loginRateLimiterMiddleware = createRateLimiterMiddleware(loginRecoveryRateLimiter, loginRecoveryKeyGenerator, loginMessage);
+const recoveryRateLimiterMiddleware = createRateLimiterMiddleware(loginRecoveryRateLimiter, loginRecoveryKeyGenerator, recoveryMessage);
+const registerInviteRequestRateLimiterMiddleware = createRateLimiterMiddleware(registerInviteRequestRateLimiter, registerInviteRequestKeyGenerator, registerInviteRequestMessage);
+const ipRateLimiterMiddleware = createRateLimiterMiddleware(ipRateLimiter, ipKeyGenerator, ipRateLimitMessage);
+const twoFactorLoginRateLimiterMiddleware = createRateLimiterMiddleware(twoFactorLoginRateLimiter, twoFactorKeyGenerator, twoFactorLoginMessage);
 
 export {
-    loginRecoveryRateLimiterMiddleware,
+    loginRateLimiterMiddleware,
+    recoveryRateLimiterMiddleware,
     registerInviteRequestRateLimiterMiddleware,
     ipRateLimiterMiddleware,
     twoFactorLoginRateLimiterMiddleware

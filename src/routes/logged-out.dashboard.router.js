@@ -13,7 +13,7 @@ import registerConsentValidations from '../validation/validators/logged-out/regi
 import recoveryConfirmStepValidations from '../validation/validators/logged-out/recovery.confirm-step.validations.js';
 import recoveryRequestStepValidations from '../validation/validators/logged-out/recovery.request.validations.js';
 import recoveryResetStepValidations from '../validation/validators/logged-out/recovery.reset-step.validations.js';
-import { loginRecoveryRateLimiterMiddleware, registerInviteRequestRateLimiterMiddleware, twoFactorLoginRateLimiterMiddleware } from '../middlewares/rate-limiter.middlewares.js';
+import { loginRateLimiterMiddleware, recoveryRateLimiterMiddleware, registerInviteRequestRateLimiterMiddleware, twoFactorLoginRateLimiterMiddleware } from '../middlewares/rate-limiter.middlewares.js';
 
 /**
  * @description Binds controllers to routes for the primary app.
@@ -32,13 +32,13 @@ export default (app) => {
 
     // Account recovery routes
     app.get('/account-recovery', middlewares, dashboardAuthController.recovery);
-    app.post('/account-recovery/request', middlewares, loginRecoveryRateLimiterMiddleware, recoveryRequestStepValidations, dashboardAuthController.recoveryRequestPost);
+    app.post('/account-recovery/request', middlewares, recoveryRateLimiterMiddleware, recoveryRequestStepValidations, dashboardAuthController.recoveryRequestPost);
     app.post('/account-recovery/confirm', middlewares, recoveryConfirmStepValidations, dashboardAuthController.recoveryConfirmPost);
     app.post('/account-recovery/reset', middlewares, recoveryResetStepValidations, dashboardAuthController.recoveryResetPost);
 
     // Login routes
     app.get('/login', middlewares, dashboardAuthController.login);
-    app.post('/login', middlewares, loginRecoveryRateLimiterMiddleware, loginValidations, sharedController.loginPost);
+    app.post('/login', middlewares, loginRateLimiterMiddleware, loginValidations, sharedController.loginPost);
     app.post('/login/2fa', middlewares, twoFactorLoginRateLimiterMiddleware, login2faValidations, sharedController.loginSecondFactorPost);
 
     // Registration routes
