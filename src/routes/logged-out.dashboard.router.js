@@ -39,7 +39,7 @@ export default (app) => {
     // Login routes
     app.get('/login', middlewares, dashboardAuthController.login);
     app.post('/login', middlewares, loginRecoveryRateLimiterMiddleware, loginValidations, sharedController.loginPost);
-    app.post('/login/2fa', middlewares, login2faValidations, sharedController.loginSecondFactorPost);
+    app.post('/login/2fa', middlewares, loginRecoveryRateLimiterMiddleware, login2faValidations, sharedController.loginSecondFactorPost);
 
     // Registration routes
     app.get('/register', middlewares, dashboardAuthController.register);
