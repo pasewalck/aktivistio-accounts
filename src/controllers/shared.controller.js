@@ -131,29 +131,20 @@ export default {
 
         // Validate that two factor login session exists
         if (!req.session.twoFactorLogin) {
-            throw new UnexpectedClientError("Could not find a valid two factor login session!");
+            // If session doesn't exist simply render login page
+            return sharedRenderer.login(res, interactionDetails, {}, {})
         }
         
         // Retrieve the account ID from the session for the two-factor login
-        let { accountId, loginToken, attempts } = req.session.twoFactorLogin;
+        let { accountId, loginToken } = req.session.twoFactorLogin;
 
         // If there are validation errors, render the two-factor authentication page with error messages
         if (!errors.isEmpty()) {
-
-            // Check if user still has attempts left
-            if(attempts > 2) {
-                // Terminate session and render login page
-                req.session.twoFactorLogin = null;
-                return sharedRenderer.login(res, interactionDetails, {}, {
-                    tooManyFails: {
-                        msg: res.__("Too many failed attempts. Second factor login failed.")
-                    }
-                })
-            }
             // Increment attempts stored in session
             req.session.twoFactorLogin.attempts++;
-
+            // Append failed second factor login to audit log
             auditService.appendAuditLog(accountService.find.withUsername(data.username),AuditActionType.LOGIN_2FA_FAIL,req)
+            // Render two factor login page again
             sharedRenderer.twoFactorAuth(res, interactionDetails, data.twoFactorLoginToken, errors.mapped());
         } else {
  
