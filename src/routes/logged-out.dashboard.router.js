@@ -13,7 +13,7 @@ import registerConsentValidations from '../validation/validators/logged-out/regi
 import recoveryConfirmStepValidations from '../validation/validators/logged-out/recovery.confirm-step.validations.js';
 import recoveryRequestStepValidations from '../validation/validators/logged-out/recovery.request.validations.js';
 import recoveryResetStepValidations from '../validation/validators/logged-out/recovery.reset-step.validations.js';
-import { loginRecoveryRateLimiterMiddleware, registerInviteRequestRateLimiterMiddleware } from '../middlewares/rate-limiter.middlewares.js';
+import { loginRecoveryRateLimiterMiddleware, registerInviteRequestRateLimiterMiddleware, twoFactorLoginRateLimiterMiddleware } from '../middlewares/rate-limiter.middlewares.js';
 
 /**
  * @description Binds controllers to routes for the primary app.
@@ -39,7 +39,7 @@ export default (app) => {
     // Login routes
     app.get('/login', middlewares, dashboardAuthController.login);
     app.post('/login', middlewares, loginRecoveryRateLimiterMiddleware, loginValidations, sharedController.loginPost);
-    app.post('/login/2fa', middlewares, loginRecoveryRateLimiterMiddleware, login2faValidations, sharedController.loginSecondFactorPost);
+    app.post('/login/2fa', middlewares, twoFactorLoginRateLimiterMiddleware, login2faValidations, sharedController.loginSecondFactorPost);
 
     // Registration routes
     app.get('/register', middlewares, dashboardAuthController.register);

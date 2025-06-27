@@ -5,7 +5,7 @@ import sharedController from '../controllers/shared.controller.js';
 import logger from '../helpers/logger.js';
 import login2faValidations from '../validation/validators/logged-out/login-2fa.validations.js';
 import loginValidations from '../validation/validators/logged-out/login.validations.js';
-import { loginRecoveryRateLimiterMiddleware } from '../middlewares/rate-limiter.middlewares.js';
+import { loginRecoveryRateLimiterMiddleware, twoFactorLoginRateLimiterMiddleware } from '../middlewares/rate-limiter.middlewares.js';
 
 /**
  * @description Binds controllers to routes for OIDC (OpenID Connect).
@@ -24,7 +24,7 @@ export default (app) => {
   app.post('/interaction/:uid/login', setNoCache, loginRecoveryRateLimiterMiddleware, loginValidations, sharedController.loginPost);
 
   // Route to handle second factor authentication during login
-  app.post('/interaction/:uid/login/2fa', setNoCache, loginRecoveryRateLimiterMiddleware, login2faValidations, sharedController.loginSecondFactorPost);
+  app.post('/interaction/:uid/login/2fa', setNoCache, twoFactorLoginRateLimiterMiddleware, login2faValidations, sharedController.loginSecondFactorPost);
   
   // Route to confirm the interaction
   app.post('/interaction/:uid/confirm', setNoCache, oidcController.confirmPost);

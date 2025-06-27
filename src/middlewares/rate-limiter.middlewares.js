@@ -20,9 +20,16 @@ const ipRateLimiterConfig = {
     blockDuration: 60 * 60,
 };
 
+const twoFactorLoginRateLimiterConfig = {
+    points: 5,
+    duration: 60 * 15,
+    blockDuration: 60 * 15,
+};
+
 const loginRecoveryRateLimiter = new RateLimiterMemory(loginRecoveryRateLimiterConfig);
 const registerInviteRequestRateLimiter = new RateLimiterMemory(registerInviteRequestRateLimiterConfig);
 const ipRateLimiter = new RateLimiterMemory(ipRateLimiterConfig);
+const twoFactorLoginRateLimiter = new RateLimiterMemory(twoFactorLoginRateLimiterConfig);
 
 /**
  * @description Creates a rate limiter middleware.
@@ -73,13 +80,21 @@ const registerInviteRequestKeyGenerator = (req) => req.ip;
  */
 const ipKeyGenerator = (req) => req.ip;
 
+/**
+ * @description Key generator for 2 Factor login attempts.
+ * @param {import("express").Request} req - The request object.
+ * @returns {string} Unique key for the request.
+ */
+const twoFactorKeyGenerator = (req) => req.session?.twoFactorLogin?.accountId;
 
 const loginRecoveryRateLimiterMiddleware = createRateLimiterMiddleware(loginRecoveryRateLimiter, loginRecoveryKeyGenerator);
 const registerInviteRequestRateLimiterMiddleware = createRateLimiterMiddleware(registerInviteRequestRateLimiter, registerInviteRequestKeyGenerator);
 const ipRateLimiterMiddleware = createRateLimiterMiddleware(ipRateLimiter, ipKeyGenerator);
+const twoFactorLoginRateLimiterMiddleware = createRateLimiterMiddleware(twoFactorLoginRateLimiter, twoFactorKeyGenerator);
 
 export {
     loginRecoveryRateLimiterMiddleware,
     registerInviteRequestRateLimiterMiddleware,
     ipRateLimiterMiddleware,
+    twoFactorLoginRateLimiterMiddleware
 };
