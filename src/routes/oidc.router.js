@@ -24,7 +24,7 @@ export default (app) => {
   app.post('/interaction/:uid/login', setNoCache, loginRecoveryRateLimiterMiddleware, loginValidations, sharedController.loginPost);
 
   // Route to handle second factor authentication during login
-  app.post('/interaction/:uid/login/2fa', setNoCache, login2faValidations, sharedController.loginSecondFactorPost);
+  app.post('/interaction/:uid/login/2fa', setNoCache, loginRecoveryRateLimiterMiddleware, login2faValidations, sharedController.loginSecondFactorPost);
   
   // Route to confirm the interaction
   app.post('/interaction/:uid/confirm', setNoCache, oidcController.confirmPost);
