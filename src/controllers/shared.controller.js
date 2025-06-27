@@ -146,7 +146,7 @@ export default {
                 req.session.twoFactorLogin = null;
                 return sharedRenderer.login(res, interactionDetails, {}, {
                     tooManyFails: {
-                        msg: res.__("Too many failed attempts. Recovery process terminated.")
+                        msg: res.__("Too many failed attempts. Second factor login failed.")
                     }
                 })
             }
