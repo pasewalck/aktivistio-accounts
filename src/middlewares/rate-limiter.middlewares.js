@@ -20,9 +20,9 @@ const ipRateLimiterConfig = {
 };
 
 const twoFactorLoginRateLimiterConfig = {
-    points: 5,
-    duration: 60 * 15,
-    blockDuration: 60 * 15,
+    points: 10,
+    duration: 60 * 60,
+    blockDuration: 60 * 60,
 };
 
 const loginRecoveryRateLimiter = new RateLimiterMemory(loginRecoveryRateLimiterConfig);
