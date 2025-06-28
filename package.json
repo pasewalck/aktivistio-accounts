@@ -8,9 +8,11 @@
     "compose:down": "docker compose down",
     "develepment": "npm run scss:watch & npm run start-server:debug",
     "production": "npm run start-server:production",
+    "build": "npm run scss:build",
     "start-server:debug": "nodemon -r dotenv/config --inspect=0.0.0.0 src/index.js",
     "start-server:production": "node -r dotenv/config src/index.js",
-    "scss:watch": "sass --watch src/scss:src/public/css"
+    "scss:watch": "sass --watch src/scss:src/public/css",
+    "scss:build": "sass src/scss:src/public/css"
   },
   "keywords": [],
   "author": "",
