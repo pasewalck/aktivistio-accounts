@@ -1,3 +1,4 @@
+import assert from "assert";
 import provider from "../helpers/oidc/provider.js";
 import { matchedData, validationResult } from "express-validator";
 import { setProviderSession } from "../helpers/oidc/session.js";
