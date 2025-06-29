@@ -1,7 +1,7 @@
 <div class="wrapper flex-container flex-container-vertical">
     <div class="container-medium-width container-filled-background">
 
-        <% const relativBaseUrl = interactionDetails ? urlUtils.extendUrl(baseUrl,`interaction`,interactionDetails) : baseUrl %> 
+        <% const relativBaseUrl = interactionDetails ? urlUtils.extendUrl(baseUrl,`interaction`,interactionDetails.uid) : baseUrl %> 
 
         <h1><%= __('Login') %></h1>
         
