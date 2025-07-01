@@ -14,7 +14,20 @@ db.exec(`
       recovery_token_hash TEXT,
       recovery_email_hash TEXT,
       role_id INTEGER NOT NULL,
-      two_factor_secret TEXT
+      two_factor_secret TEXT,
+      is_active INTEGER NOT NULL DEFAULT 0
+    );
+`);
+
+// Initialize the account action tokens table if it does not exist
+db.exec(`
+    CREATE TABLE IF NOT EXISTS account_action_tokens (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        account_id TEXT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
+        token TEXT NOT NULL UNIQUE,
+        token_type TEXT NOT NULL,
+        created_at INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        expires_at INTEGER NOT NULL
     );
 `);
 
