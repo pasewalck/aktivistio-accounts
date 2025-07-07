@@ -2,6 +2,7 @@ import { initDatabase } from "../helpers/database.js";
 import env from "../helpers/env.js";
 import { Account } from "../models/accounts.js";
 import { AuditActionType } from "../models/audit-action-types.js";
+import { AccountActionTokenTypes } from "../models/account.action-token-types.js";
 
 const {db,isDbInit} = initDatabase("data",env.DATABASE_KEYS.DATA)
 
@@ -122,6 +123,33 @@ export default {
             INSERT INTO audit_log (account_id, action_type_id, start_time, end_time)
             VALUES (?, ?, strftime('%s','now'), strftime('%s','now'))
         `).run(accountId, actionType.id);
+    },
+
+    /**
+     * @description Inserts a new entry into the audit log.
+     * @param {String} accountId - The ID of the account.
+     * @param {AccountActionTokenTypes} tokenType - The account action type.
+     * @param {String} token - The token value to save in table.
+     * @param {number} lifeTimeSeconds - The time an entry should stay valid for in seconds.
+     */
+    insertAccountActionToken: (accountId, tokenType, token, lifeTimeSeconds) => {
+        return db.prepare(`
+            INSERT INTO account_action_tokens (account_id, token_type, token, expires_at)
+            VALUES (?, ?, strftime('%s','now'), strftime('%s','now') + ?)
+        `).run(accountId, tokenType, token, lifeTimeSeconds);
+    },
+
+    /**
+     * @description 
+     * @param {String} accountId - The ID of the account.
+     * @param {AccountActionTokenTypes} - The account action type.
+     * @returns {Object|null} - Returns account action token entry. @todo Handle case that there are multiple (that is not designed to happen)
+     */
+    getAccountActionToken: (accountId, tokenType) => {
+        return db.prepare(`
+            SELECT token,token_type as tokenType,expires_at as expiresAt FROM account_action_tokens
+            WHERE account_id = ? AND token_type = ? AND expires_at > strftime('%s','now')
+        `).get(accountId, tokenType);
     },
 
     /**
