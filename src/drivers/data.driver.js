@@ -26,6 +26,7 @@ db.exec(`
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         token TEXT NOT NULL UNIQUE,
         token_type TEXT NOT NULL,
+        payload TEXT,
         created_at INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
         expires_at INTEGER NOT NULL
     );
@@ -517,4 +518,44 @@ export default {
     isDbInit: isDbInit
 };
 
+function regularCleanup(db) {
+    const now = Math.floor(Date.now() / 1000); // Current timestamp in seconds
 
+    // Clean up expired action tokens
+    db.prepare(`
+        DELETE FROM action_tokens 
+        WHERE expires_at < ?
+    `).run(now);
+
+    // Clean up expired invites
+    db.prepare(`
+        DELETE FROM invites 
+        WHERE expire_date IS NOT NULL AND expire_date < ?
+    `).run(now);
+
+    // Clean up unused or expired email invite requests
+    db.prepare(`
+        DELETE FROM email_invite_requests 
+        WHERE code IS NULL OR code NOT IN (
+            SELECT code FROM invites 
+            WHERE expire_date IS NULL OR expire_date > ?
+        )
+    `).run(now);
+
+    // Optional: Clean up account invites associated with expired invites
+    db.prepare(`
+        DELETE FROM account_invites 
+        WHERE code NOT IN (
+            SELECT code FROM invites 
+            WHERE expire_date IS NULL OR expire_date > ?
+        )
+    `).run(now);
+
+    // Clean up very old audit log entries (e.g., older than 1 year)
+    db.prepare(`
+        DELETE FROM audit_log 
+        WHERE end_time < ?
+    `).run(now - (365 * 24 * 60 * 60)); // 1 year ago
+}
+
+setInterval(regularCleanup, 1000 * 60 * 60); // Every hour
