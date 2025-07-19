@@ -3,11 +3,11 @@ import { MessageType } from "../models/email.message-type.js"
 /**
  * @description Send recovery code email
  * @param {String} [to]
- * @param {String} [code]
+ * @param {String} [link]
  * @param {JSON} [locals]
  */
-async function sendRecoveryCode(code,to,locals) {
-    await mailDriver.sendEmail(to,locals.__("Your Recovery Code"),MessageType.RECOVERY_CODE,locals,{code:code})
+async function sendRecoveryLink(link,to,locals) {
+    await mailDriver.sendEmail(to,locals.__("Your Recovery Link"),MessageType.RECOVERY_CODE,locals,{link:link})
 }
 /**
  * @description Send invite code email
@@ -22,6 +22,6 @@ async function sendInviteCode(code,to,locals) {
 export default {
   send: {
     inviteCode: sendInviteCode,
-    recoveryCode: sendRecoveryCode
+    recoveryLink: sendRecoveryLink
   }
 }

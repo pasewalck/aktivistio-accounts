@@ -78,8 +78,16 @@ export class AuditActionType {
         replaceActionTypes: []
     };
 
+    static PASSWORD_RECOVERY_GRANTED_BY_ADMIN_STARTED = { 
+        id: 9,
+        type: 'PASSWORD_RECOVERY_GRANTED_BY_ADMIN_STARTED', 
+        displayName: 'Password Recovery granted by an admin started', 
+        alertLevel: 0,
+        replaceActionTypes: []
+    };
+
     static PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL = { 
-        id: 9, 
+        id: 10, 
         type: 'PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL', 
         displayName: 'Password Recovery Token Hard Fail', 
         alertLevel: 1,
@@ -87,15 +95,23 @@ export class AuditActionType {
     };
 
     static PASSWORD_RECOVERY_WITH_TOKEN_COMPLETE = { 
-        id: 10,
+        id: 11,
         type: 'PASSWORD_RECOVERY_WITH_TOKEN_COMPLETE', 
         displayName: 'Password Recovery with Token Complete', 
         alertLevel: 0,
         replaceActionTypes: [AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_STARTED,AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL]
     };
 
+    static PASSWORD_RECOVERY_GRANTED_BY_ADMIN_COMPLETE = { 
+        id: 12,
+        type: 'PASSWORD_RECOVERY_GRANTED_BY_ADMIN_COMPLETE', 
+        displayName: 'Password Recovery granted by an admin Complete', 
+        alertLevel: 0,
+        replaceActionTypes: [AuditActionType.PASSWORD_RECOVERY_GRANTED_BY_ADMIN_STARTED]
+    };
+
     static TWO_FACTOR_AUTH_ENABLED = { 
-        id: 11,
+        id: 13,
         type: 'TWO_FACTOR_AUTH_ENABLED', 
         displayName: 'Two-Factor Authentication Enabled', 
         alertLevel: 0,
@@ -103,7 +119,7 @@ export class AuditActionType {
     };
 
     static TWO_FACTOR_AUTH_DISABLED = { 
-        id: 12, 
+        id: 14, 
         type: 'TWO_FACTOR_AUTH_DISABLED', 
         displayName: 'Two-Factor Authentication Disabled', 
         alertLevel: 1,
@@ -111,7 +127,7 @@ export class AuditActionType {
     };
 
     static PASSWORD_CHANGED = { 
-        id: 13, 
+        id: 15, 
         type: 'PASSWORD_CHANGED', 
         displayName: 'User Password Changed', 
         alertLevel: 1,
@@ -119,7 +135,7 @@ export class AuditActionType {
     };
 
     static PASSWORD_CHANGE_FAIL = { 
-        id: 14, 
+        id: 16, 
         type: 'PASSWORD_CHANGE_FAIL', 
         displayName: 'Password Change Attempt Blocked', 
         alertLevel: 2,
@@ -128,7 +144,7 @@ export class AuditActionType {
 
 
     static RECOVERY_METHOD_UPDATE_FAIL = { 
-        id: 15, 
+        id: 17, 
         type: 'RECOVERY_METHOD_UPDATE_FAIL', 
         displayName: 'User Recovery Method Update Blocked', 
         alertLevel: 2,
@@ -136,7 +152,7 @@ export class AuditActionType {
     };
 
     static RECOVERY_METHOD_UPDATED = { 
-        id: 16, 
+        id: 18, 
         type: 'RECOVERY_METHOD_UPDATED', 
         displayName: 'User Recovery Method Updated', 
         alertLevel: 0,

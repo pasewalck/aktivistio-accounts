@@ -1,8 +1,8 @@
 <p>
     <%= __("Hey there!") %> <br>
-    <%= __("A recovery request has been issued for your account linked to this email address. If this was you, please use the following code to confirm your identity:") %> 
+    <%= __("A recovery request has been issued for your account linked to this email address. If this was you, please use the following link to reset your password abd account:") %> 
 </p>
-<p class="code"><%= code %></p>
+<a class="link" href="<%= link %>"><%= link %></a>
 <p>
-    <%= __("If this was not you, it may indicate that someone is attempting to access your account. We recommend changing your password to secure your account.") %>
+    <%= __("If this was not you, it may indicate that someone is attempting to access your account. We recommend changing your recovery email if possible.") %>
 </p>
