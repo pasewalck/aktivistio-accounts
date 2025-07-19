@@ -21,6 +21,7 @@ import manageServiceGetValidators from '../validation/validators/dashboard/syste
 import manageServiceUpdateValidations from '../validation/validators/dashboard/system-management/services/manage.service.update.validations.js';
 import manageServiceDeleteValidations from '../validation/validators/dashboard/system-management/services/manage.service.delete.validations.js';
 import ownAccountAuditLogValidations from '../validation/validators/dashboard/own-account/own-account.audit-log.validations.js';
+import createAccountValidations from '../validation/validators/dashboard/system-management/accounts/create.account.validations.js';
 
 /**
  * @description Binds controller actions to routes for the primary app.
@@ -39,10 +40,13 @@ export default (app) => {
 
     // User management routes
     app.get('/users', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), dashboardController.users);
-    app.get('/user/:id', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), userManageValidators, dashboardController.manageUser);
-    app.post('/user/:id/update', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), userManageValidators, manageAccountUpdateValidations, dashboardController.manageUserUpdatePost);
-    app.post('/user/:id/delete', middlewares, generateCheckUserPermission(Permission.DELETE_USERS), userManageValidators, manageAccountDeleteValidations, dashboardController.manageUserDeletePost);
-    
+    app.get('/user/manage/:id', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), userManageValidators, dashboardController.manageUser);
+    app.post('/user/manage/:id/update', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), userManageValidators, manageAccountUpdateValidations, dashboardController.manageUserUpdatePost);
+    app.post('/user/manage/:id/delete', middlewares, generateCheckUserPermission(Permission.DELETE_USERS), userManageValidators, manageAccountDeleteValidations, dashboardController.manageUserDeletePost);
+    app.get('/user/add', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), dashboardController.addUser);
+    app.post('/user/add', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), createAccountValidations, dashboardController.addUserPost);
+
+
     // Service management routes
     app.get('/services/add', middlewares, generateCheckUserPermission(Permission.MANAGE_SERVICES), dashboardController.serviceAdd);
     app.get('/services/edit/:id', middlewares, generateCheckUserPermission(Permission.MANAGE_SERVICES), manageServiceGetValidators, dashboardController.serviceEdit);

@@ -232,6 +232,22 @@ export default {
   },
 
   /**
+  * @description Renders the users management page.
+  * @param {Request} req - The request object.
+  * @param {Response} res - The response object.
+  * @param {JSON} [formData] - Data to pre-fill the form (optional).
+  * @param {JSON} [errors] - Any validation errors to display (optional).
+  */
+  userAdd: (req, res, formData = {}, errors = {}) => {
+    return res.render('pages/dashboard/add-user', {
+        title: res.__('Add User'),
+        formData: formData,
+        errors: errors
+    });
+  },
+
+
+  /**
   * @description Renders the audit log page.
   * Displays a list of audit logs. Either since last login or all of them.
   * @param {Request} req - The request object.

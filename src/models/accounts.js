@@ -10,10 +10,12 @@ export class Account {
      * @param {string} id - The unique identifier for the account.
      * @param {string} username - The username associated with the account.
      * @param {number} roleId - The role identifier associated with the account.
+     * @param {boolean} isActive
      */
-    constructor(id, username, roleId) {
+    constructor(id, username, roleId, isActive) {
         this.id = id;
         this.username = username;
         this.role = roleId;
+        this.isActive = isActive;
     }
 }

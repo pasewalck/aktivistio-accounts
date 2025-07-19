@@ -483,6 +483,33 @@ export default {
     },
 
     /**
+     * @description Renders the user add page in the dashboard.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    addUser: async (req, res) => {
+        dashboardRenderer.userAdd(req, res);
+    },
+
+    /**
+     * @description Handles user add POST request.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    addUserPost: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.userAdd(req, res, data, errors.mapped());
+        }
+        const user = await accountService.create(data.username,data.role)
+
+        dashboardRenderer.manageUser(req, res, user.id);
+    },
+
+
+    /**
      * @description Renders the user management page for a specific user.
      * @param {Request} req - The request object.
      * @param {Response} res - The response object.

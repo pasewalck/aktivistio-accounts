@@ -303,8 +303,8 @@ export default {
      * @returns {Account|null} - The account object if found, otherwise null.
      */
     getAccountWithUsername: (username) => {
-        let result = db.prepare('SELECT id, username, role_id as role FROM accounts WHERE username = ?').get(username);
-        return result ? new Account(result.id, result.username, result.role) : null;
+        let result = db.prepare('SELECT id, username, role_id as role, is_active as isActive FROM accounts WHERE username = ?').get(username);
+        return result ? new Account(result.id, result.username, result.role, result.isActive == 1) : null;
     },
 
     /**
@@ -313,8 +313,8 @@ export default {
      * @returns {Account|null} - The account object if found, otherwise null.
      */
     getAccountWithId: (id) => {
-        let result = db.prepare('SELECT id, username, role_id as role FROM accounts WHERE id = ?').get(id);
-        return result ? new Account(result.id, result.username, result.role) : null;
+        let result = db.prepare('SELECT id, username, role_id as role, is_active as isActive FROM accounts WHERE id = ?').get(id);
+        return result ? new Account(result.id, result.username, result.role, result.isActive == 1) : null;
     },
 
     /**
@@ -357,10 +357,11 @@ export default {
      * @param {String} id - The ID of the new account.
      * @param {String} username - The username for the new account.
      * @param {number} role - The role ID associated with the new account.
+     * @param {boolean} [isActive] - Whether or not an account is active
      * @returns {Account} - The newly created account object.
      */
-    createAccount: (id, username, role) => {
-        db.prepare('INSERT INTO accounts (id, username, role_id) VALUES (?, ?, ?)').run(id, username, role);
+    createAccount: (id, username, role, isActive=true) => {
+        db.prepare('INSERT INTO accounts (id, username, role_id, is_active) VALUES (?, ?, ?, ?)').run(id, username, role, isActive ? 1 : 0);
     },
 
     /**

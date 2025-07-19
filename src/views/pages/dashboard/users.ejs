@@ -15,7 +15,7 @@
                     </div>
                     <% if (user.role < account.role) { %>
                         <div class="links">
-                            <a href="<%= urlUtils.extendUrl(baseUrl, `user`,`${user.id}`).href %>"><img src="<%= urlUtils.extendUrl(baseUrl, 'icons/settings.svg').href %>" alt=""></a>                        </div>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, `user`,`manage`,`${user.id}`).href %>"><img src="<%= urlUtils.extendUrl(baseUrl, 'icons/settings.svg').href %>" alt=""></a>                        </div>
                     <% } %>
                 </li>
             <% }) %>
@@ -25,6 +25,10 @@
 
     </div>
 
+    <div class="container container-medium-width">
 
+        <a href="<%= urlUtils.extendUrl(baseUrl, 'user','add').href %>" class="button"><%= __("Create User") %> </a>
+
+    </div>
 
 </div>
