@@ -5,7 +5,7 @@ import { matchedData, validationResult } from "express-validator";
 import { setProviderSession } from "../helpers/oidc/session.js";
 import accountService from "../services/account.service.js";
 import sharedRenderer from "../renderers/shared.renderer.js";
-import { generateTypeableCode } from "../helpers/generate-secrets.js";
+import { generateAlphanumericSecret, generateTypeableCode } from "../helpers/generate-secrets.js";
 import { hashPassword } from "../helpers/hash-string.js";
 import invitesService from "../services/invites.service.js";
 import mailService from "../services/mail.service.js";
@@ -13,6 +13,9 @@ import { Role } from "../models/roles.js";
 import auditService from "../services/audit.service.js";
 import { AuditActionType } from "../models/audit-action-types.js";
 import { ClientError, UnexpectedClientError } from "../models/errors.js";
+import { extendUrl } from "../helpers/url.js";
+import env from "../helpers/env.js";
+import { ActionTokenTypes, PasswordResetChannels } from "../models/action-token-types.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -23,35 +26,6 @@ import { ClientError, UnexpectedClientError } from "../models/errors.js";
  * @typedef {import("express").Response} Response
  * Represents an HTTP response in Express.
  */
-
-/**
- * @description Sets the session for account recovery.
- * This function initializes the account recovery session with the provided account ID,
- * confirmation code, and validation status.
- * @param {Request} req - The HTTP request object.
- * @param {String} [accountId] - The ID of the account being recovered.
- * @param {Number} [confirmCode] - The confirmation code for recovery.
- * @param {Boolean} [validated] - Indicates whether the recovery has been validated.
- * @param {String} [recoveryMethod] - The recovery method used.
- */
-function setAccountRecoverySession(req,recoveryMethod = null, accountId = null, confirmCode = null, validated = true) {
-    req.session.accountRecovery = {
-        confirmCode: confirmCode,
-        recoveryMethod: recoveryMethod,
-        accountId: accountId,
-        attempts: 0,
-        validated: validated
-    };
-}
-
-/**
- * @description Validates the account recovery session.
- * This function sets the validated status of the account recovery session to true.
- * @param {Request} req - The HTTP request object.
- */
-function validateAccountRecoverySession(req) {
-    req.session.accountRecovery.validated = true;
-}
 
 export default {
     /**
@@ -104,51 +78,55 @@ export default {
     recoveryRequestPost: async (req, res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
-    
+
         if (!errors.isEmpty()) {
 
-            switch (data.method) {
-                case "email":
-                    auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_EMAIL)
-                    break;
-                case "token":
-                    auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL)
-                    break;
-                default:
-                    break;
+            if(data.username) {
+                let account = accountService.find.withUsername(data.username);
+                if(account)
+                    switch (data.method) {
+                        case "email":
+                            auditService.appendAuditLog(account, AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_EMAIL)
+                            break;
+                        case "token":
+                            auditService.appendAuditLog(account, AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL)
+                            break;
+                        default:
+                            break;
+                    }
             }
+
             return dashboardAuthRenderer.recoveryRequest(res, data, errors.mapped());
         }
-    
+
         // Attempt to find the account associated with the provided username
         let account = accountService.find.withUsername(data.username);
         // If no account is found, throw an error indicating the username does not exist
         if (!account) throw new UnexpectedClientError("No account for username");
-    
+
+        function createRecoveryActionLink(account,resetChannel) {
+            const actionToken = accountService.actionToken.create(ActionTokenTypes.PASSWORD_RESET,60*15,{
+                resetChannel,
+                accountId: account.id
+            })
+            return extendUrl(env.BASE_URL,"account-recovery","reset",actionToken)
+        }
+
+
         // Determine the recovery method chosen by the user
         switch (data.method) {
             case "email":
-                // Generate a confirmation code for email recovery
-                const confirmCode = await generateTypeableCode(12);
-                // Set the account recovery session with the account ID and confirmation code
-                setAccountRecoverySession(req, data.method, account.id, confirmCode);
-                // Send the recovery code to the user's email address
-                mailService.send.recoveryCode(confirmCode, data.email, res.locals);
+                auditService.appendAuditLog(account, AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_STARTED)
+                // Send the recovery link to the user's email address
+                mailService.send.recoveryLink(createRecoveryActionLink(account, PasswordResetChannels.EMAIL), data.email, res.locals);
                 // Render the confirmation code page to inform the user that the code has been sent
-                dashboardAuthRenderer.recoveryConfirmCode(res);
-                // Append password recovery request with email audit log
-                auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_STARTED)
+                dashboardAuthRenderer.emailSent(res);
                 break;
-    
+
             case "token":
-                // Set the account recovery session with the account ID (no confirmation code needed for token method)
-                setAccountRecoverySession(req, data.method, account.id);
-                // Validate the recovery session to indicate that the user has initiated the recovery process
-                validateAccountRecoverySession(req);
-                // Render the password prompt page to allow the user to set a new password
-                dashboardAuthRenderer.recoveryPasswordPrompt(res);
-                // Append password recovery request with email audit log
-                auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_STARTED)
+                auditService.appendAuditLog(account, AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_STARTED)
+                // Redirect user to url allowing password reset
+                res.redirect(createRecoveryActionLink(account, PasswordResetChannels.RECOVERY_TOKEN))
                 break;
             default:
                 // If an unsupported recovery method is provided, throw an error
@@ -158,104 +136,58 @@ export default {
 
     },
 
+
     /**
-     * @description Controller for handling POST requests for confirming recovery.
-     * Validates the confirmation code and prompts the user to reset their password.
-     *
+     * @description 
      * @param {Request} req - The HTTP request object.
      * @param {Response} res - The HTTP response object.
      */
-    recoveryConfirmPost: async (req, res) => {
+    recoveryReset: async (req, res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
-
-        if (!req.session.accountRecovery) {
-            return dashboardAuthRenderer.recoveryRequest(res);
-        }
-
-        let { confirmCode, attempts, accountId, recoveryMethod } = req.session.accountRecovery;
-    
-        // Attempt to find the account associated with userId from session
-        let account = accountService.find.withId(accountId);
-        // If no account is found, throw an error indicating the username does not exist
-        if (!account) throw new UnexpectedClientError("Missing valid user");
-
         if (!errors.isEmpty()) {
-
-            // Check if user still has attempts left
-            if(attempts > 4) {
-                // Terminate session and render recovery request page
-                req.session.accountRecovery = null;
-                return dashboardAuthRenderer.recoveryRequest(res, {}, {
-                    tooManyFails: {
-                        msg: res.__("Too many failed attempts. Recovery process terminated.")
-                    }
-                })
-            }
-            // Increment attempts stored in session
-            req.session.accountRecovery.attempts++;
-
-            switch (recoveryMethod) {
-                case "email":
-                    auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_TOKEN)
-                    break;
-                case "token":
-                    auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL)
-                    break;
-                default:
-                    break;
-            }
-            return dashboardAuthRenderer.recoveryConfirmCode(res, data, errors.mapped());
+            throw new ClientError("Invalid or expired Recovery Link")
         }
 
-        // Extra check for security: ensure the provided confirmation code matches the stored one
-        if (confirmCode !== data.confirmCode) {
-            throw new UnexpectedClientError("Missing or invalid confirm token");
-        }
-
-        validateAccountRecoverySession(req); // Mark the session as validated
-        dashboardAuthRenderer.recoveryPasswordPrompt(res); // Prompt the user to enter a new password
+        return dashboardAuthRenderer.recoveryPasswordPrompt(res, data.actionToken);
     },
 
     /**
-     * @description Controller for handling POST requests to reset the password.
-     * Validates the new password and updates the account's password in the database.
-     *
+     * @description 
      * @param {Request} req - The HTTP request object.
      * @param {Response} res - The HTTP response object.
      */
     recoveryResetPost: async (req, res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
-
+     
         if (!errors.isEmpty()) {
-            return dashboardAuthRenderer.recoveryPasswordPrompt(res, data, errors.mapped());
+            return dashboardAuthRenderer.recoveryPasswordPrompt(res, data.actionToken, data, errors.mapped());
         }
 
-        let { validated, accountId, recoveryMethod } = req.session.accountRecovery;
-        // Extra check for security: ensure the recovery session has been validated
-        if (!validated) {
-            throw new UnexpectedClientError("Missing confirm token");
-        }
-
-        const account = accountService.find.withId(accountId); // Retrieve the account by ID
+        const tokenEntry = accountService.actionToken.getEntry(ActionTokenTypes.PASSWORD_RESET,data.actionToken)
+        const account = accountService.find.withId(tokenEntry.payload.accountId);
+        accountService.actionToken.consume(ActionTokenTypes.PASSWORD_RESET, data.actionToken)
 
         // Update the account's password and reset two-factor authentication
         await accountService.password.set(account, data.password);
         await accountService.twoFactorAuth.set(account, null);
 
-        switch (recoveryMethod) {
-            case "email":
-                auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_COMPLETE)
+        switch (tokenEntry.payload.resetChannel) {
+            case PasswordResetChannels.EMAIL:
+                auditService.appendAuditLog(account, AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_COMPLETE)
                 break;
-            case "token":
-                auditService.appendAuditLog(account,AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_COMPLETE)
+            case PasswordResetChannels.RECOVERY_TOKEN:
+                auditService.appendAuditLog(account, AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_COMPLETE)
+                break;
+            case PasswordResetChannels.ADMIN:
+                auditService.appendAuditLog(account, AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_COMPLETE)
                 break;
             default:
                 break;
         }
-        req.session.accountRecovery = null; // Clear the recovery session
-        res.redirect('/login/'); // Redirect to the login page
+
+        res.redirect('/login/');
     },
 
     /**
@@ -328,10 +260,10 @@ export default {
         req.session.accountCreation = null; // Clear the session data after use
 
         // Check if invite code is still valid.
-        if(!invitesService.validate(accountSession.inviteCode))
+        if (!invitesService.validate(accountSession.inviteCode))
             throw new ClientError("Invite code used in previous step is no longer valid.")
         // Check if username still does not exist.
-        if(accountService.find.withUsername(accountSession.username))
+        if (accountService.find.withUsername(accountSession.username))
             throw new ClientError("Username selected in previous step hast been taken now.")
 
         // Create a new account with the provided username from session and default role
@@ -353,7 +285,7 @@ export default {
         // Generate additional invite codes for the new account
         invitesService.generate.multi(3, { linkedAccount: account, validationDurationDays: 14 });
 
-        auditService.appendAuditLog(account,AuditActionType.REGISTER)
+        auditService.appendAuditLog(account, AuditActionType.REGISTER)
 
         // Set the provider session for the newly created account
         await setProviderSession(provider, req, res, { accountId: account.id });

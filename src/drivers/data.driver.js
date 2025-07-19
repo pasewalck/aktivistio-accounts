@@ -2,7 +2,7 @@ import { initDatabase } from "../helpers/database.js";
 import env from "../helpers/env.js";
 import { Account } from "../models/accounts.js";
 import { AuditActionType } from "../models/audit-action-types.js";
-import { AccountActionTokenTypes } from "../models/account.action-token-types.js";
+import { ActionTokenTypes } from "../models/action-token-types.js";
 
 const {db,isDbInit} = initDatabase("data",env.DATABASE_KEYS.DATA)
 
@@ -20,11 +20,10 @@ db.exec(`
     );
 `);
 
-// Initialize the account action tokens table if it does not exist
+// Initialize the action tokens table if it does not exist
 db.exec(`
-    CREATE TABLE IF NOT EXISTS account_action_tokens (
+    CREATE TABLE IF NOT EXISTS action_tokens (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        account_id TEXT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
         token TEXT NOT NULL UNIQUE,
         token_type TEXT NOT NULL,
         created_at INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
@@ -126,30 +125,46 @@ export default {
     },
 
     /**
-     * @description Inserts a new entry into the audit log.
-     * @param {String} accountId - The ID of the account.
-     * @param {AccountActionTokenTypes} tokenType - The account action type.
+     * @description
+     * @param {ActionTokenTypes} tokenType - The account action type.
      * @param {String} token - The token value to save in table.
      * @param {number} lifeTimeSeconds - The time an entry should stay valid for in seconds.
+     * @param {JSON} payload - Any additional data we want to save.
      */
-    insertAccountActionToken: (accountId, tokenType, token, lifeTimeSeconds) => {
+    insertActionToken: (tokenType, token, expiresAt, payload) => {
         return db.prepare(`
-            INSERT INTO account_action_tokens (account_id, token_type, token, expires_at)
-            VALUES (?, ?, strftime('%s','now'), strftime('%s','now') + ?)
-        `).run(accountId, tokenType, token, lifeTimeSeconds);
+            INSERT INTO action_tokens (token_type, token, expires_at, payload)
+            VALUES (?, ?, ?, ?)
+        `).run(tokenType, token, expiresAt, JSON.stringify(payload));
     },
 
     /**
      * @description 
-     * @param {String} accountId - The ID of the account.
-     * @param {AccountActionTokenTypes} - The account action type.
-     * @returns {Object|null} - Returns account action token entry. @todo Handle case that there are multiple (that is not designed to happen)
+     * @param {ActionTokenTypes} tokenType - 
+     * @param {String} token - 
      */
-    getAccountActionToken: (accountId, tokenType) => {
+    deleteActionTokenEntry: (tokenType, token) => {
         return db.prepare(`
-            SELECT token,token_type as tokenType,expires_at as expiresAt FROM account_action_tokens
-            WHERE account_id = ? AND token_type = ? AND expires_at > strftime('%s','now')
-        `).get(accountId, tokenType);
+            DELETE FROM action_tokens 
+            WHERE token_type = ? AND token = ?
+        `).run(tokenType,token);
+    },
+
+
+    /**
+     * @description 
+     * @param {ActionTokenTypes} tokenType - The account action type.
+     * @param {String} token - The token value to search in table.
+     * @returns {Object|null} - Returns account action token entry.
+     */
+    getActionTokenEntry: (tokenType,token) => {
+        const entry = db.prepare(`
+            SELECT token,token_type as tokenType,expires_at as expiresAt,payload FROM action_tokens
+            WHERE token_type = ? AND token = ? AND expires_at > strftime('%s','now')
+        `).get(tokenType,token);
+        if(entry)
+            entry.payload = JSON.parse(entry.payload)
+        return entry;
     },
 
     /**

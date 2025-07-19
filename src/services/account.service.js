@@ -1,4 +1,4 @@
-import { generatePassword } from "../helpers/generate-secrets.js";
+import { generateAlphanumericSecret, generatePassword } from "../helpers/generate-secrets.js";
 import logger from "../helpers/logger.js";
 import { Account } from "../models/accounts.js";
 import userdataDriver from "../drivers/data.driver.js";
@@ -7,6 +7,9 @@ import { hashPassword, isHashValid } from "../helpers/hash-string.js";
 import invitesService from "./invites.service.js";
 import { Role } from "../models/roles.js";
 import { AuditActionType } from "../models/audit-action-types.js";
+import dataDriver from "../drivers/data.driver.js";
+import { ActionTokenTypes, PasswordResetChannels } from "../models/action-token-types.js";
+import { InternalError } from "../models/errors.js";
 
 /**
  * @description Finds an account by username.
@@ -57,6 +60,44 @@ function getRecovery(account) {
 function getLastLogin(account,before) {
     const result = userdataDriver.getAuditLog(account.id,AuditActionType.LOGIN_SUCCESS,before)
     return result ? result[0].time : null
+}
+
+/**
+ * @description Inserts a new entry into the audit log.
+ * @param {ActionTokenTypes} tokenType - The account action type.
+ * @param {number} lifeTimeSeconds - The time an entry should stay valid for in seconds.
+ * @returns {String} - Returns the created token.
+ */
+function createActionToken(tokenType, lifeTimeSeconds,payload) {
+    const token = generateAlphanumericSecret(64)
+    dataDriver.insertActionToken(tokenType,token,Math.floor(Date.now() / 1000) + lifeTimeSeconds,payload)
+    return token
+}
+
+/**
+ * @description 
+ * @param {ActionTokenTypes} - The account action type.
+ * @param {String} token - 
+ */
+function useActionToken (tokenType, token) {
+    dataDriver.deleteActionTokenEntry(token,tokenType)
+}
+
+/**
+ * @description Check if a token supplied is valid for an account and the required type of token.
+ * @param {String} token - The token value to check with.
+ * @returns {Boolean} - Returns boolean based on if token is matching.
+ */
+function checkActionTokenValid (tokenType,token) {
+
+    return token != null && token != undefined && getActionTokenEntry(tokenType,token) != undefined
+}
+
+/**
+
+ */
+function getActionTokenEntry (tokenType,token) {
+    return dataDriver.getActionTokenEntry(tokenType,token)
 }
 
 /**
@@ -153,6 +194,7 @@ async function setRecoveryEmail(account, email) {
     const emailHash = email ? await hashPassword(email) : null;
     setRecoveryEmailHash(account, emailHash);
 }
+
 
 /**
  * Sets the recovery email hash for an account.
@@ -271,6 +313,12 @@ export default {
         check: checkTwoFactorSecret,
         get: getTwoFactorSecret,
         set: setTwoFactorAuthSecret
+    },
+    actionToken: {
+        create: createActionToken,
+        getEntry: getActionTokenEntry,
+        checkValid: checkActionTokenValid,
+        consume: useActionToken
     },
     getAll,
     getLastLogin,

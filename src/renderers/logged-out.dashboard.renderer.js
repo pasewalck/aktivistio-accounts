@@ -64,6 +64,16 @@ export default {
     },
 
     /**
+     * @description 
+     * @param {Response} res - The response object.
+     */
+    emailSent: (res) => {
+        return res.render('pages/logged-out/email-sent', {
+            title: res.__('E-Mail sent'),
+        });
+    },
+
+    /**
      * @description Renders the invite request page.
      * Displays the form for users to request an invite, including a list of whitelisted email providers.
      * 
@@ -99,15 +109,16 @@ export default {
      * @description Renders the password reset prompt page.
      * Displays the form for users to reset their password, including the confirmation code if provided.
      * @param {Response} res - The response object.
+     * @param {string} actionToken - The actionToken string.
      * @param {JSON} [formData] - Data to pre-fill the form (optional).
      * @param {JSON} [errors] - Any validation errors to display (optional).
      */
-    recoveryPasswordPrompt: (res, formData = {}, errors = {}) => {
+    recoveryPasswordPrompt: (res, actionToken, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/recovery/reset', {
             title: res.__('Recovery'),
             errors: errors,
             formData: formData,
-            confirmCode: formData?.confirmCode // Passes the confirmation code if available
+            actionToken: actionToken
         });
     },
 
