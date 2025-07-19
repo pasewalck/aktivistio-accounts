@@ -126,11 +126,12 @@ export default {
     },
 
     /**
-     * @description
-     * @param {ActionTokenTypes} tokenType - The account action type.
-     * @param {String} token - The token value to save in table.
-     * @param {number} lifeTimeSeconds - The time an entry should stay valid for in seconds.
-     * @param {JSON} payload - Any additional data we want to save.
+     * @description Saves a token with its associated metadata and expiration time
+     * @param {ActionTokenTypes} tokenType - The type of action token (e.g., password reset)
+     * @param {string} token - The unique token value to be saved
+     * @param {number} expiresAt - Unix timestamp indicating when the token expires
+     * @param {Object} payload - Additional JSON-serializable data associated with the token
+     * @returns {Object} - Database insertion result
      */
     insertActionToken: (tokenType, token, expiresAt, payload) => {
         return db.prepare(`
@@ -140,9 +141,10 @@ export default {
     },
 
     /**
-     * @description 
-     * @param {ActionTokenTypes} tokenType - 
-     * @param {String} token - 
+     * @description Removes a token entry based on its type and value
+     * @param {ActionTokenTypes} tokenType - The type of action token to delete
+     * @param {string} token - The specific token value to be deleted
+     * @returns {Object} - Database deletion result
      */
     deleteActionTokenEntry: (tokenType, token) => {
         return db.prepare(`
@@ -153,10 +155,10 @@ export default {
 
 
     /**
-     * @description 
-     * @param {ActionTokenTypes} tokenType - The account action type.
-     * @param {String} token - The token value to search in table.
-     * @returns {Object|null} - Returns account action token entry.
+     * @description Fetches a token entry that matches the type and value and is not expired
+     * @param {ActionTokenTypes} tokenType - The type of action token to retrieve
+     * @param {string} token - The specific token value to search for
+     * @returns {Object|null} - Returns the token entry with parsed payload, or null if not found
      */
     getActionTokenEntry: (tokenType,token) => {
         const entry = db.prepare(`

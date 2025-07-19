@@ -1,7 +1,7 @@
 import mailDriver from "../drivers/mail.driver.js"
 import { MessageType } from "../models/email.message-type.js"
 /**
- * @description Send recovery code email
+ * @description Send recovery link email
  * @param {String} [to]
  * @param {String} [link]
  * @param {JSON} [locals]
