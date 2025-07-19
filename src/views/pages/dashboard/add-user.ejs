@@ -1,0 +1,39 @@
+<%- include("../../partials/dashboard-header.ejs") %>
+
+<div class="wrapper flex-container">
+
+    <div class="container container-medium-width container-filled-background">
+
+        <h1><%= __("Create Account") %> </h1>
+
+        <form class="form" action="" method="post">
+            <fieldset>
+
+                <div class="form-group" >
+                    <label class="label"><%= __('Username') %></label> 
+                    <%- include("../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
+                </div>
+
+                <div class="form-group" >
+                    <label class="label"><%= __('Account Role') %></label> 
+                    <% var options = []
+                    Role.allLower(account.role).forEach(role => {
+                        options.push({value:role,displayName:Role.getRoleInfo(role).name})
+                    }) %>
+                    <%- include("../../partials/form/input-select.ejs",{select: {name:"role",id:"role",value:options[0],options:options}}) %>
+                </div>
+
+                <div class="form-action-group">
+                    <button class="button primary" type="submit"><%= __("Create") %> </button>
+                </div>
+    
+
+            </fieldset>
+
+        </form>
+
+    </div>
+
+
+
+</div>

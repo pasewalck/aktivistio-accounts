@@ -6,7 +6,7 @@
 
         <h1><%= __("Manage Account") %> </h1>
 
-        <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/${managingAccount.id}/update`).href %>" method="post">
+        <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/update`).href %>" method="post">
             <fieldset>
 
                 <div class="form-group" >
@@ -33,7 +33,7 @@
 
         <h2><%= __("Update account") %> </h2>
 
-        <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/${managingAccount.id}/update`).href %>" method="post">
+        <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/update`).href %>" method="post">
             <fieldset>
 
                 <div class="form-group" >
@@ -61,7 +61,7 @@
         <div class="container container-medium-width container-filled-background">
             <h2><%= __("Delete account") %> </h2>
 
-            <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/${managingAccount.id}/delete`).href %>" method="post">
+            <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/delete`).href %>" method="post">
                 <fieldset>
 
                     <div class="form-group">
