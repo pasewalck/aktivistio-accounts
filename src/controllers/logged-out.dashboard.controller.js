@@ -138,7 +138,7 @@ export default {
 
 
     /**
-     * @description 
+     * @description Handles the initial password recovery reset request, checking the validity of the recovery link
      * @param {Request} req - The HTTP request object.
      * @param {Response} res - The HTTP response object.
      */
@@ -153,7 +153,7 @@ export default {
     },
 
     /**
-     * @description 
+     * @description Handles the password reset form submission, validates input, updates account password, resets two-factor authentication, and logs the recovery action
      * @param {Request} req - The HTTP request object.
      * @param {Response} res - The HTTP response object.
      */
@@ -193,7 +193,6 @@ export default {
     /**
      * @description Controller for handling GET requests for account login.
      * Renders the login page for users.
-     *
      * @param {Request} req - The HTTP request object.
      * @param {Response} res - The HTTP response object.
      */
@@ -204,7 +203,6 @@ export default {
     /**
      * @description Controller for handling GET requests for account registration.
      * Renders the registration page, optionally with an invite code.
-     *
      * @param {Request} req - The HTTP request object.
      * @param {Response} res - The HTTP response object.
      * @param {Function} next - The next middleware function in the stack.
@@ -216,7 +214,6 @@ export default {
     /**
      * @description Controller for handling POST requests for account registration.
      * Validates the registration data and stores it in the session.
-     *
      * @param {Request} req - The HTTP request object.
      * @param {Response} res - The HTTP response object.
      */
@@ -244,7 +241,6 @@ export default {
     /**
      * @description Controller for handling POST requests for registration consent.
      * Finalizes the account creation process and stores the account in the database.
-     *
      * @param {Request} req - The HTTP request object.
      * @param {Response} res - The HTTP response object.
      */
