@@ -75,9 +75,9 @@ function createActionToken(tokenType, lifeTimeSeconds,payload) {
 }
 
 /**
- * @description 
- * @param {ActionTokenTypes} - The account action type.
- * @param {String} token - 
+ * @description Removes a specific action token after it has been used
+ * @param {ActionTokenTypes} tokenType - The type of action token being used
+ * @param {string} token - The unique token value to be deleted
  */
 function useActionToken (tokenType, token) {
     dataDriver.deleteActionTokenEntry(token,tokenType)
@@ -89,12 +89,14 @@ function useActionToken (tokenType, token) {
  * @returns {Boolean} - Returns boolean based on if token is matching.
  */
 function checkActionTokenValid (tokenType,token) {
-
     return token != null && token != undefined && getActionTokenEntry(tokenType,token) != undefined
 }
 
 /**
-
+ * @description Fetches a specific action token entry based on its type and value
+ * @param {ActionTokenTypes} tokenType - The type of action token to retrieve
+ * @param {string} token - The unique token value to search for
+ * @returns {Object|null} The action token entry or null if not found
  */
 function getActionTokenEntry (tokenType,token) {
     return dataDriver.getActionTokenEntry(tokenType,token)
@@ -123,7 +125,7 @@ async function checkRecoveryToken(account, token) {
 }
 
 /**
- * Checks if the password for an account is valid.
+ * @description Checks if the password for an account is valid.
  * @param {Account} account - The account.
  * @param {String} password - The password to validate.
  * @returns {Promise<Boolean>} - True if valid, false otherwise.
@@ -134,7 +136,7 @@ async function checkPassword(account, password) {
 }
 
 /**
- * Purges (deletes) an account.
+ * @description Purges (deletes) an account.
  * @param {Account} account - The account to delete.
  */
 function purge(account) {
@@ -143,7 +145,7 @@ function purge(account) {
 }
 
 /**
- * Retrieves the two-factor authentication secret for an account.
+ * @description Retrieves the two-factor authentication secret for an account.
  * @param {Account} account - The account.
  * @returns {JSON} - The two-factor authentication secret.
  */
@@ -152,7 +154,7 @@ function getTwoFactorSecret(account) {
 }
 
 /**
- * Retrieves the two-factor authentication secret for an account.
+ * @description Retrieves the two-factor authentication secret for an account.
  * @param {Account} account - The account.
  * @param {String} token - The two factor token
  * @returns {JSON} - The two-factor authentication secret.
@@ -175,7 +177,7 @@ async function create(username, role) {
 }
 
 /**
- * Sets up account recovery with email and token.
+ * @description Sets up account recovery with email and token.
  * @param {Account} account - The account.
  * @param {String|undefined} email - The recovery email.
  * @param {String|undefined} token - The recovery token.
@@ -186,7 +188,7 @@ async function setRecovery(account, email, token) {
 }
 
 /**
- * Sets the recovery email for an account.
+ * @description Sets the recovery email for an account.
  * @param {Account} account - The account.
  * @param {String|undefined} email - The recovery email to set.
  */
@@ -197,7 +199,7 @@ async function setRecoveryEmail(account, email) {
 
 
 /**
- * Sets the recovery email hash for an account.
+ * @description Sets the recovery email hash for an account.
  * @param {Account} account - The account.
  * @param {String|undefined} emailHash - The hashed recovery email.
  */
@@ -206,7 +208,7 @@ function setRecoveryEmailHash(account, emailHash) {
 }
 
 /**
- * Sets the recovery token for an account.
+ * @description Sets the recovery token for an account.
  * @param {Account} account - The account.
  * @param {String|undefined} token - The recovery token to set.
  */
@@ -216,7 +218,7 @@ async function setRecoveryToken(account, token) {
 }
 
 /**
- * Sets the recovery token hash for an account.
+ * @description Sets the recovery token hash for an account.
  * @param {Account} account - The account.
  * @param {String|undefined} tokenHash - The hashed recovery token.
  */
@@ -225,7 +227,7 @@ async function setRecoveryTokenHash(account, tokenHash) {
 }
 
 /**
- * Sets the two-factor authentication secret for an account.
+ * @description Sets the two-factor authentication secret for an account.
  * @param {Account} account - The account.
  * @param {String} secret - The two-factor authentication secret to set.
  */
@@ -234,7 +236,7 @@ async function setTwoFactorAuthSecret(account, secret) {
 }
 
 /**
- * Sets the password for an account.
+ * @description Sets the password for an account.
  * @param {Account} account - The account.
  * @param {String} password - The new password to set.
  */
@@ -244,7 +246,7 @@ async function setPassword(account, password) {
 }
 
 /**
- * Sets the role for an account.
+ * @description Sets the role for an account.
  * @param {Account} account - The account.
  * @param {Number} role - The new role to assign to the account.
  */
@@ -253,7 +255,7 @@ function setRole(account, role) {
 }
 
 /**
- * Sets the password hash for an account.
+ * @description Sets the password hash for an account.
  * @param {Account} account - The account.
  * @param {String} passwordHash - The hashed password to set.
  */
@@ -262,7 +264,7 @@ function setPasswordHash(account, passwordHash) {
 }
 
 /**
- * Retrieves all accounts in the system.
+ * @description Retrieves all accounts in the system.
  * @returns {Array<Account>} - An array of all accounts.
  */
 function getAll() {

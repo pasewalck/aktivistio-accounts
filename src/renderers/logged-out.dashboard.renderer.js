@@ -64,7 +64,7 @@ export default {
     },
 
     /**
-     * @description 
+     * @description Displays a page confirming that an email has been sent to the user     
      * @param {Response} res - The response object.
      */
     emailSent: (res) => {
