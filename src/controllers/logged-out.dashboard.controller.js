@@ -14,6 +14,8 @@ import auditService from "../services/audit.service.js";
 import { AuditActionType } from "../models/audit-action-types.js";
 import { ClientError, UnexpectedClientError } from "../models/errors.js";
 import { ActionTokenTypes, PasswordResetChannels } from "../models/action-token-types.js";
+import { extendUrl } from "../helpers/url.js";
+import env from "../helpers/env.js";
 
 /**
  * @typedef {import("express").Request} Request

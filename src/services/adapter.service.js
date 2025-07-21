@@ -86,6 +86,7 @@ function setLookupForEntry(model, id, name, lookupValue) {
  * @returns {Object|undefined} - The entry value as an object, or undefined if not found.
  */
 function getEntryByLookup(model, name, lookupValue) {
+    console.log(model, name, lookupValue)
     let id = adapterDriver.getEntryIdByLookup(model, name, lookupValue); // Retrieve the entry ID using the lookup
     if (id) {
         return getEntry(model, id); // Get the entry using the retrieved ID
