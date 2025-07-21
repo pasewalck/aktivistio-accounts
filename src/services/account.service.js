@@ -10,6 +10,8 @@ import { AuditActionType } from "../models/audit-action-types.js";
 import dataDriver from "../drivers/data.driver.js";
 import { ActionTokenTypes, PasswordResetChannels } from "../models/action-token-types.js";
 import { InternalError } from "../models/errors.js";
+import { extendUrl } from "../helpers/url.js";
+import env from "../helpers/env.js";
 
 /**
  * @description Finds an account by username.
@@ -17,8 +19,7 @@ import { InternalError } from "../models/errors.js";
  * @returns {Account|null} - The found account or null if not found.
  */
 function findWithUsername(username) {
-    const result = userdataDriver.getAccountWithUsername(username);
-    return result ? new Account(result.id, result.username, result.role) : null;
+    return userdataDriver.getAccountWithUsername(username);
 }
 
 /**
@@ -27,8 +28,7 @@ function findWithUsername(username) {
  * @returns {Account|null} - The found account or null if not found.
  */
 function findWithId(id) {
-    const result = userdataDriver.getAccountWithId(id);
-    return result ? new Account(result.id, result.username, result.role) : null;
+    return userdataDriver.getAccountWithId(id);
 }
 
 /**
@@ -43,23 +43,29 @@ async function checkLogin(username, password) {
 }
 
 /**
+ * @description Update last login of account to current time.
+ * @param {Account} account - The account
+ */
+function registerLogin(account) {
+    userdataDriver.setAccountLastLogin(account.id)
+}
+
+/**
+ * @description Update last login of account to current time.
+ * @param {Account} account - The account
+ * @returns {number|null} - Integer representing time in seconds or null for no data
+ */
+function getLastLogin(account) {
+    return userdataDriver.getAccountLastLoginById(account.id)
+}
+
+/**
  * @description Get account recovery entries as JSON
  * @param {Account} account - The account
  * @returns {JSON} - JSON contsining token and email hashes/null values
  */
 function getRecovery(account) {
     return userdataDriver.getAccountRecoveryById(account.id)
-}
-
-/**
- * @description Get last login for account before a specific time in seconds
- * @param {Account} account - The account
- * @param {Number} before - The time in seconds
- * @returns {Number|null} - The last login time or null if not found.
- */
-function getLastLogin(account,before) {
-    const result = userdataDriver.getAuditLog(account.id,AuditActionType.LOGIN_SUCCESS,before)
-    return result ? result[0].time : null
 }
 
 /**
@@ -80,7 +86,7 @@ function createActionToken(tokenType, lifeTimeSeconds,payload) {
  * @param {string} token - The unique token value to be deleted
  */
 function useActionToken (tokenType, token) {
-    dataDriver.deleteActionTokenEntry(token,tokenType)
+    dataDriver.deleteActionTokenEntry(tokenType, token)
 }
 
 /**
@@ -268,7 +274,32 @@ function setPasswordHash(account, passwordHash) {
  * @returns {Array<Account>} - An array of all accounts.
  */
 function getAll() {
-    return userdataDriver.getAllAccounts().map(result => new Account(result.id, result.username, result.role));
+    return userdataDriver.getAllAccounts();
+}
+
+/**
+ * @param {Account} account - The account.
+ * @param {PasswordResetChannels} resetChannel - The channel to use for reset link.
+ */
+function createRecoveryActionLink(account,resetChannel) {
+    const actionToken = createActionToken(ActionTokenTypes.PASSWORD_RESET,60*15,{
+        resetChannel,
+        accountId: account.id
+    })
+    return extendUrl(env.BASE_URL,"account-recovery","reset",actionToken)
+}
+
+/**
+ * @param {Account} account - The account.
+ * @param {PasswordResetChannels} resetChannel - The channel to use for reset link.
+ * @param {number} lifeTimeSeconds
+ */
+function createSetupActionLink(account,resetChannel,lifeTimeSeconds=60*15) {
+    const actionToken = createActionToken(ActionTokenTypes.ACCOUNT_SETUP,lifeTimeSeconds,{
+        resetChannel,
+        accountId: account.id
+    })
+    return extendUrl(env.BASE_URL,"welcome",actionToken)
 }
 
 // Initialization block for creating an administration account if the database is initialized
@@ -286,6 +317,8 @@ if (userdataDriver.isDbInit) {
 
     logger.info(`Created user "${user}" with Password: "${password}"`);
 }
+
+
 
 export default {
     find: {
@@ -322,8 +355,15 @@ export default {
         checkValid: checkActionTokenValid,
         consume: useActionToken
     },
+    lastLogin: {
+        get: getLastLogin,
+        register: registerLogin
+    },
+    actionLink: {
+        createSetupLink: createSetupActionLink,
+        createRecoveryLink: createRecoveryActionLink
+    },
     getAll,
-    getLastLogin,
     checkLogin,
     create: create,
     purge: purge,

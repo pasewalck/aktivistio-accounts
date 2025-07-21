@@ -8,5 +8,5 @@ export default [
   param("actionToken")
     .exists({checkFalsy: true}).withMessage(localize('An action Token is required.')).bail()
     .escape()
-    .custom((value) => accountService.actionToken.checkValid(ActionTokenTypes.PASSWORD_RESET,value)).withMessage(localize('Action token is incorrect or expired.')),
+    .custom((value) => accountService.actionToken.checkValid(ActionTokenTypes.ACCOUNT_SETUP,value)).withMessage(localize('Action token is incorrect or expired.')),
   ]

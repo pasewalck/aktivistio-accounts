@@ -40,6 +40,7 @@ app.locals = {
         name: env.APPLICATION_NAME,
         logo: env.APPLICATION_LOGO
     },
+    account: null
 };
 
 logger.debug("Initializing i18n for internationalization");

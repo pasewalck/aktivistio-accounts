@@ -30,6 +30,33 @@
     </div>
 
     <div class="container container-medium-width container-filled-background">
+        <% var isNew = managingAccount.lastLogin == null %> 
+        <% if (isNew) { %>
+            <h2><%= __("Send Setup Email") %> </h2>
+        <% } else { %>
+            <h2><%= __("Send Recovery Email") %> </h2>
+        <% } %>
+
+        <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}`,isNew ? `send-setup` : `send-recovery`).href %>" method="post">
+            
+            <fieldset>
+
+                <div class="form-group" >
+                    <label class="label"><%= __('Target Email') %></label> 
+                    <%- include("../../partials/form/input-field.ejs",{field: {name:"email",type:"email"}}) %>  
+                </div>
+
+            </fieldset>
+                  
+            <div class="form-action-group">
+                <button class="button" type="submit"><%= __("Send Email") %> </button>
+            </div>   
+        </form>
+
+    </div>
+
+
+    <div class="container container-medium-width container-filled-background">
 
         <h2><%= __("Update account") %> </h2>
 

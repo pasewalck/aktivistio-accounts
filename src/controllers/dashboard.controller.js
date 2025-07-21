@@ -7,6 +7,8 @@ import adapterService from "../services/adapter.service.js";
 import auditService from "../services/audit.service.js";
 import { AuditActionType } from "../models/audit-action-types.js";
 import { ClientError } from "../models/errors.js";
+import { PasswordResetChannels } from "../models/action-token-types.js";
+import mailService from "../services/mail.service.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -572,9 +574,47 @@ export default {
         if (!errors.isEmpty()) {
             return dashboardRenderer.manageUser(req, res, data.id, data, errors.mapped());
         }
-
+        
         accountService.purge(accountService.find.withId(data.id));
         res.redirect("/users/");
+    },
+
+    /**
+     * @description 
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    sendUserAccountSetupEmailPost: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.manageUser(req, res, data.id, data, errors.mapped());
+        }
+
+        const link = accountService.actionLink.createSetupLink(accountService.find.withId(data.id),PasswordResetChannels.ADMIN, 60*60*25*60) // 60 Days
+        mailService.send.setupLink(link,data.email,res.locals)
+
+        dashboardRenderer.setupEmailSent(res)
+    },
+
+    /**
+     * @description 
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    sendUserAccountRecoveryEmailPost: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return dashboardRenderer.manageUser(req, res, data.id, data, errors.mapped());
+        }
+
+        const link = accountService.actionLink.createRecoveryLink(accountService.find.withId(data.id),PasswordResetChannels.ADMIN)
+        mailService.send.recoveryLink(link,data.email,res.locals)
+
+        dashboardRenderer.recoveryEmailSent(res)
     },
 
     /**
