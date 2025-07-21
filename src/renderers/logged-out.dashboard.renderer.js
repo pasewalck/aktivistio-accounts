@@ -14,37 +14,37 @@ import env from "../helpers/env.js";
 export default {
 
     /**
-     * @description Renders the registration details page.
-     * Displays the registration form along with any errors and pre-filled data.
-     * Generates a recovery token if one is not provided.
+     * Renders the account details initialization page
      * @param {Response} res - The response object.
+     * @param {Boolean} isRegister - Flag to indicate registration mode
      * @param {JSON} [formData] - Data to pre-fill the form (optional).
      * @param {JSON} [errors] - Any validation errors to display (optional).
      */
-    register: (res, formData = {}, errors = {}) => {
-        return res.render('pages/logged-out/register/details', {
+    initAccountPage: (res,isRegister, formData = {}, errors = {}) => {
+        return res.render('pages/logged-out/init/details', {
             title: res.__('Register'),
             formData: formData,
             recoveryToken: formData.recoveryToken ? formData.recoveryToken : generateRecoveryToken(),
-            errors: errors
+            errors: errors,
+            isRegister: isRegister
         });
     },
 
     /**
-     * @description Renders the registration consent page.
-     * Displays the consent form along with any errors and pre-filled data.
-     * Reads consent text from a Markdown file and converts it to HTML.
+     * Renders the account consent initialization page
      * @param {Response} res - The response object.
+     * @param {Boolean} isRegister - Flag to indicate registration mode
      * @param {JSON} [formData] - Data to pre-fill the form (optional).
      * @param {JSON} [errors] - Any validation errors to display (optional).
      */
-    registerConsent: async (res, formData = {}, errors = {}) => {
-        return res.render('pages/logged-out/register/consent', {
+    initAccountPageConsent: async (res, isRegister, formData = {}, errors = {}) => {
+        return res.render('pages/logged-out/init/consent', {
             title: res.__('Register'),
             formData: formData,
             // TODO: Handle consent text in a more robust way
             consents: await marked(readFileSync("configuration/consent.md").toString()),
-            errors: errors
+            errors: errors,
+            isRegister: isRegister
         });
     },
 
@@ -67,9 +67,10 @@ export default {
      * @description Displays a page confirming that an email has been sent to the user     
      * @param {Response} res - The response object.
      */
-    emailSent: (res) => {
-        return res.render('pages/logged-out/email-sent', {
-            title: res.__('E-Mail sent'),
+    recoveryEmailSent: (res) => {
+        return res.render('pages/shared/info', {
+            title: res.__('Recovery email sent'),
+            paragraph: res.__('A recovery email has been sent out to your specified email.'),
         });
     },
 

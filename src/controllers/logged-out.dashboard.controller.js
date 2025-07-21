@@ -13,8 +13,6 @@ import { Role } from "../models/roles.js";
 import auditService from "../services/audit.service.js";
 import { AuditActionType } from "../models/audit-action-types.js";
 import { ClientError, UnexpectedClientError } from "../models/errors.js";
-import { extendUrl } from "../helpers/url.js";
-import env from "../helpers/env.js";
 import { ActionTokenTypes, PasswordResetChannels } from "../models/action-token-types.js";
 
 /**
@@ -104,29 +102,20 @@ export default {
         // If no account is found, throw an error indicating the username does not exist
         if (!account) throw new UnexpectedClientError("No account for username");
 
-        function createRecoveryActionLink(account,resetChannel) {
-            const actionToken = accountService.actionToken.create(ActionTokenTypes.PASSWORD_RESET,60*15,{
-                resetChannel,
-                accountId: account.id
-            })
-            return extendUrl(env.BASE_URL,"account-recovery","reset",actionToken)
-        }
-
-
         // Determine the recovery method chosen by the user
         switch (data.method) {
             case "email":
                 auditService.appendAuditLog(account, AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_STARTED)
                 // Send the recovery link to the user's email address
-                mailService.send.recoveryLink(createRecoveryActionLink(account, PasswordResetChannels.EMAIL), data.email, res.locals);
+                mailService.send.recoveryLink(accountService.actionLink.createRecoveryLink(account, PasswordResetChannels.EMAIL), data.email, res.locals);
                 // Render the confirmation code page to inform the user that the code has been sent
-                dashboardAuthRenderer.emailSent(res);
+                dashboardAuthRenderer.recoveryEmailSent(res);
                 break;
 
             case "token":
                 auditService.appendAuditLog(account, AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_STARTED)
                 // Redirect user to url allowing password reset
-                res.redirect(createRecoveryActionLink(account, PasswordResetChannels.RECOVERY_TOKEN))
+                res.redirect(accountService.actionLink.createRecoveryLink(account, PasswordResetChannels.RECOVERY_TOKEN))
                 break;
             default:
                 // If an unsupported recovery method is provided, throw an error
@@ -208,7 +197,24 @@ export default {
      * @param {Function} next - The next middleware function in the stack.
      */
     register: async (req, res, next) => {
-        return dashboardAuthRenderer.register(res, { inviteCode: req.params.invite });
+        return dashboardAuthRenderer.initAccountPage(res, true, { inviteCode: req.params.invite });
+    },
+
+    /**
+     * @description Controller for handling GET requests for account setup.
+     * Renders the setup page.
+     * @param {Request} req - The HTTP request object.
+     * @param {Response} res - The HTTP response object.
+     * @param {Function} next - The next middleware function in the stack.
+     */
+    accountSetup: async (req, res, next) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            throw new ClientError("Invalid account setup link!")
+        }
+        return dashboardAuthRenderer.initAccountPage(res, false,{actionToken: data.actionToken});
     },
 
     /**
@@ -222,7 +228,7 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            return dashboardAuthRenderer.register(res, data, errors.mapped());
+            return dashboardAuthRenderer.initAccountPage(res, true, data, errors.mapped());
         }
 
         // Store account creation data in the session
@@ -230,12 +236,41 @@ export default {
             username: data.username,
             passwordHash: await hashPassword(data.password),
             recoveryMethod: data.recoveryMethod,
-            recoveryEmailHash: await hashPassword(data.recoveryEmail),
-            recoveryTokenHash: await hashPassword(data.recoveryToken),
+            recoveryEmailHash: data.recoveryEmail ? await hashPassword(data.recoveryEmail) : null,
+            recoveryTokenHash: data.recoveryToken ? await hashPassword(data.recoveryToken) : null,
             inviteCode: data.inviteCode
         };
 
-        await dashboardAuthRenderer.registerConsent(res, data); // Render consent page
+        await dashboardAuthRenderer.initAccountPageConsent(res, true, {}); // Render consent page
+    },
+
+
+    /**
+     * @description Controller for handling POST requests for account setup.
+     * Validates the setup data and stores it in the session.
+     * @param {Request} req - The HTTP request object.
+     * @param {Response} res - The HTTP response object.
+     */
+    accountSetupPost: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+        if (!errors.isEmpty()) {
+            return dashboardAuthRenderer.initAccountPage(res, false, data, errors.mapped());
+        }
+
+        const actionTokenEntry = accountService.actionToken.getEntry(ActionTokenTypes.ACCOUNT_SETUP,data.actionToken)
+
+        // Store account setup data in the session
+        req.session.accountSetup = {
+            passwordHash: await hashPassword(data.password),
+            recoveryMethod: data.recoveryMethod,
+            recoveryEmailHash: data.recoveryEmail ? await hashPassword(data.recoveryEmail) : null,
+            recoveryTokenHash: data.recoveryToken ? await hashPassword(data.recoveryToken) : null,
+            accountId: actionTokenEntry.payload.accountId,
+            actionToken: data.actionToken
+        };
+
+        await dashboardAuthRenderer.initAccountPageConsent(res, false, {actionToken: data.actionToken}); // Render consent page
     },
 
     /**
@@ -249,7 +284,7 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            return await dashboardAuthRenderer.registerConsent(res, data, errors.mapped());
+            return await dashboardAuthRenderer.initAccountPageConsent(res, true, data, errors.mapped());
         }
 
         const accountSession = req.session.accountCreation; // Retrieve the account creation session data
@@ -285,6 +320,58 @@ export default {
 
         // Set the provider session for the newly created account
         await setProviderSession(provider, req, res, { accountId: account.id });
+        accountService.lastLogin.register(account)
+        res.redirect('/'); // Redirect to the home page after successful registration
+    },
+
+
+    /**
+     * @description Controller for handling POST requests for setup consent.
+     * Finalizes the account setup process and stores the account setup data in the database.
+     * @param {Request} req - The HTTP request object.
+     * @param {Response} res - The HTTP response object.
+     */
+    accountSetupConsentPost: async (req, res) => {
+        const errors = await validationResult(req);
+        const data = await matchedData(req);
+
+        if (!errors.isEmpty()) {
+            return await dashboardAuthRenderer.initAccountPageConsent(res, false, data, errors.mapped());
+        }
+
+        const accountSession = req.session.accountSetup; // Retrieve the account creation session data
+
+        if (accountSession.actionToken != data.actionToken)
+            throw new UnexpectedClientError("Action Token Mismatch!")
+
+        accountService.actionToken.consume(ActionTokenTypes.ACCOUNT_SETUP,accountSession.actionToken)
+
+        req.session.accountSetup = null; // Clear the session data after use
+
+        let account = await accountService.find.withId(accountSession.accountId)
+
+        accountService.password.setHash(account, accountSession.passwordHash); // Set the hashed password for the account
+
+        // Set the recovery method based on the user's choice saved in session
+        switch (accountSession.recoveryMethod) {
+            case "email":
+                accountService.recovery.email.setHash(account, accountSession.recoveryEmailHash); // Set the email recovery hash
+                break;
+            case "token":
+                accountService.recovery.token.setHash(account, accountSession.recoveryTokenHash); // Set the token recovery hash
+                break;
+        }
+
+        // Consume the invite code to prevent reuse
+        invitesService.consume(accountSession.inviteCode);
+        // Generate additional invite codes for the new account
+        invitesService.generate.multi(3, { linkedAccount: account, validationDurationDays: 14 });
+
+        auditService.appendAuditLog(account, AuditActionType.REGISTER)
+
+        // Set the provider session for the newly created account
+        await setProviderSession(provider, req, res, { accountId: account.id });
+        accountService.lastLogin.register(account)
         res.redirect('/'); // Redirect to the home page after successful registration
     }
 };

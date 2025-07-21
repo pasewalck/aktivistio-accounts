@@ -22,6 +22,7 @@ import manageServiceUpdateValidations from '../validation/validators/dashboard/s
 import manageServiceDeleteValidations from '../validation/validators/dashboard/system-management/services/manage.service.delete.validations.js';
 import ownAccountAuditLogValidations from '../validation/validators/dashboard/own-account/own-account.audit-log.validations.js';
 import createAccountValidations from '../validation/validators/dashboard/system-management/accounts/create.account.validations.js';
+import sendEmailAccountValidations from '../validation/validators/dashboard/system-management/accounts/send-email.account.validations.js';
 
 /**
  * @description Binds controller actions to routes for the primary app.
@@ -45,6 +46,8 @@ export default (app) => {
     app.post('/user/manage/:id/delete', middlewares, generateCheckUserPermission(Permission.DELETE_USERS), userManageValidators, manageAccountDeleteValidations, dashboardController.manageUserDeletePost);
     app.get('/user/add', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), dashboardController.addUser);
     app.post('/user/add', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), createAccountValidations, dashboardController.addUserPost);
+    app.post('/user/manage/:id/send-setup', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), userManageValidators, sendEmailAccountValidations, dashboardController.sendUserAccountSetupEmailPost);
+    app.post('/user/manage/:id/send-recovery', middlewares, generateCheckUserPermission(Permission.RECOVER_USERS), userManageValidators, sendEmailAccountValidations, dashboardController.sendUserAccountRecoveryEmailPost);
 
 
     // Service management routes

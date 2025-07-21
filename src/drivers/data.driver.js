@@ -16,7 +16,8 @@ db.exec(`
       recovery_email_hash TEXT,
       role_id INTEGER NOT NULL,
       two_factor_secret TEXT,
-      is_active INTEGER NOT NULL DEFAULT 0
+      is_active INTEGER NOT NULL DEFAULT 0,
+      last_login INTEGER
     );
 `);
 
@@ -148,8 +149,7 @@ export default {
      */
     deleteActionTokenEntry: (tokenType, token) => {
         return db.prepare(`
-            DELETE FROM action_tokens 
-            WHERE token_type = ? AND token = ?
+            DELETE FROM action_tokens WHERE token_type = ? AND token = ?
         `).run(tokenType,token);
     },
 
@@ -303,8 +303,8 @@ export default {
      * @returns {Account|null} - The account object if found, otherwise null.
      */
     getAccountWithUsername: (username) => {
-        let result = db.prepare('SELECT id, username, role_id as role, is_active as isActive FROM accounts WHERE username = ?').get(username);
-        return result ? new Account(result.id, result.username, result.role, result.isActive == 1) : null;
+        let result = db.prepare('SELECT id, username, role_id as role, is_active as isActive, last_login as lastLogin FROM accounts WHERE username = ?').get(username);
+        return result ? new Account(result.id, result.username, result.role, result.isActive == 1, result.lastLogin) : null;
     },
 
     /**
@@ -313,8 +313,8 @@ export default {
      * @returns {Account|null} - The account object if found, otherwise null.
      */
     getAccountWithId: (id) => {
-        let result = db.prepare('SELECT id, username, role_id as role, is_active as isActive FROM accounts WHERE id = ?').get(id);
-        return result ? new Account(result.id, result.username, result.role, result.isActive == 1) : null;
+        let result = db.prepare('SELECT id, username, role_id as role, is_active as isActive, last_login as lastLogin FROM accounts WHERE id = ?').get(id);
+        return result ? new Account(result.id, result.username, result.role, result.isActive == 1, result.lastLogin) : null;
     },
 
     /**
@@ -374,6 +374,15 @@ export default {
     },
 
     /**
+     * @description Get accounts last login (null if never logged in)
+     * @param {string} id - The ID of the account.
+     * @returns {number|null} - Integer representing time in seconds or null for no data
+     */
+    getAccountLastLoginById: (id) => {
+        return db.prepare('SELECT last_login as lastLogin FROM accounts WHERE id = ?').pluck().get(id) | null;
+    },
+
+    /**
      * @description Retrieves the recovery email hash for an account by ID.
      * @param {String} id - The ID of the account.
      * @returns {String|null} - The recovery email hash if found, otherwise null.
@@ -389,6 +398,14 @@ export default {
      */
     getAccountRecoveryTokenHashById: (id) => {
         return db.prepare('SELECT recovery_token_hash FROM accounts WHERE id = ?').pluck().get(id);
+    },
+
+    /**
+     * @description Sets the last login of account to current time.
+     * @param {String} id - The ID of the account.
+     */
+    setAccountLastLogin: (id) => {
+        db.prepare("UPDATE accounts SET last_login = strftime('%s','now') WHERE id = ?").run(id);
     },
 
     /**
@@ -441,7 +458,7 @@ export default {
      * @returns {Array<Object>} - An array of account objects containing ID, username, and role.
      */
     getAllAccounts: () => {
-        return db.prepare('SELECT id, username, role_id as role FROM accounts').all();
+        return db.prepare('SELECT id, username, role_id as role, is_active as isActive, last_login as lastLogin FROM accounts').all().map(result => new Account(result.id, result.username, result.role, result.isActive == 1, result.lastLogin));
     },
 
     /**

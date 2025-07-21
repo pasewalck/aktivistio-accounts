@@ -75,6 +75,7 @@ export class Permission {
     static REGENERATING_INVITES = 'REGENERATING_INVITES';
     static MANAGE_OWN_INVITES = 'MANAGE_OWN_INVITES';
     static MANAGE_USERS = 'MANAGE_USERS';
+    static RECOVER_USERS = 'RECOVER_USERS';
     static DELETE_USERS = 'DELETE_USERS';
     static MANAGE_SERVICES = 'MANAGE_SERVICES';
 }
@@ -88,7 +89,7 @@ export const rolePermissions = {
     [Role.MULTIPLIER]: [Permission.REGENERATING_INVITES],
     [Role.MULTIPLIER_UNLIMITED]: [Permission.MANAGE_OWN_INVITES],
     [Role.MODERATOR]: [Permission.MANAGE_USERS],
-    [Role.ADMIN]: [Permission.MANAGE_SERVICES, Permission.DELETE_USERS],
+    [Role.ADMIN]: [Permission.MANAGE_SERVICES, Permission.DELETE_USERS, Permission.RECOVER_USERS],
     [Role.SUPER_ADMIN]: []
 };
 

@@ -11,11 +11,13 @@ export class Account {
      * @param {string} username - The username associated with the account.
      * @param {number} roleId - The role identifier associated with the account.
      * @param {boolean} isActive
+     * @param {number|null} lastLogin
      */
-    constructor(id, username, roleId, isActive) {
+    constructor(id, username, roleId, isActive, lastLogin) {
         this.id = id;
         this.username = username;
         this.role = roleId;
         this.isActive = isActive;
+        this.lastLogin = lastLogin ? lastLogin : null;
     }
 }

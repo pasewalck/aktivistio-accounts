@@ -246,6 +246,27 @@ export default {
     });
   },
 
+  /**
+   * @description Displays a page confirming that a recovery email has been sent to the user     
+   * @param {Response} res - The response object.
+   */
+  recoveryEmailSent: (res) => {
+    return res.render('pages/shared/info', {
+      title: res.__('Recovery email sent'),
+      paragraph: res.__('A recovery email has been sent out to the specified email.'),
+    });
+  },
+
+  /**
+   * @description Displays a page confirming that a setup email has been sent to the user     
+   * @param {Response} res - The response object.
+   */
+  setupEmailSent: (res) => {
+    return res.render('pages/shared/info', {
+      title: res.__('Invite email sent'),
+      paragraph: res.__('An account setup email has been sent out to the specified email.'),
+    });
+  },
 
   /**
   * @description Renders the audit log page.

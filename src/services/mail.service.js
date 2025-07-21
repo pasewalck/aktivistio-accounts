@@ -18,10 +18,21 @@ async function sendRecoveryLink(link,to,locals) {
 async function sendInviteCode(code,to,locals) {
   await mailDriver.sendEmail(to,locals.__("Your Invite Code"),MessageType.INVITE_CODE,locals,{code:code})
 }
+/**
+ * @description Send setup email
+ * @param {String} [to]
+ * @param {String} [code]
+ * @param {JSON} [locals]
+ */
+async function sendSetupLink(link,to,locals) {
+  await mailDriver.sendEmail(to,locals.__("Your New Account"),MessageType.ACCOUNT_SETUP,locals,{link:link})
+}
+
 
 export default {
   send: {
     inviteCode: sendInviteCode,
+    setupLink: sendSetupLink,
     recoveryLink: sendRecoveryLink
   }
 }
