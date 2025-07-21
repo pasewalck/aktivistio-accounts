@@ -53,6 +53,8 @@ function setEntry(model, id, value, expire = null) {
     // Check if the entry already exists
     if (!getEntry(model, id)) {
         adapterDriver.insertEntry(model, id, encodedValue, expire); // Insert a new entry if it doesn't exist
+        if(model == "Session")
+            adapterDriver.addLookupValueForEntry(model,id,"accountId",value.accountId)
     } else {
         // Update the existing entry
         if (expire !== null) {
@@ -60,6 +62,14 @@ function setEntry(model, id, value, expire = null) {
         }
         adapterDriver.setEntryValue(model, id, encodedValue); // Update the entry value
     }
+}
+
+/**
+ * @description Logout account from all session.
+ * @param {String} accountId - Account to logout
+ */
+function logoutAllSessions(accountId) {
+    removeEntryByLookup("Session","accountId",accountId)
 }
 
 /**
@@ -115,5 +125,6 @@ export default {
     getEntries,
     setLookupForEntry,
     getEntryByLookup,
-    removeEntryByLookup
+    removeEntryByLookup,
+    logoutAllSessions
 };
