@@ -5,7 +5,6 @@ import { matchedData, validationResult } from "express-validator";
 import { setProviderSession } from "../helpers/oidc/session.js";
 import accountService from "../services/account.service.js";
 import sharedRenderer from "../renderers/shared.renderer.js";
-import { generateAlphanumericSecret, generateTypeableCode } from "../helpers/generate-secrets.js";
 import { hashPassword } from "../helpers/hash-string.js";
 import invitesService from "../services/invites.service.js";
 import mailService from "../services/mail.service.js";
@@ -16,6 +15,7 @@ import { ClientError, UnexpectedClientError } from "../models/errors.js";
 import { ActionTokenTypes, PasswordResetChannels } from "../models/action-token-types.js";
 import { extendUrl } from "../helpers/url.js";
 import env from "../helpers/env.js";
+import adapterService from "../services/adapter.service.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -164,6 +164,9 @@ export default {
         // Update the account's password and reset two-factor authentication
         await accountService.password.set(account, data.password);
         await accountService.twoFactorAuth.set(account, null);
+
+        // Logout from all sessions
+        adapterService.logoutAllSessions(account.id)
 
         switch (tokenEntry.payload.resetChannel) {
             case PasswordResetChannels.EMAIL:

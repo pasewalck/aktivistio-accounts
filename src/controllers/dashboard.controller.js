@@ -97,8 +97,6 @@ export default {
             return dashboardRenderer.delete(req, res, data, errors.mapped());
         }
 
-        const session = await provider.Session.get(provider.app.createContext(req, res));
-        session.destroy();
         await accountService.purge(req.account);
         res.redirect(extendUrl(env.BASE_URL));
 

@@ -12,6 +12,8 @@ import { ActionTokenTypes, PasswordResetChannels } from "../models/action-token-
 import { InternalError } from "../models/errors.js";
 import { extendUrl } from "../helpers/url.js";
 import env from "../helpers/env.js";
+import adapterDriver from "../drivers/adapter.driver.js";
+import adapterService from "./adapter.service.js";
 
 /**
  * @description Finds an account by username.
@@ -147,6 +149,8 @@ async function checkPassword(account, password) {
  */
 function purge(account) {
     userdataDriver.deleteAccountById(account.id);
+    // Logout from all sessions
+    adapterService.logoutAllSessions(account.id)
     logger.info(`Deleted account ${account.username}`);
 }
 
