@@ -6,7 +6,7 @@
         <h2><%= __("account.recovery.title") %></h2>   
         
         <% if (currentRecovery && (currentRecovery.token || currentRecovery.email)) { %>
-            <p><%= __("account.recovery.methods.count", (currentRecovery.token && currentRecovery.email) ? 2 : 1) %></p>
+            <p><%= __("account.recovery.methods.count %s", (currentRecovery.token && currentRecovery.email) ? 2 : 1) %></p>
             <ul class="box-list">
                 <% if (currentRecovery.token) { %>
                     <li>

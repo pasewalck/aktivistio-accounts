@@ -23,7 +23,7 @@
                             <% var date = new Date(inviteCodes[index].expireDate * 1000); %> 
                             <% var daysLeft = (date.getTime() - new Date().getTime()) / 1000 / (60 * 60 * 24); %> 
                             <% if (daysLeft < 14) { %>
-                                <div class="date soon"><%= __("expires_in_days", Number.parseFloat(daysLeft).toFixed(0)) %></div>
+                                <div class="date soon"><%= __("expires_in_days %s", Number.parseFloat(daysLeft).toFixed(0)) %></div>
                             <% } else { %>
                                 <div class="date"><%= __("expires_on_date", date.toLocaleString("en-GB").split(', ')[0]) %></div>
                             <% } %>

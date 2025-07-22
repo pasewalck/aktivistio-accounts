@@ -9,7 +9,7 @@
 
         <% if (moreEntries) { %>
             <p>
-                <%= __("account.audit_log.entries_since", weeksBack) %>
+                <%= __("account.audit_log.entries_since %s", weeksBack) %>
                 <a href="<%= urlUtils.extendUrl(baseUrl, 'account/audit-log?weeks='+(weeksBack+1)).href %>" class="link">(<%= __("account.audit_log.view_more") %>)</a>
             </p>
         <% } %>
@@ -21,7 +21,7 @@
                 const delta = Math.floor((now - logDate) / 1000);
                 if (delta < 60) return __("time.seconds_ago", delta);
                 if (delta < 3600) return __("time.minutes_ago", Math.floor(delta / 60));
-                return __("time.hours_ago", Math.floor(delta / 3600));
+                return __("time.hours_ago %s", Math.floor(delta / 3600));
             } else {
                 return logDate.toLocaleDateString();
             }
