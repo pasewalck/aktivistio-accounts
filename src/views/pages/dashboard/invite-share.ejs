@@ -3,11 +3,10 @@
 <div class="wrapper flex-container">
     <div class="container container-medium-width container-filled-background">
 
-        <h1 class="center"><%= __("Join %s",app.name) %> </h1>
+        <h1 class="center"><%= __("join_app_title", app.name) %> </h1>
         <div class="qr-code-box">
-            <img src="<%= inviteQR %> " alt="">   
+            <img src="<%= inviteQR %>" alt="<%= __('invite_qr_alt') %>">   
             <div><%= inviteURL %></div>
         </div>
     </div>
-
 </div>

@@ -4,9 +4,9 @@ import { Role } from "../../../../../models/roles.js";
 
 export default [
     body("accountUpdateRole")
-      .exists({checkFalsy: true}).withMessage(localize('A new account role must be selected')).bail()
+      .exists({checkFalsy: true}).withMessage(localize('account.role.required')).bail()
       .escape()
       .isString()
-      .isIn(Role.all()).withMessage(localize('A valid role be defined.')).bail()
-      .custom((value,{req}) => value < req.account.role).withMessage(localize('User can not be granted a higher role than admin granting it.')).bail(),
+      .isIn(Role.all()).withMessage(localize('account.role.invalid')).bail()
+      .custom((value,{req}) => value < req.account.role).withMessage(localize('account.role.permission_denied')).bail(),
 ]

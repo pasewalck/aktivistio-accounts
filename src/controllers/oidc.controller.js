@@ -40,7 +40,8 @@ export default {
             }
             default:
                 // If the prompt type is not recognized, return throw an error
-                throw new UnexpectedClientError("Invalid prompt");
+                throw new UnexpectedClientError(res.__("validation.prompt.invalid"));
+
         }
     },
 

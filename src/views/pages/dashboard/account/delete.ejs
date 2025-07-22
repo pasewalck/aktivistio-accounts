@@ -1,37 +1,28 @@
 <%- include("../../../partials/dashboard-header.ejs") %>
 
 <div class="wrapper flex-container">
-
-
-    
     <div class="container container-medium-width container-filled-background">
-
-        <h2><%= __("Delete Account") %> </h2>
+        <h2><%= __("account.delete.title") %></h2>
 
         <form class="form" action="" method="post">
             <fieldset>
-
-                <%- include("../../../partials/alert-info.ejs",{info: __("Be careful! This is the delete page for you account. Proceed with caution."),moreInfoLink:false}) %> 
+                <%- include("../../../partials/alert-info.ejs",{info: __("account.delete.warning"),moreInfoLink:false}) %> 
 
                 <div class="form-group">
-                    <label class="label"><%= __('Your password') %></label>
+                    <label class="label"><%= __('account.password.label') %></label>
                     <%- include("../../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true}}) %> 
                 </div>
 
                 <div class="form-group">
-                    <label class="label"><%= __('Confirm your action') %></label>
-                    <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"confirm",msg:__('I confirm to delete my account and know I will lose it forever!')}}) %>             
-
+                    <label class="label"><%= __('account.confirm.label') %></label>
+                    <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"confirm",msg:__('account.confirm.delete.message')}}) %>             
                 </div>
-
             </fieldset>
 
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
             <div class="form-action-group">
-                <button class="button red" type="submit"><%= __("Delete Forever") %> </button>
+                <button class="button red" type="submit"><%= __("account.delete.button") %></button>
             </div>     
-
         </form>
-
     </div>
 </div>

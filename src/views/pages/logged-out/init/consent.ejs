@@ -1,7 +1,7 @@
 <div class="wrapper flex-container flex-container-vertical">
     <div class="container-medium-width container-filled-background">
 
-        <h1><%= __('Consent') %></h1>
+        <h1><%= __('consent.title') %></h1>
 
         <div class="scroll-box-limited">
            <div>
@@ -15,14 +15,14 @@
         <fieldset>
     
             <div id="recoveryTokenSection" class="form-group">
-                <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"verify",msg:__('I have read the above and consent.')}}) %>             
+                <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"verify",msg:__('consent.verification_statement')}}) %>             
             </div>
             
         </fieldset>
 
         <div class="form-action-group">
             <div class="button-group">
-                <button type="submit" class="button primary"><%= __('Create account') %></button>
+                <button type="submit" class="button primary"><%= __('account.create') %></button>
             </div>
         </div>
 

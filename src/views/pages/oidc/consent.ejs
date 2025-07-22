@@ -2,16 +2,16 @@
     <div class="container-medium-width container-filled-background">
 
         <h1><%= title %></h1>
-        <p><% __("Do you allow %s to access your account?",clientId) %></p>
+        <p><%= __('authorization.confirm_access', { clientId: clientId }) %></p>
 
-        <form class="form" autocomplete="off" action="<%= urls.action %>"method="post">
+        <form class="form" autocomplete="off" action="<%= urls.action %>" method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
         <div class="form-action-group">
             <div class="button-group">
-            <button type="submit" class="button primary"><%= __('Verify') %></button>
+            <button type="submit" class="button primary"><%= __('authorization.verify') %></button>
             <% if (urls.abort) { %>
-                <a class="button red" href="<%= urls.abort %>"><%= __('Abort') %></a>
+                <a class="button red" href="<%= urls.abort %>"><%= __('authorization.abort') %></a>
             <% } %>
             </div>
         </div>

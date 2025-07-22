@@ -12,14 +12,14 @@
                     <div class="container-filled-background">
                         <h2><%= client.client_name || client.client_id %></h2>
                         <% if (client.initiate_login_uri) { %>
-                            <a href="<%= client.initiate_login_uri %> "><%= __("Login ...") %> </a>
+                            <a href="<%= client.initiate_login_uri %> "><%= __("service.login") %> </a>
                         <% } %>
                         <% if (client.client_uri) { %>
-                            <a href="<%= client.client_uri %> "><%= __("Go to service ...") %> </a>
+                            <a href="<%= client.client_uri %> "><%= __("service.go_to") %> </a>
                         <% } %>
         
                         <% if (canManage) { %>
-                            <a href="<%= urlUtils.extendUrl(baseUrl, `services`,`edit`,`${client.client_id}`).href %>"><%= __("Manage service ...") %></a>                        <% } %>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, `services`,`edit`,`${client.client_id}`).href %>"><%= __("service.manage") %></a>                        <% } %>
                     </div>
                 <% } %>
              
@@ -34,7 +34,7 @@
     <% if (canManage) { %>
         <div class="container container-large-width">
 
-            <a href="<%= urlUtils.extendUrl(baseUrl, 'services/add').href %>" class="button">Add Service</a>
+            <a href="<%= urlUtils.extendUrl(baseUrl, 'services/add').href %>" class="button"><%= __("service.add") %></a>
 
         </div>
     <% } %>

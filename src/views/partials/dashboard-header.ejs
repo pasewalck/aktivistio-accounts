@@ -3,28 +3,28 @@
         
         <div class="header-box">
             <nav class="main-nav">
-                <a href="<%= urlUtils.extendUrl(baseUrl, 'invites').href %>"><%= __("Invites") %></a>
-                <a href="<%= urlUtils.extendUrl(baseUrl, 'services').href %>"><%= __("Services") %></a>
+                <a href="<%= urlUtils.extendUrl(baseUrl, 'invites').href %>"><%= __("navigation.invites") %></a>
+                <a href="<%= urlUtils.extendUrl(baseUrl, 'services').href %>"><%= __("navigation.services") %></a>
                 
                 <% if (hasPermission(account.role, "MANAGE_USERS")) { %>
-                    <a href="<%= urlUtils.extendUrl(baseUrl, 'users').href %>"><%= __("Users") %></a>
+                    <a href="<%= urlUtils.extendUrl(baseUrl, 'users').href %>"><%= __("navigation.users") %></a>
                 <% } %>
             </nav>
         </div>
 
         <div class="header-box account-box">
             <div class="account-profile">
-                <img src="<%= urlUtils.extendUrl(baseUrl, 'icons/account.svg').href %>" alt="Account Icon">
+                <img src="<%= urlUtils.extendUrl(baseUrl, 'icons/account.svg').href %>" alt="<%= __('account.icon_alt') %>">
                 <div class="account-info">
                     <p class="username"><%= account.username %></p>
                 </div>
             </div>
             <nav class="account-nav">
-                <a href="<%= urlUtils.extendUrl(baseUrl, 'account').href %>">
-                    <img src="<%= urlUtils.extendUrl(baseUrl, 'icons/settings.svg').href %>" alt="Settings Icon">
+                <a href="<%= urlUtils.extendUrl(baseUrl, 'account').href %>" aria-label="<%= __('account.settings') %>">
+                    <img src="<%= urlUtils.extendUrl(baseUrl, 'icons/settings.svg').href %>" alt="<%= __('account.settings_icon_alt') %>">
                 </a>
-                <button form="logoutForm">
-                    <img src="<%= urlUtils.extendUrl(baseUrl, 'icons/logout.svg').href %>" alt="Logout Icon">
+                <button form="logoutForm" aria-label="<%= __('account.logout') %>">
+                    <img src="<%= urlUtils.extendUrl(baseUrl, 'icons/logout.svg').href %>" alt="<%= __('account.logout_icon_alt') %>">
                 </button>
             </nav>
         </div>

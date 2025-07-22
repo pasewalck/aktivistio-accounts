@@ -13,6 +13,6 @@ export default [
             if (await accountService.checkLogin(req.body.username,value))
               return true;
             else
-              throw Error(req.__("Password is incorrect"))
+              throw Error(req.__("validation.login.password_incorrect"))
           }),
   ]

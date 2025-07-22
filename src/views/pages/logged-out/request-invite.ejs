@@ -1,7 +1,7 @@
 <div class="wrapper flex-container flex-container-vertical">
     <div class="container-medium-width container-filled-background">
 
-        <h1><%= __('Request Invite') %></h1>
+        <h1><%= __('invite.request_title') %></h1>
     
         <form class="form" autocomplete="off" action="" method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
@@ -10,7 +10,7 @@
 
             <div class="alert-info">
             <img src="/icons/info-circle.svg" alt="info">
-            <p><%= __('You are able to request an invite with a whitelisten email provider. Whitelisted providers:') %>
+            <p><%= __('invite.whitelist_info') %>
                 <% for( let index = 0; index < emailProviders.length; index++ ) { %>
                 <%if(index != 0) {%><%= index+1 == emailProviders.length ? " and " : ", " %><%}%>
                 <a href="https://<%= emailProviders[index] %>"><%= emailProviders[index] %></a>
@@ -21,7 +21,7 @@
     
 
             <div class="form-group">
-                <label class="label"><%= __('Email') %></label>
+                <label class="label"><%= __('user.email') %></label>
                 <%- include("../../partials/form/input-field.ejs",{field: {name:"email",type:"email",required:true}}) %> 
             </div>
 
@@ -29,7 +29,7 @@
 
         <div class="form-action-group">
             <div class="button-group">
-            <button type="submit" class="button primary"><%= __('Request') %></button>
+            <button type="submit" class="button primary"><%= __('form.request') %></button>
             </div>
         </div>
 

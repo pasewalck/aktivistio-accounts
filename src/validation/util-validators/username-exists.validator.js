@@ -10,6 +10,8 @@ export default (validationChain) => {
         .exists({checkFalsy: true})
         .escape()
         .toLowerCase()
-        .isAlphanumeric().withMessage(localize('Username is in invalid format')).bail()
-        .custom((value) => (accountService.find.withUsername(value))).withMessage(localize("No Account for username can be found"))
+        .isAlphanumeric().withMessage(localize('validation.username.requirements.alphanumeric')).bail()
+        .isLength({min: 2, max: 14}).withMessage(localize('validation.username.requirements.length')).bail()
+        .custom((value) => (accountService.find.withUsername(value)))
+            .withMessage(localize("validation.username.not-found"))
 } 

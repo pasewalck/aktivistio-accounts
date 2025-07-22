@@ -5,9 +5,9 @@
     <div class="container container-medium-width container-filled-background">
       
         <% if (method == "token") { %>
-            <h2><%= __("Remove recovery token") %> </h2>
+            <h2><%= __("account.recovery.token.remove.title") %></h2>
         <% } else if (method == "email") { %>
-            <h2><%= __("Remove recovery email") %> </h2>
+            <h2><%= __("account.recovery.email.remove.title") %></h2>
         <% } %>
 
         <form class="form" autocomplete="off" action="" method="post">
@@ -15,22 +15,20 @@
       
             <fieldset>
                 
-                <%- include("../../../partials/alert-info.ejs",{info: __("You are about to remove one of your recovery methods. This might lead to you losing your account if you lose your password!"),moreInfoLink: "https"}) %> 
+                <%- include("../../../partials/alert-info.ejs",{info: __("account.recovery.remove.warning"),moreInfoLink: "https"}) %> 
                 <div class="form-group">
-                    <label class="label"><%= __('Current password') %></label>
+                    <label class="label"><%= __('account.password.current.label') %></label>
                     <%- include("../../../partials/form/input-field.ejs",{field: {name:"currentPassword",type:"password",required:true}}) %> 
                 </div>
 
             </fieldset>
             <div class="form-action-group">
                 <div class="button-group">
-                    <button type="submit" class="button red"><%= __('Confirm Remove') %></button>
+                    <button type="submit" class="button red"><%= __('account.recovery.remove.confirm') %></button>
                 </div>
             </div>
         </form>
         
-        
-
     </div>
 
 </div>

@@ -1,7 +1,7 @@
 <div class="alert-info">
-    <img src="/icons/info-circle.svg" alt="info">
+    <img src="/icons/info-circle.svg" alt="<%= __('alert.icon_alt') %>">
     <% if (moreInfoLink) { %>
-        <p><%= info %> <a href="<%= moreInfoLink %> "><%= __("Learn more") %> </a></p>
+        <p><%= info %> <a href="<%= moreInfoLink %> "><%= __("alert.learn_more") %></a></p>
     <% } else { %>
         <p><%= info %></p>
     <% } %>

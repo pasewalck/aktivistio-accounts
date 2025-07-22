@@ -6,14 +6,14 @@
     
     <% if (inviteCodes.length > 0 || !canGenerate) { %>
         <div class="container container-medium-width container-filled-background">
-            <h1><%= __("Your Invite Codes") %></h1>
+            <h1><%= __("your_invite_codes_title") %></h1>
             <ul class="invite-list">
                 <% if (inviteCodes.length <= 0) { %>
                     <% if (lockedInviteCodes.length > 0 && !canGenerate) { %>
                         <% var daysLeft = (new Date(lockedInviteCodes[0].createDate * 1000) - new Date().getTime()) / 1000 / (60 * 60 * 24); %> 
-                        <%- include("../../partials/alert-info.ejs", { info: __("Your invites will be unlocked in %s days.", Number.parseFloat(daysLeft).toFixed(0)), moreInfoLink: false }) %> 
+                        <%- include("../../partials/alert-info.ejs", { info: __("invites_unlocked_message", Number.parseFloat(daysLeft).toFixed(0)), moreInfoLink: false }) %> 
                     <% } else { %>
-                        <%- include("../../partials/alert-info.ejs", { info: __("You don't have any invites. Reach out for more invites."), moreInfoLink: "mailto:todomail" }) %> 
+                        <%- include("../../partials/alert-info.ejs", { info: __("no_invites_message"), moreInfoLink: "mailto:todomail" }) %> 
                     <% } %>
                 <% } %>
                 <% for (let index = 0; index < inviteCodes.length; index++) { %>
@@ -23,13 +23,13 @@
                             <% var date = new Date(inviteCodes[index].expireDate * 1000); %> 
                             <% var daysLeft = (date.getTime() - new Date().getTime()) / 1000 / (60 * 60 * 24); %> 
                             <% if (daysLeft < 14) { %>
-                                <div class="date soon"><%= __("Expires in %s days", Number.parseFloat(daysLeft).toFixed(0)) %></div>
+                                <div class="date soon"><%= __("expires_in_days", Number.parseFloat(daysLeft).toFixed(0)) %></div>
                             <% } else { %>
-                                <div class="date"><%= __("Expires on %s", date.toLocaleString("en-GB").split(', ')[0]) %></div>
+                                <div class="date"><%= __("expires_on_date", date.toLocaleString("en-GB").split(', ')[0]) %></div>
                             <% } %>
                         <% } %>
                         <% if (inviteCodes[index].usages > 1) { %>
-                            <div class="uses"><%= __("Invite can be used %s times", inviteCodes[index].usages) %></div>
+                            <div class="uses"><%= __("invite_uses", inviteCodes[index].usages) %></div>
                         <% } %>
 
                         <div class="links">
@@ -51,25 +51,25 @@
     
     <% if (canGenerate) { %>
         <div class="container container-medium-width container-filled-background">
-            <h2><%= __("Generate Invite") %></h2>
+            <h2><%= __("generate_invite_title") %></h2>
             <form class="form" action="<%= urlUtils.extendUrl(baseUrl, 'invites/generate').href %>" method="post">
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                 <fieldset>
                     <div class="form-group">
-                        <label class="label"><%= __('Uses') %></label>
+                        <label class="label"><%= __('uses_label') %></label>
                         <input required class="input-field" type="number" min="1" max="1000" value="1" name="count" />
-                        <p class="input-field-hint">How many people can use this invite?</p>
+                        <p class="input-field-hint"><%= __("uses_hint") %></p>
                     </div>
     
                     <div class="form-group">
-                        <label class="label"><%= __('Expire') %></label>
+                        <label class="label"><%= __('expire_label') %></label>
                         <input class="input-field" type="date" name="date" />
                     </div>
     
                 </fieldset>
     
                 <div class="form-action-group">
-                    <button class="button primary" type="submit"><%= __("Get Invite") %> </button>
+                    <button class="button primary" type="submit"><%= __("get_invite_button") %> </button>
                 </div>
     
             </form>
@@ -79,3 +79,4 @@
     <% } %>
 
 </div>
+

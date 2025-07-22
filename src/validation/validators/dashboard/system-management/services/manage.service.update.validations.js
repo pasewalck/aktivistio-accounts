@@ -6,14 +6,14 @@ import adapterService from "../../../../../services/adapter.service.js";
 export default [
   currentUserPasswordValidator(body('adminPassword')),
   body("configuration")
-    .exists({checkFalsy: true}).withMessage(localize('A configuration must be setup')).bail()
-    .isString().withMessage(localize('A configuration must be a string')).bail()
+    .exists({checkFalsy: true}).withMessage(localize('adapter.configuration.required')).bail()
+    .isString().withMessage(localize('adapter.configuration.type_invalid')).bail()
     .custom(async (value,{req}) => {
       var json = JSON.parse(value)
       if(!json["client_id"])
-        throw new Error(req.__("Client ID ('client_id') must be specifier"))
+        throw new Error(req.__("adapter.client.id_required"))
       if(adapterService.getEntry("Client",json["client_id"]) && req.params?.id != json["client_id"])
-        throw new Error(req.__('Client ID already is use!'))
+        throw new Error(req.__('adapter.client.id_conflict'))
       return true
     }),
 ]

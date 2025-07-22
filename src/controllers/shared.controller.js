@@ -104,7 +104,7 @@ export default {
                 }
             } else {
                 // If login fails, throw an error
-                throw new UnexpectedClientError("Login failed");
+                throw new UnexpectedClientError(res.__("validation.login.failed"));
             }
         }
     },
@@ -130,7 +130,7 @@ export default {
 
         // Validate that validators parsed a valid two factor login token
         if(!data.twoFactorLoginToken) {
-            throw new UnexpectedClientError("Could not parse valid two factor login token!");
+            throw new UnexpectedClientError(res.__("validation.two_factor.token.parse_failed"));
         }
 
         // Validate that two factor login session exists
@@ -156,14 +156,14 @@ export default {
             // Verify the provided login token against the login token from the user session
             if(data.twoFactorLoginToken != loginToken) {
                 //This should never be triggered, as login token validation is already done in validators!
-                throw new UnexpectedClientError("Login token provided is invalid.");
+                throw new UnexpectedClientError(res.__("validation.login.token.invalid"));
             }
 
             // Retrieve the account for account id from account service.
             let account = accountService.find.withId(accountId)
             if (account == null) {
                 // This should never be triggered, as two factor validation is already done in validators!
-                throw new UnexpectedClientError("No account found for provided id.");
+                throw new UnexpectedClientError(res.__("validation.account.not_found_by_id"));
             }
 
             // Verify the provided token against account secret
@@ -173,7 +173,7 @@ export default {
             } else {
                 // If the token is invalid, throw an error
                 //This should never be triggered, as two factor validation is already done in validators!
-                throw new UnexpectedClientError("Login failed due to invalid 2fa token.");
+                throw new UnexpectedClientError(res.__("validation.login.two_factor.token_invalid"));
             }
         }
     },

@@ -4,8 +4,9 @@ import localize from "../../../localize.js";
 import invitesService from "../../../../services/invites.service.js";
 
 export default [
-    body("code").exists({checkFalsy: true}).withMessage(localize('Invite code is not defined')).bail()
+    body("code")
+        .exists({checkFalsy: true}).withMessage(localize('invite.code.required')).bail()
         .escape()
-        .isAlphanumeric().withMessage(localize('Invite code format is invalid')).bail()
-        .custom((value) => (!!invitesService.validate(value))).withMessage(localize('Invite code is invalid')),
+        .isAlphanumeric().withMessage(localize('invite.code.format_invalid')).bail()
+        .custom((value) => (!!invitesService.validate(value))).withMessage(localize('invite.code.invalid')),
 ]

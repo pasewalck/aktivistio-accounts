@@ -47,7 +47,7 @@ logger.debug("Initializing i18n for internationalization");
 
 i18n.configure({
     locales: ['en', 'de'],
-    directory: 'locales',
+    directory: 'i18n',
     defaultLocale: 'de',
     cookie: 'i18n',
 });

@@ -1,8 +1,8 @@
 <div class="wrapper flex-container flex-container-vertical">
     <div class="container-medium-width container-filled-background">
         
-        <h1><%= __('Account Recovery') %></h1>
-        <p><%= __("We sent you a confirmation code to your provided email") %> </p>
+        <h1><%= __('recovery.title') %></h1>
+        <p><%= __("recovery.confirmation_sent") %> </p>
 
         <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(baseUrl,`account-recovery`,`confirm`).href %>" method="post">
         
@@ -10,7 +10,7 @@
         <fieldset>
 
             <div class="form-group">
-                <label class="label"><%= __('Confirmation code') %></label>
+                <label class="label"><%= __('recovery.confirmation_code') %></label>
                 <%- include("../../../partials/form/input-field.ejs",{field: {name:"confirmCode",type:"text",required:true}}) %> 
             </div>
             
@@ -18,7 +18,7 @@
 
         <div class="form-action-group">
             <div class="button-group">
-            <button type="submit" class="button primary"><%= __('Confirm') %></button>
+            <button type="submit" class="button primary"><%= __('form.confirm') %></button>
             </div>
         </div>
 
