@@ -8,6 +8,8 @@
         - **Expected Outcome**: Users should be able to register for an account using a valid invite code.
     - Delete Account (Self)
         - **Expected Outcome**: Users should be able to delete their own accounts successfully.
+    - Use Account Setup Link:
+        - **Expected Outcome**: Users should be able to setup their account with a link.
 
 2) Password and Recovery Management/Actions
     - Change Password
@@ -52,3 +54,7 @@
         - **Expected Outcome**: Admin users should be able to delete services from the system.
     - Delete Accounts
         - **Expected Outcome**: Admin users should be able to delete user accounts as needed.
+    - Add Account
+        - **Expected Outcome**: Admin users should be able to add an account to the system.
+    - Recovery & Setup Emails
+        - **Expected Outcome**: Admin users should be able to send account setup and recovery emails to users.
