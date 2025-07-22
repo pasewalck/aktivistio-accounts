@@ -3,39 +3,39 @@
 <div class="wrapper flex-container">
     <div class="container container-medium-width container-filled-background">
 
-        <h2><%= __("Account Recovery") %> </h2>   
+        <h2><%= __("account.recovery.title") %></h2>   
         
         <% if (currentRecovery && (currentRecovery.token || currentRecovery.email)) { %>
-            <p><%= __("Great! You have %s recovery method(s) setup",(currentRecovery.token && currentRecovery.email) ? 2 : 1) %> </p>
+            <p><%= __("account.recovery.methods.count", (currentRecovery.token && currentRecovery.email) ? 2 : 1) %></p>
             <ul class="box-list">
                 <% if (currentRecovery.token) { %>
                     <li>
-                        <p><%= __("Recovery Token") %> </p>
+                        <p><%= __("account.recovery.token.label") %></p>
                         <div class="actions">
-                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>"><%= __("New Token") %></a>
-                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-token').href %>" class="red"><%= __("Delete") %></a>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>"><%= __("account.recovery.token.new") %></a>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-token').href %>" class="red"><%= __("common.actions.delete") %></a>
                         </div>
                     </li>
                 <% } %>
                 <% if (currentRecovery.email) { %>
                     <li>
-                        <p><%= __("Recovery Email") %> </p>
+                        <p><%= __("account.recovery.email.label") %></p>
                         <div class="actions">
-                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>"><%= __("Modify") %></a>
-                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-email').href %>" class="red"><%= __("Delete") %></a>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>"><%= __("common.actions.modify") %></a>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-email').href %>" class="red"><%= __("common.actions.delete") %></a>
                         </div>
                     </li>
                 <% } %>
             </ul>
         <% } else { %>
-            <p><%= __("No recovery setup at the moment.") %> </p>
+            <p><%= __("account.recovery.methods.none") %></p>
         <% } %>
         <div class="button-group">
             <% if (!currentRecovery?.email) { %>
-                <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>"><%= __("Add recovery Email") %></a>
+                <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>"><%= __("account.recovery.email.add") %></a>
             <% } %>
             <% if (!currentRecovery?.token) { %>
-                <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>"><%= __("Add recovery Token") %></a>
+                <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>"><%= __("account.recovery.token.add") %></a>
             <% } %>
         </div>
 

@@ -6,6 +6,7 @@ import localize from "../localize.js"
  * @returns {import("express-validator").ValidationChain}
  */
 export default (validationChain) => {
-    return validationChain.notEmpty().withMessage(localize('A valid recovery token must be selected.')).bail()
-    .custom((value) => isRecoveryToken(value)).withMessage(localize('Recovery token is not in valid format'))     
+    return validationChain
+        .notEmpty().withMessage(localize('validation.recovery-token.required')).bail()
+        .custom((value) => isRecoveryToken(value)).withMessage(localize('validation.recovery-token.invalid-format'))     
 }

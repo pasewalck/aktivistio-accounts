@@ -4,11 +4,11 @@ import localize from "../../../localize.js"
 
 export default [
     body("secret")
-        .notEmpty().withMessage(localize("Secret must be defined"))
+        .notEmpty().withMessage(localize("two_factor.secret.required"))
         .escape(),
     body("token")
-      .notEmpty().withMessage(localize("Token must be defined"))
+      .notEmpty().withMessage(localize("two_factor.token.required"))
       .escape()
-      .isInt().withMessage(localize("Token must be valid format"))
-      .custom((value, {req}) => twoFactorAuth.verify(req.body.secret,value)).withMessage(localize('Token appears to be incorret')),
+      .isInt().withMessage(localize("two_factor.token.format_invalid"))
+      .custom((value, {req}) => twoFactorAuth.verify(req.body.secret,value)).withMessage(localize('two_factor.token.verification_failed')),
 ]

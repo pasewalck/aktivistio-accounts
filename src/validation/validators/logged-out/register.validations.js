@@ -7,10 +7,10 @@ import setupValidations from "./setup.validations.js";
 
 export default [
   body("inviteCode")
-    .exists({checkFalsy: true}).withMessage(localize('Invite code is not defined')).bail()
+    .exists({checkFalsy: true}).withMessage(localize('validation.invite.code.required')).bail()
     .escape()
-    .isAlphanumeric().withMessage(localize('Invite code format is invalid')).bail()
-    .custom((value) => (!!invitesService.validate(value))).withMessage(localize('Invite code is invalid')),    
+    .isAlphanumeric().withMessage(localize('validation.invite.code.format_invalid')).bail()
+    .custom((value) => (!!invitesService.validate(value))).withMessage(localize('validation.invite.code.invalid')),    
   usernameCreateValidator(body("username")),
   createPasswordValidator(body("password")),
   ...setupValidations

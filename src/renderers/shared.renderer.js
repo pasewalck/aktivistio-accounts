@@ -17,7 +17,7 @@ export default {
      */
     twoFactorAuth: (res, interactionDetails = null, loginToken, errors = {}) => {
         return res.render('pages/shared/2fa', {
-            title: res.__('Login'),
+            title: res.__('page.title.login'),
             interactionDetails: interactionDetails,
             errors: errors,
             loginToken: loginToken
@@ -34,7 +34,7 @@ export default {
      */
     login: (res, interactionDetails = null, formData = {}, errors = {}) => {
         return res.render('pages/shared/login', {
-            title: res.__('Login'),
+            title: res.__('page.title.login'),
             interactionDetails: interactionDetails,
             formData: formData,
             errors: errors
@@ -49,7 +49,7 @@ export default {
      */
     error: (res, error) => {
         return res.render('pages/shared/error', {
-            title: res.__('Error'),
+            title: res.__('page.title.error'),
             error: error
         });
     },
@@ -73,18 +73,17 @@ export default {
         let messageParts = [res.__(messageKey)];
 
         if (retryHours > 0) {
-            messageParts.push(res.__("Retry in %s hours", retryHours));
+            messageParts.push(res.__("rate_limiter.retry.hours %s", retryHours));
         }
         else if (retryMinutes > 0) {
-            messageParts.push(res.__("Retry in %s minutes", retryMinutes));
+            messageParts.push(res.__("rate_limiter.retry.minutes %s", retryMinutes));
         }
         else if (finalSecs > 0 || (retryHours === 0 && retryMinutes === 0)) { // Show seconds if no hours or minutes
-            messageParts.push(res.__("Retry in %s seconds", finalSecs));
+            messageParts.push(res.__("rate_limiter.retry.seconds %s", finalSecs));
         }
 
         const message = messageParts.join(' ');
 
         res.send(message);
     },
-
 };

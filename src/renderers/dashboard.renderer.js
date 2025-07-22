@@ -28,7 +28,7 @@ export default {
    */
   services: (req, res) => {
     return res.render('pages/dashboard/services', {
-        title: res.__('Services'),
+        title: res.__('page.title.services'),
         clients: adapterService.getEntries("Client")
     });
   },
@@ -44,7 +44,7 @@ export default {
   */
   manageService: (req, res, currentClientId = null, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/service-management', {
-        title: res.__('Manage Service'),
+        title: res.__('page.title.manage-service'),
         errors: errors,
         formData: formData,
         currentClientId: currentClientId
@@ -59,7 +59,7 @@ export default {
   */
   account: (req, res) => {
     return res.render('pages/dashboard/account', {
-        title: res.__('Account'),
+        title: res.__('page.title.account'),
     });
   },
 
@@ -73,7 +73,7 @@ export default {
   */
   accountChangePassword: (req, res, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/account/password', {
-        title: res.__('Account Password'),
+        title: res.__('page.title.account-password'),
         errors: errors,
         formData: formData,
     });
@@ -88,7 +88,7 @@ export default {
   */
   twoFactorAuth: (req, res) => {
     return res.render('pages/dashboard/account/2fa', {
-        title: res.__('Account 2fa'),
+        title: res.__('page.title.account-2fa'),
         has2fa: accountService.twoFactorAuth.get(req.account) != null
     });
   },
@@ -108,7 +108,7 @@ export default {
     let qrCodeSrc = await QRCode.toDataURL(url);
 
     return res.render('pages/dashboard/account/add-2fa', {
-      title: res.__('Account 2fa'),
+      title: res.__('page.title.account-2fa'),
       accountInQuestion: req.account,
       secret: secret,
       url: url,
@@ -126,7 +126,7 @@ export default {
    */
   recovery: (req, res) => {
       return res.render('pages/dashboard/account/recovery', {
-          title: res.__('Account Recovery'),
+          title: res.__('page.title.account-recovery'),
           currentRecovery: accountService.recovery.get(req.account)
       });
   },
@@ -141,7 +141,7 @@ export default {
    */
   setRecoveryToken: (req, res, formData = {}, errors = {}) => {
       return res.render('pages/dashboard/account/set-recovery-token', {
-          title: res.__('Account Recovery'),
+          title: res.__('page.title.account-recovery'),
           accountInQuestion: req.account,
           errors: errors,
           formData: formData,
@@ -160,7 +160,7 @@ export default {
    */
   setRecoveryEmail: (req, res, formData = {}, errors = {}) => {
       return res.render('pages/dashboard/account/set-recovery-email', {
-          title: res.__('Account Recovery'),
+          title: res.__('page.title.account-recovery'),
           errors: errors,
           formData: formData,
           accountInQuestion: req.account,
@@ -179,7 +179,7 @@ export default {
    */
   deleteRecoveryMethod: (req, res, method, formData = {}, errors = {}) => {
       return res.render('pages/dashboard/account/remove-recovery-confirm', {
-          title: res.__('Account Recovery'),
+          title: res.__('page.title.account-recovery'),
           accountInQuestion: req.account,
           errors: errors,
           formData: formData,
@@ -197,7 +197,7 @@ export default {
    */
   delete: (req, res, formData = {}, errors = {}) => {
       return res.render('pages/dashboard/account/delete', {
-          title: res.__('Delete Account'),
+          title: res.__('page.title.delete-account'),
           errors: errors,
           formData: formData,
           accountInQuestion: req.account
@@ -212,7 +212,7 @@ export default {
    */
   invites: (req, res) => {
     return res.render('pages/dashboard/codes', {
-      title: res.__('Codes'),
+      title: res.__('page.title.invite-codes'),
       inviteCodes: invitesService.getForAccount.all(req.account),
       lockedInviteCodes: invitesService.getForAccount.allLocked(req.account)
     });
@@ -226,7 +226,7 @@ export default {
   */
   users: (req, res) => {
     return res.render('pages/dashboard/users', {
-        title: res.__('Users'),
+        title: res.__('page.title.users'),
         users: accountService.getAll(),
     });
   },
@@ -240,7 +240,7 @@ export default {
   */
   userAdd: (req, res, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/add-user', {
-        title: res.__('Add User'),
+        title: res.__('page.title.add-user'),
         formData: formData,
         errors: errors
     });
@@ -252,8 +252,8 @@ export default {
    */
   recoveryEmailSent: (res) => {
     return res.render('pages/shared/info', {
-      title: res.__('Recovery email sent'),
-      paragraph: res.__('A recovery email has been sent out to the specified email.'),
+      title: res.__('email.recovery.title'),
+      paragraph: res.__('email.recovery.confirmation'),
     });
   },
 
@@ -263,8 +263,8 @@ export default {
    */
   setupEmailSent: (res) => {
     return res.render('pages/shared/info', {
-      title: res.__('Invite email sent'),
-      paragraph: res.__('An account setup email has been sent out to the specified email.'),
+      title: res.__('email.setup.title'),
+      paragraph: res.__('email.setup.confirmation'),
     });
   },
 
@@ -283,7 +283,7 @@ export default {
     // Sort the audit log entries by timestamp in descending order
     auditLog.sort((a, b) => new Date(b.time) - new Date(a.time));
     return res.render('pages/dashboard/account/audit-log', {
-        title: res.__('Audit Log'),
+        title: res.__('page.title.audit-log'),
         weeksBack,
         moreEntries: since > auditService.getFirstEntryFullAuditLog(req.account).time,
         auditLog,
@@ -301,7 +301,7 @@ export default {
   */
   manageUser: (req, res, userId, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/manage-user', {
-        title: res.__('Managing User'),
+        title: res.__('page.title.managing-user'),
         errors: errors,
         formData: formData,
         managingAccount: accountService.find.withId(userId),
@@ -318,7 +318,7 @@ export default {
   inviteShare: async (req, res, invite) => {
     var inviteURL = extendUrl(env.BASE_URL,"register",invite).href;
     return res.render('pages/dashboard/invite-share', {
-        title: res.__('Inviting'),
+        title: res.__('page.title.inviting'),
         invite: invite,
         inviteURL: inviteURL,
         inviteQR: await QRCode.toDataURL(inviteURL, { width: 300 })

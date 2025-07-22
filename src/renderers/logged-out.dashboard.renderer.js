@@ -22,7 +22,7 @@ export default {
      */
     initAccountPage: (res,isRegister, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/init/details', {
-            title: res.__('Register'),
+            title: res.__('page.title.register'),
             formData: formData,
             recoveryToken: formData.recoveryToken ? formData.recoveryToken : generateRecoveryToken(),
             errors: errors,
@@ -39,7 +39,7 @@ export default {
      */
     initAccountPageConsent: async (res, isRegister, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/init/consent', {
-            title: res.__('Register'),
+            title: res.__('page.title.register'),
             formData: formData,
             // TODO: Handle consent text in a more robust way
             consents: await marked(readFileSync("configuration/consent.md").toString()),
@@ -57,7 +57,7 @@ export default {
      */
     recoveryRequest: (res, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/recovery/request', {
-            title: res.__('Request Invite'),
+            title: res.__('page.title.request-invite'),
             errors: errors,
             formData: formData
         });
@@ -69,8 +69,8 @@ export default {
      */
     recoveryEmailSent: (res) => {
         return res.render('pages/shared/info', {
-            title: res.__('Recovery email sent'),
-            paragraph: res.__('A recovery email has been sent out to your specified email.'),
+            title: res.__('page.title.recovery-email-sent'),
+            paragraph: res.__('recovery.email.sent'),
         });
     },
 
@@ -84,7 +84,7 @@ export default {
      */
     inviteRequest: (res, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/request-invite', {
-            title: res.__('Request Invite'),
+            title: res.__('page.title.request-invite'),
             errors: errors,
             formData: formData,
             emailProviders: env.WHITELISTED_MAIL_PROVIDERS
@@ -100,7 +100,7 @@ export default {
      */
     recoveryConfirmCode: (res, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/recovery/confirm', {
-            title: res.__('Recovery'),
+            title: res.__('page.title.recovery'),
             errors: errors,
             formData: formData,
         });
@@ -116,7 +116,7 @@ export default {
      */
     recoveryPasswordPrompt: (res, actionToken, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/recovery/reset', {
-            title: res.__('Recovery'),
+            title: res.__('page.title.recovery'),
             errors: errors,
             formData: formData,
             actionToken: actionToken

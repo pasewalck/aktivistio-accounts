@@ -8,36 +8,36 @@ import accountService from "../../../services/account.service.js"
 export default [
     usernameExistsValidator(body("username")),
     body("method")
-      .exists({checkFalsy: true}).withMessage(localize('A recovery method must be defined.')).bail()
+      .exists({checkFalsy: true}).withMessage(localize('validation.recovery.method.required')).bail()
       .escape()
       .isString()
-      .isIn(['email','token']).withMessage(localize('A valid recovery method must be defined.')).bail(),
+      .isIn(['email','token']).withMessage(localize('validation.recovery.method.invalid')).bail(),
     body('email')
       .if(body('method')
         .equals('email'))
           .if(usernameExistsValidator(body("username")))
-            .notEmpty().withMessage(localize('A recovery email must be selected.')).bail()
+            .notEmpty().withMessage(localize('validation.recovery.email.selection_required')).bail()
             .escape()
-            .isEmail().withMessage(localize('Email is not valid.'))
+            .isEmail().withMessage(localize('validation.recovery.email.format_invalid'))
             .custom(async (value,{req}) => {
               const account = await accountService.find.withUsername(req.body?.username)
               if(account && await accountService.recovery.email.check(account,value))
                 return true
               else
-                throw new Error(req.__('Recovery email is incorrect.'))
+                throw new Error(req.__('validation.recovery.email.incorrect'))
             }),
     body('token')
       .if(body('method')
         .equals('token'))
           .if(usernameExistsValidator(body("username")))
-            .notEmpty().withMessage(localize('A valid recovery token must be selected.')).bail()
+            .notEmpty().withMessage(localize('validation.recovery.token.selection_required')).bail()
             .escape()
-            .custom((value) => isRecoveryToken(value)).withMessage(localize('Recovery token is not in valid format.'))
+            .custom((value) => isRecoveryToken(value)).withMessage(localize('validation.recovery.token.format_invalid'))
             .custom(async (value,{req}) => {
               const account = await accountService.find.withUsername(req.body?.username)
               if(account && await accountService.recovery.token.check(account,value))
                 return true
               else
-                throw new Error(req.__('Recovery token is incorrect.'))
+                throw new Error(req.__('validation.recovery.token.incorrect'))
             }),
   ]

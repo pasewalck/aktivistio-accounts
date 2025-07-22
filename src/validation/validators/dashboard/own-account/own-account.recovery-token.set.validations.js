@@ -10,5 +10,5 @@ export default [
         .customSanitizer(input => {
             return Boolean(input)
         })
-        .custom((value) => value == true).withMessage(localize("Recovery token must be confirmed")).bail()
+        .custom((value) => value == true).withMessage(localize("recovery.token.confirmation_required")).bail()
 ]

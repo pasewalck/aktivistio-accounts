@@ -1,8 +1,8 @@
 <div class="wrapper flex-container flex-container-vertical">
     <div class="container-medium-width container-filled-background">
 
-        <h1><%= __("Logout") %></h1>
-        <p><%= __("Do you want to logout everywhere?") %> </p>
+        <h1><%= __("logout.title") %></h1>
+        <p><%= __("logout.confirm_message") %></p>
 
         <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(baseUrl, 'oidc/session/end/confirm/').href %>" method="post">
         
@@ -11,8 +11,8 @@
 
             <div class="form-action-group">
                 <div class="button-group">
-                    <button autofocus type="submit" value="yes" name="logout" class="button primary"><%= __('Yes') %></button>
-                    <button type="submit" class="button red"><%= __('No') %></button>
+                    <button autofocus type="submit" value="yes" name="logout" class="button primary"><%= __('logout.yes') %></button>
+                    <button type="submit" class="button red"><%= __('logout.no') %></button>
                 </div>
             </div>
 

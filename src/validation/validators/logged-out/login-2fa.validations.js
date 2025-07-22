@@ -5,12 +5,12 @@ import accountService from "../../../services/account.service.js";
 
 export default [
     body("token")
-      .notEmpty().withMessage(localize("Token must be defined"))
+      .notEmpty().withMessage(localize("two_factor.token.required"))
       .escape()
-      .isInt().withMessage(localize("Token must be valid format"))
-      .custom((value,{req}) => accountService.twoFactorAuth.check(accountService.find.withId(req.session.twoFactorLogin?.accountId),value)).withMessage(localize("Token is incorrent.")),
+      .isInt().withMessage(localize("two_factor.token.format_invalid"))
+      .custom((value,{req}) => accountService.twoFactorAuth.check(accountService.find.withId(req.session.twoFactorLogin?.accountId),value)).withMessage(localize("two_factor.token.verification_failed")),
     body("twoFactorLoginToken")
-      .notEmpty().withMessage(localize("Two factor login token missing"))
+      .notEmpty().withMessage(localize("two_factor.login_token.required"))
       .escape()
       .custom((value, {req}) => req.session.twoFactorLogin?.loginToken == value),
   ]

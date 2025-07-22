@@ -4,13 +4,13 @@
 
     <div class="container container-medium-width container-filled-background">
         <h1>
-            <%= __("Account Audit Log") %>
+            <%= __("account.audit_log.title") %>
         </h1>
 
         <% if (moreEntries) { %>
             <p>
-                <%= __("Displaying audit log entries since %s weeks",weeksBack) %>
-                <a href="<%= urlUtils.extendUrl(baseUrl, 'account/audit-log?weeks='+(weeksBack+1)).href %>" class="link">(<%= __("View More") %>)</a>
+                <%= __("account.audit_log.entries_since", weeksBack) %>
+                <a href="<%= urlUtils.extendUrl(baseUrl, 'account/audit-log?weeks='+(weeksBack+1)).href %>" class="link">(<%= __("account.audit_log.view_more") %>)</a>
             </p>
         <% } %>
         <% function formatTimestamp(timestamp) {
@@ -19,9 +19,9 @@
                     
             if (logDate.toDateString() === now.toDateString()) {
                 const delta = Math.floor((now - logDate) / 1000);
-                if (delta < 60) return __("%s seconds ago",delta);
-                if (delta < 3600) return __("%s seconds ago",Math.floor(delta / 60));
-                return __("%s seconds ago",Math.floor(delta / 3600));
+                if (delta < 60) return __("time.seconds_ago", delta);
+                if (delta < 3600) return __("time.minutes_ago", Math.floor(delta / 60));
+                return __("time.hours_ago", Math.floor(delta / 3600));
             } else {
                 return logDate.toLocaleDateString();
             }
@@ -49,14 +49,14 @@
     </div>
 
     <div class="container container-medium-width container-filled-background">
-        <h2><%= __("Legend") %></h2>
+        <h2><%= __("account.audit_log.legend") %></h2>
         <p>
             <span class="audit-log-symbol">⚠️</span>
-            <b><%= __("Warning") %></b>: <%= __("Indicates a potential event to keep an eye on, but which is expected within normal operation.") %>
+            <b><%= __("account.audit_log.warning_label") %></b>: <%= __("account.audit_log.warning_description") %>
         </p>
         <p>
             <span class="audit-log-symbol">⛔</span>
-            <b><%= __("Critical") %></b>: <%= __("Indicates a potential threat that requires attention.") %>
+            <b><%= __("account.audit_log.critical_label") %></b>: <%= __("account.audit_log.critical_description") %>
         </p>
     </div>
 

@@ -4,20 +4,20 @@
 
     <div class="container container-medium-width container-filled-background">
 
-        <h1><%= __("Manage Account") %> </h1>
+        <h1><%= __("manage_account_title") %> </h1>
 
         <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/update`).href %>" method="post">
             <fieldset>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('Username') %></label> 
+                    <label class="label"><%= __('username_label') %></label> 
                     <div class="output-field">
                         <p><%= managingAccount.username %></p>
                     </div>
                 </div>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('User UUID') %></label> 
+                    <label class="label"><%= __('user_uuid_label') %></label> 
                     <div class="output-field">
                         <p><%= managingAccount.id %></p>
                     </div>
@@ -32,9 +32,9 @@
     <div class="container container-medium-width container-filled-background">
         <% var isNew = managingAccount.lastLogin == null %> 
         <% if (isNew) { %>
-            <h2><%= __("Send Setup Email") %> </h2>
+            <h2><%= __("send_setup_email_title") %> </h2>
         <% } else { %>
-            <h2><%= __("Send Recovery Email") %> </h2>
+            <h2><%= __("send_recovery_email_title") %> </h2>
         <% } %>
 
         <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}`,isNew ? `send-setup` : `send-recovery`).href %>" method="post">
@@ -42,14 +42,14 @@
             <fieldset>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('Target Email') %></label> 
+                    <label class="label"><%= __('target_email_label') %></label> 
                     <%- include("../../partials/form/input-field.ejs",{field: {name:"email",type:"email"}}) %>  
                 </div>
 
             </fieldset>
                   
             <div class="form-action-group">
-                <button class="button" type="submit"><%= __("Send Email") %> </button>
+                <button class="button" type="submit"><%= __("send_email_button") %> </button>
             </div>   
         </form>
 
@@ -58,13 +58,13 @@
 
     <div class="container container-medium-width container-filled-background">
 
-        <h2><%= __("Update account") %> </h2>
+        <h2><%= __("update_account_title") %> </h2>
 
         <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/update`).href %>" method="post">
             <fieldset>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('Account Role') %></label> 
+                    <label class="label"><%= __('account_role_label') %></label> 
                     <% var options = []
                     Role.allLower(account.role).forEach(role => {
                         options.push({value:role,displayName:Role.getRoleInfo(role).name})
@@ -76,7 +76,7 @@
 
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
             <div class="form-action-group">
-                <button class="button" type="submit"><%= __("Update") %> </button>
+                <button class="button" type="submit"><%= __("update_button") %> </button>
             </div>     
 
         </form>
@@ -86,26 +86,26 @@
     <% if (hasPermission(account.role,Permission.DELETE_USERS)) { %>
 
         <div class="container container-medium-width container-filled-background">
-            <h2><%= __("Delete account") %> </h2>
+            <h2><%= __("delete_account_title") %> </h2>
 
             <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/delete`).href %>" method="post">
                 <fieldset>
-
+                    
                     <div class="form-group">
-                        <label class="label"><%= __('Your password (as admin)') %></label>
+                        <label class="label"><%= __('admin_password_label') %></label>
                         <%- include("../../partials/form/input-field.ejs",{field: {name:"deleteAdminPassword",type:"password",required:true}}) %> 
                     </div>
 
                     <div class="form-group">
-                        <label class="label"><%= __('Confirm your action') %></label>
-                        <%- include("../../partials/form/input-checkbox.ejs",{checkbox: {name:"deleteAdminConfirm",msg:__('I take responsability for deleting %s',managingAccount.username)}}) %>             
+                        <label class="label"><%= __('confirm_action_label') %></label>
+                        <%- include("../../partials/form/input-checkbox.ejs",{checkbox: {name:"deleteAdminConfirm",msg:__('delete_confirmation_checkbox',managingAccount.username)}}) %>             
                     </div>
 
                 </fieldset>
 
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                 <div class="form-action-group">
-                    <button class="button red" type="submit"><%= __("Delete Forever") %> </button>
+                    <button class="button red" type="submit"><%= __("delete_forever_button") %> </button>
                 </div>     
 
             </form>
@@ -115,3 +115,4 @@
     <% } %>
 
 </div>
+

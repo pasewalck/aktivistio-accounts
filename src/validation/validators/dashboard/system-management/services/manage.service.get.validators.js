@@ -3,12 +3,12 @@ import localize from "../../../../localize.js";
 import adapterService from "../../../../../services/adapter.service.js";
 
 export default [
-    param("id").exists({checkFalsy: true}).withMessage(localize('Specified ID missing')).bail()
+    param("id").exists({checkFalsy: true}).withMessage(localize('adapter.id.required')).bail()
         .escape()
-        .isString().withMessage(localize('Invalid ID specified')).bail()
+        .isString().withMessage(localize('adapter.id.invalid')).bail()
         .custom(async (value,{req}) => {
             if(!adapterService.getEntry("Client",value))
-                throw new Error(req.__('Not Client found for specified ID'))
+                throw new Error(req.__('adapter.client.not_found'))
             return true
         }),
 ]

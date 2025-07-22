@@ -103,7 +103,7 @@ export default {
         // Attempt to find the account associated with the provided username
         let account = accountService.find.withUsername(data.username);
         // If no account is found, throw an error indicating the username does not exist
-        if (!account) throw new UnexpectedClientError("No account for username");
+        if (!account) throw new UnexpectedClientError(res.__("validation.account.not_found"));
 
         // Determine the recovery method chosen by the user
         switch (data.method) {
@@ -122,7 +122,7 @@ export default {
                 break;
             default:
                 // If an unsupported recovery method is provided, throw an error
-                throw new UnexpectedClientError("Unsupported recovery method");
+                throw new UnexpectedClientError(res.__("validation.recovery.method.unsupported"));
         }
 
 
@@ -138,7 +138,7 @@ export default {
         const errors = await validationResult(req);
         const data = await matchedData(req);
         if (!errors.isEmpty()) {
-            throw new ClientError("Invalid or expired Recovery Link")
+            throw new ClientError(res.__("validation.recovery.link.invalid"));
         }
 
         return dashboardAuthRenderer.recoveryPasswordPrompt(res, data.actionToken);
@@ -218,7 +218,7 @@ export default {
         const data = await matchedData(req);
 
         if (!errors.isEmpty()) {
-            throw new ClientError("Invalid account setup link!")
+            throw new ClientError(res.__("validation.account.setup.link_invalid"));
         }
         return dashboardAuthRenderer.initAccountPage(res, false,{actionToken: data.actionToken});
     },
@@ -298,10 +298,10 @@ export default {
 
         // Check if invite code is still valid.
         if (!invitesService.validate(accountSession.inviteCode))
-            throw new ClientError("Invite code used in previous step is no longer valid.")
+            throw new ClientError(res.__("validation.invite.code.expired"));
         // Check if username still does not exist.
         if (accountService.find.withUsername(accountSession.username))
-            throw new ClientError("Username selected in previous step hast been taken now.")
+            throw new ClientError(res.__("validation.username.taken_after_selection"));
 
         // Create a new account with the provided username from session and default role
         let account = await accountService.create(accountSession.username, Role.USER);
@@ -349,7 +349,8 @@ export default {
         const accountSession = req.session.accountSetup; // Retrieve the account creation session data
 
         if (accountSession.actionToken != data.actionToken)
-            throw new UnexpectedClientError("Action Token Mismatch!")
+            throw new UnexpectedClientError(res.__("validation.action_token.mismatch"));
+
 
         accountService.actionToken.consume(ActionTokenTypes.ACCOUNT_SETUP,accountSession.actionToken)
 

@@ -3,25 +3,24 @@
 <div class="wrapper flex-container">
 
     <div class="container container-medium-width container-filled-background">
-        <h2>Security and Access</h2>
+        <h2><%= __("security.access.title") %></h2>
         <div class="button-group">
-            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/password/').href %>"><%= __("Change Password") %></a>
-            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/2fa').href %>"><%= __("Manage multi-factor authentication") %></a>
-            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/audit-log').href %>"><%= __("View Account Audit Log") %></a>
-
+            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/password/').href %>"><%= __("security.password.change") %></a>
+            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/2fa').href %>"><%= __("security.mfa.manage") %></a>
+            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/audit-log').href %>"><%= __("security.audit.view") %></a>
         </div>
     </div>
 
     <div class="container container-medium-width container-filled-background">
-        <h2>Account Recovery</h2>
+        <h2><%= __("account.recovery.title") %></h2>
         <div class="button-group">
-            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery').href %>"><%= __("Manage account recovery") %></a>
+            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery').href %>"><%= __("account.recovery.manage") %></a>
         </div>
     </div>
 
     <div class="container container-medium-width container-filled-background">
-        <h2>Deletion</h2>
-        <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/delete/').href %>"><%= __("Proceed to delete page") %></a>
+        <h2><%= __("account.deletion.title") %></h2>
+        <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/delete/').href %>"><%= __("account.deletion.proceed") %></a>
     </div>
 
 </div>

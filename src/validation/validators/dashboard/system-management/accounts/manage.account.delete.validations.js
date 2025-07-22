@@ -8,5 +8,5 @@ export default [
         .customSanitizer(input => {
             return Boolean(input)
         })
-        .custom((value) => value == true).withMessage(localize("Missing confirmation")).bail()
+        .custom((value) => value == true).withMessage(localize("admin.delete.confirmation_required")).bail()
 ]

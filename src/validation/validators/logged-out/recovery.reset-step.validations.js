@@ -6,6 +6,6 @@ import createPasswordValidator from "../../util-validators/create-password.valid
 export default [
   createPasswordValidator(body("password")),
   body('confirmPassword')
-    .exists({checkFalsy: true}).withMessage(localize('Password must be confirmed.')).bail()
-    .custom((value, {req}) => value === req.body.password).withMessage(localize('You confirm password does not match.')),
-  ]
+    .exists({checkFalsy: true}).withMessage(localize('validation.password.confirmation_required')).bail()
+    .custom((value, {req}) => value === req.body.password).withMessage(localize('validation.password.confirmation_mismatch')),
+]

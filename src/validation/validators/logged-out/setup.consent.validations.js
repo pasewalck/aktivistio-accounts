@@ -6,5 +6,5 @@ export default [
     .customSanitizer(input => {
       return Boolean(input)
     })
-    .custom((value) => value == true).withMessage(localize("Consent must be confirmed")).bail(),
+    .custom((value) => value == true).withMessage(localize("validation.consent.required")).bail(),
 ]

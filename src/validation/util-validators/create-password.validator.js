@@ -9,19 +9,19 @@ export default (validationChain) => {
     return validationChain
         .exists({checkFalsy: true}).bail()
         .isString()
-        .isAscii().withMessage(localize("Password contains invalid characters")).bail()
+        .isAscii().withMessage(localize("validation.password.invalid_characters")).bail()
         .custom((value,{req}) => {
             let passwordStrg = zxcvbn(value);
             if (passwordStrg.score <= 2)
             {
                 var messages = [];
                 if(passwordStrg.feedback.warning)
-                    messages.push(`${req.__(passwordStrg.feedback.warning)}.`)
+                    messages.push(`${req.__(passwordStrg.feedback.warning.toLowerCase().replaceAll(" ","_").replaceAll(".",""))}.`)
                 else
-                    messages.push(req.__("Password is not secure enough."))
+                    messages.push(req.__("validation.password.security"))
 
                 passwordStrg.feedback.suggestions.forEach(suggestion => {
-                    messages.push(req.__(suggestion))
+                    messages.push(req.__(suggestion.toLowerCase().replaceAll(" ","_").replaceAll(".","")))
                 });
                 throw new Error(messages.join(" "))
             }

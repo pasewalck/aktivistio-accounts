@@ -7,11 +7,11 @@ import localize from "../localize.js"
  */
 export default (validationChain) => {
     return validationChain
-        .exists({ checkFalsy: true }).bail().withMessage(localize('Password is required.'))
+        .exists({ checkFalsy: true }).bail().withMessage(localize('validation.password.required'))
         .custom(async (value,{req}) => {
             if(await accountService.password.check(req.account,value))
                 return true
             else
-                throw new Error(req.__('Password is incorrent.'));
+                throw new Error(req.__('validation.password.incorrect'));
         })
 } 

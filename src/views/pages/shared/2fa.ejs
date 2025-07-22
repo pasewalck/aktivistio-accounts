@@ -3,7 +3,7 @@
 
         <% const relativBaseUrl = interactionDetails ? urlUtils.extendUrl(baseUrl,`interaction`,interactionDetails.uid) : baseUrl %> 
 
-        <h1><%= __('Login') %></h1>
+        <h1><%= __('2fa.title') %></h1>
         
         <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(relativBaseUrl,`login`,`2fa`).href %>" method="post">
 
@@ -13,7 +13,7 @@
             <fieldset>
 
                 <div class="form-group">
-                    <label class="label"><%= __('2FA Code') %></label>
+                    <label class="label"><%= __('2fa.code_label') %></label>
                     <%- include("../../partials/form/input-field.ejs",{field: {name:"token",type:"text",required:true,blockValue:true}}) %> 
                 </div>
 
@@ -23,9 +23,9 @@
 
             <div class="form-action-group">
                 <div class="button-group">
-                <button type="submit" class="button primary"><%= __('Verify') %></button>
+                <button type="submit" class="button primary"><%= __('2fa.verify') %></button>
                 <% if (interactionDetails) { %>
-                    <a class="button red" href="<%= urlUtils.extendUrl(relativBaseUrl,`abort`).href %>"><%= __('Abort') %></a>
+                    <a class="button red" href="<%= urlUtils.extendUrl(relativBaseUrl,`abort`).href %>"><%= __('2fa.abort') %></a>
                 <% } %>
                 </div>
             </div>

@@ -5,12 +5,12 @@ import localize from "../../localize.js";
 
 export default [
     body("email")
-      .notEmpty().withMessage(localize("Email must be defined."))
+      .notEmpty().withMessage(localize("validation.email.required"))
       .escape()
-      .isEmail().withMessage(localize("Email must be a valid email.")).bail()
-      .isEmail({host_whitelist:env.WHITELISTED_MAIL_PROVIDERS}).withMessage(localize("Email provider is not whitelisted."))
+      .isEmail().withMessage(localize("validation.email.format_invalid")).bail()
+      .isEmail({host_whitelist:env.WHITELISTED_MAIL_PROVIDERS}).withMessage(localize("validation.email.provider_not_whitelisted"))
       .custom(async (value,{req}) => {
         if(await invitesService.requestWithEmail(value) === false)
-          throw new Error(req.__("Email address already used for creating account."))
+          throw new Error(req.__("validation.email.already_used"))
       }),
   ]

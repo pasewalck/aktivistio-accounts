@@ -8,7 +8,7 @@ export default [
     currentUserPasswordValidatorCopy(body('currentPassword')),
     createPasswordValidator(body('newPassword')),
     body('confirmNewPassword')
-      .exists({checkFalsy: true}).withMessage(localize('Password must be confirmed.')).bail()
-      .custom((value, {req}) => value === req.body.newPassword).withMessage(localize('Your confirm password does not match.')),
+      .exists({checkFalsy: true}).withMessage(localize('password.confirm.required')).bail()
+      .custom((value, {req}) => value === req.body.newPassword).withMessage(localize('password.confirm.mismatch')),
     
   ]

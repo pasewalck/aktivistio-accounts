@@ -11,7 +11,7 @@ export default (validationChain) => {
         .isString()
         .escape()
         .isLowercase().withMessage(localize("Usernames are not allowed to use upercase letters"))
-        .isAlphanumeric().withMessage(localize("Usernames are only allowed to use numbers and letters"))
-        .isLength({ min: 2,max:14 }).withMessage(localize("Username must be between 2 and 14 characters"))
+        .isAlphanumeric().withMessage(localize("validation.username.characters_allowed"))
+        .isLength({ min: 2,max:14 }).withMessage(localize("validation.username.length"))
         .custom((value) => !(!!accountService.find.withUsername(value))).withMessage(localize("Username is taken"))
 }
