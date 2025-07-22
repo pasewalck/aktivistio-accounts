@@ -279,5 +279,13 @@
 	"use_uncommon_words": "Use uncommon words",
 	"consider_using_a_passphrase": "Consider using a passphrase",
 	"add_another_word_or_two_uncommon_words_are_better": "Add another word or two; uncommon words are better.",
-	"predictable_substitutions_like_'@'_instead_of_'a'_don't_help_very_much": "Predictable substitutions like '@' instead of 'a' don't help very much."
+	"predictable_substitutions_like_'@'_instead_of_'a'_don't_help_very_much": "Predictable substitutions like '@' instead of 'a' don't help very much.",
+	"capitalization_doesn't_help_very_much": "Capitalization doesn't help very much.",
+	"use_a_few_words_avoid_common_phrases": "Use a few words, avoid common phrases.",
+	"no_need_for_symbols_digits_or_uppercase_letters": "No need for symbols, digits, or uppercase letters.",
+	"avoid_sequences": "Avoid sequences.",
+	"avoid_recent_years": "Avoid recent years.",
+	"avoid_years_that_are_associated_with_you": "Avoid years that are associated with you.",
+	"avoid_dates_and_years_that_are_associated_with_you": "Avoid dates and years that are associated with you.",
+	"all_uppercase_is_almost_as_easy_to_guess_as_all_lowercase": "All-uppercase is almost as easy to guess as all-lowercase."
 }
