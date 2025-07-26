@@ -7,7 +7,7 @@ const loginRecoveryRateLimiterConfig = {
     blockDuration: 60 * 60,
 };
 
-const registerInviteRequestRateLimiterConfig = {
+const registerInviteWelcomeRequestRateLimiterConfig = {
     points: 200,
     duration: 60 * 60 * 2,
     blockDuration: 60 * 60 * 2,
@@ -26,7 +26,7 @@ const twoFactorLoginRateLimiterConfig = {
 };
 
 const loginRecoveryRateLimiter = new RateLimiterMemory(loginRecoveryRateLimiterConfig);
-const registerInviteRequestRateLimiter = new RateLimiterMemory(registerInviteRequestRateLimiterConfig);
+const registerInviteWelcomeRequestRateLimiter = new RateLimiterMemory(registerInviteWelcomeRequestRateLimiterConfig);
 const ipRateLimiter = new RateLimiterMemory(ipRateLimiterConfig);
 const twoFactorLoginRateLimiter = new RateLimiterMemory(twoFactorLoginRateLimiterConfig);
 
@@ -55,28 +55,28 @@ const createRateLimiterMiddleware = (rateLimiter, keyGenerator, customMessage) =
 
 // Key generators
 const loginRecoveryKeyGenerator = (req) => req.ip + req.body.username;
-const registerInviteRequestKeyGenerator = (req) => req.ip;
+const registerInviteWelcomeRequestKeyGenerator = (req) => req.ip;
 const ipKeyGenerator = (req) => req.ip;
 const twoFactorKeyGenerator = (req) => req.session?.twoFactorLogin?.accountId;
 
 // Custom messages
 const loginMessage = "rate_limiter.login.attempts";
 const recoveryMessage = "rate_limiter.recovery.attempts";
-const registerInviteRequestMessage = "rate_limiter.invite.exceeded";
+const registerInviteWelcomeRequestMessage = "rate_limiter.invite.exceeded";
 const ipRateLimitMessage = "rate_limiter.ip.too_many";
 const twoFactorLoginMessage = "rate_limiter.two_factor.attempts";
 
 // Middleware instances
 const loginRateLimiterMiddleware = createRateLimiterMiddleware(loginRecoveryRateLimiter, loginRecoveryKeyGenerator, loginMessage);
 const recoveryRateLimiterMiddleware = createRateLimiterMiddleware(loginRecoveryRateLimiter, loginRecoveryKeyGenerator, recoveryMessage);
-const registerInviteRequestRateLimiterMiddleware = createRateLimiterMiddleware(registerInviteRequestRateLimiter, registerInviteRequestKeyGenerator, registerInviteRequestMessage);
+const registerInviteWelcomeRequestRateLimiterMiddleware = createRateLimiterMiddleware(registerInviteWelcomeRequestRateLimiter, registerInviteWelcomeRequestKeyGenerator, registerInviteWelcomeRequestMessage);
 const ipRateLimiterMiddleware = createRateLimiterMiddleware(ipRateLimiter, ipKeyGenerator, ipRateLimitMessage);
 const twoFactorLoginRateLimiterMiddleware = createRateLimiterMiddleware(twoFactorLoginRateLimiter, twoFactorKeyGenerator, twoFactorLoginMessage);
 
 export {
     loginRateLimiterMiddleware,
     recoveryRateLimiterMiddleware,
-    registerInviteRequestRateLimiterMiddleware,
+    registerInviteWelcomeRequestRateLimiterMiddleware,
     ipRateLimiterMiddleware,
     twoFactorLoginRateLimiterMiddleware
 };
