@@ -3,7 +3,7 @@ import logger from '../helpers/logger.js';
 
 import {setNoCache} from '../middlewares/set-no-cache.middleware.js'
 import {userAuthMiddlewareReverse} from '../middlewares/user-auth.middleware.js';
-import { loginRateLimiterMiddleware, recoveryRateLimiterMiddleware, registerInviteRequestRateLimiterMiddleware, twoFactorLoginRateLimiterMiddleware } from '../middlewares/rate-limiter.middlewares.js';
+import { loginRateLimiterMiddleware, recoveryRateLimiterMiddleware, registerInviteWelcomeRequestRateLimiterMiddleware, twoFactorLoginRateLimiterMiddleware } from '../middlewares/rate-limiter.middlewares.js';
 
 import login2faValidations from '../validation/validators/logged-out/login-2fa.validations.js';
 import loginValidations from '../validation/validators/logged-out/login.validations.js';
@@ -30,7 +30,7 @@ export default (app) => {
 
     // Invite request routes
     app.get('/invite-request', middlewares, dashboardAuthController.inviteRequest);
-    app.post('/invite-request', middlewares, registerInviteRequestRateLimiterMiddleware, requestInviteValidations, dashboardAuthController.inviteRequestPost);
+    app.post('/invite-request', middlewares, registerInviteWelcomeRequestRateLimiterMiddleware, requestInviteValidations, dashboardAuthController.inviteRequestPost);
 
     // Account recovery routes
     app.get('/account-recovery', middlewares, dashboardAuthController.recovery);
@@ -39,9 +39,9 @@ export default (app) => {
     app.post('/account-recovery/reset/:actionToken/', middlewares, recoveryLinkValidations, recoveryResetStepValidations, dashboardAuthController.recoveryResetPost);
 
     // Account setup routes
-    app.get('/welcome/:actionToken/', middlewares, registerInviteRequestRateLimiterMiddleware, accountSetupLinkValidations, dashboardAuthController.accountSetup);
-    app.post('/welcome/:actionToken/', middlewares, registerInviteRequestRateLimiterMiddleware, accountSetupLinkValidations, setupValidations, dashboardAuthController.accountSetupPost);
-    app.post('/welcome/:actionToken/consent/', middlewares, registerInviteRequestRateLimiterMiddleware, accountSetupLinkValidations, setupConsentValidations, dashboardAuthController.accountSetupConsentPost);
+    app.get('/welcome/:actionToken/', middlewares, registerInviteWelcomeRequestRateLimiterMiddleware, accountSetupLinkValidations, dashboardAuthController.accountSetup);
+    app.post('/welcome/:actionToken/', middlewares, registerInviteWelcomeRequestRateLimiterMiddleware, accountSetupLinkValidations, setupValidations, dashboardAuthController.accountSetupPost);
+    app.post('/welcome/:actionToken/consent/', middlewares, registerInviteWelcomeRequestRateLimiterMiddleware, accountSetupLinkValidations, setupConsentValidations, dashboardAuthController.accountSetupConsentPost);
 
     // Login routes
     app.get('/login', middlewares, dashboardAuthController.login);
@@ -51,7 +51,7 @@ export default (app) => {
     // Registration routes
     app.get('/register', middlewares, dashboardAuthController.register);
     app.get('/register/:invite', middlewares, dashboardAuthController.register);
-    app.post('/register/', middlewares, registerInviteRequestRateLimiterMiddleware, registerValidations, dashboardAuthController.registerPost);
+    app.post('/register/', middlewares, registerInviteWelcomeRequestRateLimiterMiddleware, registerValidations, dashboardAuthController.registerPost);
     app.post('/register/consent/', middlewares, setupConsentValidations, dashboardAuthController.registerConsentPost);
 
 }
