@@ -18,7 +18,6 @@
 
 import instance from 'oidc-provider/lib/helpers/weak_cache.js';
 import epochTime from 'oidc-provider/lib/helpers/epoch_time.js';
-import { get, set } from 'oidc-provider/lib/helpers/samesite_handler.js';
 import nanoid from 'oidc-provider/lib/helpers/nanoid.js';
 import assert from "assert";
 
@@ -53,7 +52,7 @@ export async function setProviderSession(provider, req, res, {
     res,
     oidc: {
       provider,
-      cookies: provider.app.createContext(req, res).cookies,
+      cookies: provider.createContext(req, res).cookies,
     },
     secure: req.connection.encrypted || req.protocol === 'https',
   };
@@ -79,22 +78,18 @@ export async function setProviderSession(provider, req, res, {
   }
 
   // Determine the TTL for the session
-  let ttl = instance(provider).configuration('ttl.Session');
+  let ttl = instance(provider).configuration.ttl.Session;
   if (typeof ttl === 'function') {
-    ttl = ttl(ctx, session); // Call the TTL function if it's defined
+    ttl = ttl(ctx, ctx.oidc.session);
   }
   
   // Save the session with the determined TTL
   await session.save(ttl);
 
   // Set the session cookie in the response
-  const { maxAge, ...opts } = instance(provider).configuration('cookies.long');
-  set(
-    ctx.oidc.cookies,
-    provider.cookieName('session'),
-    session.id,
-    session.transient ? opts : { maxAge, ...opts },
-  );
+  const { maxAge, ...opts } = instance(provider).configuration.cookies.long;
+  ctx.oidc.cookies.set(provider.cookieName('session'), session.id, session.transient ? opts : { maxAge, ...opts });
+
 
   // Set the session cookie in the response
   return session;

@@ -10,7 +10,7 @@ import accountService from "../services/account.service.js";
  * @returns {Promise<provider.Session>} The session object.
  */
 async function getOIDCSession(req, res) {    
-  return await provider.Session.get(provider.app.createContext(req, res));
+  return await provider.Session.get(provider.createContext(req, res));
 }
 
 /**
