@@ -32,7 +32,7 @@
 	"user.current_user": "You",
 	"user.create": "Create New User",
 	"page.title.account": "Account Management",
-	"security.access.title": "Access Security",
+	"security.access.title": "Access & Security",
 	"security.password.change": "Change Password",
 	"security.mfa.manage": "Manage Multi-Factor Authentication",
 	"security.audit.view": "View Audit Log",
