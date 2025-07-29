@@ -8,3 +8,4 @@ app-logo.*
 configuration/consent.md
 .env
 .vscode
+database-secrets.txt
