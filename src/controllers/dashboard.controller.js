@@ -634,7 +634,7 @@ export default {
      * @param {Response} res - The response object.
      */
     logoutPost: async (req, res) => {
-        const session = await provider.Session.get(provider.app.createContext(req, res));
+        const session = await provider.Session.get(provider.createContext(req, res));
         session.destroy();
 
         res.redirect(extendUrl(env.BASE_URL,"login"));
