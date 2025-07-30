@@ -11,6 +11,7 @@
     "production": "npm run start-server:production",
     "build": "npm run scss:build",
     "start-server:debug": "nodemon -r dotenv/config --inspect=0.0.0.0 src/server.js",
+    "start-server:production": "node -r dotenv/config src/server.js",
     "start-launcher:debug": "nodemon -r dotenv/config --inspect=0.0.0.0 src/launcher.js",
     "start-launcher:production": "node -r dotenv/config src/launcher.js",
     "scss:watch": "sass --watch src/scss:src/public/css",

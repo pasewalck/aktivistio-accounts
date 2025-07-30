@@ -45,8 +45,9 @@ Simply run the script.
 
 ### Run with Node Directly 
 - Install npm packages: ```npm install```
-- Run in development mode: ```npm run development```
-- Run in production mode: ```npm run production```
+- Run server directly in development mode: ```npm run development-server```
+- Run launcher in development mode: ```npm run development-launcher```
+- Run  in production mode: ```npm run production```
 
 ## Documentation
 
