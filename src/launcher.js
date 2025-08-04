@@ -9,7 +9,7 @@ createLauncher([
     new Secret("DATABASE_KEY_OIDC",() => generateAlphanumericSecret(40)),
     new Secret("DATABASE_KEY_SECRETS",() => generateAlphanumericSecret(40)),
     new Secret("DATABASE_KEY_SESSIONS",() => generateAlphanumericSecret(40))
-],"database-secrets.txt",process.env.LAUNCHER_PORT | 3000,() => {
+],"data/database-secrets.txt",process.env.LAUNCHER_PORT | 3000,() => {
     const password = generateAlphanumericSecret(40)
     logger.info(`Launcher initiated with new password: ${password}`)
     return password;
