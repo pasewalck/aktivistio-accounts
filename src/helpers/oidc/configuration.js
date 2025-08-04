@@ -4,6 +4,7 @@ import secretService from "../../services/secret.service.js";
 import { emulatedEjs } from '../ejs-render.js';
 import env from '../env.js';
 import { assembleUrl, extendUrl } from '../url.js';
+import { generateAsciiSecret } from '../../helpers/generate-secrets.js';
 
 // Initialize the emulated EJS instance for rendering templates
 const emulatedEjsInstance = await emulatedEjs();
@@ -68,7 +69,7 @@ export default {
         }, { lifeTime: 365, graceTime: 30 })
     },
     cookies: {
-        keys: ["subzero"], // Define cookie keys
+        keys: await secretService.getEntries("COOKIE_KEYS", () => generateAsciiSecret(40), { lifeTime: 365, graceTime: 30 }), // Define cookie keys
     },
     ttl: {
         AccessToken: function AccessTokenTTL(ctx, token, client) {
