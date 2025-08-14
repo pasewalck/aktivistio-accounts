@@ -14,12 +14,12 @@ logger.info('Initializing logger');
 
 // Handle uncaught exceptions and unhandled promise rejections
 process.on('uncaughtException', (err) => {
-
-  logger.fatal('Uncaught Exception:\n' + err);
+  logger.fatal('Uncaught Exception:\n' + err.stack || err); // Log the stack trace if available
   process.exit(1);
 });
+
 process.on('unhandledRejection', (reason, promise) => {
-  logger.fatal('Unhandled Rejection at:\n' + promise + '\nreason:\n' + reason);
+  logger.fatal('Unhandled Rejection at:\n' + promise + '\nreason:\n' + reason.stack || reason); // Log the stack trace if available
   process.exit(1); 
 });
 
