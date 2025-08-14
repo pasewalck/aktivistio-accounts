@@ -170,6 +170,7 @@
 	"validation.email.already_used": "This email is already in use.",
 	"adapter.client.id_required": "Client ID is required.",
 	"validation.password.security": "Your password does not meet security requirements.",
+	"validation.password.confirmation_mismatch": "Your passwords don't match",
 	"rate_limiter.retry.hours %s": "Please try again in %s hours.",
 	"rate_limiter.retry.minutes %s": "Please try again in %s minutes.",
 	"rate_limiter.retry.seconds %s": "Please try again in %s seconds.",
