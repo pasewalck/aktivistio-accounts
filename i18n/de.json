@@ -169,6 +169,8 @@
 	"validation.login.password_incorrect": "Das eingegebene Passwort ist falsch.",
 	"validation.email.already_used": "Diese E-Mail wird bereits verwendet.",
 	"adapter.client.id_required": "Client-ID ist erforderlich.",
+	"validation.password.only_lowercases": "Es sind nur Kleinbuchstaben zulässig.",
+	"validation.password.characters_allowed": "Es sind nur Buchstaben und Zahlen zulässig.",
 	"validation.password.security": "Das Passwort erfüllt nicht die Sicherheitsanforderungen.",
 	"validation.password.confirmation_mismatch": "Die Passwörter stimmen nicht überein.",
 	"rate_limiter.retry.hours %s": "Bitte versuchen Sie es in %s Stunden erneut.",
