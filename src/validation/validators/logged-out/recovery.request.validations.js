@@ -21,7 +21,7 @@ export default [
             .isEmail().withMessage(localize('validation.common.recovery_email.format_invalid'))
             .custom(async (value,{req}) => {
               const account = await accountService.find.withUsername(req.body?.username)
-              if(account && await accountService.common.recovery_email.check(account,value))
+              if(account && await accountService.recovery.email.check(account,value))
                 return true
               else
                 throw new Error(req.__('validation.common.recovery_email.incorrect'))
@@ -35,7 +35,7 @@ export default [
             .custom((value) => isRecoveryToken(value)).withMessage(localize('validation.common.recovery_token.format_invalid'))
             .custom(async (value,{req}) => {
               const account = await accountService.find.withUsername(req.body?.username)
-              if(account && await accountService.common.recovery_token.check(account,value))
+              if(account && await accountService.recovery.token.check(account,value))
                 return true
               else
                 throw new Error(req.__('validation.common.recovery_token.incorrect'))
