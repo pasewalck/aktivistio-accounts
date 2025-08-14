@@ -6,13 +6,13 @@ This project heavily relies on the [node-oidc-provider](https://github.com/panva
 
 This project was designed and is maintained by Aktivistek. It is used in their aktivismus.org ecosystem.
 
-You might wonder: **Why this and not Keycloak?**
+You might wonder: **Why this and not Keycloak (and alike projects)?**
 
-Keycloak provides an amazing and open-source identity and access management system. The reason we decided to write our own software that does similar things is that Keycloak was missing key features such as invite codes and the desired user recovery system. By writing our own software, we were able to implement (somewhat specific) features the way we wanted and needed.
+Keycloak and many alike projects provide an amazing and open-source identity and access management system. The reason we decided to write our own software that does similar things is that software out there was missing key features such as invite codes and the desired user recovery system. By writing our own software, we were able to implement (somewhat specific) features the way we wanted and needed.
 
 ## ⚠️ Important Notice
 
-This project is currently in development and is not yet ready for production use. We are still awaiting code and security reviews.
+We do not recommend using this project for your own use at the time being. This project is currently in active development. We are still awaiting further code and security reviews.
 
 ## Implemented Specs & Features
 
@@ -25,7 +25,8 @@ This project is currently in development and is not yet ready for production use
     - User Roles and Permissions
 - Service Management: Manage OIDC client details
 - Secret Storage (Implements rotating secrets for enhanced security)
-- User Interface: A modern UI with basic admin features for user and service (OIDC clients) management.
+- User Interface: A UI with basic admin features for user and service (OIDC clients) management.
+- A 
 
 ## Notes on Data Privacy and Security
 
@@ -33,11 +34,8 @@ In the design of our systems, we employ a low trust model and strive to minimize
 
 ## Roadmap
 
-- Add brute force protection
-- Conduct more security audits.
-- Check all localized fields for spelling and consistency.
-- Document environment variables.
-- Create a Docker image.
+- Further Cleanup
+- Further Security Audits
 
 ## Setup
 
