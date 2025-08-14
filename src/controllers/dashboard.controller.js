@@ -217,7 +217,7 @@ export default {
 
         auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATED,req)
 
-        await accountService.common.recovery_email.set(req.account, null);
+        await accountService.recovery.email.set(req.account, null);
         res.redirect(extendUrl(env.BASE_URL,"account","recovery"));
 
     },
@@ -241,7 +241,7 @@ export default {
 
         auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATED,req)
 
-        await accountService.common.recovery_token.set(req.account, null);
+        await accountService.recovery.token.set(req.account, null);
         res.redirect(extendUrl(env.BASE_URL,"account","recovery"));
 
     },
@@ -265,7 +265,7 @@ export default {
 
         auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATED,req)
 
-        await accountService.common.recovery_email.set(req.account, data.email);
+        await accountService.recovery.email.set(req.account, data.email);
         res.redirect(extendUrl(env.BASE_URL,"account","recovery"));
 
     },
@@ -289,7 +289,7 @@ export default {
 
         auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATED,req)
 
-        await accountService.common.recovery_token.set(req.account, req.body.token);
+        await accountService.recovery.token.set(req.account, req.body.token);
         res.redirect(extendUrl(env.BASE_URL,"account","recovery"));
 
     },
@@ -637,7 +637,7 @@ export default {
         const session = await provider.Session.get(provider.createContext(req, res));
         session.destroy();
 
-        res.redirect(extendUrl(env.BASE_URL,"page.login"));
+        res.redirect(extendUrl(env.BASE_URL,"login"));
     },
 };
 

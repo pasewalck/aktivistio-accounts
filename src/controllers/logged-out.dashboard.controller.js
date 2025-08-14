@@ -182,7 +182,7 @@ export default {
                 break;
         }
 
-        res.redirect(extendUrl(env.BASE_URL,"page.login"));
+        res.redirect(extendUrl(env.BASE_URL,"login"));
     },
 
     /**
@@ -310,10 +310,10 @@ export default {
         // Set the recovery method based on the user's choice saved in session
         switch (accountSession.recoveryMethod) {
             case "email":
-                accountService.common.recovery_email.setHash(account, accountSession.recoveryEmailHash); // Set the email recovery hash
+                accountService.recovery.email.setHash(account, accountSession.recoveryEmailHash); // Set the email recovery hash
                 break;
             case "token":
-                accountService.common.recovery_token.setHash(account, accountSession.recoveryTokenHash); // Set the token recovery hash
+                accountService.recovery.token.setHash(account, accountSession.recoveryTokenHash); // Set the token recovery hash
                 break;
         }
 
@@ -363,10 +363,10 @@ export default {
         // Set the recovery method based on the user's choice saved in session
         switch (accountSession.recoveryMethod) {
             case "email":
-                accountService.common.recovery_email.setHash(account, accountSession.recoveryEmailHash); // Set the email recovery hash
+                accountService.recovery.email.setHash(account, accountSession.recoveryEmailHash); // Set the email recovery hash
                 break;
             case "token":
-                accountService.common.recovery_token.setHash(account, accountSession.recoveryTokenHash); // Set the token recovery hash
+                accountService.recovery.token.setHash(account, accountSession.recoveryTokenHash); // Set the token recovery hash
                 break;
         }
 
