@@ -9,6 +9,8 @@ COPY . .
 
 RUN npm run build
 
+RUN apk update && apk add curl
+
 EXPOSE 3000
 
 HEALTHCHECK  --interval=3m --timeout=3s \
