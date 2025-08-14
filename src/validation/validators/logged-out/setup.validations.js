@@ -7,7 +7,6 @@ export default [
   createPasswordValidator(body("password")),
   body('passwordConfirm')
     .exists({checkFalsy: true}).withMessage(localize('validation.password.confirmation_required')).bail()
-    .escape()
     .custom((value, {req}) => value === req.body.password).withMessage(localize('validation.password.confirmation_mismatch')),
   body("recoveryMethod")
     .exists({checkFalsy: true}).withMessage(localize('validation.recovery.method.required')).bail()
