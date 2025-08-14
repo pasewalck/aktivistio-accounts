@@ -9,16 +9,16 @@ export default [
     .exists({checkFalsy: true}).withMessage(localize('validation.password.confirmation_required')).bail()
     .custom((value, {req}) => value === req.body.password).withMessage(localize('validation.password.confirmation_mismatch')),
   body("recoveryMethod")
-    .exists({checkFalsy: true}).withMessage(localize('validation.recovery.method.required')).bail()
+    .exists({checkFalsy: true}).withMessage(localize('validation.common.recovery_method.required')).bail()
     .escape()
     .isString()
-    .isIn(['email','token']).withMessage(localize('validation.recovery.method.invalid')),     
+    .isIn(['email','token']).withMessage(localize('validation.common.recovery_method.invalid')),     
   body('recoveryEmail')
     .if(body('recoveryMethod')
       .equals('email'))
-        .notEmpty().withMessage(localize('validation.recovery.email.selection_required')).bail()
+        .notEmpty().withMessage(localize('validation.common.recovery_email.selection_required')).bail()
         .escape()
-        .isEmail().withMessage(localize('validation.recovery.email.format_invalid')),
+        .isEmail().withMessage(localize('validation.common.recovery_email.format_invalid')),
   recoveryTokenValidator(body('recoveryToken')
     .if(body('recoveryMethod')
       .equals('token'))),
@@ -28,5 +28,5 @@ export default [
     })
     .if(body('recoveryMethod')
       .equals('token'))
-        .custom((value) => value == true).withMessage(localize("validation.recovery.token.confirmation_required")).bail()
+        .custom((value) => value == true).withMessage(localize("validation.common.recovery_token.confirmation_required")).bail()
 ]

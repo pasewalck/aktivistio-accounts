@@ -1,7 +1,7 @@
 <div class="wrapper flex-container flex-container-vertical">
     <div class="container-medium-width container-filled-background">
 
-        <h1><%= __('register.details') %></h1>
+        <h1><%= __('page.register.title') %></h1>
     
         <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(baseUrl,isRegister ? `register` : `welcome/${formData.actionToken}`).href %>"method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
@@ -11,49 +11,49 @@
             <% if (isRegister) { %>
 
                 <div class="form-group">
-                    <label class="label"><%= __('register.invite_code') %></label>
+                    <label class="label"><%= __('common.invite_code') %></label>
                     <%- include("../../../partials/form/input-field.ejs",{field: {name:"inviteCode",type:"text",required:true}}) %> 
-                    <a class="input-field-help-link" target="_blank" href="<%= urlUtils.extendUrl(baseUrl, 'invite-request').href %>"><%= __('register.no_invite_code') %></a>
+                    <a class="input-field-help-link" target="_blank" href="<%= urlUtils.extendUrl(baseUrl, 'invite-request').href %>"><%= __('page.register.no_invite_code_question') %></a>
                 </div>
 
                 <div class="form-group">
-                    <label class="label"><%= __('user.username') %></label>
+                    <label class="label"><%= __('common.username') %></label>
                     <%- include("../../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
                 </div>
 
             <% } %>
 
             <div class="form-group">
-                <label class="label"><%= __('user.password') %></label>
+                <label class="label"><%= __('common.password') %></label>
                 <%- include("../../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true}}) %> 
             </div>
 
             <div class="form-group">
-                <label class="label"><%= __('user.confirm_password') %></label>
+                <label class="label"><%= __('common.confirm_password') %></label>
                 <%- include("../../../partials/form/input-field.ejs",{field: {name:"passwordConfirm",type:"password",required:true}}) %> 
             </div>
 
             <div class="form-group" >
-                <label class="label"><%= __('recovery.method') %></label> 
+                <label class="label"><%= __('common.recovery_method') %></label> 
                 <%- include("../../../partials/form/input-select.ejs",{select: {name:"recoveryMethod",id:"recoverySelect",options:[
-                    {value:"email",displayName:__('recovery.email')},
-                    {value:"token",displayName:__('recovery.token')}
-                ],defaultNone:{msg:__('recovery.select_method')}}}) %>
+                    {value:"email",displayName:__('common.recovery_email')},
+                    {value:"token",displayName:__('common.recovery_token')}
+                ],defaultNone:{msg:__('common.select_recovery_method')}}}) %>
             </div>
             
             <div id="recoveryEmailSection" class="form-group">
-                <%- include("../../../partials/alert-info.ejs",{info: __("recovery.email_secure_info"),moreInfoLink: "https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md"}) %> 
-                <label class="label"><%= __('recovery.email_input') %></label> 
+                <%- include("../../../partials/alert-info.ejs",{info: __("common.recovery_email_secure_info"),moreInfoLink: "https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md"}) %> 
+                <label class="label"><%= __('common.recovery_email_address') %></label> 
                 <%- include("../../../partials/form/input-field.ejs",{field: {name:"recoveryEmail",type:"text"}}) %>             
             </div>
             
             <div id="recoveryTokenSection" class="form-group">
                 <input type="hidden" name="recoveryToken" value="<%= recoveryToken %>">
-                <label class="label"><%= __('recovery.token') %></label> 
+                <label class="label"><%= __('common.recovery_token') %></label> 
                 <div class="output-field">
                     <p><%= recoveryToken %></p>
                 </div>
-                <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"recoveryTokenVerify",msg:__('recovery.token_written_confirm')}}) %>             
+                <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"recoveryTokenVerify",msg:__('common.recovery_token_written_confirm')}}) %>             
             </div>
 
             <%- include("../../../partials/form/errors.ejs") %> 
@@ -62,7 +62,7 @@
 
         <div class="form-action-group">
             <div class="button-group">
-                <button type="submit" class="button primary"><%= __('form.submit_details') %></button>
+                <button type="submit" class="button primary"><%= __('page.register.submit_details') %></button>
             </div>
         </div>
 

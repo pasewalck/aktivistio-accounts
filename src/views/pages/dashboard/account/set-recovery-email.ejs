@@ -4,9 +4,9 @@
     <div class="container container-medium-width container-filled-background">
 
         <% if (hasRecoveryEmail) { %>
-            <h2><%= __("account.recovery.email.update.title") %></h2>
+            <h2><%= __("account.common.recovery_email.update.title") %></h2>
         <% } else { %>
-            <h2><%= __("account.recovery.email.add.title") %></h2>
+            <h2><%= __("page.recovery.add.email.title") %></h2>
         <% } %>
 
         <form class="form" autocomplete="off" action="" method="post">
@@ -14,15 +14,15 @@
       
             <fieldset>       
               
-                <%- include("../../../partials/alert-info.ejs",{info: __("account.recovery.email.setup.warning"),moreInfoLink: "https"}) %> 
+                <%- include("../../../partials/alert-info.ejs",{info: __("account.common.recovery_email.setup.warning"),moreInfoLink: "https"}) %> 
                 
                 <div class="form-group">
-                    <label class="label"><%= __('account.password.current.label') %></label>
+                    <label class="label"><%= __('common.current_password') %></label>
                     <%- include("../../../partials/form/input-field.ejs",{field: {name:"currentPassword",type:"password",required:true}}) %> 
                 </div>
 
                 <div class="form-group">
-                    <label class="label"><%= __('account.recovery.email.new.label') %></label>
+                    <label class="label"><%= __('account.common.recovery_email.new.label') %></label>
                     <%- include("../../../partials/form/input-field.ejs",{field: {name:"email",type:"email",required:true}}) %> 
                 </div>
 
@@ -30,7 +30,7 @@
             
             <div class="form-action-group">
               <div class="button-group">
-                <button type="submit" class="button primary"><%= __('account.recovery.email.set.button') %></button>
+                <button type="submit" class="button primary"><%= __('account.common.recovery_email.set.button') %></button>
               </div>
             </div>
 

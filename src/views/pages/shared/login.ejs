@@ -3,7 +3,7 @@
 
         <% const relativBaseUrl = interactionDetails ? urlUtils.extendUrl(baseUrl,`interaction`,interactionDetails.uid) : baseUrl %> 
 
-        <h1><%= __('login.title') %></h1>
+        <h1><%= __('page.login.title') %></h1>
         
         <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(relativBaseUrl,`login`).href %>" method="post">
 
@@ -11,15 +11,15 @@
         <fieldset>
 
             <div class="form-group">
-                <label class="label"><%= __('login.username') %></label>
+                <label class="label"><%= __('page.login.username') %></label>
                 <%- include("../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
 
             </div>
 
             <div class="form-group">
-                <label class="label"><%= __('login.password') %></label>
+                <label class="label"><%= __('page.login.password') %></label>
                 <%- include("../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true,blockValue:true}}) %> 
-                <a class="input-field-help-link" target="_blank" href="<%= urlUtils.extendUrl(baseUrl,`account-recovery`)  %>"><%= __('login.forgot_password') %></a>
+                <a class="input-field-help-link" target="_blank" href="<%= urlUtils.extendUrl(baseUrl,`account-recovery`)  %>"><%= __('page.login.forgot_password') %></a>
             </div>
 
             <%- include("../../partials/form/errors.ejs") %> 
@@ -29,12 +29,12 @@
 
         <div class="form-action-group">
             <div class="button-group">
-            <button type="submit" class="button primary"><%= __('login.submit') %></button>
+            <button type="submit" class="button primary"><%= __('page.login.submit') %></button>
             <% if (interactionDetails) { %>
-                <a class="button red" href="<%= urlUtils.extendUrl(relativBaseUrl,`abort`).href %>"><%= __('login.abort') %></a>
+                <a class="button red" href="<%= urlUtils.extendUrl(relativBaseUrl,`abort`).href %>"><%= __('page.login.abort') %></a>
             <% } %>
             </div>
-            <p><%= __('login.no_account') %> <a href="<%= urlUtils.extendUrl(baseUrl,`register`).href %>"><%= __('login.create_account') %></a></p>
+            <p><%= __('page.login.no_account') %> <a href="<%= urlUtils.extendUrl(baseUrl,`register`).href %>"><%= __('page.login.create_account') %></a></p>
         </div>
         
         </form>
