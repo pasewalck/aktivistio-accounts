@@ -22,7 +22,7 @@ export default {
      */
     initAccountPage: (res,isRegister, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/init/details', {
-            title: res.__('page.title.register'),
+            title: res.__('page.register.head_title'),
             formData: formData,
             recoveryToken: formData.recoveryToken ? formData.recoveryToken : generateRecoveryToken(),
             errors: errors,
@@ -39,7 +39,7 @@ export default {
      */
     initAccountPageConsent: async (res, isRegister, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/init/consent', {
-            title: res.__('page.title.register'),
+            title: res.__('page.register.head_title'),
             formData: formData,
             // TODO: Handle consent text in a more robust way
             consents: await marked(readFileSync("configuration/consent.md").toString()),
@@ -57,7 +57,7 @@ export default {
      */
     recoveryRequest: (res, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/recovery/request', {
-            title: res.__('page.title.request-invite'),
+            title: res.__('page.request_invite.title'),
             errors: errors,
             formData: formData
         });
@@ -70,7 +70,7 @@ export default {
     recoveryEmailSent: (res) => {
         return res.render('pages/shared/info', {
             title: res.__('page.title.recovery-email-sent'),
-            paragraph: res.__('recovery.email.sent'),
+            paragraph: res.__('common.recovery_email.sent'),
         });
     },
 
@@ -84,7 +84,7 @@ export default {
      */
     inviteRequest: (res, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/request-invite', {
-            title: res.__('page.title.request-invite'),
+            title: res.__('page.request_invite.title'),
             errors: errors,
             formData: formData,
             emailProviders: env.WHITELISTED_MAIL_PROVIDERS

@@ -122,7 +122,7 @@ export default {
                 break;
             default:
                 // If an unsupported recovery method is provided, throw an error
-                throw new UnexpectedClientError(res.__("validation.recovery.method.unsupported"));
+                throw new UnexpectedClientError(res.__("validation.common.recovery_method.unsupported"));
         }
 
 
@@ -182,7 +182,7 @@ export default {
                 break;
         }
 
-        res.redirect(extendUrl(env.BASE_URL,"login"));
+        res.redirect(extendUrl(env.BASE_URL,"page.login"));
     },
 
     /**
@@ -310,10 +310,10 @@ export default {
         // Set the recovery method based on the user's choice saved in session
         switch (accountSession.recoveryMethod) {
             case "email":
-                accountService.recovery.email.setHash(account, accountSession.recoveryEmailHash); // Set the email recovery hash
+                accountService.common.recovery_email.setHash(account, accountSession.recoveryEmailHash); // Set the email recovery hash
                 break;
             case "token":
-                accountService.recovery.token.setHash(account, accountSession.recoveryTokenHash); // Set the token recovery hash
+                accountService.common.recovery_token.setHash(account, accountSession.recoveryTokenHash); // Set the token recovery hash
                 break;
         }
 
@@ -363,10 +363,10 @@ export default {
         // Set the recovery method based on the user's choice saved in session
         switch (accountSession.recoveryMethod) {
             case "email":
-                accountService.recovery.email.setHash(account, accountSession.recoveryEmailHash); // Set the email recovery hash
+                accountService.common.recovery_email.setHash(account, accountSession.recoveryEmailHash); // Set the email recovery hash
                 break;
             case "token":
-                accountService.recovery.token.setHash(account, accountSession.recoveryTokenHash); // Set the token recovery hash
+                accountService.common.recovery_token.setHash(account, accountSession.recoveryTokenHash); // Set the token recovery hash
                 break;
         }
 

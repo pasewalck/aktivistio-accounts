@@ -4,20 +4,20 @@
 
     <div class="container container-medium-width container-filled-background">
 
-        <h1><%= __("manage_account_title") %> </h1>
+        <h1><%= __("page.admin.manage_account.title") %> </h1>
 
         <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/update`).href %>" method="post">
             <fieldset>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('username_label') %></label> 
+                    <label class="label"><%= __('common.username') %></label> 
                     <div class="output-field">
                         <p><%= managingAccount.username %></p>
                     </div>
                 </div>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('user_uuid_label') %></label> 
+                    <label class="label"><%= __('common.user_uuid_label') %></label> 
                     <div class="output-field">
                         <p><%= managingAccount.id %></p>
                     </div>
@@ -32,7 +32,7 @@
     <div class="container container-medium-width container-filled-background">
         <% var isNew = managingAccount.lastLogin == null %> 
         <% if (isNew) { %>
-            <h2><%= __("send_setup_email_title") %> </h2>
+            <h2><%= __("page.admin.manage_account.send_setup_email") %> </h2>
         <% } else { %>
             <h2><%= __("send_recovery_email_title") %> </h2>
         <% } %>
@@ -64,7 +64,7 @@
             <fieldset>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('account_role_label') %></label> 
+                    <label class="label"><%= __('common.account_role') %></label> 
                     <% var options = []
                     Role.allLower(account.role).forEach(role => {
                         options.push({value:role,displayName:Role.getRoleInfo(role).name})

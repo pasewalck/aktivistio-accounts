@@ -4,7 +4,7 @@
 
     <div class="container container-medium-width container-filled-background">
         <h1>
-            <%= __("account.audit_log.title") %>
+            <%= __("page.audit_log.title") %>
         </h1>
 
         <% if (moreEntries) { %>
@@ -19,7 +19,7 @@
                     
             if (logDate.toDateString() === now.toDateString()) {
                 const delta = Math.floor((now - logDate) / 1000);
-                if (delta < 60) return __("time.seconds_ago", delta);
+                if (delta < 60) return __("page.audit_log.time_seconds_ago", delta);
                 if (delta < 3600) return __("time.minutes_ago", Math.floor(delta / 60));
                 return __("time.hours_ago %s", Math.floor(delta / 3600));
             } else {
@@ -49,14 +49,14 @@
     </div>
 
     <div class="container container-medium-width container-filled-background">
-        <h2><%= __("account.audit_log.legend") %></h2>
+        <h2><%= __("page.audit_log.legend") %></h2>
         <p>
             <span class="audit-log-symbol">⚠️</span>
-            <b><%= __("account.audit_log.warning_label") %></b>: <%= __("account.audit_log.warning_description") %>
+            <b><%= __("page.audit_log.warning_label") %></b>: <%= __("page.audit_log.warning_description") %>
         </p>
         <p>
             <span class="audit-log-symbol">⛔</span>
-            <b><%= __("account.audit_log.critical_label") %></b>: <%= __("account.audit_log.critical_description") %>
+            <b><%= __("page.audit_log.critical_label") %></b>: <%= __("page.audit_log.critical_description") %>
         </p>
     </div>
 

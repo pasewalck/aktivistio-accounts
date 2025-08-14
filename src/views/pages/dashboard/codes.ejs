@@ -6,7 +6,7 @@
     
     <% if (inviteCodes.length > 0 || !canGenerate) { %>
         <div class="container container-medium-width container-filled-background">
-            <h1><%= __("your_invite_codes_title") %></h1>
+            <h1><%= __("page.invites.title") %></h1>
             <ul class="invite-list">
                 <% if (inviteCodes.length <= 0) { %>
                     <% if (lockedInviteCodes.length > 0 && !canGenerate) { %>
@@ -51,25 +51,25 @@
     
     <% if (canGenerate) { %>
         <div class="container container-medium-width container-filled-background">
-            <h2><%= __("generate_invite_title") %></h2>
+            <h2><%= __("page.invites.generate") %></h2>
             <form class="form" action="<%= urlUtils.extendUrl(baseUrl, 'invites/generate').href %>" method="post">
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                 <fieldset>
                     <div class="form-group">
-                        <label class="label"><%= __('uses_label') %></label>
+                        <label class="label"><%= __('page.invites.uses') %></label>
                         <input required class="input-field" type="number" min="1" max="1000" value="1" name="count" />
-                        <p class="input-field-hint"><%= __("uses_hint") %></p>
+                        <p class="input-field-hint"><%= __("page.invites.uses_hint") %></p>
                     </div>
     
                     <div class="form-group">
-                        <label class="label"><%= __('expire_label') %></label>
+                        <label class="label"><%= __('page.invites.expire_label') %></label>
                         <input class="input-field" type="date" name="date" />
                     </div>
     
                 </fieldset>
     
                 <div class="form-action-group">
-                    <button class="button primary" type="submit"><%= __("get_invite_button") %> </button>
+                    <button class="button primary" type="submit"><%= __("page.invites.generate_invite") %> </button>
                 </div>
     
             </form>
