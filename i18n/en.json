@@ -311,5 +311,6 @@
 	"avoid_recent_years": "Avoid recent years.",
 	"avoid_years_that_are_associated_with_you": "Avoid years that are associated with you.",
 	"avoid_dates_and_years_that_are_associated_with_you": "Avoid dates and years that are associated with you.",
-	"all_uppercase_is_almost_as_easy_to_guess_as_all_lowercase": "All-uppercase is almost as easy to guess as all-lowercase."
+	"all_uppercase_is_almost_as_easy_to_guess_as_all_lowercase": "All-uppercase is almost as easy to guess as all-lowercase.",
+	"avoid_repeated_words_and_characters": "Avoid repeated words and characters."
 }
