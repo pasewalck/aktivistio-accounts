@@ -5,7 +5,8 @@
 // Body Styles
 body {
     background-color: variables.$lightgrey;
-    min-height: 100lvh;
+    height: 100dvh;
+    overflow-y: scroll;
     display: flex;
     align-items: center;
     justify-content: stretch;
