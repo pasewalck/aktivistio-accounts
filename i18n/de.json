@@ -310,5 +310,6 @@
 	"validation.recovery.email.format_invalid": "Bitte geben Sie eine gültige E-Mail an.",
 	"validation_feedback.role_required": "Eine Rolle muss angegeben werden.",
 	"validation_feedback.role_invalid": "Die angegebene Rolle ist ungültig.",
-	"validation_feedback.permission_denied_for_role": "Fehlende Berechtigungen zur Verwendung der angegebenen Rolle."
+	"validation_feedback.permission_denied_for_role": "Fehlende Berechtigungen zur Verwendung der angegebenen Rolle.",
+	"avoid_repeated_words_and_characters": "Nutze keine wiederholungen in deinem Passwort."
 }
