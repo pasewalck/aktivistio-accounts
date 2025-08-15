@@ -46,6 +46,7 @@ p {
     padding-bottom: 6px;
 }
 
+strong,
 b {
     font-weight: bold;
 }
@@ -84,6 +85,49 @@ h5 {
     padding-bottom: 6px;
 }
 
+// Ordered List Styles
+
+ul.a {
+    list-style-type: circle;
+}
+
+ul.b {
+    list-style-type: disc;
+}
+
+ul.c {
+    list-style-type: square;
+}
+
+ol.d {
+    list-style-type: upper-roman;
+}
+
+ol.e {
+    list-style-type: lower-roman;
+}
+
+ol.f {
+    list-style-type: lower-alpha;
+}
+
+ol.g {
+    list-style-type: decimal;
+}
+
+// More general text styles
+
+.text {
+    ul {
+        list-style-type: circle;
+        padding-left: 18px;
+    }
+
+    ol {
+        list-style-type: decimal;
+        padding-left: 18px;
+    }
+}
 
 // Audit log list style
 
@@ -316,6 +360,9 @@ h5 {
     .flex-container {
         row-gap: 15px;
     }
+    .grid-container {
+        grid-template-columns: auto auto;
+    }
 }
 
 @media only screen and (max-width: 800px) {
@@ -323,11 +370,15 @@ h5 {
         flex-direction:
             column;
     }
+
 }
 
 @media only screen and (max-width: 450px) {
     .wrapper {
-        padding: 0;
+        padding: 4px;
+    }
+    .grid-container {
+        grid-template-columns: auto;
     }
 
     .container-filled-background,
@@ -776,6 +827,7 @@ h5 {
     background-color: variables.$lightcolor;
     border-radius: 4px;
     height: 30px;
+
     img {
         padding: 4px 4px 4px 4px;
         width: 30px;
@@ -792,7 +844,7 @@ h5 {
     padding: 3px 5px 2px 5px;
     background-color: variables.$lightcolor;
     border-radius: 4px;
-    
+
     select {
         font-size: 17px;
         background: transparent;
