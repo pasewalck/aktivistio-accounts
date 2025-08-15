@@ -360,6 +360,7 @@ ol.g {
     .flex-container {
         row-gap: 15px;
     }
+
     .grid-container {
         grid-template-columns: auto auto;
     }
@@ -377,6 +378,7 @@ ol.g {
     .wrapper {
         padding: 4px;
     }
+
     .grid-container {
         grid-template-columns: auto;
     }
@@ -814,6 +816,17 @@ ol.g {
                         height: 20px;
                     }
                 }
+            }
+        }
+
+        @media only screen and (max-width: 450px) {
+            .account-box {
+                flex-direction: column;
+                align-items: end;
+            }
+
+            .main-nav a {
+                display: block;
             }
         }
     }
