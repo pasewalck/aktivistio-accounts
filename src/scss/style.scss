@@ -454,7 +454,9 @@ ol.g {
 
 // Button Group Styles
 .button-group {
-    display: block;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
 
     .button {
         margin-bottom: 2px;
