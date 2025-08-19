@@ -22,7 +22,7 @@
             </fieldset>
 
             <div class="form-action-group">
-                <div class="button-group">
+                <div class="button-group-row">
                 <button type="submit" class="button primary"><%= __('2fa.verify') %></button>
                 <% if (interactionDetails) { %>
                     <a class="button red" href="<%= urlUtils.extendUrl(relativBaseUrl,`abort`).href %>"><%= __('2fa.abort') %></a>
