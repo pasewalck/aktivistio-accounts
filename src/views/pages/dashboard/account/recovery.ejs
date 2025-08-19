@@ -30,7 +30,7 @@
         <% } else { %>
             <p><%= __("page.recovery.no_method_set") %></p>
         <% } %>
-        <div class="button-group">
+        <div class="button-group-row">
             <% if (!currentRecovery?.email) { %>
                 <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>"><%= __("page.recovery.add.email") %></a>
             <% } %>
