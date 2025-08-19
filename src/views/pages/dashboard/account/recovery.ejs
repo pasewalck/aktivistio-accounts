@@ -5,10 +5,10 @@
 
         <h2><%= __("page.account-recovery.title") %></h2>   
         
-        <% if (currentRecovery && (currentcommon.recovery_token || currentcommon.recovery_email)) { %>
-            <p><%= __("account.common.recovery_methods.count %s", (currentcommon.recovery_token && currentcommon.recovery_email) ? 2 : 1) %></p>
+        <% if (currentRecovery && (currentRecovery.recovery_token || currentRecovery.recovery_email)) { %>
+            <p><%= __("account.common.recovery_methods.count %s", (currentRecovery.recovery_token && currentRecovery.recovery_email) ? 2 : 1) %></p>
             <ul class="box-list">
-                <% if (currentcommon.recovery_token) { %>
+                <% if (currentRecovery.recovery_token) { %>
                     <li>
                         <p><%= __("account.common.recovery_token.label") %></p>
                         <div class="actions">
@@ -17,7 +17,7 @@
                         </div>
                     </li>
                 <% } %>
-                <% if (currentcommon.recovery_email) { %>
+                <% if (currentRecovery.recovery_email) { %>
                     <li>
                         <p><%= __("account.common.recovery_email.label") %></p>
                         <div class="actions">
