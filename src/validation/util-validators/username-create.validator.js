@@ -13,5 +13,5 @@ export default (validationChain) => {
         .isLowercase().withMessage(localize("validation.username.only_lowercases"))
         .isAlphanumeric().withMessage(localize("validation.username.characters_allowed"))
         .isLength({ min: 2,max:14 }).withMessage(localize("validation.username.length"))
-        .custom((value) => !(!!accountService.find.withUsername(value))).withMessage(localize("Username is taken"))
+        .custom((value) => !(!!accountService.find.withUsername(value))).withMessage(localize("validation.username.taken"))
 }
