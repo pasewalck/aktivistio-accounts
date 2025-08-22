@@ -217,8 +217,8 @@
 	"logout.no": "Nein, angemeldet bleiben.",
 	"logout.yes": "Ja, abmelden.",
 	"authorization.abort": "Abbrechen",
-	"authorization.confirm_access": "Bestätigen",
-	"authorization.verify": "Anmeldung bestätigen",
+	"authorization.confirm_access": "Bitte bestätige mit der Anmeldung fortzufahren.",
+	"authorization.verify": "Bestätigen",
 	"invite.request_title": "Eine Einladung anfordern",
 	"invite.whitelist_info": "Stellen Sie sicher, dass Ihre E-Mail auf der Whitelist steht, um Einladungen zu erhalten.",
 	"user.email": "Ihre E-Mail-Adresse",
@@ -303,6 +303,7 @@
 	"validation.invite.code.format_invalid": "Der Einladungscode hat ein ungültiges Format.",
 	"validation.invite.code.invalid": "Der angegebene Einladungscode ist ungültig.",
 	"account.id.format_invalid": "ID hat kein gültiges Format.",
+	"validation.password.invalid_characters": "Das angegebene Passwort enthält ungültige Zeichen.",
 	"validation.password.confirmation_required": "Das Passwort muss bestätigt werden.",
 	"validation.recovery.method.required": "Eine Wiederherstellungsmethode muss ausgewählt werden.",
 	"validation.recovery.method.invalid": "Wiederherstellungsmethode ist ungültig.",
@@ -311,5 +312,9 @@
 	"validation_feedback.role_required": "Eine Rolle muss angegeben werden.",
 	"validation_feedback.role_invalid": "Die angegebene Rolle ist ungültig.",
 	"validation_feedback.permission_denied_for_role": "Fehlende Berechtigungen zur Verwendung der angegebenen Rolle.",
-	"avoid_repeated_words_and_characters": "Nutze keine wiederholungen in deinem Passwort."
+	"avoid_repeated_words_and_characters": "Nutze keine wiederholungen in deinem Passwort.",
+	"validation.username.only_lowercases": "Nutzer*innennamen müssen klein geschrieben werden.",
+	"validation.username.characters_allowed": "Nutzer*innennamen dürfen nur Buchstaben und Ziffern enthalten.",
+	"validation.username.length": "Nutzer*innennamen muss zwischen 2 und 12 Zeichen lang sein.",
+	"validation.username.taken": "Dieser Benutzername ist bereits vergeben."
 }

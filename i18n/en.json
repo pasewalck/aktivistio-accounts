@@ -168,6 +168,7 @@
 	"validation.login.password_incorrect": "The password you entered is incorrect.",
 	"validation.email.already_used": "This email is already in use.",
 	"adapter.client.id_required": "Client ID is required.",
+	"validation.password.invalid_characters": "Your password contains invalid characters.",
 	"validation.password.security": "Your password does not meet security requirements.",
 	"validation.password.confirmation_mismatch": "Your passwords don't match.",
 	"validation.password.only_lowercases": "Only lowercase letters are allowed.",
@@ -236,8 +237,8 @@
 	"logout.no": "No, stay logged in.",
 	"logout.yes": "Yes, log me out.",
 	"authorization.abort": "Abort",
-	"authorization.confirm_access": "Confirm",
-	"authorization.verify": "Verify your login.",
+	"authorization.confirm_access": "Please verify using your account to proceed with login.",
+	"authorization.verify": "Verify",
 	"invite.request_title": "Request an Invite",
 	"invite.whitelist_info": "Make sure your email is whitelisted to receive invites.",
 	"invite.code.required": "An invite code needs to be supplied",
@@ -312,5 +313,9 @@
 	"avoid_years_that_are_associated_with_you": "Avoid years that are associated with you.",
 	"avoid_dates_and_years_that_are_associated_with_you": "Avoid dates and years that are associated with you.",
 	"all_uppercase_is_almost_as_easy_to_guess_as_all_lowercase": "All-uppercase is almost as easy to guess as all-lowercase.",
-	"avoid_repeated_words_and_characters": "Avoid repeated words and characters."
+	"avoid_repeated_words_and_characters": "Avoid repeated words and characters.",
+	"validation.username.only_lowercases": "Your username needs to be lowercase.",
+	"validation.username.characters_allowed": "Your username can only contain letters and nummers.",
+	"validation.username.length": "Your username needs to be between 2 and 12 characters.",
+	"validation.username.taken": "That username is already taken."
 }
