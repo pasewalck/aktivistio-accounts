@@ -45,7 +45,7 @@ function remove(code) {
  * @description Generates a new invite code.
  * @param {Number} count
  * @param {{linkedAccount,validationDurationDays,maxUses,expireDate}} [options] - Options for invite code creation
- * @returns {Array<String>} - The generated invite code.
+ * @returns {Array<String>} - The generated invite codes.
  */
 function generateMultiple(count=3,options) {
     var array = [count]
@@ -54,6 +54,21 @@ function generateMultiple(count=3,options) {
     }
     return array
 }
+
+/**
+ * @description Grants an account invites to have a total count.
+ * @param {Number} count
+ * @param {Account} account - The user account
+ * @returns {Array<String>} - The generated invite codes.
+ */
+function grantMultiple(count=3,account,options) {
+    var array = [Math.max(0,count-getForAccount(account.id).length)]
+    for (let i = 0; i < array.length; i++) {
+        array[i] = generate({linkedAccount: account,...options})
+    }
+    return array
+}
+
 /**
  * Generates a new invite code.
  * @param {{linkedAccount: Account, validationDurationDays: Number, maxUses: Number, expireDate: Date}} options - Options for invite code creation.
@@ -111,7 +126,6 @@ async function requestWithEmail(email) {
     }
 }
 
-
 export default {
     generate: {
         single: generate,
@@ -124,5 +138,6 @@ export default {
     consume,
     validate,
     remove,
-    requestWithEmail
+    requestWithEmail,
+    grantMultiple
 }
