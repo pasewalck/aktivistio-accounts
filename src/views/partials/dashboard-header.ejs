@@ -3,28 +3,28 @@
         
         <div class="header-box">
             <nav class="main-nav">
-                <a href="<%= urlUtils.extendUrl(baseUrl, 'invites').href %>"><%= __("navigation.invites") %></a>
-                <a href="<%= urlUtils.extendUrl(baseUrl, 'services').href %>"><%= __("navigation.services") %></a>
+                <a href="<%= urlUtils.extendUrl(baseUrl, 'invites').href %>"><%= __("widgte.navigation.invites") %></a>
+                <a href="<%= urlUtils.extendUrl(baseUrl, 'services').href %>"><%= __("widgte.navigation.services") %></a>
                 
                 <% if (hasPermission(account.role, "MANAGE_USERS")) { %>
-                    <a href="<%= urlUtils.extendUrl(baseUrl, 'users').href %>"><%= __("navigation.users") %></a>
+                    <a href="<%= urlUtils.extendUrl(baseUrl, 'users').href %>"><%= __("widgte.navigation.users") %></a>
                 <% } %>
             </nav>
         </div>
 
         <div class="header-box account-box">
             <div class="account-profile">
-                <img src="<%= urlUtils.extendUrl(baseUrl, 'icons/account.svg').href %>" alt="<%= __('account.icon_alt') %>">
+                <img src="<%= urlUtils.extendUrl(baseUrl, 'icons/account.svg').href %>" alt="<%= __('widgte.account.icon_alt') %>">
                 <div class="account-info">
                     <p class="username"><%= account.username %></p>
                 </div>
             </div>
             <nav class="account-nav">
-                <a href="<%= urlUtils.extendUrl(baseUrl, 'account').href %>" aria-label="<%= __('account.settings') %>">
-                    <img src="<%= urlUtils.extendUrl(baseUrl, 'icons/settings.svg').href %>" alt="<%= __('account.settings_icon_alt') %>">
+                <a href="<%= urlUtils.extendUrl(baseUrl, 'account').href %>" aria-label="<%= __('widgte.account.settings') %>">
+                    <img src="<%= urlUtils.extendUrl(baseUrl, 'icons/settings.svg').href %>" alt="<%= __('widgte.account.settings_icon_alt') %>">
                 </a>
-                <button form="logoutForm" aria-label="<%= __('account.logout') %>">
-                    <img src="<%= urlUtils.extendUrl(baseUrl, 'icons/logout.svg').href %>" alt="<%= __('account.logout_icon_alt') %>">
+                <button form="logoutForm" aria-label="<%= __('widgte.account.logout') %>">
+                    <img src="<%= urlUtils.extendUrl(baseUrl, 'icons/logout.svg').href %>" alt="<%= __('widgte.account.logout_icon_alt') %>">
                 </button>
             </nav>
         </div>

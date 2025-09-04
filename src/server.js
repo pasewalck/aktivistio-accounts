@@ -92,6 +92,12 @@ oidcRoutes(app);
 dashboardRoutes(app);
 loggedOutDashboardRouter(app);
 
+// Health check route
+logger.debug("Attaching health check route");
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'OK', timestamp: new Date() });
+});
+
 // Attach language change controller
 logger.debug("Attaching language controller");
 app.get('/change-language', langController.changeLanguage);

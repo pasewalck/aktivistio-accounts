@@ -59,7 +59,7 @@ export default {
   */
   account: (req, res) => {
     return res.render('pages/dashboard/account', {
-        title: res.__('page.title.account'),
+        title: res.__('page.own_account.title'),
     });
   },
 
@@ -73,7 +73,7 @@ export default {
   */
   accountChangePassword: (req, res, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/account/password', {
-        title: res.__('page.title.account-password'),
+        title: res.__('page.change-password.title'),
         errors: errors,
         formData: formData,
     });
@@ -88,7 +88,7 @@ export default {
   */
   twoFactorAuth: (req, res) => {
     return res.render('pages/dashboard/account/2fa', {
-        title: res.__('page.title.account-2fa'),
+        title: res.__('page.account_2fa.title'),
         has2fa: accountService.twoFactorAuth.get(req.account) != null
     });
   },
@@ -108,7 +108,7 @@ export default {
     let qrCodeSrc = await QRCode.toDataURL(url);
 
     return res.render('pages/dashboard/account/add-2fa', {
-      title: res.__('page.title.account-2fa'),
+      title: res.__('page.account_2fa.title'),
       accountInQuestion: req.account,
       secret: secret,
       url: url,
@@ -126,7 +126,7 @@ export default {
    */
   recovery: (req, res) => {
       return res.render('pages/dashboard/account/recovery', {
-          title: res.__('page.title.account-recovery'),
+          title: res.__('page.title.account_recovery'),
           currentRecovery: accountService.recovery.get(req.account)
       });
   },
@@ -141,7 +141,7 @@ export default {
    */
   setRecoveryToken: (req, res, formData = {}, errors = {}) => {
       return res.render('pages/dashboard/account/set-recovery-token', {
-          title: res.__('page.title.account-recovery'),
+          title: res.__('page.title.account_recovery'),
           accountInQuestion: req.account,
           errors: errors,
           formData: formData,
@@ -160,7 +160,7 @@ export default {
    */
   setRecoveryEmail: (req, res, formData = {}, errors = {}) => {
       return res.render('pages/dashboard/account/set-recovery-email', {
-          title: res.__('page.title.account-recovery'),
+          title: res.__('page.title.account_recovery'),
           errors: errors,
           formData: formData,
           accountInQuestion: req.account,
@@ -179,7 +179,7 @@ export default {
    */
   deleteRecoveryMethod: (req, res, method, formData = {}, errors = {}) => {
       return res.render('pages/dashboard/account/remove-recovery-confirm', {
-          title: res.__('page.title.account-recovery'),
+          title: res.__('page.title.account_recovery'),
           accountInQuestion: req.account,
           errors: errors,
           formData: formData,
@@ -197,7 +197,7 @@ export default {
    */
   delete: (req, res, formData = {}, errors = {}) => {
       return res.render('pages/dashboard/account/delete', {
-          title: res.__('page.title.delete-account'),
+          title: res.__('page.delete_account.title'),
           errors: errors,
           formData: formData,
           accountInQuestion: req.account
@@ -240,7 +240,7 @@ export default {
   */
   userAdd: (req, res, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/add-user', {
-        title: res.__('page.title.add-user'),
+        title: res.__('page.admin.user_add.title'),
         formData: formData,
         errors: errors
     });
@@ -283,7 +283,7 @@ export default {
     // Sort the audit log entries by timestamp in descending order
     auditLog.sort((a, b) => new Date(b.time) - new Date(a.time));
     return res.render('pages/dashboard/account/audit-log', {
-        title: res.__('page.title.audit-log'),
+        title: res.__('page.audit_log.title'),
         weeksBack,
         moreEntries: since > auditService.getFirstEntryFullAuditLog(req.account).time,
         auditLog,
@@ -301,7 +301,7 @@ export default {
   */
   manageUser: (req, res, userId, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/manage-user', {
-        title: res.__('page.title.managing-user'),
+        title: res.__('page.admin.user_manage.title'),
         errors: errors,
         formData: formData,
         managingAccount: accountService.find.withId(userId),

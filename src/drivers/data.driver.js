@@ -538,7 +538,7 @@ export default {
     isDbInit: isDbInit
 };
 
-function regularCleanup(db) {
+function regularCleanup() {
     const now = Math.floor(Date.now() / 1000); // Current timestamp in seconds
 
     // Clean up expired action tokens

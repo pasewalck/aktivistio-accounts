@@ -5,9 +5,9 @@
     <div class="container container-medium-width container-filled-background">
 
         <% if (hasRecoveryToken) { %>
-            <h2><%= __("account.recovery.token.new.title") %></h2>
+            <h2><%= __("account.common.recovery_token.new.title") %></h2>
         <% } else { %>
-            <h2><%= __("account.recovery.token.add.title") %></h2>
+            <h2><%= __("page.recovery.add.token.title") %></h2>
         <% } %>
 
         <form class="form" autocomplete="off" action="" method="post">
@@ -15,31 +15,31 @@
       
             <fieldset>
 
-                <%- include("../../../partials/alert-info.ejs",{info: __("account.recovery.token.setup.warning"),moreInfoLink: "https"}) %> 
+                <%- include("../../../partials/alert-info.ejs",{info: __("account.common.recovery_token.setup.warning"),moreInfoLink: "https"}) %> 
                 
                 <div class="form-group">
-                    <label class="label"><%= __('account.password.current.label') %></label>
+                    <label class="label"><%= __('common.current_password') %></label>
                     <%- include("../../../partials/form/input-field.ejs",{field: {name:"currentPassword",type:"password",required:true}}) %> 
                 </div>
 
                 <div class="form-group">
 
                     <input type="hidden" name="token" value="<%= recoveryToken %>">
-                    <label class="label"><%= __('account.recovery.token.new.label') %></label> 
+                    <label class="label"><%= __('account.common.recovery_token.new.label') %></label> 
 
                     <div class="output-field">
                         <p><%= recoveryToken %></p>
                     </div>
 
-                    <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"tokenVerify",msg:__('account.recovery.token.verify.checkbox')}}) %>             
+                    <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"tokenVerify",msg:__('account.common.recovery_token.verify.checkbox')}}) %>             
                     
                 </div>
             
             </fieldset>
       
             <div class="form-action-group">
-              <div class="button-group">
-                <button type="submit" class="button primary"><%= __('account.recovery.token.set.button') %></button>
+              <div class="button-group-row">
+                <button type="submit" class="button primary"><%= __('account.common.recovery_token.set.button') %></button>
               </div>
             </div>
       

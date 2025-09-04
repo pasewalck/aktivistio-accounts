@@ -6,7 +6,7 @@
 export class ActionTokenTypes {
     static ACCOUNT_SETUP = "account_setup";
     static ACCOUNT_REGISTER = "account_register";
-    static LOGIN_SECOND_FACTOR = "login_2fa";
+    static LOGIN_SECOND_FACTOR = "page.login_2fa";
     static PASSWORD_RESET = "password_reset";
 }
 

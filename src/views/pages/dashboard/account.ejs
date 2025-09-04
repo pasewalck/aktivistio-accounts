@@ -3,24 +3,24 @@
 <div class="wrapper flex-container">
 
     <div class="container container-medium-width container-filled-background">
-        <h2><%= __("security.access.title") %></h2>
-        <div class="button-group">
-            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/password/').href %>"><%= __("security.password.change") %></a>
-            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/2fa').href %>"><%= __("security.mfa.manage") %></a>
-            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/audit-log').href %>"><%= __("security.audit.view") %></a>
+        <h2><%= __("page.own_account.menu.security-and-access.title") %></h2>
+        <div class="button-group-column">
+            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/password/').href %>"><%= __("page.own_account.menu.security-and-access.password-change") %></a>
+            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/2fa').href %>"><%= __("page.own_account.menu.security-and-access.mfa-manage") %></a>
+            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/audit-log').href %>"><%= __("page.own_account.menu.security-and-access.audit-view") %></a>
         </div>
     </div>
 
     <div class="container container-medium-width container-filled-background">
-        <h2><%= __("account.recovery.title") %></h2>
-        <div class="button-group">
-            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery').href %>"><%= __("account.recovery.manage") %></a>
+        <h2><%= __("page.own_account.menu.recovery.title") %></h2>
+        <div class="button-group-column">
+            <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery').href %>"><%= __("page.own_account.menu.recovery-manage") %></a>
         </div>
     </div>
 
     <div class="container container-medium-width container-filled-background">
-        <h2><%= __("account.deletion.title") %></h2>
-        <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/delete/').href %>"><%= __("account.deletion.proceed") %></a>
+        <h2><%= __("page.own_account.menu.deletion.title") %></h2>
+        <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/delete/').href %>"><%= __("page.own_account.menu.deletion.proceed") %></a>
     </div>
 
 </div>

@@ -8,7 +8,7 @@
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
         <div class="form-action-group">
-            <div class="button-group">
+            <div class="button-group-row">
             <button type="submit" class="button primary"><%= __('authorization.verify') %></button>
             <% if (urls.abort) { %>
                 <a class="button red" href="<%= urls.abort %>"><%= __('authorization.abort') %></a>
