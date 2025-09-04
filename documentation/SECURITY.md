@@ -12,6 +12,10 @@ The encryption key should be supplied through the environment and must be secure
 
 By using fully encrypted databases, data stored within these databases are protected against attackers gaining access to the database files.
 
+### Launcher with Remote Unlock
+
+We desinged a launcher that sends secrets to the main application to unlock the database. This launcher doesn't store any keys on disk. It uses a remote unlock through a user interface.
+
 ## Password Security Enforcement
 
 Passwords supplied by users are tested using [zxcvbn](https://github.com/dropbox/zxcvbn), which is an advanced password strength estimator. Its design is inspired by the inner workings of password crackers and prioritizes difficulty to crack over arbitrary rules that do not actually improve security.
@@ -24,13 +28,13 @@ We allow accounts to be recovered in two ways: email and recovery token. Users c
 
 From a security standpoint, we recommend recovery tokens, as this prevents email account compromise from being used to maliciously recover the account. However, we understand that security tokens can be messy and overwhelming, which is why we allow both methods. While we generally don't recommend enabling both at the same time, we do not prohibit it.
 
+### Readability of Tokens
+
+A common issue with long, complex tokens is that when written down on paper, some characters might be misread, making it impossible to use the token later on. To combat this, we strip tokens of any letters and numbers that have similarities in appearance. One example is the number "1" and the letter "I".
+
 ## Two-Factor Authentication
 
 Alongside passwords, we allow the optional use of two-factor authentication. Currently, only TOTP tokens are available as an option; however, we are considering adding support for more two-factor options.
-
-## Readability of Tokens
-
-A common issue with long, complex tokens is that when written down on paper, some characters might be misread, making it impossible to use the token later on. To combat this, we strip tokens of any letters and numbers that have similarities in appearance. One example is the number "1" and the letter "I".
 
 ## Hashing Almost Everything
 
@@ -50,7 +54,7 @@ There are a few simple rate limiters implemented. They limit the total number of
 
 ## OIDC Claims
 
-Concerning OIDC Claims, we only provide the user ID (a random string), the username (specified by the user), and an email. However, this email IS NOT the email provided by the user for account recovery; that email is hashed and thus would be and is useless! Instead, we return an imaginary email.
+Concerning OIDC Claims, we only provide the user ID (a random string), the username (specified by the user), and an email. However, this email IS NOT the email provided by the user for account recovery; that email is hashed and thus would be and is useless! Instead, we return an imaginary email as it is required.
 
 ## Invite Codes
 

@@ -3,13 +3,13 @@
 <div class="wrapper flex-container">
 
     <div class="container container-medium-width container-filled-background">
-        <h2><%= __('user.list_title') %></h2>
+        <h2><%= __('page.user_list.title') %></h2>
 
         <ul class="user-list">
             <% users.forEach(user => { %>
                 <li>
                     <div class="infos">
-                        <div class="username"><%= user.username + (user.username == account.username ? ` (` + __('user.current_user') + `)` : "") %></div>
+                        <div class="username"><%= user.username + (user.username == account.username ? ` (` + __('page.user_list.current_user') + `)` : "") %></div>
                         <% var roleInfo = Role.getRoleInfo(user.role) %> 
                         <div class="role" <%- `style="background-color: ${roleInfo.color};"` %>><%= roleInfo.name %></div>
                     </div>
@@ -27,7 +27,7 @@
 
     <div class="container container-medium-width">
 
-        <a href="<%= urlUtils.extendUrl(baseUrl, 'user','add').href %>" class="button"><%= __("user.create") %> </a>
+        <a href="<%= urlUtils.extendUrl(baseUrl, 'user','add').href %>" class="button"><%= __("page.user_list.create") %> </a>
 
     </div>
 

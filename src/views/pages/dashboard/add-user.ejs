@@ -4,18 +4,18 @@
 
     <div class="container container-medium-width container-filled-background">
 
-        <h1><%= __("create_account_title") %> </h1>
+        <h1><%= __("page.admin.user_add.title") %> </h1>
 
         <form class="form" action="" method="post">
             <fieldset>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('username_label') %></label> 
+                    <label class="label"><%= __('common.username') %></label> 
                     <%- include("../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
                 </div>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('account_role_label') %></label> 
+                    <label class="label"><%= __('common.account_role') %></label> 
                     <% var options = []
                     Role.allLower(account.role).forEach(role => {
                         options.push({value:role,displayName:Role.getRoleInfo(role).name})
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="form-action-group">
-                    <button class="button primary" type="submit"><%= __("create_button") %> </button>
+                    <button class="button primary" type="submit"><%= __("page.admin.user_add.create") %> </button>
                 </div>
     
             </fieldset>

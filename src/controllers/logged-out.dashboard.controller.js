@@ -122,7 +122,7 @@ export default {
                 break;
             default:
                 // If an unsupported recovery method is provided, throw an error
-                throw new UnexpectedClientError(res.__("validation.recovery.method.unsupported"));
+                throw new UnexpectedClientError(res.__("validation.common.recovery_method.unsupported"));
         }
 
 

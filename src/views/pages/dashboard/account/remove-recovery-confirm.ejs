@@ -5,9 +5,9 @@
     <div class="container container-medium-width container-filled-background">
       
         <% if (method == "token") { %>
-            <h2><%= __("account.recovery.token.remove.title") %></h2>
+            <h2><%= __("account.common.recovery_token.remove.title") %></h2>
         <% } else if (method == "email") { %>
-            <h2><%= __("account.recovery.email.remove.title") %></h2>
+            <h2><%= __("account.common.recovery_email.remove.title") %></h2>
         <% } %>
 
         <form class="form" autocomplete="off" action="" method="post">
@@ -17,13 +17,13 @@
                 
                 <%- include("../../../partials/alert-info.ejs",{info: __("account.recovery.remove.warning"),moreInfoLink: "https"}) %> 
                 <div class="form-group">
-                    <label class="label"><%= __('account.password.current.label') %></label>
+                    <label class="label"><%= __('common.current_password') %></label>
                     <%- include("../../../partials/form/input-field.ejs",{field: {name:"currentPassword",type:"password",required:true}}) %> 
                 </div>
 
             </fieldset>
             <div class="form-action-group">
-                <div class="button-group">
+                <div class="button-group-row">
                     <button type="submit" class="button red"><%= __('account.recovery.remove.confirm') %></button>
                 </div>
             </div>

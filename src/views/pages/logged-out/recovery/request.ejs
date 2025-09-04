@@ -1,7 +1,7 @@
 <div class="wrapper flex-container flex-container-vertical">
     <div class="container-medium-width container-filled-background">
 
-        <h1><%= __('recovery.request_title') %></h1>
+        <h1><%= __('page.recovery_request.title') %></h1>
     
         <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(baseUrl,`account-recovery`,`request`).href %>" method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
@@ -9,25 +9,25 @@
         <fieldset>
 
             <div class="form-group">
-                <label class="label"><%= __('user.username') %></label>
+                <label class="label"><%= __('common.username') %></label>
                 <%- include("../../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
             </div>
 
             <div class="form-group" >
-                <label class="label"><%= __('recovery.method') %></label> 
+                <label class="label"><%= __('common.recovery_method') %></label> 
                 <%- include("../../../partials/form/input-select.ejs",{select: {name:"method",id:"recoverySelect",options:[
-                    {value:"email",displayName:__('recovery.email')},
-                    {value:"token",displayName:__('recovery.token')}
-                ],defaultNone:{msg:__('recovery.select_method')}}}) %>
+                    {value:"email",displayName:__('common.recovery_email')},
+                    {value:"token",displayName:__('common.recovery_token')}
+                ],defaultNone:{msg:__('common.select_recovery_method')}}}) %>
             </div>
             
             <div id="recoveryEmailSection" class="form-group">
-                <label class="label"><%= __('recovery.email') %></label> 
+                <label class="label"><%= __('common.recovery_email') %></label> 
                 <%- include("../../../partials/form/input-field.ejs",{field: {name:"email",type:"email"}}) %> 
             </div>
             
             <div id="recoveryTokenSection" class="form-group">
-                <label class="label"><%= __('recovery.token') %></label> 
+                <label class="label"><%= __('common.recovery_token') %></label> 
                 <%- include("../../../partials/form/input-field.ejs",{field: {name:"token",type:"text"}}) %> 
             </div>
 
@@ -36,10 +36,10 @@
         </fieldset>
 
         <div class="form-action-group">
-            <div class="button-group">
-                <button type="submit" class="button primary"><%= __('form.request') %></button>
+            <div class="button-group-row">
+                <button type="submit" class="button primary"><%= __('common.form.submit') %></button>
             </div>
-            <p><%= __('recovery.no_methods') %> <a href=""><%= __('recovery.learn_more') %></a></p>
+            <p><%= __('page.recovery.no_methods_question') %> <a href="https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md?ref_type=heads"><%= __('common.learn_more') %></a></p>
         </div>
 
         </form>

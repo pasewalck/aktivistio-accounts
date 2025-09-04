@@ -3,7 +3,7 @@
 <div class="wrapper flex-container">
     <div class="container container-medium-width container-filled-background">
 
-        <h2><%= __("security.2fa.title") %></h2>
+        <h2><%= __("page.account_2fa.title") %></h2>
 
         <% if (has2fa) { %>
             <p><%= __("security.2fa.enabled_message") %></p>
@@ -12,7 +12,7 @@
                 <button class="button red"><%= __("security.2fa.remove_button") %></button>
             </form>
         <% } else { %>
-            <a class="button primary" href="<%= urlUtils.extendUrl(baseUrl, 'account/2fa/add').href %>"><%= __("security.2fa.add_button") %></a>
+            <a class="button primary" href="<%= urlUtils.extendUrl(baseUrl, 'account/2fa/add').href %>"><%= __("common.account_2fa.setup_2fa") %></a>
         <% } %>
 
     </div>
