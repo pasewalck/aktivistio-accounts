@@ -98,6 +98,14 @@ app.get('/health', (req, res) => {
     res.status(200).json({ status: 'OK', timestamp: new Date() });
 });
 
+//Unlock Redirect
+app.get('/unlock', (req, res) => {
+    res.redirect(extendUrl(env.BASE_URL))
+});
+app.post('/unlock', (req, res) => {
+    res.redirect(extendUrl(env.BASE_URL))
+});
+
 // Attach language change controller
 logger.debug("Attaching language controller");
 app.get('/change-language', langController.changeLanguage);
