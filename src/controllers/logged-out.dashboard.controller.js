@@ -220,7 +220,11 @@ export default {
         if (!errors.isEmpty()) {
             throw new ClientError(res.__("validation.account.setup.link_invalid"));
         }
-        return dashboardAuthRenderer.initAccountPage(res, false,{actionToken: data.actionToken});
+        
+        const actionTokenEntry = accountService.actionToken.getEntry(ActionTokenTypes.ACCOUNT_SETUP,data.actionToken)
+        const account = accountService.find.withId(actionTokenEntry.payload.accountId);
+
+        return dashboardAuthRenderer.initAccountPage(res, false,{actionToken: data.actionToken, username: account.username});
     },
 
     /**
@@ -270,6 +274,7 @@ export default {
         req.session.accountSetup = {
             passwordHash: await hashPassword(data.password),
             recoveryMethod: data.recoveryMethod,
+            username: data.username,
             recoveryEmailHash: data.recoveryEmail ? await hashPassword(data.recoveryEmail) : null,
             recoveryTokenHash: data.recoveryToken ? await hashPassword(data.recoveryToken) : null,
             accountId: actionTokenEntry.payload.accountId,
@@ -359,6 +364,9 @@ export default {
         let account = await accountService.find.withId(accountSession.accountId)
 
         accountService.password.setHash(account, accountSession.passwordHash); // Set the hashed password for the account
+
+        if(account.username != accountSession.username)
+            accountService.updateUsername(account,accountSession.username)
 
         // Set the recovery method based on the user's choice saved in session
         switch (accountSession.recoveryMethod) {

@@ -15,7 +15,7 @@ import recoveryRequestStepValidations from '../validation/validators/logged-out/
 import recoveryResetStepValidations from '../validation/validators/logged-out/recovery.reset-step.validations.js';
 import recoveryLinkValidations from '../validation/validators/logged-out/recovery.link.validations.js';
 import accountSetupLinkValidations from '../validation/validators/logged-out/account-setup.link.validations.js';
-import setupValidations from '../validation/validators/logged-out/setup.validations.js';
+import accountSetupDetailsValidations from '../validation/validators/logged-out/account-setup.details.validations.js';
 
 /**
  * @description Binds controllers to routes for the primary app.
@@ -40,7 +40,7 @@ export default (app) => {
 
     // Account setup routes
     app.get('/welcome/:actionToken/', middlewares, registerInviteWelcomeRequestRateLimiterMiddleware, accountSetupLinkValidations, dashboardAuthController.accountSetup);
-    app.post('/welcome/:actionToken/', middlewares, registerInviteWelcomeRequestRateLimiterMiddleware, accountSetupLinkValidations, setupValidations, dashboardAuthController.accountSetupPost);
+    app.post('/welcome/:actionToken/', middlewares, registerInviteWelcomeRequestRateLimiterMiddleware, accountSetupLinkValidations, accountSetupDetailsValidations, dashboardAuthController.accountSetupPost);
     app.post('/welcome/:actionToken/consent/', middlewares, registerInviteWelcomeRequestRateLimiterMiddleware, accountSetupLinkValidations, setupConsentValidations, dashboardAuthController.accountSetupConsentPost);
 
     // Login routes
