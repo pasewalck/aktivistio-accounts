@@ -145,7 +145,7 @@
 	"time.hours_ago %s": "vor %s Stunden",
 	"page.recovery.add.token.title": "Wiederherstellungstoken hinzufügen",
 	"account.common.recovery_token.new.title": "Neues Wiederherstellungstoken",
-	"account.common.recovery_token.setup.warning": "Stellen Sie sicher, dass Ihr Token sicher ist.",
+	"account.common.recovery_token.setup.warning": "Stell sicher, dass du dein Token an einem sicheren Platz speicherst.",
 	"form.update": "Formular aktualisieren",
 	"service.delete": "Dienst löschen",
 	"service.delete_forever": "Diesen Dienst dauerhaft löschen.",

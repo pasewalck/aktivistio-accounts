@@ -149,7 +149,7 @@
 	"time.hours_ago %s": "%s hours ago",
 	"page.recovery.add.token.title": "Add Recovery Token",
 	"account.common.recovery_token.new.title": "New Recovery Token",
-	"account.common.recovery_token.setup.warning": "Ensure your token is secure.",
+	"account.common.recovery_token.setup.warning": "Save your token in a safe location.",
 	"form.update": "Update Form",
 	"service.delete": "Delete Service",
 	"service.delete_forever": "Permanently delete this service.",
