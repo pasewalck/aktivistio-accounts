@@ -16,12 +16,12 @@
                     <a class="input-field-help-link" target="_blank" href="<%= urlUtils.extendUrl(baseUrl, 'invite-request').href %>"><%= __('page.register.no_invite_code_question') %></a>
                 </div>
 
-                <div class="form-group">
-                    <label class="label"><%= __('common.username') %></label>
-                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
-                </div>
-
             <% } %>
+
+            <div class="form-group">
+                <label class="label"><%= __('common.username') %></label>
+                <%- include("../../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
+            </div>
 
             <div class="form-group">
                 <label class="label"><%= __('common.password') %></label>

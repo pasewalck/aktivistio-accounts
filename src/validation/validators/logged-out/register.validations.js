@@ -3,7 +3,7 @@ import localize from "../../localize.js";
 import createPasswordValidator from "../../util-validators/create-password.validator.js";
 import invitesService from "../../../services/invites.service.js";
 import usernameCreateValidator from "../../util-validators/username-create.validator.js";
-import setupValidations from "./setup.validations.js";
+import detailsValidations from "./setup.details.validations.js";
 
 export default [
   body("inviteCode")
@@ -12,6 +12,5 @@ export default [
     .isAlphanumeric().withMessage(localize('validation.invite.code.format_invalid')).bail()
     .custom((value) => (!!invitesService.validate(value))).withMessage(localize('validation.invite.code.invalid')),    
   usernameCreateValidator(body("username")),
-  createPasswordValidator(body("password")),
-  ...setupValidations
+  ...detailsValidations
 ]

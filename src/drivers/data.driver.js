@@ -445,6 +445,15 @@ export default {
     },
 
     /**
+     * @description Sets the username for an account by ID.
+     * @param {String} id - The ID of the account.
+     * @param {String} username - The new username to set.
+     */
+    setAccountUsernameById: (id, username) => {
+        db.prepare('UPDATE accounts SET username = ? WHERE id = ?').run(username, id);
+    },
+
+    /**
      * @description Updates the role of an account by ID.
      * @param {String} id - The ID of the account.
      * @param {number} role - The new role ID to set.

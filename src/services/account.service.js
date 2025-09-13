@@ -256,6 +256,15 @@ async function setPassword(account, password) {
 }
 
 /**
+ * @description Sets the username for an account.
+ * @param {Account} account - The account.
+ * @param {String} password - The new username to set.
+ */
+async function updateUsername(account, username) {
+    userdataDriver.setAccountUsernameById(account.id, username);
+}
+
+/**
  * @description Sets the role for an account.
  * @param {Account} account - The account.
  * @param {Number} role - The new role to assign to the account.
@@ -367,6 +376,7 @@ export default {
         createSetupLink: createSetupActionLink,
         createRecoveryLink: createRecoveryActionLink
     },
+    updateUsername,
     getAll,
     checkLogin,
     create: create,
