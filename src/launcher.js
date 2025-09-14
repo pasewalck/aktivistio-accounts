@@ -3,6 +3,7 @@ import { Secret } from "init-secret-launcher/secret.js";
 import { generateAlphanumericSecret } from "./helpers/generate-secrets.js";
 import spawn from "cross-spawn";
 import logger from "./helpers/logger.js";
+import { extendUrl } from "./helpers/url.js";
 
 createLauncher([
     new Secret("DATABASE_KEY_DATA",() => generateAlphanumericSecret(40)),
@@ -22,4 +23,6 @@ createLauncher([
         },
         stdio: 'inherit'
     });
-})
+},
+extendUrl(process.env.BASE_URL | "","health")
+)
