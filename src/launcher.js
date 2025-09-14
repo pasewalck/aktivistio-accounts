@@ -5,6 +5,8 @@ import spawn from "cross-spawn";
 import logger from "./helpers/logger.js";
 import { extendUrl } from "./helpers/url.js";
 
+console.log(process.env.BASE_URL != undefined ? process.env.BASE_URL : "")
+
 createLauncher([
     new Secret("DATABASE_KEY_DATA",() => generateAlphanumericSecret(40)),
     new Secret("DATABASE_KEY_OIDC",() => generateAlphanumericSecret(40)),
@@ -24,5 +26,5 @@ createLauncher([
         stdio: 'inherit'
     });
 },
-extendUrl(process.env.BASE_URL | "","health")
+extendUrl(new URL(process.env.BASE_URL != undefined ? process.env.BASE_URL : "http://localhost:3000"),"health").href
 )
