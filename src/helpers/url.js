@@ -1,5 +1,3 @@
-import env from "./env.js"
-
 /**
  * @description Appends one or more relative paths to a base URL and returns the resulting URL.
  * @param {URL} baseURL - The base URL to which the relative paths will be appended.
