@@ -16,8 +16,9 @@ createLauncher([
     const password = generateAlphanumericSecret(40)
     logger.info(`Launcher initiated with new password: ${password}`)
     return password;
-},(secrets) => {
-    logger.info("Launcher unlocked and starting main service ...")
+}
+,(secrets) => {
+    logger.info("Starting main service ...")
     const child = spawn('node', ['src/server.js'], {
         env: {
             ...process.env,
@@ -25,6 +26,15 @@ createLauncher([
         },
         stdio: 'inherit'
     });
+},
+(secrets) => {
+
+},
+(isError,...message) => {
+    if(isError)
+        logger.error(message.join(" "))
+    else
+        logger.info(message.join(" "))
 },
 extendUrl(new URL(process.env.BASE_URL != undefined ? process.env.BASE_URL : "http://localhost:3000"),"health").href
 )
