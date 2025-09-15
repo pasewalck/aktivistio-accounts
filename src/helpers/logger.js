@@ -1,3 +1,4 @@
+import path from 'path';
 import pino from 'pino';
 import pretty from "pino-pretty"
 
@@ -7,8 +8,12 @@ const stream = pretty({
   colorize: true,
 });
 
-// Create a logger instance with the pretty stream
-const logger = pino(stream);
+const appName = path.basename(process.argv[1], path.extname(process.argv[1]));
+
+// Create a logger instance with the pretty stream and application name
+const logger = pino({
+  name: appName,
+}, stream);
 
 logger.info('Initializing logger');
 
