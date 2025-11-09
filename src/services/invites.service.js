@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
  *
- * Copyright (C) 2025 Jana
+ * Copyright (C) 2025 Jana Caroline Pasewalck
  */
 import { generateAsciiSecret, generateTypeableCode } from "../helpers/generate-secrets.js";
 import { fingerprintString } from "../helpers/fingerprint-string.js";
