@@ -30,7 +30,7 @@ We do not recommend using this project for your own use at the time being. This 
 
 ## Notes on Data Privacy and Security
 
-In the design of our systems, we employ a low trust model and strive to minimize the data stored by this software. All storage solutions support full encryption at rest. In addition to passwords, we also hash emails and recovery tokens. For more information, read more [about Privacy and Security.](./SECURITY.md)
+In the design of our systems, we employ a low trust model and strive to minimize the data stored by this software. All storage solutions support full encryption at rest. In addition to passwords, we also hash emails and recovery tokens. For more information, read more [about Privacy and Security.](./documentation/SECURITY.md)
 
 ## Roadmap
 
