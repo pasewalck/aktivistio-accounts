@@ -1,7 +1,6 @@
 node_modules
 data.db
 data/
-package-lock.json
 src/public/css
 logs
 app-logo.*
