@@ -1,23 +1,23 @@
 <%
 //  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
+//
+//  The project "Aktivistio Accounts" implements an account system and
 //  management platform combined with an OAuth 2.0 Authorization Server.
-//  
+//
 //  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-//  
+//
 //  "Aktivistio Accounts" is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 //  GNU General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU General Public License
 //  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
+//
+//  Copyright (C) 2025 Jana Caroline Pasewalck
 %>
 
 <%- include("../../../partials/dashboard-header.ejs") %>
@@ -26,37 +26,37 @@
     <div class="container container-medium-width container-filled-background">
 
         <% if (hasRecoveryEmail) { %>
-            <h2><%= __("account.common.recovery_email.update.title") %></h2>
+            <h2><%= __("page.account_recovery_update_email.title") %></h2>
         <% } else { %>
-            <h2><%= __("page.recovery.add.email.title") %></h2>
+            <h2><%= __("page.account_recovery_add_email.title") %></h2>
         <% } %>
 
         <form class="form" autocomplete="off" action="" method="post">
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-      
-            <fieldset>       
-              
-                <%- include("../../../partials/alert-info.ejs",{info: __("account.common.recovery_email.setup.warning"),moreInfoLink: "https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md"}) %> 
-                
+
+            <fieldset>
+
+                <%- include("../../../partials/alert-info.ejs",{info: __("page.account_recovery_set_email.waring_valid_email"),moreInfoLink: "https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md"}) %>
+
                 <div class="form-group">
                     <label class="label"><%= __('common.current_password') %></label>
-                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"currentPassword",type:"password",required:true}}) %> 
+                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"currentPassword",type:"password",required:true}}) %>
                 </div>
 
                 <div class="form-group">
-                    <label class="label"><%= __('account.common.recovery_email.new.label') %></label>
-                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"email",type:"email",required:true}}) %> 
+                    <label class="label"><%= __('page.account_recovery_set_email.new_email') %></label>
+                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"email",type:"email",required:true}}) %>
                 </div>
 
             </fieldset>
-            
+
             <div class="form-action-group">
               <div class="button-group-row">
-                <button type="submit" class="button primary"><%= __('account.common.recovery_email.set.button') %></button>
+                <button type="submit" class="button primary"><%= __('page.account_recovery_set_email.set_new_button') %></button>
               </div>
             </div>
 
         </form>
-        
+
     </div>
 </div>

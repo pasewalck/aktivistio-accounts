@@ -1,23 +1,23 @@
 <%
 //  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
+//
+//  The project "Aktivistio Accounts" implements an account system and
 //  management platform combined with an OAuth 2.0 Authorization Server.
-//  
+//
 //  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-//  
+//
 //  "Aktivistio Accounts" is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 //  GNU General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU General Public License
 //  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
+//
+//  Copyright (C) 2025 Jana Caroline Pasewalck
 %>
 
 <%- include("../../../partials/dashboard-header.ejs") %>
@@ -38,20 +38,20 @@
         <% function formatTimestamp(timestamp) {
             const logDate = new Date(timestamp);
             const now = new Date();
-                    
+
             if (logDate.toDateString() === now.toDateString()) {
                 const delta = Math.floor((now - logDate) / 1000);
-                if (delta < 60) return __("page.audit_log.time_seconds_ago", delta);
-                if (delta < 3600) return __("time.minutes_ago", Math.floor(delta / 60));
-                return __("time.hours_ago %s", Math.floor(delta / 3600));
+                if (delta < 60) return __("common.time.seconds_ago %t", delta);
+                if (delta < 3600) return __("common.time.minutes_ago %t", sth.floor(delta / 60));
+                return __("common.time.hours_ago %t", Math.floor(delta / 3600));
             } else {
                 return logDate.toLocaleDateString();
             }
-        } %> 
+        } %>
         <ul class="audit-log-list">
             <% for (let index=0; index < auditLog.length; index++) { const logEntry=auditLog[index]; %>
                 <li class="audit-log-entry alert-level-<%= logEntry.actionType.alertLevel %>">
-        
+
                     <span class="audit-log-type">
                         <%= logEntry.count %>x
                         <% if (logEntry.actionType.alertLevel == 1) { %>

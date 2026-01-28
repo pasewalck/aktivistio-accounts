@@ -1,23 +1,23 @@
 <%
 //  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
+//
+//  The project "Aktivistio Accounts" implements an account system and
 //  management platform combined with an OAuth 2.0 Authorization Server.
-//  
+//
 //  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-//  
+//
 //  "Aktivistio Accounts" is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 //  GNU General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU General Public License
 //  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
+//
+//  Copyright (C) 2025 Jana Caroline Pasewalck
 %>
 
 <%- include("../../partials/dashboard-header.ejs") %>
@@ -32,14 +32,14 @@
             <fieldset>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('common.username') %></label> 
+                    <label class="label"><%= __('common.username') %></label>
                     <div class="output-field">
                         <p><%= managingAccount.username %></p>
                     </div>
                 </div>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('common.user_uuid_label') %></label> 
+                    <label class="label"><%= __('common.user_uuid_label') %></label>
                     <div class="output-field">
                         <p><%= managingAccount.id %></p>
                     </div>
@@ -52,27 +52,31 @@
     </div>
 
     <div class="container container-medium-width container-filled-background">
-        <% var isNew = managingAccount.lastLogin == null %> 
+        <% var isNew = managingAccount.lastLogin == null %>
         <% if (isNew) { %>
             <h2><%= __("page.admin.manage_account.send_setup_email") %> </h2>
         <% } else { %>
-            <h2><%= __("send_recovery_email_title") %> </h2>
+            <h2><%= __("page.admin.manage_account.send_recovery_email") %> </h2>
         <% } %>
 
         <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}`,isNew ? `send-setup` : `send-recovery`).href %>" method="post">
-            
+
             <fieldset>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('target_email_label') %></label> 
-                    <%- include("../../partials/form/input-field.ejs",{field: {name:"email",type:"email"}}) %>  
+                    <label class="label"><%= __('common.target_email') %></label>
+                    <%- include("../../partials/form/input-field.ejs",{field: {name:"email",type:"email"}}) %>
                 </div>
 
             </fieldset>
-                  
+
             <div class="form-action-group">
-                <button class="button" type="submit"><%= __("send_email_button") %> </button>
-            </div>   
+                <% if (isNew) { %>
+                    <button class="button" type="submit"><%= __("page.admin.manage_account.send_setup_email_button") %> </button>
+                <% } else { %>
+                    <button class="button" type="submit"><%= __("page.admin.manage_account.send_recovery_email_button") %> </button>
+                <% } %>
+            </div>
         </form>
 
     </div>
@@ -80,13 +84,13 @@
 
     <div class="container container-medium-width container-filled-background">
 
-        <h2><%= __("update_account_title") %> </h2>
+        <h2><%= __("page.admin.manage_account.update") %> </h2>
 
         <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/update`).href %>" method="post">
             <fieldset>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('common.account_role') %></label> 
+                    <label class="label"><%= __('common.account_role') %></label>
                     <% var options = []
                     Role.allLower(account.role).forEach(role => {
                         options.push({value:role,displayName:Role.getRoleInfo(role).name})
@@ -98,8 +102,8 @@
 
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
             <div class="form-action-group">
-                <button class="button" type="submit"><%= __("update_button") %> </button>
-            </div>     
+                <button class="button" type="submit"><%= __("page.admin.manage_account.update_button") %> </button>
+            </div>
 
         </form>
 
@@ -108,30 +112,30 @@
     <% if (hasPermission(account.role,Permission.DELETE_USERS)) { %>
 
         <div class="container container-medium-width container-filled-background">
-            <h2><%= __("delete_account_title") %> </h2>
+            <h2><%= __("page.admin.manage_account.delete") %> </h2>
 
             <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/delete`).href %>" method="post">
                 <fieldset>
-                    
+
                     <div class="form-group">
-                        <label class="label"><%= __('admin_password_label') %></label>
-                        <%- include("../../partials/form/input-field.ejs",{field: {name:"deleteAdminPassword",type:"password",required:true}}) %> 
+                        <label class="label"><%= __('common.your_admin_password') %></label>
+                        <%- include("../../partials/form/input-field.ejs",{field: {name:"deleteAdminPassword",type:"password",required:true}}) %>
                     </div>
 
                     <div class="form-group">
-                        <label class="label"><%= __('confirm_action_label') %></label>
-                        <%- include("../../partials/form/input-checkbox.ejs",{checkbox: {name:"deleteAdminConfirm",msg:__('delete_confirmation_checkbox',managingAccount.username)}}) %>             
+                        <label class="label"><%= __('page.admin.manage_account.confirm_delete') %></label>
+                        <%- include("../../partials/form/input-checkbox.ejs",{checkbox: {name:"deleteAdminConfirm",msg:__('page.admin.manage_account.confirm_delete_message',managingAccount.username)}}) %>
                     </div>
 
                 </fieldset>
 
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                 <div class="form-action-group">
-                    <button class="button red" type="submit"><%= __("delete_forever_button") %> </button>
-                </div>     
+                    <button class="button red" type="submit"><%= __("page.admin.manage_account.delete_button") %> </button>
+                </div>
 
             </form>
-            
+
         </div>
 
     <% } %>

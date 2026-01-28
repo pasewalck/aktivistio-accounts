@@ -1,50 +1,50 @@
 <%
 //  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
+//
+//  The project "Aktivistio Accounts" implements an account system and
 //  management platform combined with an OAuth 2.0 Authorization Server.
-//  
+//
 //  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-//  
+//
 //  "Aktivistio Accounts" is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 //  GNU General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU General Public License
 //  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
+//
+//  Copyright (C) 2025 Jana Caroline Pasewalck
 %>
 
 <%- include("../../../partials/dashboard-header.ejs") %>
 
 <div class="wrapper flex-container">
     <div class="container container-medium-width container-filled-background">
-        <h2><%= __("account.delete.title") %></h2>
+        <h2><%= __("page.own-account.delete.title") %></h2>
 
         <form class="form" action="" method="post">
             <fieldset>
-                <%- include("../../../partials/alert-info.ejs",{info: __("account.delete.warning"),moreInfoLink:false}) %> 
+                <%- include("../../../partials/alert-info.ejs",{info: __("page.own-account.delete.warninge.warning"),moreInfoLink:false}) %>
 
                 <div class="form-group">
-                    <label class="label"><%= __('account.password.label') %></label>
-                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true}}) %> 
+                    <label class="label"><%= __('common.password') %></label>
+                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true}}) %>
                 </div>
 
                 <div class="form-group">
-                    <label class="label"><%= __('account.confirm.label') %></label>
-                    <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"confirm",msg:__('account.confirm.delete.message')}}) %>             
+                    <label class="label"><%= __('common.confirm') %></label>
+                    <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"confirm",msg:__('page.own-account.delete.checkbox.message')}}) %>
                 </div>
             </fieldset>
 
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
             <div class="form-action-group">
-                <button class="button red" type="submit"><%= __("account.delete.button") %></button>
-            </div>     
+                <button class="button red" type="submit"><%= __("page.own-account.delete.button.text") %></button>
+            </div>
         </form>
     </div>
 </div>
