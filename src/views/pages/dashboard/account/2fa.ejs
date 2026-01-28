@@ -1,23 +1,23 @@
 <%
 //  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
+//
+//  The project "Aktivistio Accounts" implements an account system and
 //  management platform combined with an OAuth 2.0 Authorization Server.
-//  
+//
 //  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-//  
+//
 //  "Aktivistio Accounts" is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 //  GNU General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU General Public License
 //  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
+//
+//  Copyright (C) 2025 Jana Caroline Pasewalck
 %>
 
 <%- include("../../../partials/dashboard-header.ejs") %>
@@ -28,13 +28,13 @@
         <h2><%= __("page.account_2fa.title") %></h2>
 
         <% if (has2fa) { %>
-            <p><%= __("security.2fa.enabled_message") %></p>
+            <p><%= __("page.account_2fa.enabled_message") %></p>
             <form action="<%= urlUtils.extendUrl(baseUrl, 'account/2fa/remove').href %>" method="post">
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-                <button class="button red"><%= __("security.2fa.remove_button") %></button>
+                <button class="button red"><%= __("page.account_2fa.remove_button") %></button>
             </form>
         <% } else { %>
-            <a class="button primary" href="<%= urlUtils.extendUrl(baseUrl, 'account/2fa/add').href %>"><%= __("common.account_2fa.setup_2fa") %></a>
+            <a class="button primary" href="<%= urlUtils.extendUrl(baseUrl, 'account/2fa/add').href %>"><%= __("page.account_2fa.setup_2fa") %></a>
         <% } %>
 
     </div>

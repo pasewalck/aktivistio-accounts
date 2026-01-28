@@ -1,7 +1,7 @@
-/* 
+/*
  * This file is part of "Aktivistio Accounts".
  *
- * The project "Aktivistio Accounts" implements an account system and 
+ * The project "Aktivistio Accounts" implements an account system and
  * management platform combined with an OAuth 2.0 Authorization Server.
  *
  * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
@@ -28,25 +28,24 @@ import localize from "../localize.js";
  */
 export default (validationChain) => {
     return validationChain
-        .exists({checkFalsy: true}).bail()
+        .exists({ checkFalsy: true }).bail()
         .isString()
         .isAscii().withMessage(localize("validation.password.invalid_characters")).bail()
-        .custom((value,{req}) => {
+        .custom((value, { req }) => {
             let passwordStrg = zxcvbn(value);
-            if (passwordStrg.score <= 2)
-            {
+            if (passwordStrg.score <= 2) {
                 var messages = [];
-                if(passwordStrg.feedback.warning)
-                    messages.push(`${req.__(passwordStrg.feedback.warning.toLowerCase().replaceAll(" ","_").replaceAll(".",""))}.`)
+                if (passwordStrg.feedback.warning)
+                    messages.push(`${req.__(`password-hints.${passwordStrg.feedback.warning.toLowerCase().replaceAll(" ", "_").replaceAll(".", "")}`)}.`)
                 else
                     messages.push(req.__("validation.password.security"))
 
                 passwordStrg.feedback.suggestions.forEach(suggestion => {
-                    messages.push(req.__(suggestion.toLowerCase().replaceAll(" ","_").replaceAll(".","")))
+                    messages.push(req.__(suggestion.toLowerCase().replaceAll(" ", "_").replaceAll(".", "")))
                 });
                 throw new Error(messages.join(" "))
             }
-                  
+
             return true;
         })
-} 
+}
