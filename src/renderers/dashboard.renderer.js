@@ -1,7 +1,7 @@
-/* 
+/*
  * This file is part of "Aktivistio Accounts".
  *
- * The project "Aktivistio Accounts" implements an account system and 
+ * The project "Aktivistio Accounts" implements an account system and
  * management platform combined with an OAuth 2.0 Authorization Server.
  *
  * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
@@ -43,14 +43,14 @@ export default {
   /**
    * @description Renders the services dashboard page.
    * Displays a list of clients available in the system.
-   * 
+   *
    * @param {Request} req - The request object.
    * @param {Response} res - The response object.
    */
   services: (req, res) => {
     return res.render('pages/dashboard/services', {
-        title: res.__('page.title.services'),
-        clients: adapterService.getEntries("Client")
+      title: res.__('page.title.services'),
+      clients: adapterService.getEntries("Client")
     });
   },
 
@@ -65,10 +65,10 @@ export default {
   */
   manageService: (req, res, currentClientId = null, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/service-management', {
-        title: res.__('page.title.manage-service'),
-        errors: errors,
-        formData: formData,
-        currentClientId: currentClientId
+      title: res.__('page.title.manage-service'),
+      errors: errors,
+      formData: formData,
+      currentClientId: currentClientId
     });
   },
 
@@ -80,7 +80,7 @@ export default {
   */
   account: (req, res) => {
     return res.render('pages/dashboard/account', {
-        title: res.__('page.own_account.title'),
+      title: res.__('page.own_account.title'),
     });
   },
 
@@ -94,23 +94,23 @@ export default {
   */
   accountChangePassword: (req, res, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/account/password', {
-        title: res.__('page.change-password.title'),
-        errors: errors,
-        formData: formData,
+      title: res.__('page.change-password.title'),
+      errors: errors,
+      formData: formData,
     });
   },
 
   /**
   * @description Renders the two-factor authentication (2FA) settings page.
   * Displays whether 2FA is enabled for the user's account.
-  * 
+  *
   * @param {Request} req - The request object.
   * @param {Response} res - The response object.
   */
   twoFactorAuth: (req, res) => {
     return res.render('pages/dashboard/account/2fa', {
-        title: res.__('page.account_2fa.title'),
-        has2fa: accountService.twoFactorAuth.get(req.account) != null
+      title: res.__('page.account_2fa.title'),
+      has2fa: accountService.twoFactorAuth.get(req.account) != null
     });
   },
 
@@ -136,7 +136,7 @@ export default {
       qrCodeSrc: qrCodeSrc,
       formData: formData,
       errors: errors
-  });
+    });
   },
 
   /**
@@ -146,10 +146,10 @@ export default {
    * @param {Response} res - The response object.
    */
   recovery: (req, res) => {
-      return res.render('pages/dashboard/account/recovery', {
-          title: res.__('page.title.account_recovery'),
-          currentRecovery: accountService.recovery.get(req.account)
-      });
+    return res.render('pages/dashboard/account/recovery', {
+      title: res.__('page.title.account_recovery'),
+      currentRecovery: accountService.recovery.get(req.account)
+    });
   },
 
   /**
@@ -161,14 +161,14 @@ export default {
    * @param {JSON} [errors] - Any validation errors to display (optional).
    */
   setRecoveryToken: (req, res, formData = {}, errors = {}) => {
-      return res.render('pages/dashboard/account/set-recovery-token', {
-          title: res.__('page.title.account_recovery'),
-          accountInQuestion: req.account,
-          errors: errors,
-          formData: formData,
-          hasRecoveryToken: accountService.recovery.get(req.account)?.token != null,
-          recoveryToken: formData.token || generateRecoveryToken()
-      });
+    return res.render('pages/dashboard/account/set-recovery-token', {
+      title: res.__('page.title.account_recovery'),
+      accountInQuestion: req.account,
+      errors: errors,
+      formData: formData,
+      hasRecoveryToken: accountService.recovery.get(req.account)?.token != null,
+      recoveryToken: formData.token || generateRecoveryToken()
+    });
   },
 
   /**
@@ -180,13 +180,13 @@ export default {
    * @param {JSON} [errors] - Any validation errors to display (optional).
    */
   setRecoveryEmail: (req, res, formData = {}, errors = {}) => {
-      return res.render('pages/dashboard/account/set-recovery-email', {
-          title: res.__('page.title.account_recovery'),
-          errors: errors,
-          formData: formData,
-          accountInQuestion: req.account,
-          hasRecoveryEmail: accountService.recovery.get(req.account)?.email != null
-      });
+    return res.render('pages/dashboard/account/set-recovery-email', {
+      title: res.__('page.title.account_recovery'),
+      errors: errors,
+      formData: formData,
+      accountInQuestion: req.account,
+      hasRecoveryEmail: accountService.recovery.get(req.account)?.email != null
+    });
   },
 
   /**
@@ -199,13 +199,13 @@ export default {
    * @param {JSON} [errors] - Any validation errors to display (optional).
    */
   deleteRecoveryMethod: (req, res, method, formData = {}, errors = {}) => {
-      return res.render('pages/dashboard/account/remove-recovery-confirm', {
-          title: res.__('page.title.account_recovery'),
-          accountInQuestion: req.account,
-          errors: errors,
-          formData: formData,
-          method: method
-      });
+    return res.render('pages/dashboard/account/remove-recovery-confirm', {
+      title: res.__('page.title.account_recovery'),
+      accountInQuestion: req.account,
+      errors: errors,
+      formData: formData,
+      method: method
+    });
   },
 
   /**
@@ -217,12 +217,12 @@ export default {
    * @param {JSON} [errors] - Any validation errors to display (optional).
    */
   delete: (req, res, formData = {}, errors = {}) => {
-      return res.render('pages/dashboard/account/delete', {
-          title: res.__('page.delete_account.title'),
-          errors: errors,
-          formData: formData,
-          accountInQuestion: req.account
-      });
+    return res.render('pages/dashboard/account/delete', {
+      title: res.__('page.delete_account.title'),
+      errors: errors,
+      formData: formData,
+      accountInQuestion: req.account
+    });
   },
 
   /**
@@ -247,8 +247,8 @@ export default {
   */
   users: (req, res) => {
     return res.render('pages/dashboard/users', {
-        title: res.__('page.title.users'),
-        users: accountService.getAll(),
+      title: res.__('page.title.users'),
+      users: accountService.getAll(),
     });
   },
 
@@ -261,14 +261,14 @@ export default {
   */
   userAdd: (req, res, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/add-user', {
-        title: res.__('page.admin.user_add.title'),
-        formData: formData,
-        errors: errors
+      title: res.__('page.admin.user_add.title'),
+      formData: formData,
+      errors: errors
     });
   },
 
   /**
-   * @description Displays a page confirming that a recovery email has been sent to the user     
+   * @description Displays a page confirming that a recovery email has been sent to the user
    * @param {Response} res - The response object.
    */
   recoveryEmailSent: (res) => {
@@ -279,7 +279,7 @@ export default {
   },
 
   /**
-   * @description Displays a page confirming that a setup email has been sent to the user     
+   * @description Displays a page confirming that a setup email has been sent to the user
    * @param {Response} res - The response object.
    */
   setupEmailSent: (res) => {
@@ -294,20 +294,20 @@ export default {
   * Displays a list of audit logs. Either since last login or all of them.
   * @param {Request} req - The request object.
   * @param {Response} res - The response object.
-  * @param {boolean} onlySinceLastLogin - 
+  * @param {boolean} onlySinceLastLogin -
   */
   auditLog: (req, res, weeksBack) => {
     // Fetch the full audit log
-    const since = Math.round(Date.now()/1000)-weeksBack*60*60*24*7
+    const since = Math.round(Date.now() / 1000) - weeksBack * 60 * 60 * 24 * 7
     const auditLog = auditService.getFullAuditLog(req.account, since);
 
     // Sort the audit log entries by timestamp in descending order
     auditLog.sort((a, b) => new Date(b.time) - new Date(a.time));
     return res.render('pages/dashboard/account/audit-log', {
-        title: res.__('page.audit_log.title'),
-        weeksBack,
-        moreEntries: since > auditService.getFirstEntryFullAuditLog(req.account).time,
-        auditLog,
+      title: res.__('page.audit_log.title'),
+      weeksBack,
+      moreEntries: since > auditService.getFirstEntryFullAuditLog(req.account).time,
+      auditLog,
     });
   },
 
@@ -322,10 +322,10 @@ export default {
   */
   manageUser: (req, res, userId, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/manage-user', {
-        title: res.__('page.admin.user_manage.title'),
-        errors: errors,
-        formData: formData,
-        managingAccount: accountService.find.withId(userId),
+      title: res.__('page.admin.user_manage.title'),
+      errors: errors,
+      formData: formData,
+      managingAccount: accountService.find.withId(userId),
     });
   },
 
@@ -337,12 +337,12 @@ export default {
   * @param {String} invite - The invite code to be shared.
   */
   inviteShare: async (req, res, invite) => {
-    var inviteURL = extendUrl(env.BASE_URL,"register",invite).href;
+    var inviteURL = extendUrl(env.BASE_URL, "register", invite).href;
     return res.render('pages/dashboard/invite-share', {
-        title: res.__('page.title.inviting'),
-        invite: invite,
-        inviteURL: inviteURL,
-        inviteQR: await QRCode.toDataURL(inviteURL, { width: 300 })
+      title: res.__('page.invite_share.title'),
+      invite: invite,
+      inviteURL: inviteURL,
+      inviteQR: await QRCode.toDataURL(inviteURL, { width: 300 })
     });
   },
 };
