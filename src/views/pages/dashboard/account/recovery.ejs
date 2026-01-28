@@ -1,23 +1,23 @@
 <%
 //  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
+//
+//  The project "Aktivistio Accounts" implements an account system and
 //  management platform combined with an OAuth 2.0 Authorization Server.
-//  
+//
 //  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-//  
+//
 //  "Aktivistio Accounts" is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 //  GNU General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU General Public License
 //  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
+//
+//  Copyright (C) 2025 Jana Caroline Pasewalck
 %>
 
 <%- include("../../../partials/dashboard-header.ejs") %>
@@ -25,39 +25,39 @@
 <div class="wrapper flex-container">
     <div class="container container-medium-width container-filled-background">
 
-        <h2><%= __("page.account-recovery.title") %></h2>   
-        
+        <h2><%= __("page.account_recovery.title") %></h2>
+
         <% if (currentRecovery && (currentRecovery.recovery_token || currentRecovery.recovery_email)) { %>
-            <p><%= __("account.common.recovery_methods.count %s", (currentRecovery.recovery_token && currentRecovery.recovery_email) ? 2 : 1) %></p>
+            <p><%= __("page.account_recovery.text.recovery-methods-count %s", (currentRecovery.recovery_token && currentRecovery.recovery_email) ? 2 : 1) %></p>
             <ul class="box-list">
                 <% if (currentRecovery.recovery_token) { %>
                     <li>
-                        <p><%= __("account.common.recovery_token.label") %></p>
+                        <p><%= __("page.account_recovery.active-list.label.token") %></p>
                         <div class="actions">
-                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>"><%= __("account.common.recovery_token.new") %></a>
-                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-token').href %>" class="red"><%= __("common.actions.delete") %></a>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>"><%= __("common.button.modify") %></a>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-token').href %>" class="red"><%= __("common.button.delete") %></a>
                         </div>
                     </li>
                 <% } %>
                 <% if (currentRecovery.recovery_email) { %>
                     <li>
-                        <p><%= __("account.common.recovery_email.label") %></p>
+                        <p><%= __("page.account_recovery.active-list.label.email") %></p>
                         <div class="actions">
-                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>"><%= __("common.actions.modify") %></a>
-                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-email').href %>" class="red"><%= __("common.actions.delete") %></a>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>"><%= __("common.button.modify") %></a>
+                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-email').href %>" class="red"><%= __("common.button.delete") %></a>
                         </div>
                     </li>
                 <% } %>
             </ul>
         <% } else { %>
-            <p><%= __("page.recovery.no_method_set") %></p>
+            <p><%= __("page.account_recovery.no_method_set_message") %></p>
         <% } %>
         <div class="button-group-row">
             <% if (!currentRecovery?.email) { %>
-                <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>"><%= __("page.recovery.add.email") %></a>
+                <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>"><%= __("page.account_recovery.add_email_button") %></a>
             <% } %>
             <% if (!currentRecovery?.token) { %>
-                <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>"><%= __("page.recovery.add.token") %></a>
+                <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>"><%= __("page.account_recovery.add_token_button") %></a>
             <% } %>
         </div>
 

@@ -1,7 +1,7 @@
-/* 
+/*
  * This file is part of "Aktivistio Accounts".
  *
- * The project "Aktivistio Accounts" implements an account system and 
+ * The project "Aktivistio Accounts" implements an account system and
  * management platform combined with an OAuth 2.0 Authorization Server.
  *
  * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
@@ -72,6 +72,7 @@ i18n.configure({
     directory: 'i18n',
     defaultLocale: 'de',
     cookie: 'i18n',
+    objectNotation: true
 });
 
 // Serve static files from the public directory
@@ -100,7 +101,7 @@ logger.debug("Initializing middlewares");
 app.use(csrfProtection);
 
 // Global rate limiter middleware
-if(env.RATE_LIMITER.USE_GLOBAL_PROTECTION)
+if (env.RATE_LIMITER.USE_GLOBAL_PROTECTION)
     app.use(ipRateLimiterMiddleware)
 
 // Attach OIDC callback

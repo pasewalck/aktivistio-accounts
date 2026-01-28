@@ -1,7 +1,7 @@
-/* 
+/*
  * This file is part of "Aktivistio Accounts".
  *
- * The project "Aktivistio Accounts" implements an account system and 
+ * The project "Aktivistio Accounts" implements an account system and
  * management platform combined with an OAuth 2.0 Authorization Server.
  *
  * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
@@ -59,7 +59,7 @@ export default {
             enabled: true,
             logoutSource: async (ctx, form) => {
                 // Render the logout card with the session secret
-                ctx.body = await render("pages/oidc/logout", { secret: ctx.oidc.session.state.secret }, ctx.res.__('logout'), ctx);
+                ctx.body = await render("pages/oidc/logout", { secret: ctx.oidc.session.state.secret }, ctx.res.__('page.logout.title'), ctx);
             },
             postLogoutSuccessSource: async (ctx) => {
                 // Redirect to the home page after logout
@@ -128,6 +128,5 @@ export default {
             return 14 * 24 * 60 * 60; // Default to 14 days in seconds
         },
         Session: 1209600, // 14 days in seconds
-      },
+    },
 };
-  

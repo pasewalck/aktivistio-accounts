@@ -1,7 +1,7 @@
-/* 
+/*
  * This file is part of "Aktivistio Accounts".
  *
- * The project "Aktivistio Accounts" implements an account system and 
+ * The project "Aktivistio Accounts" implements an account system and
  * management platform combined with an OAuth 2.0 Authorization Server.
  *
  * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
@@ -63,7 +63,7 @@ async function getInteractionDetailsNullable(req, res) {
  * @param {String} accountId - The ID of the authenticated account.
  */
 async function doLogin(res, req, interactionDetails, accountId) {
-    auditService.appendAuditLog({id:accountId},AuditActionType.LOGIN_SUCCESS,req)
+    auditService.appendAuditLog({ id: accountId }, AuditActionType.LOGIN_SUCCESS, req)
     if (interactionDetails) {
         // If interaction details are present, finish the interaction with the account ID
         await provider.interactionFinished(req, res, {
@@ -101,7 +101,7 @@ export default {
 
         // If there are validation errors, render the login page with error messages
         if (!errors.isEmpty()) {
-            auditService.appendAuditLog(accountService.find.withUsername(data.username),AuditActionType.LOGIN_FAIL,req)
+            auditService.appendAuditLog(accountService.find.withUsername(data.username), AuditActionType.LOGIN_FAIL, req)
             sharedRenderer.login(res, interactionDetails, data, errors.mapped());
         } else {
             // Check the provided username and password against the account service
@@ -150,7 +150,7 @@ export default {
         const data = await matchedData(req);
 
         // Validate that validators parsed a valid two factor login token
-        if(!data.twoFactorLoginToken) {
+        if (!data.twoFactorLoginToken) {
             throw new UnexpectedClientError(res.__("validation.two_factor.token.parse_failed"));
         }
 
@@ -159,7 +159,7 @@ export default {
             // If session doesn't exist simply render login page
             return sharedRenderer.login(res, interactionDetails, {}, {})
         }
-        
+
         // Retrieve the account ID from the session for the two-factor login
         let { accountId, loginToken } = req.session.twoFactorLogin;
 
@@ -168,16 +168,16 @@ export default {
             // Increment attempts stored in session
             req.session.twoFactorLogin.attempts++;
             // Append failed second factor login to audit log
-            auditService.appendAuditLog(accountService.find.withUsername(data.username),AuditActionType.LOGIN_2FA_FAIL,req)
+            auditService.appendAuditLog(accountService.find.withUsername(data.username), AuditActionType.LOGIN_2FA_FAIL, req)
             // Render two factor login page again
             sharedRenderer.twoFactorAuth(res, interactionDetails, data.twoFactorLoginToken, errors.mapped());
         } else {
- 
-            
+
+
             // Verify the provided login token against the login token from the user session
-            if(data.twoFactorLoginToken != loginToken) {
+            if (data.twoFactorLoginToken != loginToken) {
                 //This should never be triggered, as login token validation is already done in validators!
-                throw new UnexpectedClientError(res.__("validation.login.token.invalid"));
+                throw new UnexpectedClientError(res.__("validation.login.token_invalid"));
             }
 
             // Retrieve the account for account id from account service.

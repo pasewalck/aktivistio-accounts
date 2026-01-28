@@ -1,57 +1,57 @@
 <%
 //  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
+//
+//  The project "Aktivistio Accounts" implements an account system and
 //  management platform combined with an OAuth 2.0 Authorization Server.
-//  
+//
 //  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-//  
+//
 //  "Aktivistio Accounts" is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 //  GNU General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU General Public License
 //  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
+//
+//  Copyright (C) 2025 Jana Caroline Pasewalck
 %>
 
 <%- include("../../partials/dashboard-header.ejs") %>
 
 <div class="wrapper flex-container">
 
-    <% const canGenerate = hasPermission(account.role, Permission.MANAGE_OWN_INVITES); %> 
-    
+    <% const canGenerate = hasPermission(account.role, Permission.MANAGE_OWN_INVITES); %>
+
     <% if (inviteCodes.length > 0 || !canGenerate) { %>
         <div class="container container-medium-width container-filled-background">
             <h1><%= __("page.invites.title") %></h1>
             <ul class="invite-list">
                 <% if (inviteCodes.length <= 0) { %>
                     <% if (lockedInviteCodes.length > 0 && !canGenerate) { %>
-                        <% var daysLeft = (new Date(lockedInviteCodes[0].createDate * 1000) - new Date().getTime()) / 1000 / (60 * 60 * 24); %> 
-                        <%- include("../../partials/alert-info.ejs", { info: __("invites_unlocked_message", Number.parseFloat(daysLeft).toFixed(0)), moreInfoLink: false }) %> 
+                        <% var daysLeft = (new Date(lockedInviteCodes[0].createDate * 1000) - new Date().getTime()) / 1000 / (60 * 60 * 24); %>
+                        <%- include("../../partials/alert-info.ejs", { info: __("page.invites.invites_unlocked_message %s", Number.parseFloat(daysLeft).toFixed(0)), moreInfoLink: false }) %>
                     <% } else { %>
-                        <%- include("../../partials/alert-info.ejs", { info: __("no_invites_message"), moreInfoLink: "mailto:todomail" }) %> 
+                        <%- include("../../partials/alert-info.ejs", { info: __("page.invites.no_invites_message"), moreInfoLink: "mailto:todomail" }) %>
                     <% } %>
                 <% } %>
                 <% for (let index = 0; index < inviteCodes.length; index++) { %>
                     <li>
                         <div class="code"><%= inviteCodes[index].code.substring(0, 2) %><span><%= inviteCodes[index].code.substring(2) %></span></div>
                         <% if (inviteCodes[index].expireDate) { %>
-                            <% var date = new Date(inviteCodes[index].expireDate * 1000); %> 
-                            <% var daysLeft = (date.getTime() - new Date().getTime()) / 1000 / (60 * 60 * 24); %> 
+                            <% var date = new Date(inviteCodes[index].expireDate * 1000); %>
+                            <% var daysLeft = (date.getTime() - new Date().getTime()) / 1000 / (60 * 60 * 24); %>
                             <% if (daysLeft < 14) { %>
-                                <div class="date soon"><%= __("expires_in_days %s", Number.parseFloat(daysLeft).toFixed(0)) %></div>
+                                <div class="date soon"><%= __("common.expires_in_days %s", Number.parseFloat(daysLeft).toFixed(0)) %></div>
                             <% } else { %>
-                                <div class="date"><%= __("expires_on_date", date.toLocaleString("en-GB").split(', ')[0]) %></div>
+                                <div class="date"><%= __("common.expires_on_date", date.toLocaleString("en-GB").split(', ')[0]) %></div>
                             <% } %>
                         <% } %>
                         <% if (inviteCodes[index].usages > 1) { %>
-                            <div class="uses"><%= __("invite_uses", inviteCodes[index].usages) %></div>
+                            <div class="uses"><%= __("page.invites.invite_use_indicator", inviteCodes[index].usages) %></div>
                         <% } %>
 
                         <div class="links">
@@ -70,7 +70,7 @@
             </ul>
         </div>
     <% } %>
-    
+
     <% if (canGenerate) { %>
         <div class="container container-medium-width container-filled-background">
             <h2><%= __("page.invites.generate") %></h2>
@@ -82,20 +82,20 @@
                         <input required class="input-field" type="number" min="1" max="1000" value="1" name="count" />
                         <p class="input-field-hint"><%= __("page.invites.uses_hint") %></p>
                     </div>
-    
+
                     <div class="form-group">
                         <label class="label"><%= __('page.invites.expire_label') %></label>
                         <input class="input-field" type="date" name="date" />
                     </div>
-    
+
                 </fieldset>
-    
+
                 <div class="form-action-group">
                     <button class="button primary" type="submit"><%= __("page.invites.generate_invite") %> </button>
                 </div>
-    
+
             </form>
-    
+
         </div>
 
     <% } %>

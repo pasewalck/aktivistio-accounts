@@ -1,23 +1,23 @@
 <%
 //  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
+//
+//  The project "Aktivistio Accounts" implements an account system and
 //  management platform combined with an OAuth 2.0 Authorization Server.
-//  
+//
 //  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-//  
+//
 //  "Aktivistio Accounts" is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 //  GNU General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU General Public License
 //  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
+//
+//  Copyright (C) 2025 Jana Caroline Pasewalck
 %>
 
 <%- include("../../../partials/dashboard-header.ejs") %>
@@ -28,25 +28,25 @@
         <h2><%= __("security.2fa.add_title") %></h2>
 
         <div class="qr-code-box">
-            <img src="<%= qrCodeSrc %> " alt="">   
+            <img src="<%= qrCodeSrc %> " alt="">
             <div><%= secret %></div>
         </div>
 
         <form class="form" action="<%= urlUtils.extendUrl(baseUrl, 'account/2fa/set').href %>" method="post">
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
             <input type="hidden" name="secret" value="<%= secret %> ">
-            
+
             <fieldset>
 
                 <div class="form-group">
-                    <label class="label"><%= __('security.2fa.enter_code_label') %></label>
-                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"token",type:"text",required:true}}) %> 
+                    <label class="label"><%= __('widget.2fa.enter_code.label') %></label>
+                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"token",type:"text",required:true}}) %>
                 </div>
-        
+
             </fieldset>
 
             <div class="form-action-group">
-                <button class="button primary"><%= __("common.account_2fa.setup_2fa") %> </button>
+                <button class="button primary"><%= __("common.setup") %> </button>
             </div>
 
         </form>
