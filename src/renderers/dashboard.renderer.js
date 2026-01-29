@@ -28,6 +28,7 @@ import adapterService from "../services/adapter.service.js";
 import invitesService from "../services/invites.service.js";
 import { extendUrl } from "../helpers/url.js";
 import auditService from "../services/audit.service.js";
+import { hasPermission, Permission } from "../models/roles.js";
 
 /**
  * @typedef {import("express").Request} Request
@@ -50,7 +51,7 @@ export default {
   services: (req, res) => {
     return res.render('pages/dashboard/services', {
       title: res.__('page.title.services'),
-      clients: adapterService.getEntries("Client")
+      clients: adapterService.getEntries("Client").filter((client) => !client.hidden || hasPermission(req.account.role, Permission.MANAGE_SERVICES))
     });
   },
 
