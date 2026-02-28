@@ -1,59 +1,59 @@
 <%
 //  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
+//
+//  The project "Aktivistio Accounts" implements an account system and
 //  management platform combined with an OAuth 2.0 Authorization Server.
-//  
+//
 //  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-//  
+//
 //  "Aktivistio Accounts" is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 //  GNU General Public License for more details.
-//  
+//
 //  You should have received a copy of the GNU General Public License
 //  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
+//
+//  Copyright (C) 2025 Jana Caroline Pasewalck
 %>
 
 <div class="wrapper flex-container flex-container-vertical">
     <div class="container-medium-width container-filled-background">
 
         <h1><%= __('page.recovery_request.title') %></h1>
-    
+
         <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(baseUrl,`account-recovery`,`request`).href %>" method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-    
+
         <fieldset>
 
             <div class="form-group">
                 <label class="label"><%= __('common.username') %></label>
-                <%- include("../../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
+                <%- include("../../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %>
             </div>
 
             <div class="form-group" >
-                <label class="label"><%= __('common.recovery_method') %></label> 
+                <label class="label"><%= __('common.recovery_method.title') %></label>
                 <%- include("../../../partials/form/input-select.ejs",{select: {name:"method",id:"recoverySelect",options:[
-                    {value:"email",displayName:__('common.recovery_email')},
-                    {value:"token",displayName:__('common.recovery_token')}
+                    {value:"email",displayName:__('common.recovery_email.title')},
+                    {value:"token",displayName:__('common.recovery_token.title')}
                 ],defaultNone:{msg:__('common.select_recovery_method')}}}) %>
             </div>
-            
+
             <div id="recoveryEmailSection" class="form-group">
-                <label class="label"><%= __('common.recovery_email') %></label> 
-                <%- include("../../../partials/form/input-field.ejs",{field: {name:"email",type:"email"}}) %> 
-            </div>
-            
-            <div id="recoveryTokenSection" class="form-group">
-                <label class="label"><%= __('common.recovery_token') %></label> 
-                <%- include("../../../partials/form/input-field.ejs",{field: {name:"token",type:"text"}}) %> 
+                <label class="label"><%= __('common.recovery_email.title') %></label>
+                <%- include("../../../partials/form/input-field.ejs",{field: {name:"email",type:"email"}}) %>
             </div>
 
-            <%- include("../../../partials/form/errors.ejs") %> 
+            <div id="recoveryTokenSection" class="form-group">
+                <label class="label"><%= __('common.recovery_token.title') %></label>
+                <%- include("../../../partials/form/input-field.ejs",{field: {name:"token",type:"text"}}) %>
+            </div>
+
+            <%- include("../../../partials/form/errors.ejs") %>
 
         </fieldset>
 
@@ -71,11 +71,11 @@
 </div>
 
 <script>
-    document.getElementById("recoverySelect").addEventListener("change",updateRecovery)
+    document.getElementById("recoverySelect").addEventListener("change", updateRecovery)
     updateRecovery()
-    function updateRecovery () {
+    function updateRecovery() {
         selected = document.getElementById('recoverySelect').value
         document.getElementById('recoveryEmailSection').style.display = selected == "email" ? "" : "none";
-        document.getElementById('recoveryTokenSection').style.display = selected == "token" ? "": "none";
+        document.getElementById('recoveryTokenSection').style.display = selected == "token" ? "" : "none";
     }
-</script>  
+</script>
