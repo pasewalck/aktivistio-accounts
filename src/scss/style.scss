@@ -1,7 +1,7 @@
-/* 
+/*
  * This file is part of "Aktivistio Accounts".
  *
- * The project "Aktivistio Accounts" implements an account system and 
+ * The project "Aktivistio Accounts" implements an account system and
  * management platform combined with an OAuth 2.0 Authorization Server.
  *
  * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
@@ -481,7 +481,7 @@ ol.g {
     gap: 4px;
 
     .button {
-        margin-bottom: 2px;
+        width: min-content;
     }
 }
 
@@ -491,7 +491,7 @@ ol.g {
     gap: 4px;
 
     .button {
-        margin-bottom: 2px;
+        width: min-content;
     }
 }
 
@@ -876,6 +876,7 @@ ol.g {
     }
 
 }
+
 // Language Dropdown Styles
 .language-dropdown {
     position: fixed;
