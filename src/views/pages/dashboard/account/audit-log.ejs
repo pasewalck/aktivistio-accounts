@@ -42,7 +42,7 @@
             if (logDate.toDateString() === now.toDateString()) {
                 const delta = Math.floor((now - logDate) / 1000);
                 if (delta < 60) return __("common.time.seconds_ago %t", delta);
-                if (delta < 3600) return __("common.time.minutes_ago %t", sth.floor(delta / 60));
+                if (delta < 3600) return __("common.time.minutes_ago %t", Math.floor(delta / 60));
                 return __("common.time.hours_ago %t", Math.floor(delta / 3600));
             } else {
                 return logDate.toLocaleDateString();
