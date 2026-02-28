@@ -221,9 +221,7 @@
     "actions": {},
     "confirm": "Bestätigen",
     "time": {
-      "seconds_ago $t": "seconds ago",
-      "minutes_ago %s": "vor Minuten",
-      "hours_ago %t": "vor %s Stunden",
+      "hours_ago %t": "vor %t Stunden",
       "minutes_ago %t": "Vor %t Minuten",
       "seconds_ago %t": "vor %t Sekunden"
     },
