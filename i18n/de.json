@@ -158,13 +158,11 @@
       "add_token_button": "Neues Wiederherstellungs-Token"
     },
     "logout": {
-      "title": {
-        "confirm_message": "Sind Sie sicher, dass Sie sich abmelden möchten?",
-        "title": "Abmeldebestätigung",
-        "action": "Abmelden",
-        "no": "Nein, angemeldet bleiben.",
-        "yes": "Ja, abmelden."
-      }
+      "confirm_message": "Sind Sie sicher, dass Sie sich abmelden möchten?",
+      "title": "Abmeldebestätigung",
+      "action": "Abmelden",
+      "no": "Nein, angemeldet bleiben.",
+      "yes": "Ja, abmelden."
     },
     "account_recovery_update_email": {
       "title": "Wiederherstellungs-E-Mail aktualisieren"
