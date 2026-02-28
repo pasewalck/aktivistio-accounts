@@ -152,13 +152,11 @@
       "welcome %s": "Welcome to your dashboard, %s!"
     },
     "logout": {
-      "title": {
-        "confirm_message": "Are you sure you want to log out?",
-        "title": "Logout Confirmation",
-        "no": "No, stay logged in.",
-        "yes": "Yes, log me out.",
-        "action": "Logout"
-      }
+      "confirm_message": "Are you sure you want to log out?",
+      "title": "Logout Confirmation",
+      "no": "No, stay logged in.",
+      "yes": "Yes, log me out.",
+      "action": "Logout"
     },
     "invite_share": {
       "title": "Sharing Invite"
