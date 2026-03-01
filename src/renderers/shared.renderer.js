@@ -41,7 +41,8 @@ export default {
             title: res.__('page.title.login'),
             interactionDetails: interactionDetails,
             errors: errors,
-            loginToken: loginToken
+            loginToken: loginToken,
+            layout: 'layouts/centered'
         });
     },
 
@@ -58,7 +59,8 @@ export default {
             title: res.__('page.title.login'),
             interactionDetails: interactionDetails,
             formData: formData,
-            errors: errors
+            errors: errors,
+            layout: 'layouts/centered'
         });
     },
 
@@ -71,7 +73,8 @@ export default {
     error: (res, error) => {
         return res.render('pages/shared/error', {
             title: res.__('page.title.error'),
-            error: error
+            error: error,
+            layout: 'layouts/centered'
         });
     },
 

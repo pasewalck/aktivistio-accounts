@@ -1,43 +1,19 @@
-<%
-//  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
-//  management platform combined with an OAuth 2.0 Authorization Server.
-//  
-//  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//  
-//  "Aktivistio Accounts" is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-//  GNU General Public License for more details.
-//  
-//  You should have received a copy of the GNU General Public License
-//  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
-%>
-
-<%- include("../../partials/dashboard-header.ejs") %>
-
 <div class="wrapper flex-container">
     <div class="container container-medium-width container-filled-background">
 
         <h2><%= currentClientId ? __("service.update") : __("service.create") %> </h2>
-    
+
         <form class="form" action="<%= urlUtils.extendUrl(baseUrl, currentClientId ? `services/edit/${currentClientId}/save` : `services/add`).href %>" method="post">
             <fieldset>
 
                 <div class="form-group">
                     <label class="label"><%= __('service.configuration') %></label>
-                    <%- include("../../partials/form/input-textarea.ejs",{textarea: {name:"configuration",required:true}}) %> 
+                    <%- include("../../partials/form/input-textarea.ejs",{textarea: {name:"configuration",required:true}}) %>
                 </div>
 
                 <div class="form-group">
                     <label class="label"><%= __('user.admin_password') %></label>
-                    <%- include("../../partials/form/input-field.ejs",{field: {name:"adminPassword",type:"password",required:true}}) %> 
+                    <%- include("../../partials/form/input-field.ejs",{field: {name:"adminPassword",type:"password",required:true}}) %>
                 </div>
 
             </fieldset>
@@ -45,7 +21,7 @@
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
             <div class="form-action-group">
                 <button class="button red" type="submit"><%= currentClientId ? __("form.update") : __("form.create") %> </button>
-            </div>     
+            </div>
 
         </form>
 
@@ -55,30 +31,30 @@
         <div class="container container-medium-width container-filled-background">
 
             <h2><%= __("service.delete") %> </h2>
-    
+
             <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `services/edit/${currentClientId}/delete`).href %>" method="post">
                 <fieldset>
-    
+
                     <div class="form-group">
                         <label class="label"><%= __('user.admin_password') %></label>
-                        <%- include("../../partials/form/input-field.ejs",{field: {name:"deletePermAdminPassword",type:"password",required:true}}) %> 
+                        <%- include("../../partials/form/input-field.ejs",{field: {name:"deletePermAdminPassword",type:"password",required:true}}) %>
                     </div>
-    
+
                     <div class="form-group">
                         <label class="label"><%= __('form.confirm_action') %></label>
-                        <%- include("../../partials/form/input-checkbox.ejs",{checkbox: {name:"deleteAdminConfirm",msg:__('service.delete_confirm',currentClientId)}}) %>             
+                        <%- include("../../partials/form/input-checkbox.ejs",{checkbox: {name:"deleteAdminConfirm",msg:__('service.delete_confirm',currentClientId)}}) %>
                     </div>
-    
+
                 </fieldset>
-    
+
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                 <div class="form-action-group">
                     <button class="button red" type="submit"><%= __("service.delete_forever") %> </button>
-                </div>     
-    
+                </div>
+
             </form>
-    
+
         </div>
     <% } %>
-    
+
 </div>

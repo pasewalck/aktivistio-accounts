@@ -1,31 +1,7 @@
-<%
-//  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
-//  management platform combined with an OAuth 2.0 Authorization Server.
-//  
-//  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//  
-//  "Aktivistio Accounts" is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-//  GNU General Public License for more details.
-//  
-//  You should have received a copy of the GNU General Public License
-//  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
-%>
-
-<%- include("../../../partials/dashboard-header.ejs") %>
-
 <div class="wrapper flex-container">
 
     <div class="container container-medium-width container-filled-background">
-      
+
         <% if (method == "token") { %>
             <h2><%= __("account.common.recovery_token.remove.title") %></h2>
         <% } else if (method == "email") { %>
@@ -34,13 +10,13 @@
 
         <form class="form" autocomplete="off" action="" method="post">
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-      
+
             <fieldset>
-                
-                <%- include("../../../partials/alert-info.ejs",{info: __("account.recovery.remove.warning"),moreInfoLink: "https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md"}) %> 
+
+                <%- include("../../../partials/alert-info.ejs",{info: __("account.recovery.remove.warning"),moreInfoLink: "https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md"}) %>
                 <div class="form-group">
                     <label class="label"><%= __('common.current_password') %></label>
-                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"currentPassword",type:"password",required:true}}) %> 
+                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"currentPassword",type:"password",required:true}}) %>
                 </div>
 
             </fieldset>
@@ -50,7 +26,7 @@
                 </div>
             </div>
         </form>
-        
+
     </div>
 
 </div>
