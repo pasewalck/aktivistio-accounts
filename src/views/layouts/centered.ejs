@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="<%= locals.getLocale() %>">
+
+<head>
+    <%- include("../partials/head.ejs") %>
+  </head>
+  <body>
+        <%- include("../partials/dashboard-header.ejs") %>
+        <div class="wrapper flex-container flex-container-vertical">
+            <div class="container-medium-width container-filled-background">
+                <%- body %>
+            </div>
+        </div>
+
+        <%- include("../partials/footer.ejs") %>
+  </body>
+</html>

@@ -1,32 +1,7 @@
-<%
-//  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
-//  management platform combined with an OAuth 2.0 Authorization Server.
-//  
-//  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//  
-//  "Aktivistio Accounts" is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-//  GNU General Public License for more details.
-//  
-//  You should have received a copy of the GNU General Public License
-//  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
-%>
-
-<div class="wrapper flex-container flex-container-vertical">
-    <div class="container-medium-width container-filled-background">
-
-        <% const relativBaseUrl = interactionDetails ? urlUtils.extendUrl(baseUrl,`interaction`,interactionDetails.uid) : baseUrl %> 
+<% const relativBaseUrl = interactionDetails ? urlUtils.extendUrl(baseUrl,`interaction`,interactionDetails.uid) : baseUrl %>
 
         <h1><%= __('page.login.title') %></h1>
-        
+
         <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(relativBaseUrl,`login`).href %>" method="post">
 
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
@@ -34,19 +9,19 @@
 
             <div class="form-group">
                 <label class="label"><%= __('page.login.username') %></label>
-                <%- include("../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
+                <%- include("../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %>
 
             </div>
 
             <div class="form-group">
                 <label class="label"><%= __('page.login.password') %></label>
-                <%- include("../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true,blockValue:true}}) %> 
+                <%- include("../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true,blockValue:true}}) %>
                 <a class="input-field-help-link" target="_blank" href="<%= urlUtils.extendUrl(baseUrl,`account-recovery`)  %>"><%= __('page.login.forgot_password') %></a>
             </div>
 
-            <%- include("../../partials/form/errors.ejs") %> 
+            <%- include("../../partials/form/errors.ejs") %>
 
-            
+
         </fieldset>
 
         <div class="form-action-group">
@@ -58,8 +33,5 @@
             </div>
             <p><%= __('page.login.no_account') %> <a href="<%= urlUtils.extendUrl(baseUrl,`register`).href %>"><%= __('page.login.create_account') %></a></p>
         </div>
-        
-        </form>
 
-    </div>
-</div>
+        </form>

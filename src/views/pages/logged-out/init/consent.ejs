@@ -1,45 +1,20 @@
-<%
-//  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
-//  management platform combined with an OAuth 2.0 Authorization Server.
-//  
-//  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//  
-//  "Aktivistio Accounts" is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-//  GNU General Public License for more details.
-//  
-//  You should have received a copy of the GNU General Public License
-//  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
-%>
-
-<div class="wrapper flex-container flex-container-vertical">
-    <div class="container-medium-width container-filled-background">
-
-        <h1><%= __('consent.title') %></h1>
+<h1><%= __('consent.title') %></h1>
 
         <div class="scroll-box-limited">
            <div class="text">
-            <%- consents %> 
+            <%- consents %>
            </div>
         </div>
-    
+
         <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(baseUrl,isRegister ? `register` : `welcome/${formData.actionToken}`,`consent`).href %>"method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
         <fieldset>
-    
+
             <div id="recoveryTokenSection" class="form-group">
-                <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"verify",msg:__('consent.verification_statement')}}) %>             
+                <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"verify",msg:__('consent.verification_statement')}}) %>
             </div>
-            
+
         </fieldset>
 
         <div class="form-action-group">
@@ -49,6 +24,3 @@
         </div>
 
         </form>
-    
-    </div>
-</div>

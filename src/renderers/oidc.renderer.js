@@ -43,7 +43,8 @@ export default {
             urls: {
                 action: `/interaction/${uid}/confirm/`,
                 abort: `/interaction/${uid}/abort/`
-            }
+            },
+            layout: 'layouts/centered'
         });
     },
 };

@@ -1,27 +1,3 @@
-<%
-//  This file is part of "Aktivistio Accounts".
-//  
-//  The project "Aktivistio Accounts" implements an account system and 
-//  management platform combined with an OAuth 2.0 Authorization Server.
-//  
-//  "Aktivistio Accounts" is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//  
-//  "Aktivistio Accounts" is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-//  GNU General Public License for more details.
-//  
-//  You should have received a copy of the GNU General Public License
-//  along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
-//  
-//  Copyright (C) 2025 Jana Caroline Pasewalck 
-%>
-
-<%- include("../../partials/dashboard-header.ejs") %>
-
 <div class="wrapper flex-container">
 
     <div class="container container-medium-width container-filled-background">
@@ -32,12 +8,12 @@
             <fieldset>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('common.username') %></label> 
-                    <%- include("../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %> 
+                    <label class="label"><%= __('common.username') %></label>
+                    <%- include("../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %>
                 </div>
 
                 <div class="form-group" >
-                    <label class="label"><%= __('common.account_role') %></label> 
+                    <label class="label"><%= __('common.account_role') %></label>
                     <% var options = []
                     Role.allLower(account.role).forEach(role => {
                         options.push({value:role,displayName:Role.getRoleInfo(role).name})
@@ -48,7 +24,7 @@
                 <div class="form-action-group">
                     <button class="button primary" type="submit"><%= __("page.admin.user_add.create") %> </button>
                 </div>
-    
+
             </fieldset>
 
         </form>

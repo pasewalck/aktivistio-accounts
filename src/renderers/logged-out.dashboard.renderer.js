@@ -1,7 +1,7 @@
-/* 
+/*
  * This file is part of "Aktivistio Accounts".
  *
- * The project "Aktivistio Accounts" implements an account system and 
+ * The project "Aktivistio Accounts" implements an account system and
  * management platform combined with an OAuth 2.0 Authorization Server.
  *
  * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
@@ -41,13 +41,14 @@ export default {
      * @param {JSON} [formData] - Data to pre-fill the form (optional).
      * @param {JSON} [errors] - Any validation errors to display (optional).
      */
-    initAccountPage: (res,isRegister, formData = {}, errors = {}) => {
+    initAccountPage: (res, isRegister, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/init/details', {
             title: res.__('page.register.head_title'),
             formData: formData,
             recoveryToken: formData.recoveryToken ? formData.recoveryToken : generateRecoveryToken(),
             errors: errors,
-            isRegister: isRegister
+            isRegister: isRegister,
+            layout: 'layouts/centered'
         });
     },
 
@@ -65,7 +66,8 @@ export default {
             // TODO: Handle consent text in a more robust way
             consents: await marked(readFileSync("configuration/consent.md").toString()),
             errors: errors,
-            isRegister: isRegister
+            isRegister: isRegister,
+            layout: 'layouts/centered'
         });
     },
 
@@ -80,25 +82,27 @@ export default {
         return res.render('pages/logged-out/recovery/request', {
             title: res.__('page.request_invite.title'),
             errors: errors,
-            formData: formData
+            formData: formData,
+            layout: 'layouts/centered'
         });
     },
 
     /**
-     * @description Displays a page confirming that an email has been sent to the user     
+     * @description Displays a page confirming that an email has been sent to the user
      * @param {Response} res - The response object.
      */
     recoveryEmailSent: (res) => {
         return res.render('pages/shared/info', {
             title: res.__('page.title.recovery-email-sent'),
             paragraph: res.__('common.recovery_email.sent'),
+            layout: 'layouts/centered'
         });
     },
 
     /**
      * @description Renders the invite request page.
      * Displays the form for users to request an invite, including a list of whitelisted email providers.
-     * 
+     *
      * @param {Response} res - The response object.
      * @param {JSON} [formData] - Data to pre-fill the form (optional).
      * @param {JSON} [errors] - Any validation errors to display (optional).
@@ -108,7 +112,8 @@ export default {
             title: res.__('page.request_invite.title'),
             errors: errors,
             formData: formData,
-            emailProviders: env.WHITELISTED_MAIL_PROVIDERS
+            emailProviders: env.WHITELISTED_MAIL_PROVIDERS,
+            layout: 'layouts/centered'
         });
     },
 
@@ -124,6 +129,7 @@ export default {
             title: res.__('page.title.recovery'),
             errors: errors,
             formData: formData,
+            layout: 'layouts/centered'
         });
     },
 
@@ -140,9 +146,9 @@ export default {
             title: res.__('page.title.recovery'),
             errors: errors,
             formData: formData,
-            actionToken: actionToken
+            actionToken: actionToken,
+            layout: 'layouts/centered'
         });
     },
 
 };
-    
