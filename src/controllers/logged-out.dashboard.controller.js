@@ -1,24 +1,4 @@
-/* 
- * This file is part of "Aktivistio Accounts".
- *
- * The project "Aktivistio Accounts" implements an account system and 
- * management platform combined with an OAuth 2.0 Authorization Server.
- *
- * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * "Aktivistio Accounts" is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
- *
- * Copyright (C) 2025 Jana Caroline Pasewalck
- */
+
 import dashboardAuthRenderer from "../renderers/logged-out.dashboard.renderer.js";
 import provider from "../helpers/oidc/provider.js";
 
@@ -77,8 +57,8 @@ export default {
         const inviteCode = await invitesService.requestWithEmail(email);
 
         mailService.send.inviteCode(inviteCode, email, res.locals);
-        res.redirect(extendUrl(env.BASE_URL,"register"));
-        
+        res.redirect(extendUrl(env.BASE_URL, "register"));
+
     },
 
     /**
@@ -103,9 +83,9 @@ export default {
 
         if (!errors.isEmpty()) {
 
-            if(data.username) {
+            if (data.username) {
                 let account = accountService.find.withUsername(data.username);
-                if(account)
+                if (account)
                     switch (data.method) {
                         case "email":
                             auditService.appendAuditLog(account, AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_EMAIL)
@@ -173,12 +153,12 @@ export default {
     recoveryResetPost: async (req, res) => {
         const errors = await validationResult(req);
         const data = await matchedData(req);
-     
+
         if (!errors.isEmpty()) {
             return dashboardAuthRenderer.recoveryPasswordPrompt(res, data.actionToken, data, errors.mapped());
         }
 
-        const tokenEntry = accountService.actionToken.getEntry(ActionTokenTypes.PASSWORD_RESET,data.actionToken)
+        const tokenEntry = accountService.actionToken.getEntry(ActionTokenTypes.PASSWORD_RESET, data.actionToken)
         const account = accountService.find.withId(tokenEntry.payload.accountId);
         accountService.actionToken.consume(ActionTokenTypes.PASSWORD_RESET, data.actionToken)
 
@@ -203,7 +183,7 @@ export default {
                 break;
         }
 
-        res.redirect(extendUrl(env.BASE_URL,"login"));
+        res.redirect(extendUrl(env.BASE_URL, "login"));
     },
 
     /**
@@ -241,11 +221,11 @@ export default {
         if (!errors.isEmpty()) {
             throw new ClientError(res.__("validation.account.setup.link_invalid"));
         }
-        
-        const actionTokenEntry = accountService.actionToken.getEntry(ActionTokenTypes.ACCOUNT_SETUP,data.actionToken)
+
+        const actionTokenEntry = accountService.actionToken.getEntry(ActionTokenTypes.ACCOUNT_SETUP, data.actionToken)
         const account = accountService.find.withId(actionTokenEntry.payload.accountId);
 
-        return dashboardAuthRenderer.initAccountPage(res, false,{actionToken: data.actionToken, username: account.username});
+        return dashboardAuthRenderer.initAccountPage(res, false, { actionToken: data.actionToken, username: account.username });
     },
 
     /**
@@ -289,7 +269,7 @@ export default {
             return dashboardAuthRenderer.initAccountPage(res, false, data, errors.mapped());
         }
 
-        const actionTokenEntry = accountService.actionToken.getEntry(ActionTokenTypes.ACCOUNT_SETUP,data.actionToken)
+        const actionTokenEntry = accountService.actionToken.getEntry(ActionTokenTypes.ACCOUNT_SETUP, data.actionToken)
 
         // Store account setup data in the session
         req.session.accountSetup = {
@@ -302,7 +282,7 @@ export default {
             actionToken: data.actionToken
         };
 
-        await dashboardAuthRenderer.initAccountPageConsent(res, false, {actionToken: data.actionToken}); // Render consent page
+        await dashboardAuthRenderer.initAccountPageConsent(res, false, { actionToken: data.actionToken }); // Render consent page
     },
 
     /**
@@ -354,7 +334,7 @@ export default {
         await setProviderSession(provider, req, res, { accountId: account.id });
         accountService.lastLogin.register(account)
         res.redirect(extendUrl(env.BASE_URL));
-        
+
     },
 
 
@@ -378,7 +358,7 @@ export default {
             throw new UnexpectedClientError(res.__("validation.action_token.mismatch"));
 
 
-        accountService.actionToken.consume(ActionTokenTypes.ACCOUNT_SETUP,accountSession.actionToken)
+        accountService.actionToken.consume(ActionTokenTypes.ACCOUNT_SETUP, accountSession.actionToken)
 
         req.session.accountSetup = null; // Clear the session data after use
 
@@ -386,8 +366,8 @@ export default {
 
         accountService.password.setHash(account, accountSession.passwordHash); // Set the hashed password for the account
 
-        if(account.username != accountSession.username)
-            accountService.updateUsername(account,accountSession.username)
+        if (account.username != accountSession.username)
+            accountService.updateUsername(account, accountSession.username)
 
         // Set the recovery method based on the user's choice saved in session
         switch (accountSession.recoveryMethod) {

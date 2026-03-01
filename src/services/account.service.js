@@ -1,24 +1,4 @@
-/* 
- * This file is part of "Aktivistio Accounts".
- *
- * The project "Aktivistio Accounts" implements an account system and 
- * management platform combined with an OAuth 2.0 Authorization Server.
- *
- * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * "Aktivistio Accounts" is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
- *
- * Copyright (C) 2025 Jana Caroline Pasewalck
- */
+
 import { generateAlphanumericSecret, generatePassword } from "../helpers/generate-secrets.js";
 import logger from "../helpers/logger.js";
 import { Account } from "../models/accounts.js";
@@ -97,9 +77,9 @@ function getRecovery(account) {
  * @param {number} lifeTimeSeconds - The time an entry should stay valid for in seconds.
  * @returns {String} - Returns the created token.
  */
-function createActionToken(tokenType, lifeTimeSeconds,payload) {
+function createActionToken(tokenType, lifeTimeSeconds, payload) {
     const token = generateAlphanumericSecret(64)
-    dataDriver.insertActionToken(tokenType,token,Math.floor(Date.now() / 1000) + lifeTimeSeconds,payload)
+    dataDriver.insertActionToken(tokenType, token, Math.floor(Date.now() / 1000) + lifeTimeSeconds, payload)
     return token
 }
 
@@ -108,7 +88,7 @@ function createActionToken(tokenType, lifeTimeSeconds,payload) {
  * @param {ActionTokenTypes} tokenType - The type of action token being used
  * @param {string} token - The unique token value to be deleted
  */
-function useActionToken (tokenType, token) {
+function useActionToken(tokenType, token) {
     dataDriver.deleteActionTokenEntry(tokenType, token)
 }
 
@@ -117,8 +97,8 @@ function useActionToken (tokenType, token) {
  * @param {String} token - The token value to check with.
  * @returns {Boolean} - Returns boolean based on if token is matching.
  */
-function checkActionTokenValid (tokenType,token) {
-    return token != null && token != undefined && getActionTokenEntry(tokenType,token) != undefined
+function checkActionTokenValid(tokenType, token) {
+    return token != null && token != undefined && getActionTokenEntry(tokenType, token) != undefined
 }
 
 /**
@@ -127,8 +107,8 @@ function checkActionTokenValid (tokenType,token) {
  * @param {string} token - The unique token value to search for
  * @returns {Object|null} The action token entry or null if not found
  */
-function getActionTokenEntry (tokenType,token) {
-    return dataDriver.getActionTokenEntry(tokenType,token)
+function getActionTokenEntry(tokenType, token) {
+    return dataDriver.getActionTokenEntry(tokenType, token)
 }
 
 /**
@@ -190,8 +170,8 @@ function getTwoFactorSecret(account) {
  * @param {String} token - The two factor token
  * @returns {JSON} - The two-factor authentication secret.
  */
-function checkTwoFactorSecret(account,token) {
-    return twoFactorAuth.verify(userdataDriver.getAccountTwoFactorSecretWithId(account.id),token)
+function checkTwoFactorSecret(account, token) {
+    return twoFactorAuth.verify(userdataDriver.getAccountTwoFactorSecretWithId(account.id), token)
 }
 
 /**
@@ -315,12 +295,12 @@ function getAll() {
  * @param {Account} account - The account.
  * @param {PasswordResetChannels} resetChannel - The channel to use for reset link.
  */
-function createRecoveryActionLink(account,resetChannel) {
-    const actionToken = createActionToken(ActionTokenTypes.PASSWORD_RESET,60*15,{
+function createRecoveryActionLink(account, resetChannel) {
+    const actionToken = createActionToken(ActionTokenTypes.PASSWORD_RESET, 60 * 15, {
         resetChannel,
         accountId: account.id
     })
-    return extendUrl(env.BASE_URL,"account-recovery","reset",actionToken)
+    return extendUrl(env.BASE_URL, "account-recovery", "reset", actionToken)
 }
 
 /**
@@ -328,12 +308,12 @@ function createRecoveryActionLink(account,resetChannel) {
  * @param {PasswordResetChannels} resetChannel - The channel to use for reset link.
  * @param {number} lifeTimeSeconds
  */
-function createSetupActionLink(account,resetChannel,lifeTimeSeconds=60*15) {
-    const actionToken = createActionToken(ActionTokenTypes.ACCOUNT_SETUP,lifeTimeSeconds,{
+function createSetupActionLink(account, resetChannel, lifeTimeSeconds = 60 * 15) {
+    const actionToken = createActionToken(ActionTokenTypes.ACCOUNT_SETUP, lifeTimeSeconds, {
         resetChannel,
         accountId: account.id
     })
-    return extendUrl(env.BASE_URL,"welcome",actionToken)
+    return extendUrl(env.BASE_URL, "welcome", actionToken)
 }
 
 // Initialization block for creating an administration account if the database is initialized
@@ -345,9 +325,9 @@ if (userdataDriver.isDbInit) {
 
     const account = await create(user, Role.SUPER_ADMIN);
     await setPassword(account, password);
-    
+
     // Generate invite codes for the admin account
-    invitesService.generate.multi(3,{linkedAccount:account});
+    invitesService.generate.multi(3, { linkedAccount: account });
 
     logger.info(`Created user "${user}" with Password: "${password}"`);
 }

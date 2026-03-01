@@ -1,24 +1,4 @@
-/* 
- * This file is part of "Aktivistio Accounts".
- *
- * The project "Aktivistio Accounts" implements an account system and 
- * management platform combined with an OAuth 2.0 Authorization Server.
- *
- * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * "Aktivistio Accounts" is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
- *
- * Copyright (C) 2025 Jana Caroline Pasewalck
- */
+
 import logger from './logger.js';
 
 logger.info("Loaded environment variables to memory");
@@ -60,16 +40,16 @@ function load(name, options = {}) {
 export default {
     APPLICATION_NAME: load("APP_NAME", { default: "Unnamed Application" }),
     APPLICATION_LOGO: `configuration/${load("APP_LOGO", { default: "app-logo.jpeg" })}`,
-    BASE_URL: new URL(load("BASE_URL", { default: "http://localhost:3000",warning: true })),
+    BASE_URL: new URL(load("BASE_URL", { default: "http://localhost:3000", warning: true })),
     PORT: load("PORT", { default: 3000, parse: Number }),
     RATE_LIMITER: {
         USE_GLOBAL_PROTECTION: load("USE_GLOBAL_PROTECTION_RATE_LIMITER", { default: false }),
     },
     IS_SECURE_CONTEXT: load("IS_SECURE", { default: false, parse: Boolean }),
     IS_BEHIND_PROXY: load("IS_BEHIND_PROXY", { default: false, parse: Boolean }),
-    WHITELISTED_MAIL_PROVIDERS: load("WHITELISTED_MAIL_PROVIDERS", { 
-        default: [], 
-        warning: true, 
+    WHITELISTED_MAIL_PROVIDERS: load("WHITELISTED_MAIL_PROVIDERS", {
+        default: [],
+        warning: true,
         parse: (value) => value.split(",") // Parse comma-separated values
     }),
     DATABASE_KEYS: {
@@ -84,9 +64,9 @@ export default {
         PASS: load("MAIL_PASS", { warning: true }),
         SECURE: load("MAIL_SECURE", { default: true, parse: Boolean }),
         PORT: load("MAIL_PORT", { default: 465, parse: Number }),
-        SENDER_DISPLAY_NAME: load("MAIL_SENDER_DISPLAY_NAME", { 
-            default: "Unnamed Application", 
-            warning: true 
+        SENDER_DISPLAY_NAME: load("MAIL_SENDER_DISPLAY_NAME", {
+            default: "Unnamed Application",
+            warning: true
         }),
     },
 };

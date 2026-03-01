@@ -1,31 +1,11 @@
-/* 
- * This file is part of "Aktivistio Accounts".
- *
- * The project "Aktivistio Accounts" implements an account system and 
- * management platform combined with an OAuth 2.0 Authorization Server.
- *
- * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * "Aktivistio Accounts" is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
- *
- * Copyright (C) 2025 Jana Caroline Pasewalck
- */
+
 import { initDatabase } from "../helpers/database.js";
 import env from "../helpers/env.js";
 import { Account } from "../models/accounts.js";
 import { AuditActionType } from "../models/audit-action-types.js";
 import { ActionTokenTypes } from "../models/action-token-types.js";
 
-const {db,isDbInit} = initDatabase("data",env.DATABASE_KEYS.DATA)
+const { db, isDbInit } = initDatabase("data", env.DATABASE_KEYS.DATA)
 
 // Initialize the accounts table if it does not exist
 db.exec(`
@@ -104,12 +84,12 @@ export default {
             SELECT invites.validation_date as createDate,
                    invites.code,
                    invites.usages,
-                   invites.expire_date as expireDate 
-            FROM invites, account_invites 
-            WHERE invites.code = account_invites.code 
-              AND account_invites.id = ? 
-              AND strftime('%s','now') >= invites.validation_date 
-              AND (invites.expire_date IS NULL OR strftime('%s','now') <= invites.expire_date) 
+                   invites.expire_date as expireDate
+            FROM invites, account_invites
+            WHERE invites.code = account_invites.code
+              AND account_invites.id = ?
+              AND strftime('%s','now') >= invites.validation_date
+              AND (invites.expire_date IS NULL OR strftime('%s','now') <= invites.expire_date)
             ORDER BY invites.validation_date DESC
         `).all(id);
     },
@@ -124,12 +104,12 @@ export default {
             SELECT invites.validation_date as createDate,
                    invites.code,
                    invites.usages,
-                   invites.expire_date as expireDate 
-            FROM invites, account_invites 
-            WHERE invites.code = account_invites.code 
-              AND account_invites.id = ? 
-              AND strftime('%s','now') < invites.validation_date 
-              AND (invites.expire_date IS NULL OR strftime('%s','now') <= invites.expire_date) 
+                   invites.expire_date as expireDate
+            FROM invites, account_invites
+            WHERE invites.code = account_invites.code
+              AND account_invites.id = ?
+              AND strftime('%s','now') < invites.validation_date
+              AND (invites.expire_date IS NULL OR strftime('%s','now') <= invites.expire_date)
             ORDER BY invites.validation_date
         `).all(id);
     },
@@ -171,7 +151,7 @@ export default {
     deleteActionTokenEntry: (tokenType, token) => {
         return db.prepare(`
             DELETE FROM action_tokens WHERE token_type = ? AND token = ?
-        `).run(tokenType,token);
+        `).run(tokenType, token);
     },
 
 
@@ -181,12 +161,12 @@ export default {
      * @param {string} token - The specific token value to search for
      * @returns {Object|null} - Returns the token entry with parsed payload, or null if not found
      */
-    getActionTokenEntry: (tokenType,token) => {
+    getActionTokenEntry: (tokenType, token) => {
         const entry = db.prepare(`
             SELECT token,token_type as tokenType,expires_at as expiresAt,payload FROM action_tokens
             WHERE token_type = ? AND token = ? AND expires_at > strftime('%s','now')
-        `).get(tokenType,token);
-        if(entry)
+        `).get(tokenType, token);
+        if (entry)
             entry.payload = JSON.parse(entry.payload)
         return entry;
     },
@@ -199,7 +179,7 @@ export default {
      */
     incrementAuditLogCountTimeBased: (accountId, actionType) => {
         const result = db.prepare(`
-            UPDATE audit_log 
+            UPDATE audit_log
             SET count = count + 1, end_time = strftime('%s','now')
             WHERE action_type_id = ? AND account_id = ? AND start_time >= strftime('%s', 'now', '-15 minutes')
         `).run(actionType.id, accountId);
@@ -215,7 +195,7 @@ export default {
      */
     deleteAuditLogEntriesTimeBased: (accountId, actionType) => {
         const result = db.prepare(`
-            DELETE FROM audit_log 
+            DELETE FROM audit_log
             WHERE action_type_id = ? AND account_id = ? AND start_time >= strftime('%s', 'now', '-15 minutes')
         `).run(actionType.id, accountId);
 
@@ -243,13 +223,13 @@ export default {
             FROM audit_log
             WHERE account_id = ? ORDER BY end_time
         `).get(accountId)
-        
+
         return log ? {
-                time: log.time,
-                count: log.count,
-                actionType: AuditActionType.byId(log.actionTypeId),
-                accountId: log.accountId,
-                clientIdentifier: log.clientIdentifier
+            time: log.time,
+            count: log.count,
+            actionType: AuditActionType.byId(log.actionTypeId),
+            accountId: log.accountId,
+            clientIdentifier: log.clientIdentifier
         } : null;
     },
 
@@ -259,13 +239,13 @@ export default {
      * @param {Number|null} since - Filter event by time.
      * @returns {Array<Object>} - An array of objects representing audit log entries.
      */
-    getFullAuditLog: (accountId,since) => {
+    getFullAuditLog: (accountId, since) => {
         const auditLogs = db.prepare(`
             SELECT end_time as time,count,action_type_id as actionTypeId, account_id as accountId
             FROM audit_log
             WHERE account_id = ? AND end_time >= ?
         `).all(accountId, since ? since : 0);
-        
+
         return auditLogs.map(log => {
             const actionInfo = AuditActionType.byId(log.actionTypeId);
             return {
@@ -285,11 +265,11 @@ export default {
      * @param {Number|null} since - Filter event by time.
      * @returns {Array<Object>} - An array of objects representing audit log entries.
      */
-    getAuditLog: (accountId,actionType,since) => {
+    getAuditLog: (accountId, actionType, since) => {
         const auditLogs = db.prepare(`
             SELECT end_time as time,count,action_type_id as actionTypeId, account_id as accountId FROM audit_log
             WHERE account_id = ? AND action_type_id = ? AND end_time >= ?
-        `).all(accountId,actionType.id,since ? since : 0);
+        `).all(accountId, actionType.id, since ? since : 0);
 
         return auditLogs.map(log => {
             const actionInfo = AuditActionType.byId(log.actionTypeId);
@@ -381,7 +361,7 @@ export default {
      * @param {boolean} [isActive] - Whether or not an account is active
      * @returns {Account} - The newly created account object.
      */
-    createAccount: (id, username, role, isActive=true) => {
+    createAccount: (id, username, role, isActive = true) => {
         db.prepare('INSERT INTO accounts (id, username, role_id, is_active) VALUES (?, ?, ?, ?)').run(id, username, role, isActive ? 1 : 0);
     },
 
@@ -507,10 +487,10 @@ export default {
      */
     checkIfInviteCodeIsValid: (code) => {
         return db.prepare(`
-            SELECT code 
-            FROM invites 
-            WHERE code = ? 
-              AND strftime('%s','now') >= invites.validation_date 
+            SELECT code
+            FROM invites
+            WHERE code = ?
+              AND strftime('%s','now') >= invites.validation_date
               AND (invites.expire_date IS NULL OR strftime('%s','now') <= invites.expire_date)
         `).pluck().get(code) != null;
     },
@@ -531,9 +511,9 @@ export default {
      * @param {number} expireDateSeconds - The number of seconds until the invite expires (optional).
      * @returns {String} - The invite code that was added.
      */
-    addInviteCode: (code, maxUses = 1, validationDateSeconds = Date.now() / 1000, expireDateSeconds=null) => {
+    addInviteCode: (code, maxUses = 1, validationDateSeconds = Date.now() / 1000, expireDateSeconds = null) => {
         db.prepare(`
-            INSERT INTO invites (code, usages, validation_date, expire_date) 
+            INSERT INTO invites (code, usages, validation_date, expire_date)
             VALUES (?, ?, strftime('%s','now') + ?, ?)
         `).run(code, maxUses, validationDateSeconds, expireDateSeconds);
     },
@@ -573,37 +553,37 @@ function regularCleanup() {
 
     // Clean up expired action tokens
     db.prepare(`
-        DELETE FROM action_tokens 
+        DELETE FROM action_tokens
         WHERE expires_at < ?
     `).run(now);
 
     // Clean up expired invites
     db.prepare(`
-        DELETE FROM invites 
+        DELETE FROM invites
         WHERE expire_date IS NOT NULL AND expire_date < ?
     `).run(now);
 
     // Clean up unused or expired email invite requests
     db.prepare(`
-        DELETE FROM email_invite_requests 
+        DELETE FROM email_invite_requests
         WHERE code IS NULL OR code NOT IN (
-            SELECT code FROM invites 
+            SELECT code FROM invites
             WHERE expire_date IS NULL OR expire_date > ?
         )
     `).run(now);
 
     // Optional: Clean up account invites associated with expired invites
     db.prepare(`
-        DELETE FROM account_invites 
+        DELETE FROM account_invites
         WHERE code NOT IN (
-            SELECT code FROM invites 
+            SELECT code FROM invites
             WHERE expire_date IS NULL OR expire_date > ?
         )
     `).run(now);
 
     // Clean up very old audit log entries (e.g., older than 1 year)
     db.prepare(`
-        DELETE FROM audit_log 
+        DELETE FROM audit_log
         WHERE end_time < ?
     `).run(now - (365 * 24 * 60 * 60)); // 1 year ago
 }
