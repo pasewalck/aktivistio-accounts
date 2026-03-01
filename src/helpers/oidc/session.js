@@ -1,24 +1,4 @@
-/* 
- * This file is part of "Aktivistio Accounts".
- *
- * The project "Aktivistio Accounts" implements an account system and 
- * management platform combined with an OAuth 2.0 Authorization Server.
- *
- * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * "Aktivistio Accounts" is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
- *
- * Copyright (C) 2025 Jana Caroline Pasewalck
- */
+
 // Sourced from https://gist.github.com/wilsonjackson/9136b0bee9d47080bcbee991378b2581
 //
 // This is a replacement for the method Provider.setProviderSession, which was removed in oidc-provider 7.x.
@@ -80,18 +60,18 @@ export async function setProviderSession(provider, req, res, {
 
   // Retrieve the session from the oidc provider
   const session = await provider.Session.get(ctx);
-  
+
   // Associate the account with the session
   session.loginAccount({ accountId, loginTs, transient: !remember });
 
   // Create grants for each client associated with the session
   for (const clientId of clients) {
     assert(typeof clientId === 'string', 'clients must contain an array of client_id strings');
-    
+
     // Create a new grant for the client
     const grant = new provider.Grant({ accountId, clientId });
     grant.addOIDCScope('openid'); // Add the 'openid' scope to the grant
-    
+
     // Save the grant and associate it with the session
     const grantId = await grant.save();
     session.sidFor(clientId, nanoid()); // Generate a session ID for the client
@@ -103,7 +83,7 @@ export async function setProviderSession(provider, req, res, {
   if (typeof ttl === 'function') {
     ttl = ttl(ctx, ctx.oidc.session);
   }
-  
+
   // Save the session with the determined TTL
   await session.save(ttl);
 

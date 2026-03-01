@@ -1,24 +1,4 @@
-/* 
- * This file is part of "Aktivistio Accounts".
- *
- * The project "Aktivistio Accounts" implements an account system and 
- * management platform combined with an OAuth 2.0 Authorization Server.
- *
- * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * "Aktivistio Accounts" is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
- *
- * Copyright (C) 2025 Jana Caroline Pasewalck
- */
+
 import { generateAsciiSecret, generateTypeableCode } from "../helpers/generate-secrets.js";
 import { fingerprintString } from "../helpers/fingerprint-string.js";
 import { Account } from "../models/accounts.js";
@@ -68,7 +48,7 @@ function remove(code) {
  * @param {{linkedAccount,validationDurationDays,maxUses,expireDate}} [options] - Options for invite code creation
  * @returns {Array<String>} - The generated invite codes.
  */
-function generateMultiple(count=3,options) {
+function generateMultiple(count = 3, options) {
     var array = [count]
     for (let i = 0; i < array.length; i++) {
         array[i] = generate(options)
@@ -82,10 +62,10 @@ function generateMultiple(count=3,options) {
  * @param {Account} account - The user account
  * @returns {Array<String>} - The generated invite codes.
  */
-function grantMultiple(count=3,account,options) {
-    var array = [Math.max(0,count-getForAccount(account.id).length)]
+function grantMultiple(count = 3, account, options) {
+    var array = [Math.max(0, count - getForAccount(account.id).length)]
     for (let i = 0; i < array.length; i++) {
-        array[i] = generate({linkedAccount: account,...options})
+        array[i] = generate({ linkedAccount: account, ...options })
     }
     return array
 }
@@ -114,7 +94,7 @@ function generate(options = {}) {
 
     // Store the invite code in the database
     userdataDriver.addInviteCode(code, options.maxUses || 1, validationDurationSeconds, expireDateSeconds);
-    
+
     // Link the invite code to the user account if provided
     if (options.linkedAccount) {
         userdataDriver.linkInviteCodeToAccountById(code, options.linkedAccount.id);

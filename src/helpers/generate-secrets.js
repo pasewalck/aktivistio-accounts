@@ -1,24 +1,4 @@
-/* 
- * This file is part of "Aktivistio Accounts".
- *
- * The project "Aktivistio Accounts" implements an account system and 
- * management platform combined with an OAuth 2.0 Authorization Server.
- *
- * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * "Aktivistio Accounts" is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
- *
- * Copyright (C) 2025 Jana Caroline Pasewalck
- */
+
 import { InternalError } from "../models/errors.js";
 import { AlphanumericMoreReadable, Alphanumeric } from "./character-arrays.js";
 
@@ -29,7 +9,7 @@ import { AlphanumericMoreReadable, Alphanumeric } from "./character-arrays.js";
  * @param {Number} max - The maximum value of the random integer.
  * @returns {Number} A random integer between min and max.
  */
-const randomInt = (min, max) => {       
+const randomInt = (min, max) => {
     var byteArray = new Uint8Array(1);
     crypto.getRandomValues(byteArray);
 
@@ -110,8 +90,8 @@ export const generateTypeableCode = (length = 8, ratio = 5) => {
     let code = "";
     for (let i = 0; i < length; i++) {
         // Randomly determine whether to add a number or a letter based on the ration
-        code += randomInt(0, 10) <= ratio 
-            ? getRandomCharFromString(AlphanumericMoreReadable.Numbers) 
+        code += randomInt(0, 10) <= ratio
+            ? getRandomCharFromString(AlphanumericMoreReadable.Numbers)
             : getRandomCharFromStrings([AlphanumericMoreReadable.Lowers, AlphanumericMoreReadable.Uppers]);
     }
     return code;
@@ -122,9 +102,9 @@ export const generateTypeableCode = (length = 8, ratio = 5) => {
  * @param {Number} [length] - The length of the string to generate (Default is 40).
  * @returns {String} The generated string.
  */
-export function generateAsciiSecret(length=40) {
+export function generateAsciiSecret(length = 40) {
     const randomValues = new Uint8Array(length);
-    crypto.getRandomValues(randomValues);    
+    crypto.getRandomValues(randomValues);
     const asciiString = String.fromCharCode(...randomValues);
     return asciiString
 }

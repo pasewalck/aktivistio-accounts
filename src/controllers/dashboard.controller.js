@@ -1,24 +1,4 @@
-/* 
- * This file is part of "Aktivistio Accounts".
- *
- * The project "Aktivistio Accounts" implements an account system and 
- * management platform combined with an OAuth 2.0 Authorization Server.
- *
- * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * "Aktivistio Accounts" is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
- *
- * Copyright (C) 2025 Jana Caroline Pasewalck
- */
+
 import dashboardRenderer from "../renderers/dashboard.renderer.js";
 import provider from "../helpers/oidc/provider.js";
 import { matchedData, validationResult } from "express-validator";
@@ -83,15 +63,15 @@ export default {
 
         if (!errors.isEmpty()) {
             // Append password change fail if fail is due to incorrect password
-            if(errors.mapped()["currentPassword"])
-                auditService.appendAuditLog(req.account,AuditActionType.PASSWORD_CHANGE_FAIL,req)
+            if (errors.mapped()["currentPassword"])
+                auditService.appendAuditLog(req.account, AuditActionType.PASSWORD_CHANGE_FAIL, req)
             return dashboardRenderer.accountChangePassword(req, res, data, errors.mapped());
         }
 
-        auditService.appendAuditLog(req.account,AuditActionType.PASSWORD_CHANGED,req)
+        auditService.appendAuditLog(req.account, AuditActionType.PASSWORD_CHANGED, req)
 
         await accountService.password.set(req.account, data.newPassword);
-        res.redirect(extendUrl(env.BASE_URL,"account"));
+        res.redirect(extendUrl(env.BASE_URL, "account"));
 
     },
 
@@ -155,10 +135,10 @@ export default {
             return dashboardRenderer.addTwoFactorAuth(req, res, data, errors.mapped());
         }
 
-        auditService.appendAuditLog(req.account,data.secret ? AuditActionType.TWO_FACTOR_AUTH_ENABLED : AuditActionType.TWO_FACTOR_AUTH_DISABLED,req)
+        auditService.appendAuditLog(req.account, data.secret ? AuditActionType.TWO_FACTOR_AUTH_ENABLED : AuditActionType.TWO_FACTOR_AUTH_DISABLED, req)
 
         accountService.twoFactorAuth.set(req.account, data.secret);
-        res.redirect(extendUrl(env.BASE_URL,"account","2fa"));
+        res.redirect(extendUrl(env.BASE_URL, "account", "2fa"));
 
     },
 
@@ -168,10 +148,10 @@ export default {
      * @param {Response} res - The response object.
      */
     accountRemove2faPost: async (req, res) => {
-        auditService.appendAuditLog(req.account,AuditActionType.TWO_FACTOR_AUTH_DISABLED,req)
+        auditService.appendAuditLog(req.account, AuditActionType.TWO_FACTOR_AUTH_DISABLED, req)
 
         accountService.twoFactorAuth.set(req.account, null);
-        res.redirect(extendUrl(env.BASE_URL,"account","2fa"));
+        res.redirect(extendUrl(env.BASE_URL, "account", "2fa"));
     },
 
     /**
@@ -231,15 +211,15 @@ export default {
 
         if (!errors.isEmpty()) {
             // Append recovery method change fail if fail is due to incorrect password
-            if(errors.mapped()["currentPassword"])
-                auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATE_FAIL,req)
+            if (errors.mapped()["currentPassword"])
+                auditService.appendAuditLog(req.account, AuditActionType.RECOVERY_METHOD_UPDATE_FAIL, req)
             return dashboardRenderer.deleteRecoveryMethod(req, res, "email", data, errors.mapped());
         }
 
-        auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATED,req)
+        auditService.appendAuditLog(req.account, AuditActionType.RECOVERY_METHOD_UPDATED, req)
 
         await accountService.recovery.email.set(req.account, null);
-        res.redirect(extendUrl(env.BASE_URL,"account","recovery"));
+        res.redirect(extendUrl(env.BASE_URL, "account", "recovery"));
 
     },
 
@@ -255,15 +235,15 @@ export default {
 
         if (!errors.isEmpty()) {
             // Append recovery method change fail if fail is due to incorrect password
-            if(errors.mapped()["currentPassword"])
-                auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATE_FAIL,req)
+            if (errors.mapped()["currentPassword"])
+                auditService.appendAuditLog(req.account, AuditActionType.RECOVERY_METHOD_UPDATE_FAIL, req)
             return dashboardRenderer.deleteRecoveryMethod(req, res, "token", data, errors.mapped());
         }
 
-        auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATED,req)
+        auditService.appendAuditLog(req.account, AuditActionType.RECOVERY_METHOD_UPDATED, req)
 
         await accountService.recovery.token.set(req.account, null);
-        res.redirect(extendUrl(env.BASE_URL,"account","recovery"));
+        res.redirect(extendUrl(env.BASE_URL, "account", "recovery"));
 
     },
 
@@ -279,15 +259,15 @@ export default {
 
         if (!errors.isEmpty()) {
             // Append recovery method change fail if fail is due to incorrect password
-            if(errors.mapped()["currentPassword"])
-                auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATE_FAIL,req)
+            if (errors.mapped()["currentPassword"])
+                auditService.appendAuditLog(req.account, AuditActionType.RECOVERY_METHOD_UPDATE_FAIL, req)
             return dashboardRenderer.setRecoveryEmail(req, res, data, errors.mapped());
         }
 
-        auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATED,req)
+        auditService.appendAuditLog(req.account, AuditActionType.RECOVERY_METHOD_UPDATED, req)
 
         await accountService.recovery.email.set(req.account, data.email);
-        res.redirect(extendUrl(env.BASE_URL,"account","recovery"));
+        res.redirect(extendUrl(env.BASE_URL, "account", "recovery"));
 
     },
 
@@ -303,15 +283,15 @@ export default {
 
         if (!errors.isEmpty()) {
             // Append recovery method change fail if fail is due to incorrect password
-            if(errors.mapped()["currentPassword"])
-                auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATE_FAIL,req)
+            if (errors.mapped()["currentPassword"])
+                auditService.appendAuditLog(req.account, AuditActionType.RECOVERY_METHOD_UPDATE_FAIL, req)
             return dashboardRenderer.setRecoveryToken(req, res, data, errors.mapped());
         }
 
-        auditService.appendAuditLog(req.account,AuditActionType.RECOVERY_METHOD_UPDATED,req)
+        auditService.appendAuditLog(req.account, AuditActionType.RECOVERY_METHOD_UPDATED, req)
 
         await accountService.recovery.token.set(req.account, req.body.token);
-        res.redirect(extendUrl(env.BASE_URL,"account","recovery"));
+        res.redirect(extendUrl(env.BASE_URL, "account", "recovery"));
 
     },
 
@@ -360,7 +340,7 @@ export default {
             linkedAccount: req.account,
             expireDate: data.date ? data.date : null
         });
-        res.redirect(extendUrl(env.BASE_URL,"invites"));
+        res.redirect(extendUrl(env.BASE_URL, "invites"));
     },
 
     /**
@@ -378,7 +358,7 @@ export default {
         }
 
         invitesService.remove(data.code);
-        res.redirect(extendUrl(env.BASE_URL,"invites"));
+        res.redirect(extendUrl(env.BASE_URL, "invites"));
 
     },
 
@@ -425,7 +405,7 @@ export default {
         const newClientId = configuration["client_id"];
         adapterService.setEntry("Client", newClientId, configuration);
 
-        res.redirect(extendUrl(env.BASE_URL,"services"));
+        res.redirect(extendUrl(env.BASE_URL, "services"));
     },
 
     /**
@@ -475,7 +455,7 @@ export default {
         }
         adapterService.setEntry("Client", newClientId, configuration);
 
-        res.redirect(extendUrl(env.BASE_URL,"services","edit",newClientId));
+        res.redirect(extendUrl(env.BASE_URL, "services", "edit", newClientId));
     },
 
     /**
@@ -502,7 +482,7 @@ export default {
 
         adapterService.removeEntry("Client", clientId);
         res.redirect("/services");
-        res.redirect(extendUrl(env.BASE_URL,"services"));
+        res.redirect(extendUrl(env.BASE_URL, "services"));
 
     },
 
@@ -536,7 +516,7 @@ export default {
         if (!errors.isEmpty()) {
             return dashboardRenderer.userAdd(req, res, data, errors.mapped());
         }
-        const user = await accountService.create(data.username,data.role)
+        const user = await accountService.create(data.username, data.role)
 
         dashboardRenderer.manageUser(req, res, user.id);
     },
@@ -571,7 +551,7 @@ export default {
         if (!errors.isEmpty()) {
             throw new ClientError(errors.array()[0].msg);
         }
-        dashboardRenderer.auditLog(req, res,data.weeks ? data.weeks : 1);
+        dashboardRenderer.auditLog(req, res, data.weeks ? data.weeks : 1);
     },
 
     /**
@@ -589,7 +569,7 @@ export default {
         }
 
         accountService.setRole(accountService.find.withId(data.id), data.accountUpdateRole);
-        res.redirect(extendUrl(env.BASE_URL,"user","manage",data.id));
+        res.redirect(extendUrl(env.BASE_URL, "user", "manage", data.id));
     },
 
     /**
@@ -605,13 +585,13 @@ export default {
         if (!errors.isEmpty()) {
             return dashboardRenderer.manageUser(req, res, data.id, data, errors.mapped());
         }
-        
+
         accountService.purge(accountService.find.withId(data.id));
-        res.redirect(extendUrl(env.BASE_URL,"users"));
+        res.redirect(extendUrl(env.BASE_URL, "users"));
     },
 
     /**
-     * @description 
+     * @description
      * @param {Request} req - The request object.
      * @param {Response} res - The response object.
      */
@@ -623,14 +603,14 @@ export default {
             return dashboardRenderer.manageUser(req, res, data.id, data, errors.mapped());
         }
 
-        const link = accountService.actionLink.createSetupLink(accountService.find.withId(data.id),PasswordResetChannels.ADMIN, 60*60*25*60) // 60 Days
-        mailService.send.setupLink(link,data.email,res.locals)
+        const link = accountService.actionLink.createSetupLink(accountService.find.withId(data.id), PasswordResetChannels.ADMIN, 60 * 60 * 25 * 60) // 60 Days
+        mailService.send.setupLink(link, data.email, res.locals)
 
         dashboardRenderer.setupEmailSent(res)
     },
 
     /**
-     * @description 
+     * @description
      * @param {Request} req - The request object.
      * @param {Response} res - The response object.
      */
@@ -642,8 +622,8 @@ export default {
             return dashboardRenderer.manageUser(req, res, data.id, data, errors.mapped());
         }
 
-        const link = accountService.actionLink.createRecoveryLink(accountService.find.withId(data.id),PasswordResetChannels.ADMIN)
-        mailService.send.recoveryLink(link,data.email,res.locals)
+        const link = accountService.actionLink.createRecoveryLink(accountService.find.withId(data.id), PasswordResetChannels.ADMIN)
+        mailService.send.recoveryLink(link, data.email, res.locals)
 
         dashboardRenderer.recoveryEmailSent(res)
     },
@@ -658,6 +638,6 @@ export default {
         const session = await provider.Session.get(provider.createContext(req, res));
         session.destroy();
 
-        res.redirect(extendUrl(env.BASE_URL,"login"));
+        res.redirect(extendUrl(env.BASE_URL, "login"));
     },
 };

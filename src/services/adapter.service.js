@@ -1,24 +1,4 @@
-/* 
- * This file is part of "Aktivistio Accounts".
- *
- * The project "Aktivistio Accounts" implements an account system and 
- * management platform combined with an OAuth 2.0 Authorization Server.
- *
- * "Aktivistio Accounts" is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * "Aktivistio Accounts" is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with "Aktivistio Accounts". If not, see https://www.gnu.org/licenses/.
- *
- * Copyright (C) 2025 Jana Caroline Pasewalck
- */
+
 import adapterDriver from "../drivers/adapter.driver.js";
 /**
  * @description Remove an entry from storage by its ID and model.
@@ -31,7 +11,7 @@ function removeEntry(model, id) {
 
 /**
  * @description Get an entry from storage by its ID and model.
- * @param {string} model - The model associated with the entry. 
+ * @param {string} model - The model associated with the entry.
  * @param {String} id - The ID of the entry to retrieve.
  * @returns {Object|undefined} - The parsed entry value as an object, or undefined if not found.
  */
@@ -47,17 +27,16 @@ function getEntry(model, id) {
  */
 function getEntries(model) {
     let result = adapterDriver.getEntriesValues(model); // Retrieve the entries values
-    if(result && result.length > 0)
-    {
+    if (result && result.length > 0) {
         // Parse and return the results
         var array = []
-        for (let i = 0; i < result.length; i++) 
+        for (let i = 0; i < result.length; i++)
             array.push(JSON.parse(result[i]))
-            
+
         return array
     }
     else
-        return []; 
+        return [];
 }
 
 /**
@@ -74,8 +53,8 @@ function setEntry(model, id, value, expire = null) {
     // Check if the entry already exists
     if (!getEntry(model, id)) {
         adapterDriver.insertEntry(model, id, encodedValue, expire); // Insert a new entry if it doesn't exist
-        if(model == "Session")
-            adapterDriver.addLookupValueForEntry(model,id,"accountId",value.accountId)
+        if (model == "Session")
+            adapterDriver.addLookupValueForEntry(model, id, "accountId", value.accountId)
     } else {
         // Update the existing entry
         if (expire !== null) {
@@ -90,7 +69,7 @@ function setEntry(model, id, value, expire = null) {
  * @param {String} accountId - Account to logout
  */
 function logoutAllSessions(accountId) {
-    removeEntryByLookup("Session","accountId",accountId)
+    removeEntryByLookup("Session", "accountId", accountId)
 }
 
 /**
@@ -136,7 +115,7 @@ function getEntryByLookup(model, name, lookupValue) {
 function removeEntryByLookup(model, name, lookupValue) {
     let ids = adapterDriver.getEntriesIdsByLookup(model, name, lookupValue); // Retrieve the entries IDs using the lookup
     // Remove all entries for ids
-    ids.forEach((id) => adapterDriver.removeEntry(model,id)); // Remove Entry
+    ids.forEach((id) => adapterDriver.removeEntry(model, id)); // Remove Entry
 }
 
 export default {
