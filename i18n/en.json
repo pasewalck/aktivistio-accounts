@@ -79,7 +79,8 @@
       "title": "Two-Factor Authentication",
       "enabled_message": "Two-Factor Authentication Enabled",
       "remove_button": "Disable Two-Factor Authentication",
-      "setup_2fa": "Set Up 2FA"
+      "setup_2fa": "Set Up 2FA",
+      "disabled_message": "2FA is currently disabled."
     },
     "audit_log": {
       "title": "Security Audit Log",
