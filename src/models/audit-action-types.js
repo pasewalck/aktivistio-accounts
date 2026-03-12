@@ -14,6 +14,16 @@ export class AuditActionType {
         replaceActionTypes: []
     };
 
+
+    static LOGIN_SUCCESS = {
+        id: 1,
+        type: 'LOGIN_SUCCESS',
+        displayName: 'User Successfully Logged In',
+        alertLevel: 0,
+        replaceActionTypes: [AuditActionType.LOGIN_FAIL]
+    };
+
+
     static LOGIN_FAIL = {
         id: 2,
         type: 'LOGIN_FAIL',
@@ -28,14 +38,6 @@ export class AuditActionType {
         displayName: 'Two-Factor Authentication Failed During Login',
         alertLevel: 2,
         replaceActionTypes: []
-    };
-
-    static LOGIN_SUCCESS = {
-        id: 1,
-        type: 'LOGIN_SUCCESS',
-        displayName: 'User Successfully Logged In',
-        alertLevel: 0,
-        replaceActionTypes: [AuditActionType.LOGIN_FAIL]
     };
 
 
@@ -177,8 +179,10 @@ export class AuditActionType {
             AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_HARD_FAIL_AT_EMAIL,
             AuditActionType.PASSWORD_RECOVERY_WITH_EMAIL_COMPLETE,
             AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_STARTED,
+            AuditActionType.PASSWORD_RECOVERY_GRANTED_BY_ADMIN_STARTED,
             AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_HARD_FAIL,
             AuditActionType.PASSWORD_RECOVERY_WITH_TOKEN_COMPLETE,
+            AuditActionType.PASSWORD_RECOVERY_GRANTED_BY_ADMIN_COMPLETE,
             AuditActionType.TWO_FACTOR_AUTH_ENABLED,
             AuditActionType.TWO_FACTOR_AUTH_DISABLED,
             AuditActionType.PASSWORD_CHANGED,
