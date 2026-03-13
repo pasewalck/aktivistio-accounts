@@ -8,11 +8,13 @@
     "compose:down": "docker compose down",
     "development-launcher": "npm-run-all --parallel tailwind:watch start-launcher:debug",
     "development-server": "npm-run-all --parallel tailwind:watch start-server:debug",
+    "build": "npm run tailwind:build",
     "production": "npm run start-launcher:production",
     "start-server:debug": "nodemon -r dotenv/config --inspect=0.0.0.0 src/server.js",
     "start-server:production": "node -r dotenv/config src/server.js",
     "start-launcher:debug": "nodemon -r dotenv/config --inspect=0.0.0.0 src/launcher.js",
     "start-launcher:production": "node -r dotenv/config src/launcher.js",
+    "tailwind:build": "npx @tailwindcss/cli -i ./src/tailwind/input.css -o ./src/tailwind/dist/tailwind.css",
     "tailwind:watch": "npx @tailwindcss/cli -i ./src/tailwind/input.css -o ./src/tailwind/dist/tailwind.css --watch"
   },
   "keywords": [],
