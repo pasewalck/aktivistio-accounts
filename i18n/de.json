@@ -508,7 +508,7 @@
 			},
 			"invite": {
 				"greeting": "Du bist eingeladen!",
-				"description": "Verwende den Einladungscode: %s, um beizutreten.",
+				"description": "Verwende den Einladungscode: %s",
 				"security_warning": "Halte deinen Einladungscode vertraulich."
 			},
 			"setup": {
