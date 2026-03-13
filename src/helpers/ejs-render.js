@@ -1,7 +1,8 @@
 
-import ejs from 'ejs';
+import ejs, { Template } from 'ejs';
 import path from 'path';
 import logger from './logger.js';
+import { readFileSync, readSync } from 'fs';
 
 /**
  * @description Renders a file using EJS.
@@ -9,11 +10,15 @@ import logger from './logger.js';
  * @param {Object} data - The data to be passed to the template for rendering.
  * @returns {Promise<String>} - The rendered template as a string.
  */
-export const renderEjsFile = async (renderPath, data) => {
+export const renderEjsFile = (renderPath, data) => {
     // Ensure the file has the correct .ejs extension
     renderPath = renderPath.endsWith(".ejs") ? renderPath : `${renderPath}.ejs`;
     try {
-        return await ejs.renderFile(renderPath, data);
+        const template = readFileSync(renderPath, 'utf8')
+        const include = (newRenderPath, newData) => {
+            return renderEjsFile(path.join(renderPath, "../", newRenderPath), { ...data, ...newData })
+        }
+        return ejs.render(template, { include, ...data });
     } catch (error) {
         logger.error(`Error rendering template at ${renderPath} with error:`, error);
     }
@@ -39,8 +44,9 @@ export async function emulatedEjs(layout = "/layouts/main", viewsPath = path.joi
             const viewTemplate = path.join(viewsPath, renderPath);
 
             // Render the view template and pass its content to the layout. Render layout and return it
-            const viewContent = await renderEjsFile(viewTemplate, data);
-            return await renderEjsFile(layoutTemplate, { ...data, body: viewContent });
+            const viewContent = renderEjsFile(viewTemplate, { ...data });
+
+            return renderEjsFile(layoutTemplate, { ...data, body: viewContent });
         }
     }
 }

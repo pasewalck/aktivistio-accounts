@@ -8,7 +8,7 @@ import { assembleUrl, extendUrl } from '../url.js';
 import { generateAsciiSecret } from '../../helpers/generate-secrets.js';
 
 // Initialize the emulated EJS instance for rendering templates
-const emulatedEjsInstance = await emulatedEjs();
+const emulatedEjsInstance = await emulatedEjs('layouts/centered');
 
 /**
  * @description Renders a template with the provided data and context.
@@ -26,7 +26,11 @@ function render(path, data, title, ctx) {
             assembleUrl,
             extendUrl
         },
-        app: { name: env.APPLICATION_NAME, logo: env.APPLICATION_LOGO },
+        app: {
+            name: env.APPLICATION_NAME,
+            logo: env.APPLICATION_LOGO
+        },
+        account: null,
         ...ctx.res.locals,
         ...data
     });
