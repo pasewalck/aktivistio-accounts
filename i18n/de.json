@@ -295,7 +295,7 @@
 		"recovery_email_secure_info": "Deine E-Mail wird sicher gespeichert und nur zur Kontowiederherstellung verwendet",
 		"recovery_email_address": "Wiederherstellungs-E-Mail-Adresse",
 		"recovery_token_written_confirm": "Ich habe mein Wiederherstellungstoken notiert und sicher aufbewahrt",
-		"account_role": "Kontorolle",
+		"account_role": "Rolle",
 		"user_uuid_label": "Eindeutige Benutzer*inkennung",
 		"actions": {},
 		"recovery_email": {
