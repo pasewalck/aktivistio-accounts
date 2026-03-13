@@ -18,7 +18,7 @@
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                 <input type="hidden" name="secret" value="<%= secret %> ">
 
-                <%- include("../../../partials/form/input/input-field.ejs",{field: {label:__('widget.2fa.enter_code.label'),id:"token",name:"token",type:"text",required:true}}) %>
+                <%- include("../../../partials/form/input/input-field.ejs",{field: {label:__('component.2fa.enter_code.label'),id:"token",name:"token",type:"text",required:true}}) %>
 
                 <div>
                     <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

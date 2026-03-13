@@ -23,7 +23,7 @@ export default {
      */
     initAccountPage: (res, isRegister, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/init/details', {
-            title: res.__('page.register.head_title'),
+            title: res.__('auth.register.head_title'),
             formData: formData,
             recoveryToken: formData.recoveryToken ? formData.recoveryToken : generateRecoveryToken(),
             errors: errors,
@@ -41,7 +41,7 @@ export default {
      */
     initAccountPageConsent: async (res, isRegister, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/init/consent', {
-            title: res.__('page.register.head_title'),
+            title: res.__('auth.register.head_title'),
             formData: formData,
             // TODO: Handle consent text in a more robust way
             consents: await marked(readFileSync("configuration/consent.md").toString()),
@@ -60,7 +60,7 @@ export default {
      */
     recoveryRequest: (res, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/recovery/request', {
-            title: res.__('page.request_invite.title'),
+            title: res.__('auth.invite_request.title'),
             errors: errors,
             formData: formData,
             layout: 'layouts/centered'
@@ -73,7 +73,7 @@ export default {
      */
     recoveryEmailSent: (res) => {
         return res.render('pages/shared/info', {
-            title: res.__('page.title.recovery-email-sent'),
+            title: res.__('title.recovery_email_sent'),
             paragraph: res.__('common.recovery_email.sent'),
             layout: 'layouts/centered'
         });
@@ -89,7 +89,7 @@ export default {
      */
     inviteRequest: (res, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/request-invite', {
-            title: res.__('page.request_invite.title'),
+            title: res.__('auth.invite_request.title'),
             errors: errors,
             formData: formData,
             emailProviders: env.WHITELISTED_MAIL_PROVIDERS,
@@ -106,7 +106,7 @@ export default {
      */
     recoveryConfirmCode: (res, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/recovery/confirm', {
-            title: res.__('page.title.recovery'),
+            title: res.__('title.recovery'),
             errors: errors,
             formData: formData,
             layout: 'layouts/centered'
@@ -123,7 +123,7 @@ export default {
      */
     recoveryPasswordPrompt: (res, actionToken, formData = {}, errors = {}) => {
         return res.render('pages/logged-out/recovery/reset', {
-            title: res.__('page.title.recovery'),
+            title: res.__('title.recovery'),
             errors: errors,
             formData: formData,
             actionToken: actionToken,

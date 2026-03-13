@@ -6,8 +6,8 @@ import invitesService from "../../../../services/invites.service.js";
 
 export default [
     body("code")
-        .exists({ checkFalsy: true }).withMessage(localize('invite.code.required')).bail()
+        .exists({ checkFalsy: true }).withMessage(localize('auth.invite.code.required')).bail()
         .escape()
-        .isAlphanumeric().withMessage(localize('invite.code.format_invalid')).bail()
-        .custom((value) => (!!invitesService.validate(value))).withMessage(localize('invite.code.invalid')),
+        .isAlphanumeric().withMessage(localize('auth.invite.code.format_invalid')).bail()
+        .custom((value) => (!!invitesService.validate(value))).withMessage(localize('auth.invite.code.invalid')),
 ]

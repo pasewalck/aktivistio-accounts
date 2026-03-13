@@ -2,7 +2,7 @@
     <div class="bg-white shadow sm:rounded-lg">
         <div class="px-4 py-5 sm:p-6">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
-                <%= currentClientId ? __("service.update") : __("service.create") %>
+                <%= currentClientId ? __("admin.service.update") : __("admin.service.create") %>
             </h3>
 
             <form class="mt-5 space-y-6" action="<%= urlUtils.extendUrl(baseUrl, currentClientId ? `services/edit/${currentClientId}/save` : `services/add`).href %>" method="post">
@@ -10,7 +10,7 @@
 
                 <div>
                     <label for="configuration" class="block text-sm font-medium text-gray-700">
-                        <%= __('service.configuration') %>
+                        <%= __('admin.service.configuration') %>
                     </label>
                     <div class="mt-1">
                         <%- include("../../partials/form/input/input-textarea.ejs",{textarea: {name:"configuration",required:true}}) %>
@@ -19,7 +19,7 @@
 
                 <div class="max-w-md">
                     <label for="adminPassword" class="block text-sm font-medium text-gray-700">
-                        <%= __('user.admin_password') %>
+                        <%= __('common.user.admin_password') %>
                     </label>
                     <div class="mt-1">
                         <%- include("../../partials/form/input/input-field.ejs",{field: {name:"adminPassword",type:"password",required:true}}) %>
@@ -39,7 +39,7 @@
         <div class="bg-white shadow sm:rounded-lg border-l-4 border-red-500">
             <div class="px-4 py-5 sm:p-6">
                 <h3 class="text-lg leading-6 font-medium text-red-900">
-                    <%= __("service.delete") %>
+                    <%= __("admin.service.delete") %>
                 </h3>
 
                 <form class="mt-5 space-y-6 max-w-md" action="<%= urlUtils.extendUrl(baseUrl, `services/edit/${currentClientId}/delete`).href %>" method="post">
@@ -47,7 +47,7 @@
 
                     <%- include("../../partials/form/input/input-field.ejs", {
                         field: {
-                            label: __('user.admin_password'),
+                            label: __('common.user.admin_password'),
                             name: "deletePermAdminPassword",
                             id: "deletePermAdminPassword",
                             type: "password",
@@ -59,13 +59,13 @@
                         checkbox: {
                             label: __('form.confirm_action'),
                             name: "deleteAdminConfirm",
-                            msg: __('service.delete_confirm', currentClientId)
+                            msg: __('admin.service.delete_confirm', currentClientId)
                         }
                     }) %>
 
                     <div>
                         <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                            <%= __("service.delete_forever") %>
+                            <%= __("admin.service.delete_forever") %>
                         </button>
                     </div>
                 </form>

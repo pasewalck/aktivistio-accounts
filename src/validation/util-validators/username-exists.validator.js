@@ -12,5 +12,5 @@ export default (validationChain) => {
         .escape()
         .toLowerCase()
         .custom((value) => (accountService.find.withUsername(value)))
-        .withMessage(localize("validation.username.not-found"))
+        .withMessage(localize("validation.username.not_found"))
 }

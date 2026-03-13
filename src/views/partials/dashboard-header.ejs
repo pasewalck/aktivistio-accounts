@@ -5,15 +5,15 @@
             <div class="flex">
                 <div class="hidden sm:flex sm:space-x-8">
                     <a href="<%= urlUtils.extendUrl(baseUrl, 'invites').href %>" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
-                        <%= __("widget.navigation.invites") %>
+                        <%= __("component.navigation.invites") %>
                     </a>
                     <a href="<%= urlUtils.extendUrl(baseUrl, 'services').href %>" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
-                        <%= __("widget.navigation.services") %>
+                        <%= __("component.navigation.services") %>
                     </a>
 
                     <% if (hasPermission(account.role, "MANAGE_USERS")) { %>
                         <a href="<%= urlUtils.extendUrl(baseUrl, 'users').href %>" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
-                            <%= __("widget.navigation.users") %>
+                            <%= __("component.navigation.users") %>
                         </a>
                     <% } %>
                 </div>
@@ -25,11 +25,11 @@
                              <span class="text-sm font-medium text-gray-700 block"><%= account.username %></span>
                         </div>
 
-                        <a href="<%= urlUtils.extendUrl(baseUrl, 'account').href %>" class="text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-full p-1" aria-label="<%= __('widget.account.settings') %>">
-                            <img class="h-6 w-6" src="<%= urlUtils.extendUrl(baseUrl, 'icons/settings.svg').href %>" alt="<%= __('widget.account.settings_icon_alt') %>">
+                        <a href="<%= urlUtils.extendUrl(baseUrl, 'account').href %>" class="text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-full p-1" aria-label="<%= __('component.account.settings') %>">
+                            <img class="h-6 w-6" src="<%= urlUtils.extendUrl(baseUrl, 'icons/settings.svg').href %>" alt="<%= __('component.account.settings_icon_alt') %>">
                         </a>
-                        <button form="logoutForm" type="submit" class="text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-full p-1 cursor-pointer" aria-label="<%= __('widget.account.logout') %>">
-                            <img class="h-6 w-6" src="<%= urlUtils.extendUrl(baseUrl, 'icons/logout.svg').href %>" alt="<%= __('widget.account.logout_icon_alt') %>">
+                        <button form="logoutForm" type="submit" class="text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-full p-1 cursor-pointer" aria-label="<%= __('component.account.logout') %>">
+                            <img class="h-6 w-6" src="<%= urlUtils.extendUrl(baseUrl, 'icons/logout.svg').href %>" alt="<%= __('component.account.logout_icon_alt') %>">
                         </button>
                     </div>
                 </div>
@@ -40,10 +40,10 @@
     <!-- Mobile menu (simplified) -->
     <div class="sm:hidden border-t border-gray-200">
         <div class="flex justify-around py-2">
-             <a href="<%= urlUtils.extendUrl(baseUrl, 'invites').href %>" class="text-gray-500 hover:text-gray-700 text-sm font-medium"><%= __("widget.navigation.invites") %></a>
-             <a href="<%= urlUtils.extendUrl(baseUrl, 'services').href %>" class="text-gray-500 hover:text-gray-700 text-sm font-medium"><%= __("widget.navigation.services") %></a>
+             <a href="<%= urlUtils.extendUrl(baseUrl, 'invites').href %>" class="text-gray-500 hover:text-gray-700 text-sm font-medium"><%= __("component.navigation.invites") %></a>
+             <a href="<%= urlUtils.extendUrl(baseUrl, 'services').href %>" class="text-gray-500 hover:text-gray-700 text-sm font-medium"><%= __("component.navigation.services") %></a>
              <% if (hasPermission(account.role, "MANAGE_USERS")) { %>
-                <a href="<%= urlUtils.extendUrl(baseUrl, 'users').href %>" class="text-gray-500 hover:text-gray-700 text-sm font-medium"><%= __("widget.navigation.users") %></a>
+                <a href="<%= urlUtils.extendUrl(baseUrl, 'users').href %>" class="text-gray-500 hover:text-gray-700 text-sm font-medium"><%= __("component.navigation.users") %></a>
              <% } %>
         </div>
     </div>

@@ -39,7 +39,7 @@ export default {
             enabled: true,
             logoutSource: async (ctx, form) => {
                 // Render the logout card with the session secret
-                ctx.body = await render("pages/oidc/logout", { secret: ctx.oidc.session.state.secret }, ctx.res.__('page.logout.title'), ctx);
+                ctx.body = await render("pages/oidc/logout", { secret: ctx.oidc.session.state.secret }, ctx.res.__('auth.logout.title'), ctx);
             },
             postLogoutSuccessSource: async (ctx) => {
                 // Redirect to the home page after logout
@@ -51,7 +51,7 @@ export default {
         ctx.type = 'html';
         logger.error(error); // Log the error for debugging
         // Render the error card with the error message
-        ctx.body = await render("pages/shared/error", { error: error }, ctx.res.__('page.title.error'), ctx);
+        ctx.body = await render("pages/shared/error", { error: error }, ctx.res.__('title.error'), ctx);
     },
     conformIdTokenClaims: false,
     claims: {

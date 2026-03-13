@@ -5,7 +5,7 @@ import currentUserPasswordValidator from "../../../util-validators/current-user-
 
 export default [
     currentUserPasswordValidator(body('currentPassword')),
-    body("email").notEmpty().withMessage(localize('email.recovery.required')).bail()
+    body("email").notEmpty().withMessage(localize('email.body.recovery.required')).bail()
         .escape()
-        .isEmail().withMessage(localize('email.format.invalid'))
+        .isEmail().withMessage(localize('email.body.format.invalid'))
 ]

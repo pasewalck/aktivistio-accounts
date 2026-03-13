@@ -18,13 +18,13 @@ const errorMiddleware = (err, req, res, next) => {
     } else if (err instanceof UnexpectedClientError) {
         return sharedRenderer.error(
             res,
-            res.__('error.unexpected.with_message %s', (err.message)),
+            res.__('error.unexpected.with_message', (err.message)),
             err.statusCode
         );
     } else if (err instanceof ClientError || err.constructor.name === "ForbiddenError") {
         return sharedRenderer.error(
             res,
-            res.__('error.client.with_message %s', (err.message)),
+            res.__('error.client.with_message', (err.message)),
             err.statusCode
         );
     } else {

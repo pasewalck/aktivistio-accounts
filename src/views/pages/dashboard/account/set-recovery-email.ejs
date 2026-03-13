@@ -3,16 +3,16 @@
         <div class="px-4 py-5 sm:p-6">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
                 <% if (hasRecoveryEmail) { %>
-                    <%= __("page.account_recovery_update_email.title") %>
+                    <%= __("account.recovery.update_email.title") %>
                 <% } else { %>
-                    <%= __("page.account_recovery_add_email.title") %>
+                    <%= __("account.recovery.add_email.title") %>
                 <% } %>
             </h3>
 
             <form class="mt-5 space-y-6 max-w-md" autocomplete="off" action="" method="post">
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
-                <%- include("../../../partials/alert-info.ejs",{info: __("page.account_recovery_set_email.waring_valid_email"),moreInfoLink: "https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md"}) %>
+                <%- include("../../../partials/alert-info.ejs",{info: __("account.recovery.set_email.waring_valid_email"),moreInfoLink: "https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md"}) %>
 
                 <%- include("../../../partials/form/input/input-field.ejs", {
                     field: {
@@ -26,7 +26,7 @@
 
                 <%- include("../../../partials/form/input/input-field.ejs", {
                     field: {
-                        label: __('page.account_recovery_set_email.new_email'),
+                        label: __('account.recovery.set_email.new_email'),
                         name: "email",
                         id: "email",
                         type: "email",
@@ -36,7 +36,7 @@
 
                 <div>
                     <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <%= __('page.account_recovery_set_email.set_new_button') %>
+                        <%= __('account.recovery.set_email.set_new_button') %>
                     </button>
                 </div>
             </form>

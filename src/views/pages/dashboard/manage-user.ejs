@@ -2,7 +2,7 @@
     <div class="bg-white shadow sm:rounded-lg">
         <div class="px-4 py-5 sm:p-6">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
-                <%= __("page.admin.manage_account.title") %>
+                <%= __("admin.user_detail.title") %>
             </h3>
 
             <form class="mt-5 space-y-6 max-w-md" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/update`).href %>" method="post">
@@ -32,9 +32,9 @@
             <h3 class="text-lg leading-6 font-medium text-gray-900">
                 <% var isNew = managingAccount.lastLogin == null %>
                 <% if (isNew) { %>
-                    <%= __("page.admin.manage_account.send_setup_email") %>
+                    <%= __("admin.user_detail.send_setup_email") %>
                 <% } else { %>
-                    <%= __("page.admin.manage_account.send_recovery_email") %>
+                    <%= __("admin.user_detail.send_recovery_email") %>
                 <% } %>
             </h3>
 
@@ -53,9 +53,9 @@
                 <div>
                     <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         <% if (isNew) { %>
-                            <%= __("page.admin.manage_account.send_setup_email_button") %>
+                            <%= __("admin.user_detail.send_setup_email_button") %>
                         <% } else { %>
-                            <%= __("page.admin.manage_account.send_recovery_email_button") %>
+                            <%= __("admin.user_detail.send_recovery_email_button") %>
                         <% } %>
                     </button>
                 </div>
@@ -66,7 +66,7 @@
     <div class="bg-white shadow sm:rounded-lg">
         <div class="px-4 py-5 sm:p-6">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
-                <%= __("page.admin.manage_account.update") %>
+                <%= __("admin.user_detail.update") %>
             </h3>
 
             <form class="mt-5 space-y-6 max-w-md" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/update`).href %>" method="post">
@@ -91,7 +91,7 @@
 
                 <div>
                     <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <%= __("page.admin.manage_account.update_button") %>
+                        <%= __("admin.user_detail.update_button") %>
                     </button>
                 </div>
             </form>
@@ -102,7 +102,7 @@
         <div class="bg-white shadow sm:rounded-lg border-l-4 border-red-500">
             <div class="px-4 py-5 sm:p-6">
                 <h3 class="text-lg leading-6 font-medium text-red-900">
-                    <%= __("page.admin.manage_account.delete") %>
+                    <%= __("admin.user_detail.delete") %>
                 </h3>
 
                 <form class="mt-5 space-y-6 max-w-md" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/delete`).href %>" method="post">
@@ -120,15 +120,15 @@
 
                     <%- include("../../partials/form/input/input-checkbox.ejs", {
                         checkbox: {
-                            label: __('page.admin.manage_account.confirm_delete'),
+                            label: __('admin.user_detail.confirm_delete'),
                             name: "deleteAdminConfirm",
-                            msg: __('page.admin.manage_account.confirm_delete_message', managingAccount.username)
+                            msg: __('admin.user_detail.confirm_delete_message', managingAccount.username)
                         }
                     }) %>
 
                     <div>
                         <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                            <%= __("page.admin.manage_account.delete_button") %>
+                            <%= __("admin.user_detail.delete_button") %>
                         </button>
                     </div>
                 </form>

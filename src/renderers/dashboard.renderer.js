@@ -30,7 +30,7 @@ export default {
    */
   services: (req, res) => {
     return res.render('pages/dashboard/services', {
-      title: res.__('page.title.services'),
+      title: res.__('title.services'),
       clients: adapterService.getEntries("Client").filter((client) => !client.hidden || hasPermission(req.account.role, Permission.MANAGE_SERVICES))
     });
   },
@@ -46,7 +46,7 @@ export default {
   */
   manageService: (req, res, currentClientId = null, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/service-management', {
-      title: res.__('page.title.manage-service'),
+      title: res.__('title.manage_service'),
       errors: errors,
       formData: formData,
       currentClientId: currentClientId
@@ -61,7 +61,7 @@ export default {
   */
   account: (req, res) => {
     return res.render('pages/dashboard/account', {
-      title: res.__('page.own_account.title'),
+      title: res.__('account.dashboard.title'),
     });
   },
 
@@ -75,7 +75,7 @@ export default {
   */
   accountChangePassword: (req, res, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/account/password', {
-      title: res.__('page.change-password.title'),
+      title: res.__('account.password.title'),
       errors: errors,
       formData: formData,
     });
@@ -90,7 +90,7 @@ export default {
   */
   twoFactorAuth: (req, res) => {
     return res.render('pages/dashboard/account/2fa', {
-      title: res.__('page.account_2fa.title'),
+      title: res.__('account.mfa.title'),
       has2fa: accountService.twoFactorAuth.get(req.account) != null
     });
   },
@@ -110,7 +110,7 @@ export default {
     let qrCodeSrc = await QRCode.toDataURL(url);
 
     return res.render('pages/dashboard/account/add-2fa', {
-      title: res.__('page.account_2fa.title'),
+      title: res.__('account.mfa.title'),
       accountInQuestion: req.account,
       secret: secret,
       url: url,
@@ -128,7 +128,7 @@ export default {
    */
   recovery: (req, res) => {
     return res.render('pages/dashboard/account/recovery', {
-      title: res.__('page.title.account_recovery'),
+      title: res.__('title.account_recovery'),
       currentRecovery: accountService.recovery.get(req.account)
     });
   },
@@ -143,7 +143,7 @@ export default {
    */
   setRecoveryToken: (req, res, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/account/set-recovery-token', {
-      title: res.__('page.title.account_recovery'),
+      title: res.__('title.account_recovery'),
       accountInQuestion: req.account,
       errors: errors,
       formData: formData,
@@ -162,7 +162,7 @@ export default {
    */
   setRecoveryEmail: (req, res, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/account/set-recovery-email', {
-      title: res.__('page.title.account_recovery'),
+      title: res.__('title.account_recovery'),
       errors: errors,
       formData: formData,
       accountInQuestion: req.account,
@@ -181,7 +181,7 @@ export default {
    */
   deleteRecoveryMethod: (req, res, method, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/account/remove-recovery-confirm', {
-      title: res.__('page.title.account_recovery'),
+      title: res.__('title.account_recovery'),
       accountInQuestion: req.account,
       errors: errors,
       formData: formData,
@@ -199,7 +199,7 @@ export default {
    */
   delete: (req, res, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/account/delete', {
-      title: res.__('page.delete_account.title'),
+      title: res.__('account.delete.title'),
       errors: errors,
       formData: formData,
       accountInQuestion: req.account
@@ -215,7 +215,7 @@ export default {
    */
   invites: (req, res, animateNewest = false) => {
     return res.render('pages/dashboard/codes', {
-      title: res.__('page.title.invite-codes'),
+      title: res.__('title.invite_codes'),
       inviteCodes: invitesService.getForAccount.all(req.account),
       animateNewest: animateNewest,
       lockedInviteCodes: invitesService.getForAccount.allLocked(req.account)
@@ -230,7 +230,7 @@ export default {
   */
   users: (req, res) => {
     return res.render('pages/dashboard/users', {
-      title: res.__('page.title.users'),
+      title: res.__('title.users'),
       users: accountService.getAll(),
     });
   },
@@ -244,7 +244,7 @@ export default {
   */
   userAdd: (req, res, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/add-user', {
-      title: res.__('page.admin.user_add.title'),
+      title: res.__('admin.user_add.title'),
       formData: formData,
       errors: errors
     });
@@ -256,8 +256,8 @@ export default {
    */
   recoveryEmailSent: (res) => {
     return res.render('pages/shared/info', {
-      title: res.__('email.recovery.title'),
-      paragraph: res.__('email.recovery.confirmation'),
+      title: res.__('email.body.recovery.title'),
+      paragraph: res.__('email.body.recovery.confirmation'),
     });
   },
 
@@ -267,8 +267,8 @@ export default {
    */
   setupEmailSent: (res) => {
     return res.render('pages/shared/info', {
-      title: res.__('email.setup.title'),
-      paragraph: res.__('email.setup.confirmation'),
+      title: res.__('email.body.setup.title'),
+      paragraph: res.__('email.body.setup.confirmation'),
     });
   },
 
@@ -287,7 +287,7 @@ export default {
     // Sort the audit log entries by timestamp in descending order
     auditLog.sort((a, b) => new Date(b.time) - new Date(a.time));
     return res.render('pages/dashboard/account/audit-log', {
-      title: res.__('page.audit_log.title'),
+      title: res.__('account.audit.title'),
       weeksBack,
       moreEntries: since > auditService.getFirstEntryFullAuditLog(req.account).time,
       auditLog,
@@ -305,7 +305,7 @@ export default {
   */
   manageUser: (req, res, userId, formData = {}, errors = {}) => {
     return res.render('pages/dashboard/manage-user', {
-      title: res.__('page.admin.user_manage.title'),
+      title: res.__('admin.user_manage.title'),
       errors: errors,
       formData: formData,
       managingAccount: accountService.find.withId(userId),
@@ -322,7 +322,7 @@ export default {
   inviteShare: async (req, res, invite) => {
     var inviteURL = extendUrl(env.BASE_URL, "register", invite).href;
     return res.render('pages/dashboard/invite-share', {
-      title: res.__('page.invite_share.title'),
+      title: res.__('auth.invite.share_page.title'),
       invite: invite,
       inviteURL: inviteURL,
       inviteQR: await QRCode.toDataURL(inviteURL, { width: 300 })

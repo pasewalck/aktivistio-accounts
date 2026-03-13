@@ -8,7 +8,7 @@ import { MessageType } from "../models/email.message-type.js"
  * @param {JSON} [locals]
  */
 async function sendRecoveryLink(link, to, locals) {
-  await mailDriver.sendEmail(to, locals.__("email-subject.your-recovery-link"), MessageType.RECOVERY_CODE, locals, { link: link })
+  await mailDriver.sendEmail(to, locals.__("email.subject.your_recovery_link"), MessageType.RECOVERY_CODE, locals, { link: link })
 }
 /**
  * @description Send invite code email
@@ -17,7 +17,7 @@ async function sendRecoveryLink(link, to, locals) {
  * @param {JSON} [locals]
  */
 async function sendInviteCode(code, to, locals) {
-  await mailDriver.sendEmail(to, locals.__("email-subject.your-invite-code"), MessageType.INVITE_CODE, locals, { code: code })
+  await mailDriver.sendEmail(to, locals.__("email.subject.your_invite_code"), MessageType.INVITE_CODE, locals, { code: code })
 }
 /**
  * @description Send setup email
@@ -26,7 +26,7 @@ async function sendInviteCode(code, to, locals) {
  * @param {JSON} [locals]
  */
 async function sendSetupLink(link, to, locals) {
-  await mailDriver.sendEmail(to, locals.__("email-subject.your-new-account"), MessageType.ACCOUNT_SETUP, locals, { link: link })
+  await mailDriver.sendEmail(to, locals.__("email.subject.your_new_account"), MessageType.ACCOUNT_SETUP, locals, { link: link })
 }
 
 

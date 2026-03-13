@@ -1,6 +1,6 @@
 <div class="sm:mx-auto sm:w-full sm:max-w-md">
     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        <%= __('invite.request_title') %>
+        <%= __('auth.invite.request_title') %>
     </h2>
 </div>
 
@@ -17,14 +17,14 @@
                 </div>
                 <% if (emailProviders.length > 0) { %>
                     <div class="ml-3">
-                        <%= __('invite.whitelist_info') %>
+                        <%= __('auth.invite.whitelist_info') %>
                         <%
                             // Map each provider to a link
                             const links = emailProviders.map((provider, idx) => {
                                 return `<a href="https://${provider}" class="font-medium underline hover:text-blue-600">${provider}</a>`;
                             });
                             // Join with commas and "and" before the last one
-                            const formattedLinks = __('invite.whitelist_prefix') + (links.length > 1
+                            const formattedLinks = __('auth.invite.whitelist_prefix') + (links.length > 1
                                 ? links.slice(0, -1).join(', ') + ' '+__('common.and')+' ' + links[links.length - 1]
                                 : links[0])
                         %>
@@ -36,7 +36,7 @@
 
         <%- include("../../partials/form/input/input-field.ejs", {
             field: {
-                label: __('user.email'),
+                label: __('common.user.email'),
                 name: "email",
                 id: "email",
                 type: "email",

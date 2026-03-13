@@ -7,9 +7,9 @@ import usernameCreateValidator from "../../../../util-validators/username-create
 export default [
   usernameCreateValidator(body("username")),
   body("role")
-    .exists({ checkFalsy: true }).withMessage(localize('validation_feedback.role_required')).bail()
+    .exists({ checkFalsy: true }).withMessage(localize('validation.feedback.role_required')).bail()
     .escape()
     .isString()
-    .isIn(Role.all()).withMessage(localize('validation_feedback.role_invalid')).bail()
-    .custom((value, { req }) => value < req.account.role).withMessage(localize('validation_feedback.permission_denied_for_role')).bail(),
+    .isIn(Role.all()).withMessage(localize('validation.feedback.role_invalid')).bail()
+    .custom((value, { req }) => value < req.account.role).withMessage(localize('validation.feedback.permission_denied_for_role')).bail(),
 ]

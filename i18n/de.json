@@ -1,17 +1,5 @@
 {
-  "page": {
-    "title": {
-      "login": "Anmelden",
-      "services": "Dienste",
-      "invite-codes": "Einladungscodes",
-      "users": "Nutzer*innen Verwalten",
-      "account_recovery": "Optionen zur Kontowiederherstellung",
-      "manage-service": "Dienst verwalten",
-      "recovery": "Passwortwiederherstellung",
-      "recovery-email-sent": "Wiederherstellungs-E-Mail gesendet",
-      "error": "Ein Fehler ist aufgetreten",
-      "authorize": "Autorisierung erforderlich"
-    },
+  "auth": {
     "login": {
       "title": "Anmelden",
       "username": "Benutzer*inname",
@@ -22,70 +10,11 @@
       "create_account": "Konto erstellen",
       "abort": "Abbrechen"
     },
-    "service": {
-      "add": "Neuen Dienst hinzufügen"
-    },
-    "invites": {
-      "title": "Deine Einladungscodes",
-      "generate": "Einladungscodes Generieren",
-      "uses": "Anzahl der Nutzungen",
-      "uses_hint": "Die maximale Anzahl, wie oft diese Einladung verwendet werden kann",
-      "expire_label": "Ablaufdatum",
-      "generate_invite": "Generieren",
-      "invite_use_indicator": "Der Einladungscode kann %s Male verwendet werden.",
-      "invites_unlocked_message %s": "Einladungs-Codes werden in %s Tagen freigeschaltet.",
-      "no_invites_message": "Aktuell hast du keine Einladungs-Codes."
-    },
-    "user_list": {
-      "title": "Nutzer*innen",
-      "current_user": "Du",
-      "create": "Nutzer*inkonto erstellen"
-    },
-    "own_account": {
-      "title": "Konto Verwaltung",
-      "menu": {
-        "security-and-access": {
-          "title": "Zugang & Sicherheit",
-          "password-change": "Passwort Ändern",
-          "mfa-manage": "Multi-Faktor-Authentifizierung Verwalten",
-          "audit-view": "Auditprotokoll Anzeigen"
-        },
-        "recovery": {
-          "title": "Konto-Wiederherstellung"
-        },
-        "recovery-manage": "Wiederherstellungsoptionen Verwalten",
-        "deletion": {
-          "title": "Konto Löschen",
-          "proceed": "Weiter zur Löschung"
-        }
-      }
-    },
-    "change-password": {
-      "title": "Passwort Ändern"
-    },
-    "account_2fa": {
-      "title": "Zwei-Faktor-Authentifizierung",
-      "enabled_message": "Zwei-Faktor-Authentifizierung aktiviert",
-      "remove_button": "Zwei-Faktor-Authentifizierung deaktivieren",
-      "setup_2fa": "2FA einrichten",
-      "disabled_message": "2FA ist derzeit deaktiviert."
-    },
-    "audit_log": {
-      "title": "Kontoaktivitätsprotokoll",
-      "legend": "Aktivitätsprotokoll-Details",
-      "warning_label": "Warnung",
-      "warning_description": "Mögliche Sicherheitsvorfälle",
-      "critical_label": "Kritisch",
-      "critical_description": "Bedeutende Sicherheitsvorfälle"
-    },
     "recovery": {
       "no_methods_question": "Keine Wiederherstellungsmethoden?",
       "add": {}
     },
-    "delete_account": {
-      "title": "Konto löschen"
-    },
-    "request_invite": {
+    "invite_request": {
       "title": "Einladung anfordern"
     },
     "recovery_request": {
@@ -97,30 +26,182 @@
       "no_invite_code_question": "Haben Sie keinen Einladungscode?",
       "submit_details": "Kontodaten einreichen"
     },
-    "admin": {
-      "user_add": {
-        "title": "Benutzerkonto erstellen",
-        "create": "Konto erstellen"
+    "invite": {
+      "share": {
+        "title": "%s beitreten"
       },
-      "user_manage": {
-        "title": "Benutzerkontoverwaltung"
+      "share_page": {
+        "title": "Einladung Teilen"
       },
-      "manage_account": {
-        "title": "Benutzerkonto verwalten",
-        "send_setup_email": "Einrichtungs-E-Mail senden",
-        "update": "Kontodaten aktualisieren",
-        "delete": "Benutzerkonto löschen",
-        "confirm_delete": "Löschung des Kontos bestätigen",
-        "confirm_delete_message": "Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann",
-        "delete_button": "Konto dauerhaft löschen",
-        "update_button": "Konto aktualisieren",
-        "send_recovery_email_button": "Einrichtungs-E-Mail senden",
-        "send_recovery_email": "Wiederherstellungs-Email Senden",
-        "send_setup_email_button": "Setup-Email verschicken"
+      "request_title": "Eine Einladung anfordern",
+      "whitelist_info": "Stellen Sie sicher, dass Ihre E-Mail auf der Whitelist steht, um Einladungen zu erhalten.",
+      "code": {
+        "required": "Ein Einladungscode muss angegeben werden.",
+        "format_invalid": "Der Einladungscode muss im richtigen Format vorliegen.",
+        "invalid": "Der Einladungscode ist ungültig."
+      },
+      "whitelist_prefix": "Whitelist: "
+    },
+    "logout": {
+      "confirm_message": "Sind Sie sicher, dass Sie sich abmelden möchten?",
+      "title": "Abmeldebestätigung",
+      "no": "Nein, angemeldet bleiben.",
+      "yes": "Ja, abmelden.",
+      "action": "Abmelden"
+    },
+    "mfa_verify": {
+      "abort": "Abbrechen",
+      "code_label": "Geben Sie Ihren Code zur Zwei-Faktor-Authentifizierung ein.",
+      "title": "Zwei-Faktor-Authentifizierung",
+      "verify": "Code überprüfen"
+    },
+    "consent": {
+      "abort": "Abbrechen",
+      "confirm_access": "Bitte bestätige mit der Anmeldung fortzufahren.",
+      "verify": "Bestätigen"
+    },
+    "consent_page": {
+      "title": "Zustimmung erforderlich",
+      "verification_statement": "Bitte bestätigen Sie Ihre Zustimmung."
+    }
+  },
+  "admin": {
+    "service_list": {
+      "add": "Neuen Dienst hinzufügen"
+    },
+    "invite": {
+      "title": "Deine Einladungscodes",
+      "generate": "Einladungscodes Generieren",
+      "uses": "Anzahl der Nutzungen",
+      "uses_hint": "Die maximale Anzahl, wie oft diese Einladung verwendet werden kann",
+      "expire_label": "Ablaufdatum",
+      "generate_invite": "Generieren",
+      "no_invites_message": "Aktuell hast du keine Einladungs-Codes.",
+      "invites_unlocked_message": "Einladungs-Codes werden in %s Tagen freigeschaltet.",
+      "invite_use_indicator": "Der Einladungscode kann %s Male verwendet werden."
+    },
+    "user_list": {
+      "title": "Nutzer*innen",
+      "current_user": "Du",
+      "create": "Nutzer*inkonto erstellen"
+    },
+    "user_add": {
+      "title": "Benutzerkonto erstellen",
+      "create": "Konto erstellen"
+    },
+    "user_manage": {
+      "title": "Benutzerkontoverwaltung"
+    },
+    "user_detail": {
+      "title": "Benutzerkonto verwalten",
+      "send_setup_email": "Einrichtungs-E-Mail senden",
+      "send_recovery_email": "Wiederherstellungs-Email Senden",
+      "update": "Kontodaten aktualisieren",
+      "delete": "Benutzerkonto löschen",
+      "confirm_delete": "Löschung des Kontos bestätigen",
+      "confirm_delete_message": "Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann",
+      "delete_button": "Konto dauerhaft löschen",
+      "update_button": "Konto aktualisieren",
+      "send_recovery_email_button": "Einrichtungs-E-Mail senden",
+      "send_setup_email_button": "Setup-Email verschicken"
+    },
+    "service": {
+      "create": "Neuen Dienst erstellen",
+      "configuration": "Dienstkonfiguration",
+      "delete": "Dienst löschen",
+      "delete_forever": "Diesen Dienst dauerhaft löschen.",
+      "update": "Dienst aktualisieren",
+      "go_to": "Zum Dienst gehen",
+      "login": "Beim Dienst anmelden",
+      "manage": "Verwalten Sie Ihre Dienste",
+      "delete_confirm": "Sind Sie sicher, dass Sie diesen Dienst löschen möchten?"
+    },
+    "delete": {
+      "confirmation_required": "Bestätigung für die Löschung erforderlich"
+    }
+  },
+  "account": {
+    "dashboard": {
+      "title": "Konto Verwaltung"
+    },
+    "security": {
+      "title": "Zugang & Sicherheit",
+      "password_change": "Passwort Ändern",
+      "mfa_manage": "Multi-Faktor-Authentifizierung Verwalten",
+      "audit_view": "Auditprotokoll Anzeigen"
+    },
+    "recovery_menu": {
+      "title": "Konto-Wiederherstellung"
+    },
+    "menu": {
+      "recovery_manage": "Wiederherstellungsoptionen Verwalten"
+    },
+    "delete_menu": {
+      "title": "Konto Löschen",
+      "proceed": "Weiter zur Löschung"
+    },
+    "recovery": {
+      "title": "Kontowiederherstellung",
+      "no_method_set_message": "Keine Wiederherstellungsmethoden festgelegt",
+      "button": {
+        "add_email": {}
+      },
+      "text": {
+        "recovery_methods_count": "Sie haben %s Wiederherstellungsmethoden eingerichtet."
+      },
+      "active_list": {
+        "label": {
+          "token": "Wiederherstellungstoken",
+          "email": "Wiederherstellungs-E-Mail-Adresse"
+        }
+      },
+      "add_token_button": "Neues Wiederherstellungs-Token",
+      "add_email_button": "Neue Wiederherstellungs-Email",
+      "add_button": {
+        "token": {
+          "title": "Wiederherstellungstoken hinzufügen"
+        }
+      },
+      "add_recovery_email_button": "Wiederherstellungs-E-Mail hinzufügen",
+      "warning_message": "Die Zwei-Faktor-Authentifizierung wird entfernt. Sie müssen sie nach dieser Aktion erneut einrichten.",
+      "update_email": {
+        "title": "Wiederherstellungs-E-Mail aktualisieren"
+      },
+      "add_email": {
+        "title": "Wiederherstellungs-Email hinzufügen"
+      },
+      "set_email": {
+        "waring_valid_email": "Stellen Sie sicher, dass Sie eine gültige E-Mail-Adresse verwenden.",
+        "new_email": "Neue Wiederherstellungs-E-Mail-Adresse",
+        "set_new_button": "Wiederherstellungs-E-Mail festlegen"
+      },
+      "remove": {
+        "warning": "Sind Sie sicher, dass Sie diese Wiederherstellungsmethode entfernen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "confirm": "Entfernen"
       }
     },
-    "own-account": {
-      "delete": {
+    "password": {
+      "title": "Passwort Ändern",
+      "label": "Passwort"
+    },
+    "mfa": {
+      "title": "Zwei-Faktor-Authentifizierung",
+      "enabled_message": "Zwei-Faktor-Authentifizierung aktiviert",
+      "remove_button": "Zwei-Faktor-Authentifizierung deaktivieren",
+      "setup_2fa": "2FA einrichten",
+      "disabled_message": "2FA ist derzeit deaktiviert."
+    },
+    "audit": {
+      "title": "Kontoaktivitätsprotokoll",
+      "legend": "Aktivitätsprotokoll-Details",
+      "warning_label": "Warnung",
+      "warning_description": "Mögliche Sicherheitsvorfälle",
+      "critical_label": "Kritisch",
+      "critical_description": "Bedeutende Sicherheitsvorfälle"
+    },
+    "delete": {
+      "title": "Konto löschen",
+      "confirm": {
         "title": "Konto dauerhaft löschen",
         "warning": "Warnung: Diese Aktion kann nicht rückgängig gemacht werden",
         "checkbox": {
@@ -129,119 +210,10 @@
         "button": {
           "text": "Konto dauerhaft löschen"
         },
-        "warninge": {
-          "warning": "Du befindest dich auf der Seite zum Löschen deines Kontos. Das Löschen deines Kontos kann nicht rückgängig gemacht werden. Fahre mit Bedacht fort."
+        "alert": {
+          "message": "Du befindest dich auf der Seite zum Löschen deines Kontos. Das Löschen deines Kontos kann nicht rückgängig gemacht werden. Fahre mit Bedacht fort."
         }
       }
-    },
-    "account_recovery": {
-      "no_method_set_message": "Keine Wiederherstellungsmethoden festgelegt",
-      "add-button": {
-        "token": {
-          "title": "Wiederherstellungstoken hinzufügen"
-        }
-      },
-      "button": {
-        "add-email": {}
-      },
-      "text": {
-        "recovery-methods-count %s": "Sie haben %s Wiederherstellungsmethoden eingerichtet."
-      },
-      "active-list": {
-        "label": {
-          "token": "Wiederherstellungstoken",
-          "email": "Wiederherstellungs-E-Mail-Adresse"
-        }
-      },
-      "title": "Kontowiederherstellung",
-      "add_recovery_email_button": "Wiederherstellungs-E-Mail hinzufügen",
-      "add_email_button": "Neue Wiederherstellungs-Email",
-      "add_token_button": "Neues Wiederherstellungs-Token",
-      "warning_message": "Die Zwei-Faktor-Authentifizierung wird entfernt. Sie müssen sie nach dieser Aktion erneut einrichten."
-    },
-    "logout": {
-      "confirm_message": "Sind Sie sicher, dass Sie sich abmelden möchten?",
-      "title": "Abmeldebestätigung",
-      "action": "Abmelden",
-      "no": "Nein, angemeldet bleiben.",
-      "yes": "Ja, abmelden."
-    },
-    "account_recovery_update_email": {
-      "title": "Wiederherstellungs-E-Mail aktualisieren"
-    },
-    "account_recovery_set_email": {
-      "waring_valid_email": "Stellen Sie sicher, dass Sie eine gültige E-Mail-Adresse verwenden.",
-      "new_email": "Neue Wiederherstellungs-E-Mail-Adresse",
-      "set_new_button": "Wiederherstellungs-E-Mail festlegen"
-    },
-    "account_recovery_add_email": {
-      "title": "Wiederherstellungs-Email hinzufügen"
-    },
-    "invite_share": {
-      "title": "Einladung Teilen"
-    },
-    "dashboard": {
-      "welcome %s": "Willkommen %s!"
-    },
-    "share-invite": {
-      "title": "%s beitreten"
-    }
-  },
-  "common": {
-    "current_password": "Aktuelles Passwort",
-    "new_password": "Neues Passwort",
-    "confirm_new_password": "Neues Passwort Bestätigen",
-    "update_password": "Ändern",
-    "account_2fa": {},
-    "recovery_method": {
-      "title": "Wiederherstellungsmethode"
-    },
-    "recovery_email": {
-      "title": "Wiederherstellungs-E-Mail",
-      "sent": "Eine Wiederherstellungs-E-Mail wurde an Ihre angegebene E-Mail-Adresse gesendet."
-    },
-    "recovery_token": {
-      "title": "Wiederherstellungstoken",
-      "confirmation_required": "Bestätigung für den Wiederherstellungstoken erforderlich"
-    },
-    "select_recovery_method": "Wiederherstellungsmethode auswählen",
-    "form": {
-      "submit": "Einreichen"
-    },
-    "learn_more": "Mehr erfahren",
-    "invite_code": "Einladungscode",
-    "password": "Passwort",
-    "confirm_password": "Passwort bestätigen",
-    "recovery_email_secure_info": "Ihre E-Mail wird sicher gespeichert und nur zur Kontowiederherstellung verwendet",
-    "recovery_email_address": "Wiederherstellungs-E-Mail-Adresse",
-    "recovery_token_written_confirm": "Ich habe meinen Wiederherstellungstoken notiert und sicher aufbewahrt",
-    "username": "Benutzername",
-    "account_role": "Kontorolle",
-    "user_uuid_label": "Benutzer-Eindeutige Kennung",
-    "actions": {},
-    "confirm": "Bestätigen",
-    "time": {
-      "hours_ago": "vor %s Stunden",
-      "minutes_ago": "Vor %s Minuten",
-      "seconds_ago": "vor %s Sekunden"
-    },
-    "action-button": {},
-    "button": {
-      "modify": "Ändern",
-      "delete": "Löschen"
-    },
-    "target_email": "Empfänger-E-Mail-Adresse",
-    "your_admin_password": "Administrator-Passwort",
-    "expires_in_days %s": "Läuft in %s Tagen ab",
-    "expires_on_date": "Läuft am %s ab",
-    "setup": "Setup",
-    "new": "Neu",
-    "and": "und"
-  },
-  "account": {
-    "delete": {},
-    "password": {
-      "label": "Passwort"
     },
     "confirm": {
       "label": "Bestätigen",
@@ -261,10 +233,6 @@
         "remove": {
           "title": "Wiederherstellungstoken entfernen"
         },
-        "new": {
-          "title": "Neues Wiederherstellungstoken",
-          "label": "Neues Wiederherstellungstoken"
-        },
         "setup": {
           "warning": "Stell sicher, dass du dein Token an einem sicheren Platz speicherst."
         },
@@ -273,100 +241,108 @@
         },
         "verify": {
           "checkbox": "Dieses Token zur Wiederherstellung überprüfen."
+        },
+        "new": {
+          "label": "Neues Wiederherstellungstoken",
+          "title": "Neues Wiederherstellungstoken"
         }
       },
       "recovery_methods": {}
     },
-    "recovery": {
-      "remove": {
-        "warning": "Sind Sie sicher, dass Sie diese Wiederherstellungsmethode entfernen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
-        "confirm": "Entfernen"
-      }
-    },
     "audit_log": {
-      "entries_since %s": "Audit-Protokolleinträge seit %s Wochen.",
+      "entries_since": "Audit-Protokolleinträge seit %s Wochen.",
       "view_more": "Weitere Einträge anzeigen."
     },
     "id": {
-      "not_found": "Konto-ID nicht gefunden.",
-      "format_invalid": "ID hat kein gültiges Format."
+      "format_invalid": "ID hat kein gültiges Format.",
+      "not_found": "Konto-ID nicht gefunden."
     },
     "permission": {
       "insufficient": "Sie haben nicht genügend Berechtigungen, um diese Aktion auszuführen."
     },
     "create": "Konto erstellen"
   },
+  "dashboard": {
+    "welcome": "Willkommen %s!"
+  },
+  "title": {
+    "account_recovery": "Optionen zur Kontowiederherstellung",
+    "login": "Anmelden",
+    "error": "Ein Fehler ist aufgetreten",
+    "users": "Nutzer*innen Verwalten",
+    "services": "Dienste",
+    "recovery_email_sent": "Wiederherstellungs-E-Mail gesendet",
+    "recovery": "Passwortwiederherstellung",
+    "manage_service": "Dienst verwalten",
+    "invite_codes": "Einladungscodes",
+    "authorize": "Autorisierung erforderlich"
+  },
+  "common": {
+    "current_password": "Aktuelles Passwort",
+    "new_password": "Neues Passwort",
+    "confirm_new_password": "Neues Passwort Bestätigen",
+    "update_password": "Ändern",
+    "account_2fa": {},
+    "username": "Benutzername",
+    "select_recovery_method": "Wiederherstellungsmethode auswählen",
+    "form": {
+      "submit": "Einreichen"
+    },
+    "learn_more": "Mehr erfahren",
+    "invite_code": "Einladungscode",
+    "password": "Passwort",
+    "confirm_password": "Passwort bestätigen",
+    "recovery_email_secure_info": "Ihre E-Mail wird sicher gespeichert und nur zur Kontowiederherstellung verwendet",
+    "recovery_email_address": "Wiederherstellungs-E-Mail-Adresse",
+    "recovery_token_written_confirm": "Ich habe meinen Wiederherstellungstoken notiert und sicher aufbewahrt",
+    "account_role": "Kontorolle",
+    "user_uuid_label": "Benutzer-Eindeutige Kennung",
+    "actions": {},
+    "recovery_email": {
+      "sent": "Eine Wiederherstellungs-E-Mail wurde an Ihre angegebene E-Mail-Adresse gesendet.",
+      "title": "Wiederherstellungs-E-Mail"
+    },
+    "confirm": "Bestätigen",
+    "recovery_token": {
+      "confirmation_required": "Bestätigung für den Wiederherstellungstoken erforderlich",
+      "title": "Wiederherstellungstoken"
+    },
+    "setup": "Setup",
+    "action_button": {},
+    "button": {
+      "modify": "Ändern",
+      "delete": "Löschen"
+    },
+    "target_email": "Empfänger-E-Mail-Adresse",
+    "expires_in_days": "Läuft in %s Tagen ab",
+    "expires_on_date": "Läuft am %s ab",
+    "your_admin_password": "Administrator-Passwort",
+    "recovery_method": {
+      "title": "Wiederherstellungsmethode"
+    },
+    "new": "Neu",
+    "and": "und",
+    "user": {
+      "admin_password": "Administrator-Passwort",
+      "email": "Ihre E-Mail-Adresse"
+    }
+  },
+  "time": {
+    "hours_ago": "vor %s Stunden",
+    "seconds_ago": "vor %s Sekunden",
+    "minutes_ago": "Vor %s Minuten"
+  },
   "alert": {
     "icon_alt": "Warnsymbol",
     "learn_more": "Weitere Informationen",
     "error_icon_alt": "Fehler-Symbol"
   },
-  "time": {},
-  "security": {
-    "2fa": {
-      "add_title": "Zwei-Faktor-Authentifizierung hinzufügen"
-    }
-  },
-  "service": {
-    "create": "Neuen Dienst erstellen",
-    "configuration": "Dienstkonfiguration",
-    "delete": "Dienst löschen",
-    "delete_forever": "Diesen Dienst dauerhaft löschen.",
-    "update": "Dienst aktualisieren",
-    "go_to": "Zum Dienst gehen",
-    "login": "Beim Dienst anmelden",
-    "manage": "Verwalten Sie Ihre Dienste",
-    "delete_confirm": "Sind Sie sicher, dass Sie diesen Dienst löschen möchten?"
-  },
-  "user": {
-    "admin_password": "Administrator-Passwort",
-    "email": "Ihre E-Mail-Adresse"
-  },
-  "form": {
-    "create": "Erstellen",
-    "update": "Formular aktualisieren",
-    "confirm": "Bestätigen Sie Ihre Aktion.",
-    "confirm_action": "Diese Aktion bestätigen."
-  },
-  "email": {
-    "account-setup": {
-      "greeting": "Willkommen in Ihrem Konto!",
-      "description": "Richten Sie Ihr Konto ein, um loszulegen."
-    },
-    "recovery": {
-      "greeting": "Passwortwiederherstellung",
-      "description": "Bitte geben Sie Ihre E-Mail ein, um Wiederherstellungsanweisungen zu erhalten.",
-      "security-warning": "Stellen Sie sicher, dass Ihre E-Mail sicher ist, um unbefugten Zugriff zu verhindern.",
-      "confirmation": "Ihre Wiederherstellung wurde bestätigt.",
-      "title": "Bestätigung der Passwortwiederherstellung",
-      "required": "Eine E-Mail muss angegeben werden."
-    },
-    "invite": {
-      "greeting": "Sie sind eingeladen!",
-      "description": "Verwenden Sie den Code unten, um unserer Plattform beizutreten.",
-      "security-warning": "Halten Sie Ihren Einladungscode vertraulich.",
-      "description %s": "Verwenden Sie den Einladungscode: %s, um beizutreten."
-    },
-    "setup": {
-      "confirmation": "Ihre E-Mail-Einrichtung wurde bestätigt.",
-      "title": "Bestätigung der E-Mail-Einrichtung"
-    },
-    "format": {
-      "invalid": "E-Mail hat ein falsches Format."
-    },
-    "required": "Eine E-Mail muss angegeben werden."
-  },
-  "language": {},
-  "recovery": {
-    "confirmation_sent": "Eine Bestätigungs-E-Mail wurde gesendet.",
-    "confirmation_code": "Geben Sie den Bestätigungscode ein, der an Ihre E-Mail gesendet wurde.",
-    "title": "Passwortwiederherstellung"
-  },
-  "account_recovery": {
-    "confirm_new_password": "Bestätigen Sie Ihr neues Passwort.",
-    "new_password": "Geben Sie Ihr neues Passwort ein."
-  },
   "validation": {
+    "feedback": {
+      "role_required": "Eine Rolle muss angegeben werden.",
+      "role_invalid": "Die angegebene Rolle ist ungültig.",
+      "permission_denied_for_role": "Fehlende Berechtigungen zur Verwendung der angegebenen Rolle."
+    },
     "login": {
       "password_incorrect": "Das eingegebene Passwort ist falsch.",
       "failed": "Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.",
@@ -382,13 +358,64 @@
       "required": "E-Mail erforderlich"
     },
     "password": {
-      "only_lowercases": "Es sind nur Kleinbuchstaben zulässig.",
-      "characters_allowed": "Es sind nur Buchstaben und Zahlen zulässig.",
+      "invalid_characters": "Das angegebene Passwort enthält ungültige Zeichen.",
       "security": "Das Passwort erfüllt nicht die Sicherheitsanforderungen.",
       "confirmation_mismatch": "Die Passwörter stimmen nicht überein.",
+      "only_lowercases": "Es sind nur Kleinbuchstaben zulässig.",
+      "characters_allowed": "Es sind nur Buchstaben und Zahlen zulässig.",
+      "confirmation_required": "Das Passwort muss bestätigt werden.",
       "incorrect": "Das Passwort ist falsch.",
-      "invalid_characters": "Das angegebene Passwort enthält ungültige Zeichen.",
-      "confirmation_required": "Das Passwort muss bestätigt werden."
+      "hint": {
+        "straight_rows_of_keys_are_easy_to_guess": "Gerade Reihen von Tasten sind leicht zu erraten.",
+        "short_keyboard_patterns_are_easy_to_guess": "Kurze Tastaturmuster sind leicht zu erraten.",
+        "use_a_longer_keyboard_pattern_with_more_turns": "Verwenden Sie ein längeres Tastaturmuster mit mehr Wendungen.",
+        "repeats_like_\"aaa\"_are_easy_to_guess": "Wiederholungen wie \"aaa\" sind leicht zu erraten.",
+        "repeats_like_\"abcabcabc\"_are_only_slightly_harder_to_guess_than_\"abc\"": "Wiederholungen wie \"abcabcabc\" sind nur geringfügig schwerer zu erraten als \"abc\".",
+        "sequences_like_abc_or_6543_are_easy_to_guess": "Sequenzen wie abc oder 6543 sind leicht zu erraten.",
+        "recent_years_are_easy_to_guess": "Jüngste Jahre sind leicht zu erraten.",
+        "dates_are_often_easy_to_guess": "Daten sind oft leicht zu erraten.",
+        "this_is_a_top_10_common_password": "Dies ist ein Passwort aus den Top 10 der häufigsten Passwörter.",
+        "this_is_a_top_100_common_password": "Dies ist ein Passwort aus den Top 100 der häufigsten Passwörter.",
+        "this_is_a_very_common_password": "Dies ist ein sehr häufiges Passwort.",
+        "this_is_similar_to_a_commonly_used_password": "Dies ist ähnlich einem häufig verwendeten Passwort.",
+        "a_word_by_itself_is_easy_to_guess": "Ein Wort allein ist leicht zu erraten.",
+        "names_and_surnames_by_themselves_are_easy_to_guess": "Namen und Nachnamen allein sind leicht zu erraten.",
+        "common_names_and_surnames_are_easy_to_guess": "Häufige Namen und Nachnamen sind leicht zu erraten.",
+        "add_another_word_or_two": "Fügen Sie ein oder zwei weitere Wörter hinzu.",
+        "avoid_dates_associated_with_you": "Vermeiden Sie Daten, die mit Ihnen in Verbindung stehen.",
+        "common_substitutions_dont_help": "Häufige Substitutionen wie @ für a helfen nicht viel.",
+        "use_uncommon_words": "Verwenden Sie ungewöhnliche Wörter.",
+        "consider_using_a_passphrase": "Erwägen Sie die Verwendung eines Passwortsatzes.",
+        "add_another_word_or_two_uncommon_words_are_better": "Fügen Sie ein oder zwei weitere Wörter hinzu; ungewöhnliche Wörter sind besser.",
+        "predictable_substitutions_like_'@'_instead_of_'a'_don't_help_very_much": "Vorhersehbare Substitutionen wie '@' anstelle von 'a' helfen nicht viel.",
+        "capitalization_doesn't_help_very_much": "Die Großschreibung hilft nicht viel.",
+        "use_a_few_words_avoid_common_phrases": "Verwenden Sie ein paar Wörter, vermeiden Sie gängige Phrasen.",
+        "no_need_for_symbols_digits_or_uppercase_letters": "Keine Notwendigkeit für Symbole, Ziffern oder Großbuchstaben.",
+        "avoid_sequences": "Vermeiden Sie Sequenzen.",
+        "avoid_recent_years": "Vermeiden Sie aktuelle Jahre.",
+        "avoid_years_that_are_associated_with_you": "Vermeiden Sie Jahre, die mit Ihnen in Verbindung stehen.",
+        "avoid_dates_and_years_that_are_associated_with_you": "Vermeiden Sie Daten und Jahre, die mit Ihnen in Verbindung stehen.",
+        "all_uppercase_is_almost_as_easy_to_guess_as_all_lowercase": "Alles in Großbuchstaben ist fast so leicht zu erraten wie alles in Kleinbuchstaben.",
+        "avoid_repeated_words_and_characters": "Nutze keine wiederholungen in deinem Passwort."
+      }
+    },
+    "common": {
+      "recovery_method": {
+        "required": "Eine Wiederherstellungs-Methode muss ausgewählt werden.",
+        "invalid": "Ungültige Wiederherstellungs-Methode.",
+        "unsupported": "Die Wiederherstellungsmethode wird nicht unterstützt."
+      },
+      "recovery_email": {
+        "selection_required": "Eine Email muss angegeben werden.",
+        "format_invalid": "Bitte gebe eine valide Email an.",
+        "incorrect": "Die Wiederherstellungs-E-Mail-Adresse ist falsch."
+      },
+      "recovery_token": {
+        "incorrect": "Der Wiederherstellungstoken ist falsch.",
+        "selection_required": "Ein Wiederherstellungs-Token muss angegeben werden.",
+        "format_invalid": "Das Wiederherstellungs-Token muss im richtigen Format sein.",
+        "confirmation_required": "Bestätigung für den Wiederherstellungstoken erforderlich"
+      }
     },
     "prompt": {
       "invalid": "Die eingegebene Eingabe ist ungültig."
@@ -401,7 +428,8 @@
       "not_found_by_id": "Kein Konto mit der angegebenen ID gefunden."
     },
     "action_token": {
-      "mismatch": "Der Aktionstoken stimmt nicht überein."
+      "mismatch": "Der Aktionstoken stimmt nicht überein.",
+      "invalid": "Das action token is invalide."
     },
     "invite": {
       "code": {
@@ -410,44 +438,9 @@
         "invalid": "Der angegebene Einladungscode ist ungültig."
       }
     },
-    "recovery": {
-      "link": {
-        "invalid": "Der Wiederherstellungslink ist ungültig."
-      },
-      "token": {
-        "selection_required": "Ein Wiederherstellungstoken muss angegeben werden.",
-        "format_invalid": "Wiederherstellungstoken hat ein falsches Format."
-      },
-      "method": {
-        "required": "Eine Wiederherstellungsmethode muss ausgewählt werden.",
-        "invalid": "Wiederherstellungsmethode ist ungültig."
-      },
-      "email": {
-        "selection_required": "Eine E-Mail muss angegeben werden.",
-        "format_invalid": "Bitte geben Sie eine gültige E-Mail an."
-      }
-    },
-    "common": {
-      "recovery_method": {
-        "unsupported": "Die Wiederherstellungsmethode wird nicht unterstützt.",
-        "invalid": "Ungültige Wiederherstellungs-Methode.",
-        "required": "Eine Wiederherstellungs-Methode muss ausgewählt werden."
-      },
-      "recovery_email": {
-        "incorrect": "Die Wiederherstellungs-E-Mail-Adresse ist falsch.",
-        "format_invalid": "Bitte gebe eine valide Email an.",
-        "selection_required": "Eine Email muss angegeben werden."
-      },
-      "recovery_token": {
-        "incorrect": "Der Wiederherstellungstoken ist falsch.",
-        "confirmation_required": "Bestätigung für den Wiederherstellungstoken erforderlich",
-        "format_invalid": "Das Wiederherstellungs-Token muss im richtigen Format sein.",
-        "selection_required": "Ein Wiederherstellungs-Token muss angegeben werden."
-      }
-    },
     "username": {
       "taken_after_selection": "Dieser Benutzername ist seit Ihrer Auswahl vergeben.",
-      "not-found": "Benutzername nicht gefunden",
+      "not_found": "Benutzername nicht gefunden",
       "only_lowercases": "Nutzer*innennamen müssen klein geschrieben werden.",
       "characters_allowed": "Nutzer*innennamen dürfen nur Buchstaben und Ziffern enthalten.",
       "length": "Nutzer*innennamen muss zwischen 2 und 12 Zeichen lang sein.",
@@ -455,12 +448,92 @@
     },
     "two_factor": {
       "token": {
-        "parse_failed": "Fehler beim Parsen des Tokens für die Zwei-Faktor-Authentifizierung."
+        "parse_failed": "Fehler beim Parsen des Tokens für die Zwei-Faktor-Authentifizierung.",
+        "format_invalid": "Ungültiges Token-Format",
+        "required": "Token erforderlich",
+        "verification_failed": "Token-Überprüfung fehlgeschlagen"
+      },
+      "login_token": {
+        "required": "Anmelde-Token erforderlich"
+      },
+      "secret": {
+        "required": "Geheimnis erforderlich"
+      }
+    },
+    "recovery": {
+      "link": {
+        "invalid": "Der Wiederherstellungslink ist ungültig."
+      },
+      "method": {
+        "required": "Eine Wiederherstellungsmethode muss ausgewählt werden.",
+        "invalid": "Wiederherstellungsmethode ist ungültig."
+      },
+      "token": {
+        "selection_required": "Ein Wiederherstellungstoken muss angegeben werden.",
+        "format_invalid": "Wiederherstellungstoken hat ein falsches Format."
+      },
+      "email": {
+        "selection_required": "Eine E-Mail muss angegeben werden.",
+        "format_invalid": "Bitte geben Sie eine gültige E-Mail an."
       }
     },
     "consent": {
       "required": "Zustimmung erforderlich"
     }
+  },
+  "security": {
+    "2fa": {
+      "add_title": "Zwei-Faktor-Authentifizierung hinzufügen"
+    }
+  },
+  "form": {
+    "create": "Erstellen",
+    "update": "Formular aktualisieren",
+    "confirm": "Bestätigen Sie Ihre Aktion.",
+    "confirm_action": "Diese Aktion bestätigen."
+  },
+  "email": {
+    "body": {
+      "account_setup": {
+        "greeting": "Willkommen in Ihrem Konto!",
+        "description": "Richten Sie Ihr Konto ein, um loszulegen."
+      },
+      "recovery": {
+        "greeting": "Passwortwiederherstellung",
+        "description": "Bitte geben Sie Ihre E-Mail ein, um Wiederherstellungsanweisungen zu erhalten.",
+        "security_warning": "Stellen Sie sicher, dass Ihre E-Mail sicher ist, um unbefugten Zugriff zu verhindern.",
+        "confirmation": "Ihre Wiederherstellung wurde bestätigt.",
+        "title": "Bestätigung der Passwortwiederherstellung",
+        "required": "Eine E-Mail muss angegeben werden."
+      },
+      "invite": {
+        "greeting": "Sie sind eingeladen!",
+        "description": "Verwenden Sie den Einladungscode: %s, um beizutreten.",
+        "security_warning": "Halten Sie Ihren Einladungscode vertraulich."
+      },
+      "setup": {
+        "confirmation": "Ihre E-Mail-Einrichtung wurde bestätigt.",
+        "title": "Bestätigung der E-Mail-Einrichtung"
+      },
+      "required": "Eine E-Mail muss angegeben werden.",
+      "format": {
+        "invalid": "E-Mail hat ein falsches Format."
+      }
+    },
+    "subject": {
+      "your_invite_code": "Ihr Einladungscode",
+      "your_new_account": "Willkommen in Ihrem neuen Konto",
+      "your_recovery_link": "Ihr Passwort-Wiederherstellungslink"
+    }
+  },
+  "recovery": {
+    "confirmation_sent": "Eine Bestätigungs-E-Mail wurde gesendet.",
+    "confirmation_code": "Geben Sie den Bestätigungscode ein, der an Ihre E-Mail gesendet wurde.",
+    "title": "Passwortwiederherstellung"
+  },
+  "account_recovery": {
+    "confirm_new_password": "Bestätigen Sie Ihr neues Passwort.",
+    "new_password": "Geben Sie Ihr neues Passwort ein."
   },
   "adapter": {
     "client": {
@@ -478,124 +551,38 @@
   },
   "rate_limiter": {
     "retry": {
-      "hours %s": "Bitte versuchen Sie es in %s Stunden erneut.",
-      "minutes %s": "Bitte versuchen Sie es in %s Minuten erneut.",
-      "seconds %s": "Bitte versuchen Sie es in %s Sekunden erneut."
-    }
-  },
-  "email-subject": {
-    "your-invite-code": "Ihr Einladungscode",
-    "your-new-account": "Willkommen in Ihrem neuen Konto",
-    "your-recovery-link": "Ihr Passwort-Wiederherstellungslink"
-  },
-  "error": {
-    "client": {
-      "with_message %s": "Client-Fehler: %s"
-    },
-    "internal": {
-      "generic": "Ein interner Fehler ist aufgetreten."
-    },
-    "unexpected": {
-      "generic": "Ein unerwarteter Fehler ist aufgetreten.",
-      "with_message %s": "Ein unerwarteter Fehler ist aufgetreten: %s"
-    },
-    "title": "Fehler"
-  },
-  "2fa": {
-    "abort": "Abbrechen",
-    "code_label": "Geben Sie Ihren Code zur Zwei-Faktor-Authentifizierung ein.",
-    "title": "Zwei-Faktor-Authentifizierung",
-    "verify": "Code überprüfen"
-  },
-  "authorization": {
-    "abort": "Abbrechen",
-    "confirm_access": "Bitte bestätige mit der Anmeldung fortzufahren.",
-    "verify": "Bestätigen"
-  },
-  "invite": {
-    "request_title": "Eine Einladung anfordern",
-    "whitelist_info": "Stellen Sie sicher, dass Ihre E-Mail auf der Whitelist steht, um Einladungen zu erhalten.",
-    "code": {
-      "required": "Ein Einladungscode muss angegeben werden.",
-      "format_invalid": "Der Einladungscode muss im richtigen Format vorliegen.",
-      "invalid": "Der Einladungscode ist ungültig."
-    },
-    "whitelist_prefix": "Whitelist: "
-  },
-  "consent": {
-    "title": "Zustimmung erforderlich",
-    "verification_statement": "Bitte bestätigen Sie Ihre Zustimmung."
-  },
-  "password-hints": {
-    "straight_rows_of_keys_are_easy_to_guess": "Gerade Reihen von Tasten sind leicht zu erraten.",
-    "short_keyboard_patterns_are_easy_to_guess": "Kurze Tastaturmuster sind leicht zu erraten.",
-    "use_a_longer_keyboard_pattern_with_more_turns": "Verwenden Sie ein längeres Tastaturmuster mit mehr Wendungen.",
-    "repeats_like_\"aaa\"_are_easy_to_guess": "Wiederholungen wie \"aaa\" sind leicht zu erraten.",
-    "repeats_like_\"abcabcabc\"_are_only_slightly_harder_to_guess_than_\"abc\"": "Wiederholungen wie \"abcabcabc\" sind nur geringfügig schwerer zu erraten als \"abc\".",
-    "sequences_like_abc_or_6543_are_easy_to_guess": "Sequenzen wie abc oder 6543 sind leicht zu erraten.",
-    "recent_years_are_easy_to_guess": "Jüngste Jahre sind leicht zu erraten.",
-    "dates_are_often_easy_to_guess": "Daten sind oft leicht zu erraten.",
-    "this_is_a_top-10_common_password": "Dies ist ein Passwort aus den Top 10 der häufigsten Passwörter.",
-    "this_is_a_top-100_common_password": "Dies ist ein Passwort aus den Top 100 der häufigsten Passwörter.",
-    "this_is_a_very_common_password": "Dies ist ein sehr häufiges Passwort.",
-    "this_is_similar_to_a_commonly_used_password": "Dies ist ähnlich einem häufig verwendeten Passwort.",
-    "a_word_by_itself_is_easy_to_guess": "Ein Wort allein ist leicht zu erraten.",
-    "names_and_surnames_by_themselves_are_easy_to_guess": "Namen und Nachnamen allein sind leicht zu erraten.",
-    "common_names_and_surnames_are_easy_to_guess": "Häufige Namen und Nachnamen sind leicht zu erraten.",
-    "add_another_word_or_two": "Fügen Sie ein oder zwei weitere Wörter hinzu.",
-    "avoid_dates_associated_with_you": "Vermeiden Sie Daten, die mit Ihnen in Verbindung stehen.",
-    "common_substitutions_dont_help": "Häufige Substitutionen wie @ für a helfen nicht viel.",
-    "use_uncommon_words": "Verwenden Sie ungewöhnliche Wörter.",
-    "consider_using_a_passphrase": "Erwägen Sie die Verwendung eines Passwortsatzes.",
-    "add_another_word_or_two_uncommon_words_are_better": "Fügen Sie ein oder zwei weitere Wörter hinzu; ungewöhnliche Wörter sind besser.",
-    "predictable_substitutions_like_'@'_instead_of_'a'_don't_help_very_much": "Vorhersehbare Substitutionen wie '@' anstelle von 'a' helfen nicht viel.",
-    "capitalization_doesn't_help_very_much": "Die Großschreibung hilft nicht viel.",
-    "use_a_few_words_avoid_common_phrases": "Verwenden Sie ein paar Wörter, vermeiden Sie gängige Phrasen.",
-    "no_need_for_symbols_digits_or_uppercase_letters": "Keine Notwendigkeit für Symbole, Ziffern oder Großbuchstaben.",
-    "avoid_sequences": "Vermeiden Sie Sequenzen.",
-    "avoid_recent_years": "Vermeiden Sie aktuelle Jahre.",
-    "avoid_repeated_words_and_characters": "Nutze keine wiederholungen in deinem Passwort.",
-    "avoid_years_that_are_associated_with_you": "Vermeiden Sie Jahre, die mit Ihnen in Verbindung stehen.",
-    "avoid_dates_and_years_that_are_associated_with_you": "Vermeiden Sie Daten und Jahre, die mit Ihnen in Verbindung stehen.",
-    "all_uppercase_is_almost_as_easy_to_guess_as_all_lowercase": "Alles in Großbuchstaben ist fast so leicht zu erraten wie alles in Kleinbuchstaben."
-  },
-  "two_factor": {
-    "login_token": {
-      "required": "Anmelde-Token erforderlich"
-    },
-    "token": {
-      "format_invalid": "Ungültiges Token-Format",
-      "required": "Token erforderlich",
-      "verification_failed": "Token-Überprüfung fehlgeschlagen"
-    },
-    "secret": {
-      "required": "Geheimnis erforderlich"
-    }
-  },
-  "confirmation": {
-    "required": "Bestätigung erforderlich"
-  },
-  "admin": {
-    "delete": {
-      "confirmation_required": "Bestätigung für die Löschung erforderlich"
-    }
-  },
-  "password": {
-    "confirm": {
-      "mismatch": "Passwortbestätigung stimmt nicht überein",
-      "required": "Das Passwort muss bestätigt werden."
+      "hours": "Bitte versuchen Sie es in %s Stunden erneut.",
+      "minutes": "Bitte versuchen Sie es in %s Minuten erneut.",
+      "seconds": "Bitte versuchen Sie es in %s Sekunden erneut."
     }
   },
   "action_token": {
     "required": "Kein Aktions-Token angegeben.",
     "invalid": "Aktions-Token ist ungültig."
   },
-  "validation_feedback": {
-    "role_required": "Eine Rolle muss angegeben werden.",
-    "role_invalid": "Die angegebene Rolle ist ungültig.",
-    "permission_denied_for_role": "Fehlende Berechtigungen zur Verwendung der angegebenen Rolle."
+  "error": {
+    "client": {
+      "with_message": "Client-Fehler: %s"
+    },
+    "internal": {
+      "generic": "Ein interner Fehler ist aufgetreten."
+    },
+    "unexpected": {
+      "generic": "Ein unerwarteter Fehler ist aufgetreten.",
+      "with_message": "Ein unerwarteter Fehler ist aufgetreten: %s"
+    },
+    "title": "Fehler"
   },
-  "widget": {
+  "confirmation": {
+    "required": "Bestätigung erforderlich"
+  },
+  "password": {
+    "confirm": {
+      "required": "Das Passwort muss bestätigt werden.",
+      "mismatch": "Passwortbestätigung stimmt nicht überein"
+    }
+  },
+  "component": {
     "2fa": {
       "enter_code": {
         "label": "Authentifizierungscode eingeben"
@@ -619,6 +606,15 @@
       "settings_icon_alt": "Settings Icon",
       "logout": "Abmelden",
       "logout_icon_alt": "Logout Icon"
+    }
+  },
+  "language": {},
+  "widget": {
+    "language": {
+      "info": {
+        "de": "Deutsch",
+        "en": "English"
+      }
     }
   }
 }
