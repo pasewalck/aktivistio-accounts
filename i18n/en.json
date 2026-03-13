@@ -31,14 +31,14 @@
 				"title": "Join %s"
 			},
 			"share_page": {
-				"title": "Sharing Invite"
+				"title": "Share Invite"
 			},
 			"request_title": "Request an Invite",
 			"whitelist_info": "Make sure your email is whitelisted to receive invites.",
 			"code": {
-				"required": "An invite code needs to be supplied",
-				"format_invalid": "Invite code needs to be in the correct format",
-				"invalid": "Invite code is not valid."
+				"required": "An invite code is required.",
+				"format_invalid": "Invite code format is invalid.",
+				"invalid": "Invite code is invalid."
 			},
 			"whitelist_prefix": "Whitelist: "
 		},
@@ -99,10 +99,10 @@
 			"update": "Update Account Details",
 			"delete": "Delete User Account",
 			"confirm_delete": "Confirm Account Deletion",
-			"confirm_delete_message": "I understand this action cannot be undone",
+			"confirm_delete_message": "I understand this action cannot be undone.",
 			"delete_button": "Permanently Delete Account",
 			"update_button": "Update Account",
-			"send_recovery_email_button": "Send",
+			"send_recovery_email_button": "Send Recovery Email",
 			"send_setup_email_button": "Send Setup Email"
 		},
 		"service": {
@@ -127,7 +127,7 @@
 		"security": {
 			"title": "Access & Security",
 			"password_change": "Change Password",
-			"mfa_manage": "Manage Multi-Factor Authentication",
+			"mfa_manage": "Manage Two-Factor Authentication",
 			"audit_view": "View Audit Log"
 		},
 		"recovery_menu": {
@@ -142,7 +142,7 @@
 		},
 		"recovery": {
 			"title": "Account Recovery",
-			"no_method_set_message": "No Recovery Methods Set",
+			"no_method_set_message": "No recovery methods set.",
 			"button": {
 				"add_email": "New Recovery Email"
 			},
@@ -163,7 +163,7 @@
 				}
 			},
 			"add_recovery_email_button": "Add Recovery Email",
-			"warning_message": "Two factor authentication will be removed. You need to set it up again after this action.",
+			"warning_message": "Two-factor authentication will be removed. You need to set it up again after this action.",
 			"update_email": {
 				"title": "Update Recovery Email"
 			},
@@ -211,7 +211,7 @@
 					"text": "Permanently Delete Account"
 				},
 				"alert": {
-					"message": "You are on the account deletion page. Deleting your account can not be undone. Proceed with caution."
+					"message": "You are on the account deletion page. Deleting your account cannot be undone. Proceed with caution."
 				}
 			}
 		},
@@ -254,7 +254,7 @@
 			"view_more": "View more entries."
 		},
 		"id": {
-			"format_invalid": "Id is not in valid format",
+			"format_invalid": "ID is not in a valid format",
 			"not_found": "Account ID not found."
 		},
 		"permission": {
@@ -269,16 +269,16 @@
 		"account_recovery_update_token": {}
 	},
 	"title": {
-		"account_recovery": "Options for Accoun Recovery",
+		"account_recovery": "Options for Account Recovery",
 		"login": "Login",
 		"error": "An error occurred",
 		"users": "Manage Users",
 		"services": "Services",
 		"recovery_email_sent": "Recovery Email sent",
 		"recovery": "Password Recovery",
-		"manage_service": "Manage services",
+		"manage_service": "Manage Services",
 		"invite_codes": "Invite Codes",
-		"authorize": "Authorization successful"
+		"authorize": "Authorization Required"
 	},
 	"common": {
 		"current_password": "Current Password",
@@ -342,7 +342,7 @@
 	},
 	"validation": {
 		"feedback": {
-			"role_required": "A role needs to be supplied.",
+			"role_required": "A role is required.",
 			"role_invalid": "Role supplied is not valid.",
 			"permission_denied_for_role": "Missing permissions to use supplied role."
 		},
@@ -352,13 +352,13 @@
 			"two_factor": {
 				"token_invalid": "The two-factor authentication token is invalid."
 			},
-			"token_invalid": "Invalid Login Session Token."
+			"token_invalid": "Invalid login session token."
 		},
 		"email": {
 			"already_used": "This email is already in use.",
 			"format_invalid": "Invalid email format",
 			"provider_not_whitelisted": "Email provider not whitelisted",
-			"required": "An email needs to be specified."
+			"required": "An email is required."
 		},
 		"password": {
 			"invalid_characters": "Your password contains invalid characters.",
@@ -404,19 +404,19 @@
 		},
 		"common": {
 			"recovery_method": {
-				"required": "A recovery method needs to be selected.",
+				"required": "A recovery method is required.",
 				"invalid": "Recovery method is invalid.",
 				"unsupported": "The recovery method is not supported."
 			},
 			"recovery_email": {
-				"selection_required": "An email needs to be supplied.",
+				"selection_required": "An email is required.",
 				"format_invalid": "Please supply a valid email.",
 				"incorrect": "The recovery email address is incorrect."
 			},
 			"recovery_token": {
 				"incorrect": "The recovery token is incorrect.",
-				"selection_required": "Recovery Token needs to be supplied.",
-				"format_invalid": "Recovery Token is in incorrect format.",
+				"selection_required": "Recovery token is required.",
+				"format_invalid": "Recovery token format is invalid.",
 				"confirmation_required": "Confirmation required for recovery token"
 			}
 		},
@@ -432,7 +432,7 @@
 		},
 		"action_token": {
 			"mismatch": "The action token does not match.",
-			"invalid": "The action token in invalid."
+			"invalid": "The action token is invalid."
 		},
 		"invite": {
 			"code": {
@@ -445,7 +445,7 @@
 			"taken_after_selection": "This username has been taken since your selection.",
 			"not_found": "Username not found",
 			"only_lowercases": "Your username needs to be lowercase.",
-			"characters_allowed": "Your username can only contain letters and nummers.",
+			"characters_allowed": "Your username can only contain letters and numbers.",
 			"length": "Your username needs to be between 2 and 12 characters.",
 			"taken": "That username is already taken."
 		},
@@ -468,15 +468,15 @@
 				"invalid": "The recovery link is invalid."
 			},
 			"method": {
-				"required": "A Recovery Method must be selected.",
-				"invalid": "Recovery Method is Invalid."
+				"required": "A recovery method must be selected.",
+				"invalid": "Recovery method is invalid."
 			},
 			"token": {
-				"selection_required": "A Recovery Token must be given.",
-				"format_invalid": "Recovery Token is in an invalid format."
+				"selection_required": "A recovery token is required.",
+				"format_invalid": "Recovery token format is invalid."
 			},
 			"email": {
-				"selection_required": "A valid Email must be given.",
+				"selection_required": "A valid email is required.",
 				"format_invalid": "Please provide a valid email."
 			}
 		},
@@ -507,7 +507,7 @@
 				"security_warning": "Ensure your email is secure to prevent unauthorized access.",
 				"confirmation": "Your recovery has been confirmed.",
 				"title": "Password Recovery Confirmation",
-				"required": "An email needs to be supplied."
+				"required": "An email is required."
 			},
 			"invite": {
 				"greeting": "You're invited!",
@@ -518,9 +518,9 @@
 				"confirmation": "Your email setup has been confirmed.",
 				"title": "Email Setup Confirmation"
 			},
-			"required": "An Email needs to be specified.",
+			"required": "An email is required.",
 			"format": {
-				"invalid": "Email is in incorrect format"
+				"invalid": "Email format is invalid"
 			}
 		},
 		"subject": {
@@ -548,8 +548,8 @@
 			"invalid": "Invalid ID Format."
 		},
 		"configuration": {
-			"required": "A Configuration is required.",
-			"type_invalid": "A Configuration needs to be a string."
+			"required": "A configuration is required.",
+			"type_invalid": "Configuration must be a string."
 		}
 	},
 	"rate_limiter": {
@@ -560,8 +560,8 @@
 		}
 	},
 	"action_token": {
-		"required": "No Action Token supplied.",
-		"invalid": "Action Token is invalid."
+		"required": "No action token supplied.",
+		"invalid": "Action token is invalid."
 	},
 	"error": {
 		"client": {
