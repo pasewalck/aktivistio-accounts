@@ -31,13 +31,10 @@
                 <% for (let index=0; index < auditLog.length; index++) { %>
                     <%
                         const logEntry = auditLog[index];
-                        let icon = "";
                         let bgClass = "bg-white";
                         if (logEntry.actionType.alertLevel == 1) {
-                            icon = "⚠️";
                             bgClass = "bg-yellow-50";
                         } else if (logEntry.actionType.alertLevel == 2) {
-                            icon = "⛔";
                             bgClass = "bg-red-50";
                         }
                     %>
@@ -47,9 +44,6 @@
                                 <span class="text-sm font-medium text-gray-900">
                                     <%= logEntry.count %>x
                                 </span>
-                                <% if (icon) { %>
-                                    <span><%= icon %></span>
-                                <% } %>
                                 <span class="text-sm text-gray-700">
                                     <%= logEntry.actionType.displayName %>
                                 </span>
