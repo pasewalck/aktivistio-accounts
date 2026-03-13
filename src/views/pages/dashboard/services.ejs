@@ -12,18 +12,18 @@
                         <div class="mt-4 flex flex-col space-y-2">
                             <% if (client.initiate_login_uri) { %>
                                 <a href="<%= client.initiate_login_uri %>" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                    <%= __("service.login") %>
+                                    <%= __("admin.service.login") %>
                                 </a>
                             <% } %>
                             <% if (client.client_uri) { %>
                                 <a href="<%= client.client_uri %>" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                    <%= __("service.go_to") %>
+                                    <%= __("admin.service.go_to") %>
                                 </a>
                             <% } %>
                             
                             <% if (canManage) { %>
                                 <a href="<%= urlUtils.extendUrl(baseUrl, `services`,`edit`,`${client.client_id}`).href %>" class="text-sm font-medium text-gray-500 hover:text-gray-900">
-                                    <%= __("service.manage") %>
+                                    <%= __("admin.service.manage") %>
                                 </a>
                             <% } %>
                         </div>
@@ -36,7 +36,7 @@
     <% if (canManage) { %>
         <div class="flex justify-end">
             <a href="<%= urlUtils.extendUrl(baseUrl, 'services/add').href %>" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <%= __("page.service.add") %>
+                <%= __("admin.service_list.add") %>
             </a>
         </div>
     <% } %>

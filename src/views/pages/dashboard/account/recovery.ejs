@@ -2,14 +2,14 @@
     <div class="bg-white shadow sm:rounded-lg">
         <div class="px-4 py-5 sm:p-6">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
-                <%= __("page.account_recovery.title") %>
+                <%= __("account.recovery.title") %>
             </h3>
 
              <div class="mt-2 max-w-xl text-sm text-gray-500">
                 <% if (currentRecovery && (currentRecovery.token || currentRecovery.email)) { %>
-                    <p><%= __("page.account_recovery.text.recovery-methods-count %s", (currentRecovery.token && currentRecovery.email) ? 2 : 1) %></p>
+                    <p><%= __("account.recovery.text.recovery_methods_count", (currentRecovery.token && currentRecovery.email) ? 2 : 1) %></p>
                 <% } else { %>
-                    <p><%= __("page.account_recovery.no_method_set_message") %></p>
+                    <p><%= __("account.recovery.no_method_set_message") %></p>
                 <% } %>
             </div>
 
@@ -18,7 +18,7 @@
                     <% if (currentRecovery.token) { %>
                         <li class="py-4 flex items-center justify-between">
                             <div class="flex flex-col">
-                                <span class="text-sm font-medium text-gray-900"><%= __("page.account_recovery.active-list.label.token") %></span>
+                                <span class="text-sm font-medium text-gray-900"><%= __("account.recovery.active_list.label.token") %></span>
                             </div>
                             <div class="flex items-center space-x-4">
                                 <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
@@ -33,7 +33,7 @@
                     <% if (currentRecovery.email) { %>
                         <li class="py-4 flex items-center justify-between">
                              <div class="flex flex-col">
-                                <span class="text-sm font-medium text-gray-900"><%= __("page.account_recovery.active-list.label.email") %></span>
+                                <span class="text-sm font-medium text-gray-900"><%= __("account.recovery.active_list.label.email") %></span>
                             </div>
                             <div class="flex items-center space-x-4">
                                 <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
@@ -51,12 +51,12 @@
             <div class="mt-6 flex space-x-3">
                  <% if (!currentRecovery?.email) { %>
                     <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <%= __("page.account_recovery.add_email_button") %>
+                        <%= __("account.recovery.add_email_button") %>
                     </a>
                 <% } %>
                 <% if (!currentRecovery?.token) { %>
                      <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <%= __("page.account_recovery.add_token_button") %>
+                        <%= __("account.recovery.add_token_button") %>
                     </a>
                 <% } %>
             </div>

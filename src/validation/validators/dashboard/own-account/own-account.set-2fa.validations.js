@@ -5,11 +5,11 @@ import localize from "../../../localize.js"
 
 export default [
     body("secret")
-        .notEmpty().withMessage(localize("two_factor.secret.required"))
+        .notEmpty().withMessage(localize("validation.two_factor.secret.required"))
         .escape(),
     body("token")
-        .notEmpty().withMessage(localize("two_factor.token.required"))
+        .notEmpty().withMessage(localize("validation.two_factor.token.required"))
         .escape()
-        .isInt().withMessage(localize("two_factor.token.format_invalid"))
-        .custom((value, { req }) => twoFactorAuth.verify(req.body.secret, value)).withMessage(localize('two_factor.token.verification_failed')),
+        .isInt().withMessage(localize("validation.two_factor.token.format_invalid"))
+        .custom((value, { req }) => twoFactorAuth.verify(req.body.secret, value)).withMessage(localize('validation.two_factor.token.verification_failed')),
 ]

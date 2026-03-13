@@ -18,7 +18,7 @@ export default {
      */
     consent: (req, res, uid, clientId) => {
         return res.render('pages/oidc/consent', {
-            title: res.__('page.title.authorize'),
+            title: res.__('title.authorize'),
             clientId,
             urls: {
                 action: `/interaction/${uid}/confirm/`,

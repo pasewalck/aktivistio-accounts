@@ -2,11 +2,11 @@
     <div class="bg-white shadow sm:rounded-lg">
         <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
-                <%= __("page.audit_log.title") %>
+                <%= __("account.audit.title") %>
             </h3>
             <% if (moreEntries) { %>
                 <div class="text-sm">
-                     <span class="text-gray-500"><%= __("account.audit_log.entries_since %s", weeksBack) %></span>
+                     <span class="text-gray-500"><%= __("account.audit_log.entries_since", weeksBack) %></span>
                      <a href="<%= urlUtils.extendUrl(baseUrl, 'account/audit-log?weeks='+(weeksBack+1)).href %>" class="font-medium text-indigo-600 hover:text-indigo-500">
                         <%= __("account.audit_log.view_more") %>
                      </a>
@@ -20,9 +20,9 @@
                 const now = new Date();
                 if (logDate.toDateString() === now.toDateString()) {
                     const delta = Math.floor((now - logDate) / 1000);
-                    if (delta < 60) return __("common.time.seconds_ago", delta);
-                    if (delta < 3600) return __("common.time.minutes_ago", Math.floor(delta / 60));
-                    return __("common.time.hours_ago", Math.floor(delta / 3600));
+                    if (delta < 60) return __("time.seconds_ago", delta);
+                    if (delta < 3600) return __("time.minutes_ago", Math.floor(delta / 60));
+                    return __("time.hours_ago", Math.floor(delta / 3600));
                 } else {
                     return logDate.toLocaleDateString();
                 }

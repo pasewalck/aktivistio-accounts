@@ -1,6 +1,6 @@
 <div class="sm:mx-auto sm:w-full sm:max-w-md">
     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        <%= __('page.account_recovery.title') %>
+        <%= __('account.recovery.title') %>
     </h2>
 </div>
 
@@ -8,7 +8,7 @@
     <form class="space-y-6" autocomplete="off" action="<%= urlUtils.extendUrl(baseUrl,`account-recovery`,`reset`,actionToken).href %>" method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
-        <%- include("../../../partials/alert-info.ejs",{info: __("page.account_recovery.warning_message"),moreInfoLink: false}) %>
+        <%- include("../../../partials/alert-info.ejs",{info: __("account.recovery.warning_message"),moreInfoLink: false}) %>
 
         <%- include("../../../partials/form/input/input-field.ejs",{field: {label: __('account_recovery.new_password'),name:"password",id:"password",type:"password",required:true}}) %>
 
