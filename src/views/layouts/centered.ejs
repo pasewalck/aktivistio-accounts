@@ -4,10 +4,10 @@
 <head>
     <%- include("../partials/head.ejs") %>
   </head>
-  <body>
+  <body class="bg-gray-50 min-h-screen flex flex-col font-sans text-gray-900 antialiased">
         <%- include("../partials/dashboard-header.ejs") %>
-        <div class="wrapper flex-container flex-container-vertical">
-            <div class="container-medium-width container-filled-background">
+        <div class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
                 <%- body %>
             </div>
         </div>

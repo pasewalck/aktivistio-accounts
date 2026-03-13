@@ -1,41 +1,65 @@
-<div class="wrapper flex-container">
-    <div class="container container-medium-width container-filled-background">
+<div class="max-w-7xl mx-auto space-y-6">
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <%= __("page.account_recovery.title") %>
+            </h3>
 
-        <h2><%= __("page.account_recovery.title") %></h2>
+             <div class="mt-2 max-w-xl text-sm text-gray-500">
+                <% if (currentRecovery && (currentRecovery.token || currentRecovery.email)) { %>
+                    <p><%= __("page.account_recovery.text.recovery-methods-count %s", (currentRecovery.token && currentRecovery.email) ? 2 : 1) %></p>
+                <% } else { %>
+                    <p><%= __("page.account_recovery.no_method_set_message") %></p>
+                <% } %>
+            </div>
 
-        <% if (currentRecovery && (currentRecovery.recovery_token || currentRecovery.recovery_email)) { %>
-            <p><%= __("page.account_recovery.text.recovery-methods-count %s", (currentRecovery.recovery_token && currentRecovery.recovery_email) ? 2 : 1) %></p>
-            <ul class="box-list">
-                <% if (currentRecovery.recovery_token) { %>
-                    <li>
-                        <p><%= __("page.account_recovery.active-list.label.token") %></p>
-                        <div class="actions">
-                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>"><%= __("common.button.modify") %></a>
-                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-token').href %>" class="red"><%= __("common.button.delete") %></a>
-                        </div>
-                    </li>
-                <% } %>
-                <% if (currentRecovery.recovery_email) { %>
-                    <li>
-                        <p><%= __("page.account_recovery.active-list.label.email") %></p>
-                        <div class="actions">
-                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>"><%= __("common.button.modify") %></a>
-                            <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-email').href %>" class="red"><%= __("common.button.delete") %></a>
-                        </div>
-                    </li>
-                <% } %>
-            </ul>
-        <% } else { %>
-            <p><%= __("page.account_recovery.no_method_set_message") %></p>
-        <% } %>
-        <div class="button-group-row">
-            <% if (!currentRecovery?.email) { %>
-                <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>"><%= __("page.account_recovery.add_email_button") %></a>
+            <% if (currentRecovery && (currentRecovery.token || currentRecovery.email)) { %>
+                <ul class="mt-5 border-t border-gray-200 divide-y divide-gray-200">
+                    <% if (currentRecovery.token) { %>
+                        <li class="py-4 flex items-center justify-between">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-medium text-gray-900"><%= __("page.account_recovery.active-list.label.token") %></span>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                    <%= __("common.button.modify") %>
+                                </a>
+                                <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-token').href %>" class="text-sm font-medium text-red-600 hover:text-red-500">
+                                    <%= __("common.button.delete") %>
+                                </a>
+                            </div>
+                        </li>
+                    <% } %>
+                    <% if (currentRecovery.email) { %>
+                        <li class="py-4 flex items-center justify-between">
+                             <div class="flex flex-col">
+                                <span class="text-sm font-medium text-gray-900"><%= __("page.account_recovery.active-list.label.email") %></span>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                    <%= __("common.button.modify") %>
+                                </a>
+                                <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/delete-email').href %>" class="text-sm font-medium text-red-600 hover:text-red-500">
+                                    <%= __("common.button.delete") %>
+                                </a>
+                            </div>
+                        </li>
+                    <% } %>
+                </ul>
             <% } %>
-            <% if (!currentRecovery?.token) { %>
-                <a class="button" href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>"><%= __("page.account_recovery.add_token_button") %></a>
-            <% } %>
+
+            <div class="mt-6 flex space-x-3">
+                 <% if (!currentRecovery?.email) { %>
+                    <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <%= __("page.account_recovery.add_email_button") %>
+                    </a>
+                <% } %>
+                <% if (!currentRecovery?.token) { %>
+                     <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <%= __("page.account_recovery.add_token_button") %>
+                    </a>
+                <% } %>
+            </div>
         </div>
-
     </div>
 </div>

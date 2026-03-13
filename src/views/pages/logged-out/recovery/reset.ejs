@@ -1,28 +1,23 @@
-<h1><%= __('page.account_recovery.title') %></h1>
+<div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <%= __('page.account_recovery.title') %>
+    </h2>
+</div>
 
-        <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(baseUrl,`account-recovery`,`reset`,actionToken).href %>" method="post">
-
+<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <form class="space-y-6" autocomplete="off" action="<%= urlUtils.extendUrl(baseUrl,`account-recovery`,`reset`,actionToken).href %>" method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-        <fieldset>
 
-            <%- include("../../../partials/alert-info.ejs",{info: __("page.account_recovery.warning_message"),moreInfoLink: false}) %>
+        <%- include("../../../partials/alert-info.ejs",{info: __("page.account_recovery.warning_message"),moreInfoLink: false}) %>
 
-            <div class="form-group">
-                <label class="label"><%= __('account_recovery.new_password') %></label>
-                <%- include("../../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true}}) %>
-            </div>
+        <%- include("../../../partials/form/input/input-field.ejs",{field: {label: __('account_recovery.new_password'),name:"password",id:"password",type:"password",required:true}}) %>
 
-            <div class="form-group">
-                <label class="label"><%= __('account_recovery.confirm_new_password') %></label>
-                <%- include("../../../partials/form/input-field.ejs",{field: {name:"confirmPassword",type:"password",required:true}}) %>
-            </div>
+        <%- include("../../../partials/form/input/input-field.ejs",{field: {label: __('account_recovery.confirm_new_password'),name:"confirmPassword",id:"confirmPassword",type:"password",required:true}}) %>
 
-        </fieldset>
-
-        <div class="form-action-group">
-            <div class="button-group-row">
-            <button type="submit" class="button primary"><%= __('common.confirm') %></button>
-            </div>
+        <div>
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <%= __('common.confirm') %>
+            </button>
         </div>
-
-        </form>
+    </form>
+</div>

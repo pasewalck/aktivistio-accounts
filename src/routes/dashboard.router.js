@@ -86,6 +86,7 @@ export default (app) => {
 
     // Invite management routes
     app.get('/invites', middlewares, dashboardController.invites);
+    app.get('/invites/new', middlewares, dashboardController.invitesAnimateNewest);
     app.post('/invites/generate', middlewares, generateInviteValidations, generateCheckUserPermission(Permission.MANAGE_OWN_INVITES), dashboardController.invitesGeneratePost);
     app.get('/invites/share/:invite', middlewares, shareInviteValidators, dashboardController.inviteShare);
     app.post('/invites/terminate', middlewares, deleteInviteValidators, generateCheckUserPermission(Permission.MANAGE_OWN_INVITES), dashboardController.terminateInvitePost);

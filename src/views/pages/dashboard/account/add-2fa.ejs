@@ -1,31 +1,31 @@
-<div class="wrapper flex-container">
-    <div class="container container-medium-width container-filled-background">
+<div class="max-w-7xl mx-auto">
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <%= __("security.2fa.add_title") %>
+            </h3>
 
-        <h2><%= __("security.2fa.add_title") %></h2>
-
-        <div class="qr-code-box">
-            <img src="<%= qrCodeSrc %> " alt="">
-            <div><%= secret %></div>
-        </div>
-
-        <form class="form" action="<%= urlUtils.extendUrl(baseUrl, 'account/2fa/set').href %>" method="post">
-            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-            <input type="hidden" name="secret" value="<%= secret %> ">
-
-            <fieldset>
-
-                <div class="form-group">
-                    <label class="label"><%= __('widget.2fa.enter_code.label') %></label>
-                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"token",type:"text",required:true}}) %>
-                </div>
-
-            </fieldset>
-
-            <div class="form-action-group">
-                <button class="button primary"><%= __("common.setup") %> </button>
+            <div class="mt-4 flex flex-col items-center justify-center space-y-4">
+                 <div class="bg-white p-2 border border-gray-200 rounded-lg">
+                    <img src="<%= qrCodeSrc %>" alt="QR Code" class="h-48 w-48">
+                 </div>
+                 <div class="font-mono text-sm bg-gray-50 px-3 py-1 rounded border border-gray-200">
+                    <%= secret %>
+                 </div>
             </div>
 
-        </form>
+            <form class="mt-5 space-y-6 max-w-md mx-auto" action="<%= urlUtils.extendUrl(baseUrl, 'account/2fa/set').href %>" method="post">
+                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                <input type="hidden" name="secret" value="<%= secret %> ">
 
+                <%- include("../../../partials/form/input/input-field.ejs",{field: {label:__('widget.2fa.enter_code.label'),id:"token",name:"token",type:"text",required:true}}) %>
+
+                <div>
+                    <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <%= __("common.setup") %>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

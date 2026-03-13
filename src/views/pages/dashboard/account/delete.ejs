@@ -1,26 +1,25 @@
-<div class="wrapper flex-container">
-    <div class="container container-medium-width container-filled-background">
-        <h2><%= __("page.own-account.delete.title") %></h2>
+<div class="max-w-7xl mx-auto">
+    <div class="bg-red-50 shadow sm:rounded-lg border border-red-200">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-red-800">
+                <%= __("page.own-account.delete.title") %>
+            </h3>
 
-        <form class="form" action="" method="post">
-            <fieldset>
-                <%- include("../../../partials/alert-info.ejs",{info: __("page.own-account.delete.warninge.warning"),moreInfoLink:false}) %>
+            <form class="mt-5 space-y-6 max-w-md" action="" method="post">
+                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
-                <div class="form-group">
-                    <label class="label"><%= __('common.password') %></label>
-                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true}}) %>
+                <%- include("../../../partials/alert-info.warn.ejs",{info: __("page.own-account.delete.warninge.warning"),moreInfoLink:false}) %>
+
+                <%- include("../../../partials/form/input/input-field.ejs",{field: {label:__('common.password'),id:"password",name:"password",type:"password",required:true}}) %>
+
+                <%- include("../../../partials/form/input/input-checkbox.ejs",{checkbox: {label:__('common.confirm'),id:"confirm",name:"confirm",msg:__('page.own-account.delete.checkbox.message')}}) %>
+
+                <div>
+                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        <%= __("page.own-account.delete.button.text") %>
+                    </button>
                 </div>
-
-                <div class="form-group">
-                    <label class="label"><%= __('common.confirm') %></label>
-                    <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"confirm",msg:__('page.own-account.delete.checkbox.message')}}) %>
-                </div>
-            </fieldset>
-
-            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-            <div class="form-action-group">
-                <button class="button red" type="submit"><%= __("page.own-account.delete.button.text") %></button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>

@@ -1,0 +1,23 @@
+<div>
+    <% if (select.label) { %>
+        <label for="<%= select.id %>" class="block text-sm font-medium text-gray-700">
+            <%= select.label %>
+        </label>
+    <% } %>
+    <div class="mt-1">
+        <select id="<%= select.id %>" name="<%= select.name %>"
+            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm <%= errors[select.name] ? 'border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500' : '' %>">
+            <% if (select.defaultNone) { %>
+                <option disabled <% if (!formData[select.name] || formData[select.name] == "none") { %>selected<% } %> value="none" style="display:none"><%= select.defaultNone.msg %></option>
+            <% } %>
+
+            <% select.options.forEach(option => { %>
+                <option <% if (formData[select.name] == option.value || select.value == option.value) { %>selected<% } %> value="<%= option.value %>"><%= option.displayName %></option>
+            <% }) %>
+        </select>
+        <% if (errors[select.name]) { %>
+            <% errors[select.name].rendered = true %>
+            <p class="mt-2 text-sm text-red-600"><%= errors[select.name].msg %></p>
+        <% } %>
+    </div>
+</div>

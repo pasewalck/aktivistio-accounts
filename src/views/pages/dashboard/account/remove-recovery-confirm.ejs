@@ -1,32 +1,35 @@
-<div class="wrapper flex-container">
+<div class="max-w-7xl mx-auto">
+    <div class="bg-white shadow sm:rounded-lg border-l-4 border-red-500">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-red-900">
+                <% if (method == "token") { %>
+                    <%= __("account.common.recovery_token.remove.title") %>
+                <% } else if (method == "email") { %>
+                    <%= __("account.common.recovery_email.remove.title") %>
+                <% } %>
+            </h3>
 
-    <div class="container container-medium-width container-filled-background">
+            <form class="mt-5 space-y-6 max-w-md" autocomplete="off" action="" method="post">
+                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
-        <% if (method == "token") { %>
-            <h2><%= __("account.common.recovery_token.remove.title") %></h2>
-        <% } else if (method == "email") { %>
-            <h2><%= __("account.common.recovery_email.remove.title") %></h2>
-        <% } %>
+                <%- include("../../../partials/alert-info.warn.ejs",{info: __("account.recovery.remove.warning"),moreInfoLink: "https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md"}) %>
 
-        <form class="form" autocomplete="off" action="" method="post">
-            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                <%- include("../../../partials/form/input/input-field.ejs", {
+                    field: {
+                        label: __('common.current_password'),
+                        name: "currentPassword",
+                        id: "currentPassword",
+                        type: "password",
+                        required: true
+                    }
+                }) %>
 
-            <fieldset>
-
-                <%- include("../../../partials/alert-info.ejs",{info: __("account.recovery.remove.warning"),moreInfoLink: "https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md"}) %>
-                <div class="form-group">
-                    <label class="label"><%= __('common.current_password') %></label>
-                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"currentPassword",type:"password",required:true}}) %>
+                <div>
+                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        <%= __('account.recovery.remove.confirm') %>
+                    </button>
                 </div>
-
-            </fieldset>
-            <div class="form-action-group">
-                <div class="button-group-row">
-                    <button type="submit" class="button red"><%= __('account.recovery.remove.confirm') %></button>
-                </div>
-            </div>
-        </form>
-
+            </form>
+        </div>
     </div>
-
 </div>

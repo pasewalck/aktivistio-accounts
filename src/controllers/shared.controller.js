@@ -86,7 +86,6 @@ export default {
         } else {
             // Check the provided username and password against the account service
             let account = await accountService.checkLogin(data.username, data.password);
-
             if (account) {
                 // If the account has two-factor authentication enabled
                 if (accountService.twoFactorAuth.get(account) != null) {
@@ -101,7 +100,7 @@ export default {
                     sharedRenderer.twoFactorAuth(res, interactionDetails, token);
                 } else {
                     // If no two-factor authentication, proceed with the login
-                    doLogin(res, req, interactionDetails, account.id);
+                    await doLogin(res, req, interactionDetails, account.id);
                 }
             } else {
                 // If login fails, throw an error

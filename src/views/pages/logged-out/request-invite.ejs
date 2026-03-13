@@ -1,33 +1,53 @@
-<h1><%= __('invite.request_title') %></h1>
+<div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <%= __('invite.request_title') %>
+    </h2>
+</div>
 
-        <form class="form" autocomplete="off" action="" method="post">
+<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <form class="space-y-6" autocomplete="off" action="" method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
-        <fieldset>
-
-            <div class="alert-info">
-            <img src="/icons/info-circle.svg" alt="info">
-            <p><%= __('invite.whitelist_info') %>
-                <% for( let index = 0; index < emailProviders.length; index++ ) { %>
-                <%if(index != 0) {%><%= index+1 == emailProviders.length ? " and " : ", " %><%}%>
-                <a href="https://<%= emailProviders[index] %>"><%= emailProviders[index] %></a>
-                <%}%>
-
-            </p>
-            </div>
-
-
-            <div class="form-group">
-                <label class="label"><%= __('user.email') %></label>
-                <%- include("../../partials/form/input-field.ejs",{field: {name:"email",type:"email",required:true}}) %>
-            </div>
-
-        </fieldset>
-
-        <div class="form-action-group">
-            <div class="button-group-row">
-            <button type="submit" class="button primary"><%= __('common.form.submit') %></button>
+        <div class="rounded-md bg-blue-50 p-4">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <% if (emailProviders.length > 0) { %>
+                    <div class="ml-3">
+                        <%= __('invite.whitelist_info') %>
+                        <%
+                            // Map each provider to a link
+                            const links = emailProviders.map((provider, idx) => {
+                                return `<a href="https://${provider}" class="font-medium underline hover:text-blue-600">${provider}</a>`;
+                            });
+                            // Join with commas and "and" before the last one
+                            const formattedLinks = __('invite.whitelist_prefix') + (links.length > 1
+                                ? links.slice(0, -1).join(', ') + ' '+__('common.and')+' ' + links[links.length - 1]
+                                : links[0])
+                        %>
+                        <%- formattedLinks %>
+                    </div>
+                <% } %>
             </div>
         </div>
 
-        </form>
+        <%- include("../../partials/form/input/input-field.ejs", {
+            field: {
+                label: __('user.email'),
+                name: "email",
+                id: "email",
+                type: "email",
+                required: true
+            }
+        }) %>
+
+        <div>
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <%= __('common.form.submit') %>
+            </button>
+        </div>
+    </form>
+</div>

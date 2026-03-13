@@ -1,16 +1,27 @@
-<h1><%= title %></h1>
-        <p><%= __('authorization.confirm_access', { clientId: clientId }) %></p>
+<div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <%= title %>
+    </h2>
+    <p class="mt-2 text-center text-sm text-gray-600">
+        <%= __('authorization.confirm_access', { clientId: clientId }) %>
+    </p>
+</div>
 
-        <form class="form" autocomplete="off" action="<%= urls.action %>" method="post">
+<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <form class="space-y-6" autocomplete="off" action="<%= urls.action %>" method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
-        <div class="form-action-group">
-            <div class="button-group-row">
-            <button type="submit" class="button primary"><%= __('authorization.verify') %></button>
+        <div>
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <%= __('authorization.verify') %>
+            </button>
             <% if (urls.abort) { %>
-                <a class="button red" href="<%= urls.abort %>"><%= __('authorization.abort') %></a>
+                <div class="mt-4">
+                    <a href="<%= urls.abort %>" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        <%= __('authorization.abort') %>
+                    </a>
+                </div>
             <% } %>
-            </div>
         </div>
-
-        </form>
+    </form>
+</div>

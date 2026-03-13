@@ -1,60 +1,75 @@
-<div class="wrapper flex-container">
-    <div class="container container-medium-width container-filled-background">
+<div class="max-w-7xl mx-auto space-y-6">
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <%= currentClientId ? __("service.update") : __("service.create") %>
+            </h3>
 
-        <h2><%= currentClientId ? __("service.update") : __("service.create") %> </h2>
+            <form class="mt-5 space-y-6" action="<%= urlUtils.extendUrl(baseUrl, currentClientId ? `services/edit/${currentClientId}/save` : `services/add`).href %>" method="post">
+                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
-        <form class="form" action="<%= urlUtils.extendUrl(baseUrl, currentClientId ? `services/edit/${currentClientId}/save` : `services/add`).href %>" method="post">
-            <fieldset>
-
-                <div class="form-group">
-                    <label class="label"><%= __('service.configuration') %></label>
-                    <%- include("../../partials/form/input-textarea.ejs",{textarea: {name:"configuration",required:true}}) %>
+                <div>
+                    <label for="configuration" class="block text-sm font-medium text-gray-700">
+                        <%= __('service.configuration') %>
+                    </label>
+                    <div class="mt-1">
+                        <%- include("../../partials/form/input/input-textarea.ejs",{textarea: {name:"configuration",required:true}}) %>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="label"><%= __('user.admin_password') %></label>
-                    <%- include("../../partials/form/input-field.ejs",{field: {name:"adminPassword",type:"password",required:true}}) %>
+                <div class="max-w-md">
+                    <label for="adminPassword" class="block text-sm font-medium text-gray-700">
+                        <%= __('user.admin_password') %>
+                    </label>
+                    <div class="mt-1">
+                        <%- include("../../partials/form/input/input-field.ejs",{field: {name:"adminPassword",type:"password",required:true}}) %>
+                    </div>
                 </div>
 
-            </fieldset>
-
-            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-            <div class="form-action-group">
-                <button class="button red" type="submit"><%= currentClientId ? __("form.update") : __("form.create") %> </button>
-            </div>
-
-        </form>
-
+                <div>
+                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <%= currentClientId ? __("form.update") : __("form.create") %>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <% if (currentClientId) { %>
-        <div class="container container-medium-width container-filled-background">
+        <div class="bg-white shadow sm:rounded-lg border-l-4 border-red-500">
+            <div class="px-4 py-5 sm:p-6">
+                <h3 class="text-lg leading-6 font-medium text-red-900">
+                    <%= __("service.delete") %>
+                </h3>
 
-            <h2><%= __("service.delete") %> </h2>
+                <form class="mt-5 space-y-6 max-w-md" action="<%= urlUtils.extendUrl(baseUrl, `services/edit/${currentClientId}/delete`).href %>" method="post">
+                     <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
-            <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `services/edit/${currentClientId}/delete`).href %>" method="post">
-                <fieldset>
+                    <%- include("../../partials/form/input/input-field.ejs", {
+                        field: {
+                            label: __('user.admin_password'),
+                            name: "deletePermAdminPassword",
+                            id: "deletePermAdminPassword",
+                            type: "password",
+                            required: true
+                        }
+                    }) %>
 
-                    <div class="form-group">
-                        <label class="label"><%= __('user.admin_password') %></label>
-                        <%- include("../../partials/form/input-field.ejs",{field: {name:"deletePermAdminPassword",type:"password",required:true}}) %>
+                    <%- include("../../partials/form/input/input-checkbox.ejs", {
+                        checkbox: {
+                            label: __('form.confirm_action'),
+                            name: "deleteAdminConfirm",
+                            msg: __('service.delete_confirm', currentClientId)
+                        }
+                    }) %>
+
+                    <div>
+                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            <%= __("service.delete_forever") %>
+                        </button>
                     </div>
-
-                    <div class="form-group">
-                        <label class="label"><%= __('form.confirm_action') %></label>
-                        <%- include("../../partials/form/input-checkbox.ejs",{checkbox: {name:"deleteAdminConfirm",msg:__('service.delete_confirm',currentClientId)}}) %>
-                    </div>
-
-                </fieldset>
-
-                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-                <div class="form-action-group">
-                    <button class="button red" type="submit"><%= __("service.delete_forever") %> </button>
-                </div>
-
-            </form>
-
+                </form>
+            </div>
         </div>
     <% } %>
-
 </div>

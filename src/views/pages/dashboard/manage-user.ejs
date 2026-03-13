@@ -1,119 +1,138 @@
-<div class="wrapper flex-container">
+<div class="max-w-7xl mx-auto space-y-6">
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <%= __("page.admin.manage_account.title") %>
+            </h3>
 
-    <div class="container container-medium-width container-filled-background">
-
-        <h1><%= __("page.admin.manage_account.title") %> </h1>
-
-        <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/update`).href %>" method="post">
-            <fieldset>
-
-                <div class="form-group" >
-                    <label class="label"><%= __('common.username') %></label>
-                    <div class="output-field">
-                        <p><%= managingAccount.username %></p>
+            <form class="mt-5 space-y-6 max-w-md" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/update`).href %>" method="post">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">
+                        <%= __('common.username') %>
+                    </label>
+                    <div class="mt-1 bg-gray-50 p-3 rounded border border-gray-200 text-sm">
+                        <%= managingAccount.username %>
                     </div>
                 </div>
 
-                <div class="form-group" >
-                    <label class="label"><%= __('common.user_uuid_label') %></label>
-                    <div class="output-field">
-                        <p><%= managingAccount.id %></p>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">
+                        <%= __('common.user_uuid_label') %>
+                    </label>
+                    <div class="mt-1 bg-gray-50 p-3 rounded border border-gray-200 text-sm font-mono break-all">
+                        <%= managingAccount.id %>
                     </div>
                 </div>
-
-            </fieldset>
-
-        </form>
-
+            </form>
+        </div>
     </div>
 
-    <div class="container container-medium-width container-filled-background">
-        <% var isNew = managingAccount.lastLogin == null %>
-        <% if (isNew) { %>
-            <h2><%= __("page.admin.manage_account.send_setup_email") %> </h2>
-        <% } else { %>
-            <h2><%= __("page.admin.manage_account.send_recovery_email") %> </h2>
-        <% } %>
-
-        <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}`,isNew ? `send-setup` : `send-recovery`).href %>" method="post">
-
-            <fieldset>
-
-                <div class="form-group" >
-                    <label class="label"><%= __('common.target_email') %></label>
-                    <%- include("../../partials/form/input-field.ejs",{field: {name:"email",type:"email"}}) %>
-                </div>
-
-            </fieldset>
-
-            <div class="form-action-group">
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <% var isNew = managingAccount.lastLogin == null %>
                 <% if (isNew) { %>
-                    <button class="button" type="submit"><%= __("page.admin.manage_account.send_setup_email_button") %> </button>
+                    <%= __("page.admin.manage_account.send_setup_email") %>
                 <% } else { %>
-                    <button class="button" type="submit"><%= __("page.admin.manage_account.send_recovery_email_button") %> </button>
+                    <%= __("page.admin.manage_account.send_recovery_email") %>
                 <% } %>
-            </div>
-        </form>
+            </h3>
 
+            <form class="mt-5 space-y-6 max-w-md" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}`,isNew ? `send-setup` : `send-recovery`).href %>" method="post">
+                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+
+                <%- include("../../partials/form/input/input-field.ejs", {
+                    field: {
+                        label: __('common.target_email'),
+                        name: "email",
+                        id: "email",
+                        type: "email"
+                    }
+                }) %>
+
+                <div>
+                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <% if (isNew) { %>
+                            <%= __("page.admin.manage_account.send_setup_email_button") %>
+                        <% } else { %>
+                            <%= __("page.admin.manage_account.send_recovery_email_button") %>
+                        <% } %>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <%= __("page.admin.manage_account.update") %>
+            </h3>
 
-    <div class="container container-medium-width container-filled-background">
+            <form class="mt-5 space-y-6 max-w-md" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/update`).href %>" method="post">
+                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
-        <h2><%= __("page.admin.manage_account.update") %> </h2>
+                <%
+                var options = []
+                Role.allLower(account.role).forEach(role => {
+                    options.push({ value: role, displayName: Role.getRoleInfo(role).name })
+                })
+                %>
 
-        <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/update`).href %>" method="post">
-            <fieldset>
+                <%- include("../../partials/form/input/input-select.ejs", {
+                    select: {
+                        label: __('common.account_role'),
+                        name: "accountUpdateRole",
+                        id: "accountUpdateRole",
+                        value: managingAccount.role,
+                        options: options
+                    }
+                }) %>
 
-                <div class="form-group" >
-                    <label class="label"><%= __('common.account_role') %></label>
-                    <% var options = []
-                    Role.allLower(account.role).forEach(role => {
-                        options.push({value:role,displayName:Role.getRoleInfo(role).name})
-                    }) %>
-                    <%- include("../../partials/form/input-select.ejs",{select: {name:"accountUpdateRole",id:"accountUpdateRole",value:managingAccount.role,options:options}}) %>
+                <div>
+                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <%= __("page.admin.manage_account.update_button") %>
+                    </button>
                 </div>
-
-            </fieldset>
-
-            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-            <div class="form-action-group">
-                <button class="button" type="submit"><%= __("page.admin.manage_account.update_button") %> </button>
-            </div>
-
-        </form>
-
+            </form>
+        </div>
     </div>
 
     <% if (hasPermission(account.role,Permission.DELETE_USERS)) { %>
+        <div class="bg-white shadow sm:rounded-lg border-l-4 border-red-500">
+            <div class="px-4 py-5 sm:p-6">
+                <h3 class="text-lg leading-6 font-medium text-red-900">
+                    <%= __("page.admin.manage_account.delete") %>
+                </h3>
 
-        <div class="container container-medium-width container-filled-background">
-            <h2><%= __("page.admin.manage_account.delete") %> </h2>
+                <form class="mt-5 space-y-6 max-w-md" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/delete`).href %>" method="post">
+                     <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
-            <form class="form" action="<%= urlUtils.extendUrl(baseUrl, `user/manage/${managingAccount.id}/delete`).href %>" method="post">
-                <fieldset>
+                    <%- include("../../partials/form/input/input-field.ejs", {
+                        field: {
+                            label: __('common.your_admin_password'),
+                            name: "deleteAdminPassword",
+                            id: "deleteAdminPassword",
+                            type: "password",
+                            required: true
+                        }
+                    }) %>
 
-                    <div class="form-group">
-                        <label class="label"><%= __('common.your_admin_password') %></label>
-                        <%- include("../../partials/form/input-field.ejs",{field: {name:"deleteAdminPassword",type:"password",required:true}}) %>
+                    <%- include("../../partials/form/input/input-checkbox.ejs", {
+                        checkbox: {
+                            label: __('page.admin.manage_account.confirm_delete'),
+                            name: "deleteAdminConfirm",
+                            msg: __('page.admin.manage_account.confirm_delete_message', managingAccount.username)
+                        }
+                    }) %>
+
+                    <div>
+                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            <%= __("page.admin.manage_account.delete_button") %>
+                        </button>
                     </div>
-
-                    <div class="form-group">
-                        <label class="label"><%= __('page.admin.manage_account.confirm_delete') %></label>
-                        <%- include("../../partials/form/input-checkbox.ejs",{checkbox: {name:"deleteAdminConfirm",msg:__('page.admin.manage_account.confirm_delete_message',managingAccount.username)}}) %>
-                    </div>
-
-                </fieldset>
-
-                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-                <div class="form-action-group">
-                    <button class="button red" type="submit"><%= __("page.admin.manage_account.delete_button") %> </button>
-                </div>
-
-            </form>
-
+                </form>
+            </div>
         </div>
-
     <% } %>
-
 </div>

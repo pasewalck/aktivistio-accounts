@@ -1,32 +1,43 @@
-<div class="wrapper flex-container">
+<div class="max-w-7xl mx-auto space-y-6">
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <%= __('page.user_list.title') %>
+            </h3>
+            <a href="<%= urlUtils.extendUrl(baseUrl, 'user','add').href %>" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <%= __("page.user_list.create") %>
+            </a>
+        </div>
 
-    <div class="container container-medium-width container-filled-background">
-        <h2><%= __('page.user_list.title') %></h2>
+        <div class="border-t border-gray-200">
+            <ul class="divide-y divide-gray-200">
+                <% users.forEach(user => { %>
+                    <li class="px-4 py-4 sm:px-6 hover:bg-gray-50 transition duration-150 ease-in-out">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <div class="text-sm font-medium text-indigo-600 truncate">
+                                    <%= user.username %>
+                                    <% if (user.username == account.username) { %>
+                                        <span class="text-gray-500 font-normal ml-1">(<%= __('page.user_list.current_user') %>)</span>
+                                    <% } %>
+                                </div>
+                                <% var roleInfo = Role.getRoleInfo(user.role) %>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" style="background-color: '<%= roleInfo.color %>20'; color: '<%= roleInfo.color %>';">
+                                    <%= roleInfo.name %>
+                                </span>
+                            </div>
 
-        <ul class="user-list">
-            <% users.forEach(user => { %>
-                <li>
-                    <div class="infos">
-                        <div class="username"><%= user.username + (user.username == account.username ? ` (` + __('page.user_list.current_user') + `)` : "") %></div>
-                        <% var roleInfo = Role.getRoleInfo(user.role) %>
-                        <div class="role" <%- `style="background-color: ${roleInfo.color};"` %>><%= roleInfo.name %></div>
-                    </div>
-                    <% if (user.role < account.role) { %>
-                        <div class="links">
-                            <a href="<%= urlUtils.extendUrl(baseUrl, `user`,`manage`,`${user.id}`).href %>"><img src="<%= urlUtils.extendUrl(baseUrl, 'icons/settings.svg').href %>" alt=""></a>                        </div>
-                    <% } %>
-                </li>
-            <% }) %>
-
-        </ul>
-
-
+                            <% if (user.role < account.role) { %>
+                                <div class="flex-shrink-0">
+                                    <a href="<%= urlUtils.extendUrl(baseUrl, `user`,`manage`,`${user.id}`).href %>" class="text-gray-400 hover:text-gray-500">
+                                        <img class="h-5 w-5" src="<%= urlUtils.extendUrl(baseUrl, 'icons/settings.svg').href %>" alt="Manage">
+                                    </a>
+                                </div>
+                            <% } %>
+                        </div>
+                    </li>
+                <% }) %>
+            </ul>
+        </div>
     </div>
-
-    <div class="container container-medium-width">
-
-        <a href="<%= urlUtils.extendUrl(baseUrl, 'user','add').href %>" class="button"><%= __("page.user_list.create") %> </a>
-
-    </div>
-
 </div>

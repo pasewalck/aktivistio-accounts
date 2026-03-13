@@ -1,61 +1,66 @@
-<div class="wrapper flex-container">
-
-    <div class="container container-medium-width container-filled-background">
-        <h1>
-            <%= __("page.audit_log.title") %>
-        </h1>
-
-        <% if (moreEntries) { %>
-            <p>
-                <%= __("account.audit_log.entries_since %s", weeksBack) %>
-                <a href="<%= urlUtils.extendUrl(baseUrl, 'account/audit-log?weeks='+(weeksBack+1)).href %>" class="link">(<%= __("account.audit_log.view_more") %>)</a>
-            </p>
-        <% } %>
-        <% function formatTimestamp(timestamp) {
-            const logDate = new Date(timestamp);
-            const now = new Date();
-
-            if (logDate.toDateString() === now.toDateString()) {
-                const delta = Math.floor((now - logDate) / 1000);
-                if (delta < 60) return __("common.time.seconds_ago %t", delta);
-                if (delta < 3600) return __("common.time.minutes_ago %t", Math.floor(delta / 60));
-                return __("common.time.hours_ago %t", Math.floor(delta / 3600));
-            } else {
-                return logDate.toLocaleDateString();
-            }
-        } %>
-        <ul class="audit-log-list">
-            <% for (let index=0; index < auditLog.length; index++) { const logEntry=auditLog[index]; %>
-                <li class="audit-log-entry alert-level-<%= logEntry.actionType.alertLevel %>">
-
-                    <span class="audit-log-type">
-                        <%= logEntry.count %>x
-                        <% if (logEntry.actionType.alertLevel == 1) { %>
-                            ⚠️
-                        <% } else if (logEntry.actionType.alertLevel == 2) { %>
-                            ⛔
-                        <% } %>
-                        <%= logEntry.actionType.displayName %>
-                    </span>
-                    <span class="audit-log-timestamp">
-                        <%= formatTimestamp(logEntry.time*1000) %>
-                    </span>
-
-                </li>
+<div class="max-w-7xl mx-auto space-y-6">
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <%= __("page.audit_log.title") %>
+            </h3>
+            <% if (moreEntries) { %>
+                <div class="text-sm">
+                     <span class="text-gray-500"><%= __("account.audit_log.entries_since %s", weeksBack) %></span>
+                     <a href="<%= urlUtils.extendUrl(baseUrl, 'account/audit-log?weeks='+(weeksBack+1)).href %>" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        <%= __("account.audit_log.view_more") %>
+                     </a>
+                </div>
             <% } %>
-        </ul>
-    </div>
+        </div>
 
-    <div class="container container-medium-width container-filled-background">
-        <h2><%= __("page.audit_log.legend") %></h2>
-        <p>
-            <span class="audit-log-symbol">⚠️</span>
-            <b><%= __("page.audit_log.warning_label") %></b>: <%= __("page.audit_log.warning_description") %>
-        </p>
-        <p>
-            <span class="audit-log-symbol">⛔</span>
-            <b><%= __("page.audit_log.critical_label") %></b>: <%= __("page.audit_log.critical_description") %>
-        </p>
+        <div class="border-t border-gray-200">
+            <% function formatTimestamp(timestamp) {
+                const logDate = new Date(timestamp);
+                const now = new Date();
+                if (logDate.toDateString() === now.toDateString()) {
+                    const delta = Math.floor((now - logDate) / 1000);
+                    if (delta < 60) return __("common.time.seconds_ago", delta);
+                    if (delta < 3600) return __("common.time.minutes_ago", Math.floor(delta / 60));
+                    return __("common.time.hours_ago", Math.floor(delta / 3600));
+                } else {
+                    return logDate.toLocaleDateString();
+                }
+            } %>
+            <ul class="divide-y divide-gray-200">
+                <% for (let index=0; index < auditLog.length; index++) { %>
+                    <%
+                        const logEntry = auditLog[index];
+                        let icon = "";
+                        let bgClass = "bg-white";
+                        if (logEntry.actionType.alertLevel == 1) {
+                            icon = "⚠️";
+                            bgClass = "bg-yellow-50";
+                        } else if (logEntry.actionType.alertLevel == 2) {
+                            icon = "⛔";
+                            bgClass = "bg-red-50";
+                        }
+                    %>
+                    <li class="px-4 py-4 sm:px-6 <%= bgClass %>">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="text-sm font-medium text-gray-900">
+                                    <%= logEntry.count %>x
+                                </span>
+                                <% if (icon) { %>
+                                    <span><%= icon %></span>
+                                <% } %>
+                                <span class="text-sm text-gray-700">
+                                    <%= logEntry.actionType.displayName %>
+                                </span>
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                <%= formatTimestamp(logEntry.time*1000) %>
+                            </div>
+                        </div>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
     </div>
-
 </div>

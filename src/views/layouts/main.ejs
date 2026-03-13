@@ -4,9 +4,11 @@
 <head>
     <%- include("../partials/head.ejs") %>
   </head>
-  <body>
-        <%- include("../partials/dashboard-header.ejs") %>
-      <%- body %>
+  <body class="bg-gray-50 min-h-screen flex flex-col font-sans text-gray-900 antialiased">
+      <%- include("../partials/dashboard-header.ejs") %>
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full max-w-7xl">
+        <%- body %>
+      </main>
       <%- include("../partials/footer.ejs") %>
   </body>
 </html>
