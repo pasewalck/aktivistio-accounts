@@ -15,21 +15,20 @@ export class AuditActionType {
     };
 
 
-    static LOGIN_SUCCESS = {
-        id: 1,
-        type: 'LOGIN_SUCCESS',
-        displayName: 'User Successfully Logged In',
-        alertLevel: 0,
-        replaceActionTypes: [AuditActionType.LOGIN_FAIL]
-    };
-
-
     static LOGIN_FAIL = {
         id: 2,
         type: 'LOGIN_FAIL',
         displayName: 'User Login Attempt Blocked',
         alertLevel: 1,
         replaceActionTypes: []
+    };
+
+    static LOGIN_SUCCESS = {
+        id: 1,
+        type: 'LOGIN_SUCCESS',
+        displayName: 'User Successfully Logged In',
+        alertLevel: 0,
+        replaceActionTypes: [AuditActionType.LOGIN_FAIL]
     };
 
     static LOGIN_2FA_FAIL = {
