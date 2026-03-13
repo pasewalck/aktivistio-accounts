@@ -22,7 +22,7 @@
                                     <% } %>
                                 </div>
                                 <% var roleInfo = Role.getRoleInfo(user.role) %>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" style="background-color: '<%= roleInfo.color %>20'; color: '<%= roleInfo.color %>';">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" <%- `style="background-color: ${roleInfo.color}20;"` %>>
                                     <%= roleInfo.name %>
                                 </span>
                             </div>
