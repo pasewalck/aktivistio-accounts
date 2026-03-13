@@ -1,79 +1,146 @@
-<div class="wrapper flex-container">
+<% const canGenerate = hasPermission(account.role, Permission.MANAGE_OWN_INVITES); %>
 
-    <% const canGenerate = hasPermission(account.role, Permission.MANAGE_OWN_INVITES); %>
+<style>
+    @media only screen and (min-width: 1000px) {
+        .invite-code .invite-hidden-part {
+            filter: blur(3px);
+            transition: all 0.5s;
+        }
+    }
+    .invite-code:hover .invite-hidden-part {
+        filter: blur(0px);
+    }
+    @keyframes slide-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    .animate-in-invite {
+        animation: slide-in 0.5s ease-in forwards;
+    }
+</style>
 
+<div class="space-y-6">
     <% if (inviteCodes.length > 0 || !canGenerate) { %>
-        <div class="container container-medium-width container-filled-background">
-            <h1><%= __("page.invites.title") %></h1>
-            <ul class="invite-list">
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    <%= __("page.invites.title") %>
+                </h3>
+            </div>
+            <div class="border-t border-gray-200">
                 <% if (inviteCodes.length <= 0) { %>
-                    <% if (lockedInviteCodes.length > 0 && !canGenerate) { %>
-                        <% var daysLeft = (new Date(lockedInviteCodes[0].createDate * 1000) - new Date().getTime()) / 1000 / (60 * 60 * 24); %>
-                        <%- include("../../partials/alert-info.ejs", { info: __("page.invites.invites_unlocked_message %s", Number.parseFloat(daysLeft).toFixed(0)), moreInfoLink: false }) %>
-                    <% } else { %>
-                        <%- include("../../partials/alert-info.ejs", { info: __("page.invites.no_invites_message"), moreInfoLink: "mailto:todomail" }) %>
-                    <% } %>
-                <% } %>
-                <% for (let index = 0; index < inviteCodes.length; index++) { %>
-                    <li>
-                        <div class="code"><%= inviteCodes[index].code.substring(0, 2) %><span><%= inviteCodes[index].code.substring(2) %></span></div>
-                        <% if (inviteCodes[index].expireDate) { %>
-                            <% var date = new Date(inviteCodes[index].expireDate * 1000); %>
-                            <% var daysLeft = (date.getTime() - new Date().getTime()) / 1000 / (60 * 60 * 24); %>
-                            <% if (daysLeft < 14) { %>
-                                <div class="date soon"><%= __("common.expires_in_days %s", Number.parseFloat(daysLeft).toFixed(0)) %></div>
-                            <% } else { %>
-                                <div class="date"><%= __("common.expires_on_date", date.toLocaleString("en-GB").split(', ')[0]) %></div>
-                            <% } %>
+                     <div class="p-4">
+                        <% if (lockedInviteCodes.length > 0 && !canGenerate) { %>
+                            <% var daysLeft = (new Date(lockedInviteCodes[0].createDate * 1000) - new Date().getTime()) / 1000 / (60 * 60 * 24); %>
+                            <%- include("../../partials/alert-info.ejs", { info: __("page.invites.invites_unlocked_message %s", Number.parseFloat(daysLeft).toFixed(0)), moreInfoLink: false }) %>
+                        <% } else { %>
+                            <%- include("../../partials/alert-info.ejs", { info: __("page.invites.no_invites_message"), moreInfoLink: "mailto:todomail" }) %>
                         <% } %>
-                        <% if (inviteCodes[index].usages > 1) { %>
-                            <div class="uses"><%= __("page.invites.invite_use_indicator", inviteCodes[index].usages) %></div>
-                        <% } %>
+                     </div>
+                <% } else { %>
+                    <ul class="divide-y divide-gray-200">
+                        <% for (let index = 0; index < inviteCodes.length; index++) { %>
+                            <%
+                                let isNew = animateNewest
+                                animateNewest = false
+                            %>
+                            <li class="px-4 py-4 sm:px-6 flex items-center justify-between<%= isNew ? ' animate-in-invite' : '' %>">
+                                <div class="flex items-center space-x-4">
+                                    <div class="invite-code font-mono text-lg font-bold text-gray-900">
+                                        <span class="invite-hidden-part"><%= inviteCodes[index].code.substring(0, 4) %></span><span><%= inviteCodes[index].code.substring(4) %></span>
+                                    </div>
+                                    <div class="inline-flex items-center gap-1.5">
+                                        <% if (inviteCodes[index].expireDate) { %>
+                                            <% var date = new Date(inviteCodes[index].expireDate * 1000); %>
+                                            <% var daysLeft = (date.getTime() - new Date().getTime()) / 1000 / (60 * 60 * 24); %>
+                                            <% if (daysLeft < 14) { %>
+                                                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"><%= __("common.expires_in_days %s", Number.parseFloat(daysLeft).toFixed(0)) %></span>
+                                            <% } else { %>
+                                                <%= __("common.expires_on_date", date.toLocaleString("en-GB").split(', ')[0]) %>
+                                            <% } %>
+                                        <% } %>
+                                        <% if (inviteCodes[index].usages > 1) { %>
+                                            <div class=" px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                <%= __("page.invites.invite_use_indicator", inviteCodes[index].usages) %>
+                                            </div>
+                                        <% } %>
+                                        <% if (isNew) { %>
+                                            <div class=" px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                <%= __("common.new") %>
+                                            </div>
+                                        <% } %>
+                                    </div>
 
-                        <div class="links">
-                            <a href="<%= urlUtils.extendUrl(baseUrl, `invites/share/${inviteCodes[index].code}`).href %>"><img src="/icons/qr.svg" alt=""></a>
-                            <button onclick="navigator.clipboard.writeText('<%= urlUtils.extendUrl(baseUrl, `register`, inviteCodes[index].code) %>');"><img src="/icons/copy.svg" alt=""></button>
-                            <% if (canGenerate) { %>
-                                <form class="remove" action="<%= urlUtils.extendUrl(baseUrl, 'invites/terminate').href %>" method="post">
-                                    <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-                                    <input type="hidden" value="<%= inviteCodes[index].code %>" name="code">
-                                    <button><img src="/icons/red.cross.svg" alt=""></button>
-                                </form>
-                            <% } %>
-                        </div>
-                    </li>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <a href="<%= urlUtils.extendUrl(baseUrl, `invites/share/${inviteCodes[index].code}`).href %>" class="cursor-pointer">
+                                        <img class="h-6 w-6" src="/icons/qr.svg" alt="QR">
+                                    </a>
+                                    <% if (canGenerate) { %>
+                                        <form action="<%= urlUtils.extendUrl(baseUrl, 'invites/terminate').href %>" method="post" class="h-6 w-6">
+                                            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                                            <input type="hidden" value="<%= inviteCodes[index].code %>" name="code">
+                                            <button type="submit" class="cursor-pointer">
+                                                <img class="h-6 w-6" src="/icons/red.cross.svg" alt="Remove">
+                                            </button>
+                                        </form>
+                                    <% } %>
+                                </div>
+                            </li>
+                        <% } %>
+                    </ul>
                 <% } %>
-            </ul>
+            </div>
         </div>
     <% } %>
 
     <% if (canGenerate) { %>
-        <div class="container container-medium-width container-filled-background">
-            <h2><%= __("page.invites.generate") %></h2>
-            <form class="form" action="<%= urlUtils.extendUrl(baseUrl, 'invites/generate').href %>" method="post">
-                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-                <fieldset>
-                    <div class="form-group">
-                        <label class="label"><%= __('page.invites.uses') %></label>
-                        <input required class="input-field" type="number" min="1" max="1000" value="1" name="count" />
-                        <p class="input-field-hint"><%= __("page.invites.uses_hint") %></p>
+        <div class="bg-white shadow sm:rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    <%= __("page.invites.generate") %>
+                </h3>
+                <form class="mt-5 space-y-6" action="<%= urlUtils.extendUrl(baseUrl, 'invites/generate').href %>" method="post">
+                    <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+
+                    <%- include("../../partials/form/input/input-field.ejs", {
+                        errors: {},
+                        formData: {},
+                        field: {
+                            label: __('page.invites.uses'),
+                            name: "count",
+                            id: "count",
+                            type: "number",
+                            required: true,
+                            min: 1,
+                            max: 1000,
+                            value: 1
+                        }
+                    }) %>
+                    <p class="mt-2 text-sm text-gray-500"><%= __("page.invites.uses_hint") %></p>
+
+                    <%- include("../../partials/form/input/input-field.ejs", {
+                        errors: {},
+                        formData: {},
+                        field: {
+                            label: __('page.invites.expire_label'),
+                            name: "date",
+                            id: "date",
+                            type: "date"
+                        }
+                    }) %>
+
+                    <div>
+                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <%= __("page.invites.generate_invite") %>
+                        </button>
                     </div>
-
-                    <div class="form-group">
-                        <label class="label"><%= __('page.invites.expire_label') %></label>
-                        <input class="input-field" type="date" name="date" />
-                    </div>
-
-                </fieldset>
-
-                <div class="form-action-group">
-                    <button class="button primary" type="submit"><%= __("page.invites.generate_invite") %> </button>
-                </div>
-
-            </form>
-
+                </form>
+            </div>
         </div>
-
     <% } %>
-
 </div>

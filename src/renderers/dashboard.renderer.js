@@ -211,11 +211,13 @@ export default {
    * Displays a list of invite codes associated with the user's account, including locked codes.
    * @param {Request} req - The request object.
    * @param {Response} res - The response object.
+   * @param {boolean} animateNewest - Should newest invite be animated.
    */
-  invites: (req, res) => {
+  invites: (req, res, animateNewest = false) => {
     return res.render('pages/dashboard/codes', {
       title: res.__('page.title.invite-codes'),
       inviteCodes: invitesService.getForAccount.all(req.account),
+      animateNewest: animateNewest,
       lockedInviteCodes: invitesService.getForAccount.allLocked(req.account)
     });
   },

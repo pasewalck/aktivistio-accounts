@@ -305,6 +305,15 @@ export default {
     },
 
     /**
+     * @description Renders the invites page in the dashboard and animate newest invite code.
+     * @param {Request} req - The request object.
+     * @param {Response} res - The response object.
+     */
+    invitesAnimateNewest: (req, res) => {
+        dashboardRenderer.invites(req, res, true);
+    },
+
+    /**
      * @description Handles the request to share an invite.
      * Validates the request data and renders the invite share page if valid.
      * @param {Request} req - The request object.
@@ -340,7 +349,7 @@ export default {
             linkedAccount: req.account,
             expireDate: data.date ? data.date : null
         });
-        res.redirect(extendUrl(env.BASE_URL, "invites"));
+        res.redirect(extendUrl(env.BASE_URL, "invites", "new"));
     },
 
     /**

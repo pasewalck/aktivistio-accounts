@@ -1,37 +1,61 @@
 <% const relativBaseUrl = interactionDetails ? urlUtils.extendUrl(baseUrl,`interaction`,interactionDetails.uid) : baseUrl %>
 
-        <h1><%= __('page.login.title') %></h1>
+<div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <%= __('page.login.title') %>
+    </h2>
+    <% if (!interactionDetails) { %>
+        <p class="mt-2 text-center text-sm text-gray-600">
+            <%= __('page.login.no_account') %>
+            <a href="<%= urlUtils.extendUrl(baseUrl,`register`).href %>" class="font-medium text-indigo-600 hover:text-indigo-500">
+                <%= __('page.login.create_account') %>
+            </a>
+        </p>
+    <% } %>
+</div>
 
-        <form class="form" autocomplete="off" action="<%= urlUtils.extendUrl(relativBaseUrl,`login`).href %>" method="post">
-
+<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <form class="space-y-6" autocomplete="off" action="<%= urlUtils.extendUrl(relativBaseUrl,`login`).href %>" method="post">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-        <fieldset>
 
-            <div class="form-group">
-                <label class="label"><%= __('page.login.username') %></label>
-                <%- include("../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %>
+        <%- include("../../partials/form/input/input-field.ejs", {
+            field: {
+                label: __('page.login.username'),
+                name: "username",
+                id: "username",
+                type: "text",
+                required: true
+            }
+        }) %>
 
-            </div>
+        <%- include("../../partials/form/input/input-field.ejs", {
+            field: {
+                label: __('page.login.password'),
+                name: "password",
+                id: "password",
+                type: "password",
+                required: true,
+                blockValue: true,
+                help: {
+                    link: urlUtils.extendUrl(baseUrl,`account-recovery`).href,
+                    displayName: __('page.login.forgot_password')
+                }
+            }
+        }) %>
 
-            <div class="form-group">
-                <label class="label"><%= __('page.login.password') %></label>
-                <%- include("../../partials/form/input-field.ejs",{field: {name:"password",type:"password",required:true,blockValue:true}}) %>
-                <a class="input-field-help-link" target="_blank" href="<%= urlUtils.extendUrl(baseUrl,`account-recovery`)  %>"><%= __('page.login.forgot_password') %></a>
-            </div>
+        <%- include("../../partials/form/errors.ejs") %>
 
-            <%- include("../../partials/form/errors.ejs") %>
-
-
-        </fieldset>
-
-        <div class="form-action-group">
-            <div class="button-group-row">
-            <button type="submit" class="button primary"><%= __('page.login.submit') %></button>
+        <div>
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <%= __('page.login.submit') %>
+            </button>
             <% if (interactionDetails) { %>
-                <a class="button red" href="<%= urlUtils.extendUrl(relativBaseUrl,`abort`).href %>"><%= __('page.login.abort') %></a>
+                <div class="mt-4">
+                    <a href="<%= urlUtils.extendUrl(relativBaseUrl,`abort`).href %>" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        <%= __('page.login.abort') %>
+                    </a>
+                </div>
             <% } %>
-            </div>
-            <p><%= __('page.login.no_account') %> <a href="<%= urlUtils.extendUrl(baseUrl,`register`).href %>"><%= __('page.login.create_account') %></a></p>
         </div>
-
-        </form>
+    </form>
+</div>

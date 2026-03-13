@@ -70,7 +70,8 @@
           "title": "Add Recovery Token"
         }
       },
-      "add_recovery_email_button": "Add Recovery Email"
+      "add_recovery_email_button": "Add Recovery Email",
+      "warning_message": "Two factor authentication will be removed. You need to set it up again after this action."
     },
     "change-password": {
       "title": "Change Password"
@@ -219,11 +220,9 @@
     },
     "setup": "Setup",
     "time": {
-      "seconds_ago $t": "seconds ago",
-      "minutes_ago %s": "minutes ago",
-      "hours_ago %t": "%s hours ago",
-      "seconds_ago %t": "%t seconds ago",
-      "minutes_ago %t": "%t minutes ago"
+      "hours_ago": "%s hours ago",
+      "seconds_ago": "%s seconds ago",
+      "minutes_ago": "%s minutes ago"
     },
     "action-button": {},
     "button": {
@@ -236,7 +235,9 @@
     "your_admin_password": "Administrator Password",
     "recovery_method": {
       "title": "Recovery Method"
-    }
+    },
+    "new": "New",
+    "and": "and"
   },
   "account": {
     "delete": {},
@@ -279,8 +280,8 @@
     },
     "recovery": {
       "remove": {
-        "warning": "This action cannot be undone.",
-        "confirm": "Are you sure you want to remove this recovery method?"
+        "warning": "Are you sure you want to remove this recovery method? This action cannot be undone.",
+        "confirm": "Remove"
       }
     },
     "audit_log": {
@@ -366,7 +367,6 @@
     "title": "Password Recovery"
   },
   "account_recovery": {
-    "warning_message": "Please check your email for recovery instructions.",
     "confirm_new_password": "Confirm your new password.",
     "new_password": "Enter your new password."
   },
@@ -423,7 +423,8 @@
       "not_found_by_id": "No account found with the provided ID."
     },
     "action_token": {
-      "mismatch": "The action token does not match."
+      "mismatch": "The action token does not match.",
+      "invalid": "validation.action_token.invalid"
     },
     "invite": {
       "code": {
@@ -527,7 +528,8 @@
       "required": "An invite code needs to be supplied",
       "format_invalid": "Invite code needs to be in the correct format",
       "invalid": "Invite code is not valid."
-    }
+    },
+    "whitelist_prefix": "Whitelist: "
   },
   "consent": {
     "title": "Consent Required",

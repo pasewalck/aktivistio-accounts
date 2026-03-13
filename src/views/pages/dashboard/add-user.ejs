@@ -1,34 +1,46 @@
-<div class="wrapper flex-container">
+<div class="max-w-7xl mx-auto">
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <%= __("page.admin.user_add.title") %>
+            </h3>
 
-    <div class="container container-medium-width container-filled-background">
+            <form class="mt-5 space-y-6 max-w-md" action="" method="post">
+                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
-        <h1><%= __("page.admin.user_add.title") %> </h1>
+                <%- include("../../partials/form/input/input-field.ejs", {
+                    field: {
+                        label: __('common.username'),
+                        name: "username",
+                        id: "username",
+                        type: "text",
+                        required: true
+                    }
+                }) %>
 
-        <form class="form" action="" method="post">
-            <fieldset>
+                <%
+                var options = []
+                Role.allLower(account.role).forEach(role => {
+                    options.push({ value: role, displayName: Role.getRoleInfo(role).name })
+                })
+                %>
 
-                <div class="form-group" >
-                    <label class="label"><%= __('common.username') %></label>
-                    <%- include("../../partials/form/input-field.ejs",{field: {name:"username",type:"text",required:true}}) %>
+                <%- include("../../partials/form/input/input-select.ejs", {
+                    select: {
+                        label: __('common.account_role'),
+                        name: "role",
+                        id: "role",
+                        value: options[0],
+                        options: options
+                    }
+                }) %>
+
+                <div>
+                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <%= __("page.admin.user_add.create") %>
+                    </button>
                 </div>
-
-                <div class="form-group" >
-                    <label class="label"><%= __('common.account_role') %></label>
-                    <% var options = []
-                    Role.allLower(account.role).forEach(role => {
-                        options.push({value:role,displayName:Role.getRoleInfo(role).name})
-                    }) %>
-                    <%- include("../../partials/form/input-select.ejs",{select: {name:"role",id:"role",value:options[0],options:options}}) %>
-                </div>
-
-                <div class="form-action-group">
-                    <button class="button primary" type="submit"><%= __("page.admin.user_add.create") %> </button>
-                </div>
-
-            </fieldset>
-
-        </form>
-
+            </form>
+        </div>
     </div>
-
 </div>

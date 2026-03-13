@@ -1,47 +1,42 @@
-<div class="wrapper flex-container">
+<div class="max-w-7xl mx-auto">
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <%= __("account.common.recovery_token.new.title") %>
+            </h3>
 
-    <div class="container container-medium-width container-filled-background">
-
-        <% if (hasRecoveryToken) { %>
-            <h2><%= __("account.common.recovery_token.new.title") %></h2>
-        <% } else { %>
-            <h2><%= __("account.common.recovery_token.new.title") %></h2>
-        <% } %>
-
-        <form class="form" autocomplete="off" action="" method="post">
-            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-
-            <fieldset>
+            <form class="mt-5 space-y-6 max-w-md" autocomplete="off" action="" method="post">
+                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
                 <%- include("../../../partials/alert-info.ejs",{info: __("account.common.recovery_token.setup.warning"),moreInfoLink: "https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md"}) %>
 
-                <div class="form-group">
-                    <label class="label"><%= __('common.current_password') %></label>
-                    <%- include("../../../partials/form/input-field.ejs",{field: {name:"currentPassword",type:"password",required:true}}) %>
-                </div>
+                <%- include("../../../partials/form/input/input-field.ejs", {
+                    field: {
+                        label: __('common.current_password'),
+                        name: "currentPassword",
+                        id: "currentPassword",
+                        type: "password",
+                        required: true
+                    }
+                }) %>
 
-                <div class="form-group">
-
+                <div>
                     <input type="hidden" name="token" value="<%= recoveryToken %>">
-                    <label class="label"><%= __('account.common.recovery_token.new.label') %></label>
-
-                    <div class="output-field">
+                    <label class="block text-sm font-medium text-gray-700">
+                        <%= __('account.common.recovery_token.new.label') %>
+                    </label>
+                    <div class="mt-1 bg-gray-50 p-3 rounded border border-gray-200 font-mono text-sm break-all">
                         <p><%= recoveryToken %></p>
                     </div>
-
-                    <%- include("../../../partials/form/input-checkbox.ejs",{checkbox: {name:"tokenVerify",msg:__('account.common.recovery_token.verify.checkbox')}}) %>
-
+                    <%- include("../../../partials/form/input/input-checkbox.ejs",{checkbox: {name:"tokenVerify",msg:__('account.common.recovery_token.verify.checkbox')}}) %>
                 </div>
 
-            </fieldset>
-
-            <div class="form-action-group">
-              <div class="button-group-row">
-                <button type="submit" class="button primary"><%= __('account.common.recovery_token.set.button') %></button>
-              </div>
-            </div>
-
-        </form>
-
+                <div>
+                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <%= __('account.common.recovery_token.set.button') %>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
