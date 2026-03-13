@@ -265,9 +265,6 @@
 	"dashboard": {
 		"welcome": "Welcome to your dashboard, %s!"
 	},
-	"page": {
-		"account_recovery_update_token": {}
-	},
 	"title": {
 		"account_recovery": "Options for Account Recovery",
 		"login": "Login",
