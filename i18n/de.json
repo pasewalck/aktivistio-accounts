@@ -113,7 +113,7 @@
 			"update": "Dienst aktualisieren",
 			"go_to": "Zum Dienst gehen",
 			"login": "Beim Dienst anmelden",
-			"manage": "Verwalte deine Dienste",
+			"manage": "Dienst Verwalten",
 			"delete_confirm": "Bist du sicher, dass du diesen Dienst löschen möchtest?"
 		},
 		"delete": {
