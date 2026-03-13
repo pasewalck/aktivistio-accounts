@@ -4,14 +4,14 @@
     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
         <%= __('auth.login.title') %>
     </h2>
-    <% if (!interactionDetails) { %>
-        <p class="mt-2 text-center text-sm text-gray-600">
-            <%= __('auth.login.no_account') %>
-            <a href="<%= urlUtils.extendUrl(baseUrl,`register`).href %>" class="font-medium text-indigo-600 hover:text-indigo-500">
-                <%= __('auth.login.create_account') %>
-            </a>
-        </p>
-    <% } %>
+
+    <p class="mt-2 text-center text-sm text-gray-600">
+        <%= __('auth.login.no_account') %>
+        <a href="<%= urlUtils.extendUrl(baseUrl,`register`).href %>" class="font-medium text-indigo-600 hover:text-indigo-500">
+            <%= __('auth.login.create_account') %>
+        </a>
+    </p>
+
 </div>
 
 <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
