@@ -6,16 +6,13 @@
   "scripts": {
     "compose:up": "docker compose up -d",
     "compose:down": "docker compose down",
-    "development-launcher": "npm-run-all --parallel tailwind:watch start-launcher:debug scss:watch",
-    "development-server": "npm-run-all --parallel tailwind:watch start-server:debug scss:watch",
+    "development-launcher": "npm-run-all --parallel tailwind:watch start-launcher:debug",
+    "development-server": "npm-run-all --parallel tailwind:watch start-server:debug",
     "production": "npm run start-launcher:production",
-    "build": "npm run scss:build",
     "start-server:debug": "nodemon -r dotenv/config --inspect=0.0.0.0 src/server.js",
     "start-server:production": "node -r dotenv/config src/server.js",
     "start-launcher:debug": "nodemon -r dotenv/config --inspect=0.0.0.0 src/launcher.js",
     "start-launcher:production": "node -r dotenv/config src/launcher.js",
-    "scss:watch": "sass --watch src/scss:src/public/css",
-    "scss:build": "sass src/scss:src/public/css",
     "tailwind:watch": "npx @tailwindcss/cli -i ./src/tailwind/input.css -o ./src/tailwind/dist/tailwind.css --watch"
   },
   "keywords": [],
