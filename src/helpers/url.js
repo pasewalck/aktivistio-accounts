@@ -1,5 +1,3 @@
-
-
 /**
  * @description Appends one or more relative paths to a base URL and returns the resulting URL.
  * @param {URL} baseURL - The base URL to which the relative paths will be appended.
@@ -7,7 +5,7 @@
  * @returns {URL} The resulting URL.
  */
 export function extendUrl(baseURL, ...relativePaths) {
-    return assembleUrl(baseURL.href, ...relativePaths);
+	return assembleUrl(baseURL.href, ...relativePaths);
 }
 
 /**
@@ -17,5 +15,5 @@ export function extendUrl(baseURL, ...relativePaths) {
  * @returns {URL} The resulting URL.
  */
 export function assembleUrl(...segments) {
-    return new URL(segments.map(segment => segment.replace(/\/+$/, '').replace(/^\/+/, '')).join('/'));
+	return new URL(segments.map((segment) => segment.replace(/\/+$/, '').replace(/^\/+/, '')).join('/'));
 }

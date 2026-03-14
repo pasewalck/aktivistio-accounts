@@ -1,12 +1,11 @@
-
-import adapterDriver from "../drivers/adapter.driver.js";
+import adapterDriver from '../drivers/adapter.driver.js';
 /**
  * @description Remove an entry from storage by its ID and model.
  * @param {String} model - The model associated with the entry.
  * @param {String} id - The ID of the entry to remove.
  */
 function removeEntry(model, id) {
-    adapterDriver.removeEntry(model, id); // Call the adapter driver to remove the entry
+	adapterDriver.removeEntry(model, id); // Call the adapter driver to remove the entry
 }
 
 /**
@@ -16,8 +15,8 @@ function removeEntry(model, id) {
  * @returns {Object|undefined} - The parsed entry value as an object, or undefined if not found.
  */
 function getEntry(model, id) {
-    let result = adapterDriver.getEntryValue(model, id); // Retrieve the entry value from the adapter
-    return result ? JSON.parse(result) : undefined; // Parse and return the result, or undefined if not found
+	let result = adapterDriver.getEntryValue(model, id); // Retrieve the entry value from the adapter
+	return result ? JSON.parse(result) : undefined; // Parse and return the result, or undefined if not found
 }
 
 /**
@@ -26,17 +25,14 @@ function getEntry(model, id) {
  * @returns {Array<Object>} - The parsed entry value as an object, or undefined if not found.
  */
 function getEntries(model) {
-    let result = adapterDriver.getEntriesValues(model); // Retrieve the entries values
-    if (result && result.length > 0) {
-        // Parse and return the results
-        var array = []
-        for (let i = 0; i < result.length; i++)
-            array.push(JSON.parse(result[i]))
+	let result = adapterDriver.getEntriesValues(model); // Retrieve the entries values
+	if (result && result.length > 0) {
+		// Parse and return the results
+		var array = [];
+		for (let i = 0; i < result.length; i++) array.push(JSON.parse(result[i]));
 
-        return array
-    }
-    else
-        return [];
+		return array;
+	} else return [];
 }
 
 /**
@@ -47,21 +43,20 @@ function getEntries(model) {
  * @param {Number|null} expire - Optional expiration time (in seconds from now).
  */
 function setEntry(model, id, value, expire = null) {
-    let encodedValue = JSON.stringify(value); // Convert the value to a JSON string
-    expire = expire ? expire + Math.floor(Date.now() / 1000) : null; // Calculate the expiration timestamp
+	let encodedValue = JSON.stringify(value); // Convert the value to a JSON string
+	expire = expire ? expire + Math.floor(Date.now() / 1000) : null; // Calculate the expiration timestamp
 
-    // Check if the entry already exists
-    if (!getEntry(model, id)) {
-        adapterDriver.insertEntry(model, id, encodedValue, expire); // Insert a new entry if it doesn't exist
-        if (model == "Session")
-            adapterDriver.addLookupValueForEntry(model, id, "accountId", value.accountId)
-    } else {
-        // Update the existing entry
-        if (expire !== null) {
-            adapterDriver.setEntryExpire(model, id, expire); // Update the expiration time if provided
-        }
-        adapterDriver.setEntryValue(model, id, encodedValue); // Update the entry value
-    }
+	// Check if the entry already exists
+	if (!getEntry(model, id)) {
+		adapterDriver.insertEntry(model, id, encodedValue, expire); // Insert a new entry if it doesn't exist
+		if (model == 'Session') adapterDriver.addLookupValueForEntry(model, id, 'accountId', value.accountId);
+	} else {
+		// Update the existing entry
+		if (expire !== null) {
+			adapterDriver.setEntryExpire(model, id, expire); // Update the expiration time if provided
+		}
+		adapterDriver.setEntryValue(model, id, encodedValue); // Update the entry value
+	}
 }
 
 /**
@@ -69,7 +64,7 @@ function setEntry(model, id, value, expire = null) {
  * @param {String} accountId - Account to logout
  */
 function logoutAllSessions(accountId) {
-    removeEntryByLookup("Session", "accountId", accountId)
+	removeEntryByLookup('Session', 'accountId', accountId);
 }
 
 /**
@@ -80,12 +75,12 @@ function logoutAllSessions(accountId) {
  * @param {String} lookupValue - The value of the lookup.
  */
 function setLookupForEntry(model, id, name, lookupValue) {
-    // Check if the lookup value already exists
-    if (adapterDriver.getEntryIdByLookup(model, name, lookupValue)) {
-        adapterDriver.updateLookupValueForEntry(model, id, name, lookupValue); // Update the existing lookup value
-    } else {
-        adapterDriver.addLookupValueForEntry(model, id, name, lookupValue); // Add a new lookup value
-    }
+	// Check if the lookup value already exists
+	if (adapterDriver.getEntryIdByLookup(model, name, lookupValue)) {
+		adapterDriver.updateLookupValueForEntry(model, id, name, lookupValue); // Update the existing lookup value
+	} else {
+		adapterDriver.addLookupValueForEntry(model, id, name, lookupValue); // Add a new lookup value
+	}
 }
 
 /**
@@ -96,13 +91,12 @@ function setLookupForEntry(model, id, name, lookupValue) {
  * @returns {Object|undefined} - The entry value as an object, or undefined if not found.
  */
 function getEntryByLookup(model, name, lookupValue) {
-
-    let id = adapterDriver.getEntryIdByLookup(model, name, lookupValue); // Retrieve the entry ID using the lookup
-    if (id) {
-        return getEntry(model, id); // Get the entry using the retrieved ID
-    } else {
-        return undefined; // Return undefined if no entry is found
-    }
+	let id = adapterDriver.getEntryIdByLookup(model, name, lookupValue); // Retrieve the entry ID using the lookup
+	if (id) {
+		return getEntry(model, id); // Get the entry using the retrieved ID
+	} else {
+		return undefined; // Return undefined if no entry is found
+	}
 }
 
 /**
@@ -113,18 +107,18 @@ function getEntryByLookup(model, name, lookupValue) {
  * @returns {Object|undefined} - The entry value as an object, or undefined if not found.
  */
 function removeEntryByLookup(model, name, lookupValue) {
-    let ids = adapterDriver.getEntriesIdsByLookup(model, name, lookupValue); // Retrieve the entries IDs using the lookup
-    // Remove all entries for ids
-    ids.forEach((id) => adapterDriver.removeEntry(model, id)); // Remove Entry
+	let ids = adapterDriver.getEntriesIdsByLookup(model, name, lookupValue); // Retrieve the entries IDs using the lookup
+	// Remove all entries for ids
+	ids.forEach((id) => adapterDriver.removeEntry(model, id)); // Remove Entry
 }
 
 export default {
-    removeEntry,
-    setEntry,
-    getEntry,
-    getEntries,
-    setLookupForEntry,
-    getEntryByLookup,
-    removeEntryByLookup,
-    logoutAllSessions
+	removeEntry,
+	setEntry,
+	getEntry,
+	getEntries,
+	setLookupForEntry,
+	getEntryByLookup,
+	removeEntryByLookup,
+	logoutAllSessions,
 };
