@@ -4,7 +4,7 @@ import spawn from 'cross-spawn';
 import logger from './helpers/logger.js';
 import { extendUrl } from './helpers/url.js';
 
-console.log(process.env.BASE_URL != undefined ? process.env.BASE_URL : '');
+logger.info(process.env.BASE_URL != undefined ? process.env.BASE_URL : '');
 
 createLauncher(
 	[
