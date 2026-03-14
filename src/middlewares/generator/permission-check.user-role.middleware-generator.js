@@ -1,4 +1,4 @@
-import { hasPermission, Permission } from '../../models/roles.js';
+import { hasPermission } from '../../models/roles.js';
 
 /**
  * @description Generate middleware to check for a specific permission

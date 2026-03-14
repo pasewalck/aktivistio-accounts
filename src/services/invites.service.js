@@ -1,6 +1,5 @@
 import { generateAsciiSecret, generateTypeableCode } from '../helpers/generate-secrets.js';
 import { fingerprintString } from '../helpers/fingerprint-string.js';
-import { Account } from '../models/accounts.js';
 import userdataDriver from '../drivers/data.driver.js';
 import secretService from './secret.service.js';
 /**

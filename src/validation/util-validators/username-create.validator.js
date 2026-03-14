@@ -1,4 +1,3 @@
-import logger from '../../helpers/logger.js';
 import accountService from '../../services/account.service.js';
 import localize from '../localize.js';
 

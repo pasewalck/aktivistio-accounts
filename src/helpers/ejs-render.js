@@ -1,7 +1,7 @@
-import ejs, { Template } from 'ejs';
+import ejs from 'ejs';
 import path from 'path';
 import logger from './logger.js';
-import { readFileSync, readSync } from 'fs';
+import { readFileSync } from 'fs';
 
 /**
  * @description Renders a file using EJS.

@@ -2,7 +2,6 @@ import nodemailer from 'nodemailer';
 import logger from '../helpers/logger.js';
 import { renderEjsFile } from '../helpers/ejs-render.js';
 import { RenderMode } from '../models/email.render-mode.js';
-import { MessageType } from '../models/email.message-type.js';
 import env from '../helpers/env.js';
 import { assembleUrl, extendUrl } from '../helpers/url.js';
 

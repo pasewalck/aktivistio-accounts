@@ -2,7 +2,6 @@ import { initDatabase } from '../helpers/database.js';
 import env from '../helpers/env.js';
 import { Account } from '../models/accounts.js';
 import { AuditActionType } from '../models/audit-action-types.js';
-import { ActionTokenTypes } from '../models/action-token-types.js';
 
 const { db, isDbInit } = initDatabase('data', env.DATABASE_KEYS.DATA);
 
