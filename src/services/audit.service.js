@@ -1,6 +1,4 @@
 import dataDriver from '../drivers/data.driver.js';
-import { Account } from '../models/accounts.js';
-import { AuditActionType } from '../models/audit-action-types.js';
 
 /**
  * @description Appends an audit log entry for a given account and action type.

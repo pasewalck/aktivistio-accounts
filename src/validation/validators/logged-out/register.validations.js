@@ -1,6 +1,5 @@
 import { body } from 'express-validator';
 import localize from '../../localize.js';
-import createPasswordValidator from '../../util-validators/create-password.validator.js';
 import invitesService from '../../../services/invites.service.js';
 import usernameCreateValidator from '../../util-validators/username-create.validator.js';
 import detailsValidations from './setup.details.validations.js';

@@ -1,18 +1,14 @@
 import { generateAlphanumericSecret, generatePassword } from '../helpers/generate-secrets.js';
 import logger from '../helpers/logger.js';
-import { Account } from '../models/accounts.js';
 import userdataDriver from '../drivers/data.driver.js';
 import twoFactorAuth from '../helpers/two-factor-auth.js';
 import { hashPassword, isHashValid } from '../helpers/hash-string.js';
 import invitesService from './invites.service.js';
 import { Role } from '../models/roles.js';
-import { AuditActionType } from '../models/audit-action-types.js';
 import dataDriver from '../drivers/data.driver.js';
-import { ActionTokenTypes, PasswordResetChannels } from '../models/action-token-types.js';
-import { InternalError } from '../models/errors.js';
+import { ActionTokenTypes } from '../models/action-token-types.js';
 import { extendUrl } from '../helpers/url.js';
 import env from '../helpers/env.js';
-import adapterDriver from '../drivers/adapter.driver.js';
 import adapterService from './adapter.service.js';
 
 /**
