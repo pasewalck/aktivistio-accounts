@@ -194,8 +194,8 @@ async function create(username, role) {
  * @param {String|undefined} token - The recovery token.
  */
 async function setRecovery(account, email, token) {
-    await setAccountRecoveryEmail(account, email);
-    await setAccountRecoveryToken(account, token);
+	await setRecoveryEmail(account, email);
+	await setRecoveryToken(account, token);
 }
 
 /**
