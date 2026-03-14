@@ -14,7 +14,7 @@ async function getEntries(name, generator, rotation = false) {
 
 	// If no results, generate a new secret and return it
 	if (!results || results.length === 0) {
-		var newEntry = await generator();
+		const newEntry = await generator();
 		addEntry(name, newEntry);
 		return [newEntry];
 	}
@@ -30,7 +30,7 @@ async function getEntries(name, generator, rotation = false) {
 
 		// Check if the latest entry is older than the lifetime
 		if (latestCreated < now - rotation.lifeTime * dayMultiplier) {
-			var newEntry = await generator();
+			const newEntry = await generator();
 			addEntry(name, newEntry);
 			array.unshift(newEntry); // Add new entry to the front of the array
 		}
