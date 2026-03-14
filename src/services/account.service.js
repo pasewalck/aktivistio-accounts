@@ -1,20 +1,19 @@
-
-import { generateAlphanumericSecret, generatePassword } from "../helpers/generate-secrets.js";
-import logger from "../helpers/logger.js";
-import { Account } from "../models/accounts.js";
-import userdataDriver from "../drivers/data.driver.js";
-import twoFactorAuth from "../helpers/two-factor-auth.js";
-import { hashPassword, isHashValid } from "../helpers/hash-string.js";
-import invitesService from "./invites.service.js";
-import { Role } from "../models/roles.js";
-import { AuditActionType } from "../models/audit-action-types.js";
-import dataDriver from "../drivers/data.driver.js";
-import { ActionTokenTypes, PasswordResetChannels } from "../models/action-token-types.js";
-import { InternalError } from "../models/errors.js";
-import { extendUrl } from "../helpers/url.js";
-import env from "../helpers/env.js";
-import adapterDriver from "../drivers/adapter.driver.js";
-import adapterService from "./adapter.service.js";
+import { generateAlphanumericSecret, generatePassword } from '../helpers/generate-secrets.js';
+import logger from '../helpers/logger.js';
+import { Account } from '../models/accounts.js';
+import userdataDriver from '../drivers/data.driver.js';
+import twoFactorAuth from '../helpers/two-factor-auth.js';
+import { hashPassword, isHashValid } from '../helpers/hash-string.js';
+import invitesService from './invites.service.js';
+import { Role } from '../models/roles.js';
+import { AuditActionType } from '../models/audit-action-types.js';
+import dataDriver from '../drivers/data.driver.js';
+import { ActionTokenTypes, PasswordResetChannels } from '../models/action-token-types.js';
+import { InternalError } from '../models/errors.js';
+import { extendUrl } from '../helpers/url.js';
+import env from '../helpers/env.js';
+import adapterDriver from '../drivers/adapter.driver.js';
+import adapterService from './adapter.service.js';
 
 /**
  * @description Finds an account by username.
@@ -22,7 +21,7 @@ import adapterService from "./adapter.service.js";
  * @returns {Account|null} - The found account or null if not found.
  */
 function findWithUsername(username) {
-    return userdataDriver.getAccountWithUsername(username);
+	return userdataDriver.getAccountWithUsername(username);
 }
 
 /**
@@ -31,7 +30,7 @@ function findWithUsername(username) {
  * @returns {Account|null} - The found account or null if not found.
  */
 function findWithId(id) {
-    return userdataDriver.getAccountWithId(id);
+	return userdataDriver.getAccountWithId(id);
 }
 
 /**
@@ -41,8 +40,8 @@ function findWithId(id) {
  * @returns {Promise<Account|Boolean>} - The account if valid, false otherwise.
  */
 async function checkLogin(username, password) {
-    const passwordHash = userdataDriver.getAccountPasswordHashWithUsername(username);
-    return (passwordHash && await isHashValid(password, passwordHash)) ? findWithUsername(username) : false;
+	const passwordHash = userdataDriver.getAccountPasswordHashWithUsername(username);
+	return passwordHash && (await isHashValid(password, passwordHash)) ? findWithUsername(username) : false;
 }
 
 /**
@@ -50,7 +49,7 @@ async function checkLogin(username, password) {
  * @param {Account} account - The account
  */
 function registerLogin(account) {
-    userdataDriver.setAccountLastLogin(account.id)
+	userdataDriver.setAccountLastLogin(account.id);
 }
 
 /**
@@ -59,7 +58,7 @@ function registerLogin(account) {
  * @returns {number|null} - Integer representing time in seconds or null for no data
  */
 function getLastLogin(account) {
-    return userdataDriver.getAccountLastLoginById(account.id)
+	return userdataDriver.getAccountLastLoginById(account.id);
 }
 
 /**
@@ -68,7 +67,7 @@ function getLastLogin(account) {
  * @returns {JSON} - JSON contsining token and email hashes/null values
  */
 function getRecovery(account) {
-    return userdataDriver.getAccountRecoveryById(account.id)
+	return userdataDriver.getAccountRecoveryById(account.id);
 }
 
 /**
@@ -78,9 +77,9 @@ function getRecovery(account) {
  * @returns {String} - Returns the created token.
  */
 function createActionToken(tokenType, lifeTimeSeconds, payload) {
-    const token = generateAlphanumericSecret(64)
-    dataDriver.insertActionToken(tokenType, token, Math.floor(Date.now() / 1000) + lifeTimeSeconds, payload)
-    return token
+	const token = generateAlphanumericSecret(64);
+	dataDriver.insertActionToken(tokenType, token, Math.floor(Date.now() / 1000) + lifeTimeSeconds, payload);
+	return token;
 }
 
 /**
@@ -89,7 +88,7 @@ function createActionToken(tokenType, lifeTimeSeconds, payload) {
  * @param {string} token - The unique token value to be deleted
  */
 function useActionToken(tokenType, token) {
-    dataDriver.deleteActionTokenEntry(tokenType, token)
+	dataDriver.deleteActionTokenEntry(tokenType, token);
 }
 
 /**
@@ -98,7 +97,7 @@ function useActionToken(tokenType, token) {
  * @returns {Boolean} - Returns boolean based on if token is matching.
  */
 function checkActionTokenValid(tokenType, token) {
-    return token != null && token != undefined && getActionTokenEntry(tokenType, token) != undefined
+	return token != null && token != undefined && getActionTokenEntry(tokenType, token) != undefined;
 }
 
 /**
@@ -108,7 +107,7 @@ function checkActionTokenValid(tokenType, token) {
  * @returns {Object|null} The action token entry or null if not found
  */
 function getActionTokenEntry(tokenType, token) {
-    return dataDriver.getActionTokenEntry(tokenType, token)
+	return dataDriver.getActionTokenEntry(tokenType, token);
 }
 
 /**
@@ -118,8 +117,8 @@ function getActionTokenEntry(tokenType, token) {
  * @returns {Promise<Boolean>} - True if valid, false otherwise.
  */
 async function checkRecoveryEmail(account, email) {
-    const emailHash = userdataDriver.getAccountRecoveryEmailHashById(account.id);
-    return emailHash && await isHashValid(email, emailHash);
+	const emailHash = userdataDriver.getAccountRecoveryEmailHashById(account.id);
+	return emailHash && (await isHashValid(email, emailHash));
 }
 
 /**
@@ -129,8 +128,8 @@ async function checkRecoveryEmail(account, email) {
  * @returns {Promise<Boolean>} - True if valid, false otherwise.
  */
 async function checkRecoveryToken(account, token) {
-    const tokenHash = userdataDriver.getAccountRecoveryTokenHashById(account.id);
-    return tokenHash && await isHashValid(token, tokenHash);
+	const tokenHash = userdataDriver.getAccountRecoveryTokenHashById(account.id);
+	return tokenHash && (await isHashValid(token, tokenHash));
 }
 
 /**
@@ -140,8 +139,8 @@ async function checkRecoveryToken(account, token) {
  * @returns {Promise<Boolean>} - True if valid, false otherwise.
  */
 async function checkPassword(account, password) {
-    const passwordHash = userdataDriver.getAccountPasswordHashWithId(account.id);
-    return passwordHash && await isHashValid(password, passwordHash);
+	const passwordHash = userdataDriver.getAccountPasswordHashWithId(account.id);
+	return passwordHash && (await isHashValid(password, passwordHash));
 }
 
 /**
@@ -149,10 +148,10 @@ async function checkPassword(account, password) {
  * @param {Account} account - The account to delete.
  */
 function purge(account) {
-    userdataDriver.deleteAccountById(account.id);
-    // Logout from all sessions
-    adapterService.logoutAllSessions(account.id)
-    logger.info(`Deleted account ${account.username}`);
+	userdataDriver.deleteAccountById(account.id);
+	// Logout from all sessions
+	adapterService.logoutAllSessions(account.id);
+	logger.info(`Deleted account ${account.username}`);
 }
 
 /**
@@ -161,7 +160,7 @@ function purge(account) {
  * @returns {JSON} - The two-factor authentication secret.
  */
 function getTwoFactorSecret(account) {
-    return userdataDriver.getAccountTwoFactorSecretWithId(account.id);
+	return userdataDriver.getAccountTwoFactorSecretWithId(account.id);
 }
 
 /**
@@ -171,7 +170,7 @@ function getTwoFactorSecret(account) {
  * @returns {JSON} - The two-factor authentication secret.
  */
 function checkTwoFactorSecret(account, token) {
-    return twoFactorAuth.verify(userdataDriver.getAccountTwoFactorSecretWithId(account.id), token)
+	return twoFactorAuth.verify(userdataDriver.getAccountTwoFactorSecretWithId(account.id), token);
 }
 
 /**
@@ -181,10 +180,10 @@ function checkTwoFactorSecret(account, token) {
  * @returns {Promise<Account>} - The created account.
  */
 async function create(username, role) {
-    const accountId = crypto.randomUUID();
-    userdataDriver.createAccount(accountId, username, role);
-    logger.info(`Created an account ${username}`);
-    return findWithUsername(username);
+	const accountId = crypto.randomUUID();
+	userdataDriver.createAccount(accountId, username, role);
+	logger.info(`Created an account ${username}`);
+	return findWithUsername(username);
 }
 
 /**
@@ -204,10 +203,9 @@ async function setRecovery(account, email, token) {
  * @param {String|undefined} email - The recovery email to set.
  */
 async function setRecoveryEmail(account, email) {
-    const emailHash = email ? await hashPassword(email) : null;
-    setRecoveryEmailHash(account, emailHash);
+	const emailHash = email ? await hashPassword(email) : null;
+	setRecoveryEmailHash(account, emailHash);
 }
-
 
 /**
  * @description Sets the recovery email hash for an account.
@@ -215,7 +213,7 @@ async function setRecoveryEmail(account, email) {
  * @param {String|undefined} emailHash - The hashed recovery email.
  */
 function setRecoveryEmailHash(account, emailHash) {
-    userdataDriver.setAccountRecoveryEmailHashById(account.id, emailHash);
+	userdataDriver.setAccountRecoveryEmailHashById(account.id, emailHash);
 }
 
 /**
@@ -224,8 +222,8 @@ function setRecoveryEmailHash(account, emailHash) {
  * @param {String|undefined} token - The recovery token to set.
  */
 async function setRecoveryToken(account, token) {
-    const tokenHash = token ? await hashPassword(token) : null;
-    setRecoveryTokenHash(account, tokenHash);
+	const tokenHash = token ? await hashPassword(token) : null;
+	setRecoveryTokenHash(account, tokenHash);
 }
 
 /**
@@ -234,7 +232,7 @@ async function setRecoveryToken(account, token) {
  * @param {String|undefined} tokenHash - The hashed recovery token.
  */
 async function setRecoveryTokenHash(account, tokenHash) {
-    userdataDriver.setAccountRecoveryTokenHashById(account.id, tokenHash);
+	userdataDriver.setAccountRecoveryTokenHashById(account.id, tokenHash);
 }
 
 /**
@@ -243,7 +241,7 @@ async function setRecoveryTokenHash(account, tokenHash) {
  * @param {String} secret - The two-factor authentication secret to set.
  */
 async function setTwoFactorAuthSecret(account, secret) {
-    userdataDriver.setAccountTwoFactorAuthSecretById(account.id, secret);
+	userdataDriver.setAccountTwoFactorAuthSecretById(account.id, secret);
 }
 
 /**
@@ -252,8 +250,8 @@ async function setTwoFactorAuthSecret(account, secret) {
  * @param {String} password - The new password to set.
  */
 async function setPassword(account, password) {
-    const passwordHash = await hashPassword(password);
-    setPasswordHash(account, passwordHash);
+	const passwordHash = await hashPassword(password);
+	setPasswordHash(account, passwordHash);
 }
 
 /**
@@ -262,7 +260,7 @@ async function setPassword(account, password) {
  * @param {String} password - The new username to set.
  */
 async function updateUsername(account, username) {
-    userdataDriver.setAccountUsernameById(account.id, username);
+	userdataDriver.setAccountUsernameById(account.id, username);
 }
 
 /**
@@ -271,7 +269,7 @@ async function updateUsername(account, username) {
  * @param {Number} role - The new role to assign to the account.
  */
 function setRole(account, role) {
-    userdataDriver.setAccountRoleById(account.id, role);
+	userdataDriver.setAccountRoleById(account.id, role);
 }
 
 /**
@@ -280,7 +278,7 @@ function setRole(account, role) {
  * @param {String} passwordHash - The hashed password to set.
  */
 function setPasswordHash(account, passwordHash) {
-    userdataDriver.setAccountPasswordHashById(account.id, passwordHash);
+	userdataDriver.setAccountPasswordHashById(account.id, passwordHash);
 }
 
 /**
@@ -288,7 +286,7 @@ function setPasswordHash(account, passwordHash) {
  * @returns {Array<Account>} - An array of all accounts.
  */
 function getAll() {
-    return userdataDriver.getAllAccounts();
+	return userdataDriver.getAllAccounts();
 }
 
 /**
@@ -296,11 +294,11 @@ function getAll() {
  * @param {PasswordResetChannels} resetChannel - The channel to use for reset link.
  */
 function createRecoveryActionLink(account, resetChannel) {
-    const actionToken = createActionToken(ActionTokenTypes.PASSWORD_RESET, 60 * 15, {
-        resetChannel,
-        accountId: account.id
-    })
-    return extendUrl(env.BASE_URL, "account-recovery", "reset", actionToken)
+	const actionToken = createActionToken(ActionTokenTypes.PASSWORD_RESET, 60 * 15, {
+		resetChannel,
+		accountId: account.id,
+	});
+	return extendUrl(env.BASE_URL, 'account-recovery', 'reset', actionToken);
 }
 
 /**
@@ -309,78 +307,76 @@ function createRecoveryActionLink(account, resetChannel) {
  * @param {number} lifeTimeSeconds
  */
 function createSetupActionLink(account, resetChannel, lifeTimeSeconds = 60 * 15) {
-    const actionToken = createActionToken(ActionTokenTypes.ACCOUNT_SETUP, lifeTimeSeconds, {
-        resetChannel,
-        accountId: account.id
-    })
-    return extendUrl(env.BASE_URL, "welcome", actionToken)
+	const actionToken = createActionToken(ActionTokenTypes.ACCOUNT_SETUP, lifeTimeSeconds, {
+		resetChannel,
+		accountId: account.id,
+	});
+	return extendUrl(env.BASE_URL, 'welcome', actionToken);
 }
 
 // Initialization block for creating an administration account if the database is initialized
 if (userdataDriver.isDbInit) {
-    logger.debug(`Creating administration account`);
+	logger.debug(`Creating administration account`);
 
-    const user = "admin";
-    const password = generatePassword();
+	const user = 'admin';
+	const password = generatePassword();
 
-    const account = await create(user, Role.SUPER_ADMIN);
-    await setPassword(account, password);
+	const account = await create(user, Role.SUPER_ADMIN);
+	await setPassword(account, password);
 
-    // Generate invite codes for the admin account
-    invitesService.generate.multi(3, { linkedAccount: account });
+	// Generate invite codes for the admin account
+	invitesService.generate.multi(3, { linkedAccount: account });
 
-    logger.info(`Created user "${user}" with Password: "${password}"`);
+	logger.info(`Created user "${user}" with Password: "${password}"`);
 }
-
-
 
 export default {
-    find: {
-        withId: findWithId,
-        withUsername: findWithUsername
-    },
-    password: {
-        set: setPassword,
-        setHash: setPasswordHash,
-        check: checkPassword
-    },
-    recovery: {
-        get: getRecovery,
-        set: setRecovery,
-        email: {
-            check: checkRecoveryEmail,
-            set: setRecoveryEmail,
-            setHash: setRecoveryEmailHash
-        },
-        token: {
-            check: checkRecoveryToken,
-            set: setRecoveryToken,
-            setHash: setRecoveryTokenHash
-        }
-    },
-    twoFactorAuth: {
-        check: checkTwoFactorSecret,
-        get: getTwoFactorSecret,
-        set: setTwoFactorAuthSecret
-    },
-    actionToken: {
-        create: createActionToken,
-        getEntry: getActionTokenEntry,
-        checkValid: checkActionTokenValid,
-        consume: useActionToken
-    },
-    lastLogin: {
-        get: getLastLogin,
-        register: registerLogin
-    },
-    actionLink: {
-        createSetupLink: createSetupActionLink,
-        createRecoveryLink: createRecoveryActionLink
-    },
-    updateUsername,
-    getAll,
-    checkLogin,
-    create: create,
-    purge: purge,
-    setRole: setRole
-}
+	find: {
+		withId: findWithId,
+		withUsername: findWithUsername,
+	},
+	password: {
+		set: setPassword,
+		setHash: setPasswordHash,
+		check: checkPassword,
+	},
+	recovery: {
+		get: getRecovery,
+		set: setRecovery,
+		email: {
+			check: checkRecoveryEmail,
+			set: setRecoveryEmail,
+			setHash: setRecoveryEmailHash,
+		},
+		token: {
+			check: checkRecoveryToken,
+			set: setRecoveryToken,
+			setHash: setRecoveryTokenHash,
+		},
+	},
+	twoFactorAuth: {
+		check: checkTwoFactorSecret,
+		get: getTwoFactorSecret,
+		set: setTwoFactorAuthSecret,
+	},
+	actionToken: {
+		create: createActionToken,
+		getEntry: getActionTokenEntry,
+		checkValid: checkActionTokenValid,
+		consume: useActionToken,
+	},
+	lastLogin: {
+		get: getLastLogin,
+		register: registerLogin,
+	},
+	actionLink: {
+		createSetupLink: createSetupActionLink,
+		createRecoveryLink: createRecoveryActionLink,
+	},
+	updateUsername,
+	getAll,
+	checkLogin,
+	create: create,
+	purge: purge,
+	setRole: setRole,
+};

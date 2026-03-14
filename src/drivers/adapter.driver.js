@@ -1,9 +1,8 @@
-
-import { initDatabase } from "../helpers/database.js";
-import env from "../helpers/env.js";
+import { initDatabase } from '../helpers/database.js';
+import env from '../helpers/env.js';
 
 // Initialize the database connection for the OIDC storage
-const { db } = initDatabase("oidc", env.DATABASE_KEYS.OIDC);
+const { db } = initDatabase('oidc', env.DATABASE_KEYS.OIDC);
 
 // Create tables for storing entries and their lookups if they do not already exist
 db.exec(`
@@ -30,7 +29,7 @@ db.exec(`
  * @param {string} id - The ID of the entry to remove.
  */
 function removeEntry(model, id) {
-    db.prepare('DELETE FROM entries WHERE model = ? AND id = ?').run(model, id);
+	db.prepare('DELETE FROM entries WHERE model = ? AND id = ?').run(model, id);
 }
 
 /**
@@ -40,7 +39,10 @@ function removeEntry(model, id) {
  * @returns {string|null} - The value of the entry, or null if not found or expired.
  */
 function getEntryValue(model, id) {
-    return db.prepare('SELECT value FROM entries WHERE model = ? AND id = ? AND (expire is null OR expire >= ?)').pluck().get(model, id, Math.floor(Date.now() / 1000));
+	return db
+		.prepare('SELECT value FROM entries WHERE model = ? AND id = ? AND (expire is null OR expire >= ?)')
+		.pluck()
+		.get(model, id, Math.floor(Date.now() / 1000));
 }
 
 /**
@@ -49,7 +51,10 @@ function getEntryValue(model, id) {
  * @returns {string|null} - The value of the entry, or null if not found or expired.
  */
 function getEntriesValues(model) {
-    return db.prepare('SELECT value FROM entries WHERE model = ? AND (expire is null OR expire >= ?)').pluck().all(model, Math.floor(Date.now() / 1000));
+	return db
+		.prepare('SELECT value FROM entries WHERE model = ? AND (expire is null OR expire >= ?)')
+		.pluck()
+		.all(model, Math.floor(Date.now() / 1000));
 }
 
 /**
@@ -60,7 +65,12 @@ function getEntriesValues(model) {
  * @param {number|null} expire - Optional expiration timestamp (in seconds).
  */
 function insertEntry(model, id, value, expire = null) {
-    db.prepare('INSERT INTO entries (model, id, value, expire) VALUES (?, ?, ?, ?)').run(model, id, value, expire ? expire : null);
+	db.prepare('INSERT INTO entries (model, id, value, expire) VALUES (?, ?, ?, ?)').run(
+		model,
+		id,
+		value,
+		expire ? expire : null
+	);
 }
 /**
  * @description Update the value of an existing entry in storage.
@@ -69,7 +79,7 @@ function insertEntry(model, id, value, expire = null) {
  * @param {string} value - The new value for the entry.
  */
 function setEntryValue(model, id, value) {
-    db.prepare('UPDATE entries SET value = ? WHERE model = ? AND id = ?').run(value, model, id);
+	db.prepare('UPDATE entries SET value = ? WHERE model = ? AND id = ?').run(value, model, id);
 }
 
 /**
@@ -79,7 +89,7 @@ function setEntryValue(model, id, value) {
  * @param {number} expire - The new expiration timestamp (in seconds).
  */
 function setEntryExpire(model, id, expire) {
-    db.prepare('UPDATE entries SET expire = ? WHERE model = ? AND id = ?').run(expire, model, id);
+	db.prepare('UPDATE entries SET expire = ? WHERE model = ? AND id = ?').run(expire, model, id);
 }
 
 /**
@@ -90,7 +100,12 @@ function setEntryExpire(model, id, expire) {
  * @param {string} lookupValue - The lookup value of the lookup.
  */
 function addLookupValueForEntry(model, id, name, lookupValue) {
-    db.prepare('INSERT INTO entries_lookup (entry_model, entry_id, name, lookup_value) VALUES (?, ?, ?, ?)').run(model, id, name, lookupValue);
+	db.prepare('INSERT INTO entries_lookup (entry_model, entry_id, name, lookup_value) VALUES (?, ?, ?, ?)').run(
+		model,
+		id,
+		name,
+		lookupValue
+	);
 }
 
 /**
@@ -101,7 +116,12 @@ function addLookupValueForEntry(model, id, name, lookupValue) {
  * @param {string} id - The new ID of the entry.
  */
 function updateLookupValueForEntry(model, name, lookupValue, id) {
-    db.prepare('UPDATE entries_lookup SET entry_id = ? WHERE entry_model = ? AND name = ? AND lookup_value = ?').run(id, model, name, lookupValue);
+	db.prepare('UPDATE entries_lookup SET entry_id = ? WHERE entry_model = ? AND name = ? AND lookup_value = ?').run(
+		id,
+		model,
+		name,
+		lookupValue
+	);
 }
 
 /**
@@ -112,7 +132,10 @@ function updateLookupValueForEntry(model, name, lookupValue, id) {
  * @returns {string|null} - The entry ID, or null if not found.
  */
 function getEntryIdByLookup(model, name, lookupValue) {
-    return db.prepare('SELECT entry_id FROM entries_lookup WHERE entry_model = ? AND name = ? AND lookup_value = ?').pluck().get(model, name, lookupValue);
+	return db
+		.prepare('SELECT entry_id FROM entries_lookup WHERE entry_model = ? AND name = ? AND lookup_value = ?')
+		.pluck()
+		.get(model, name, lookupValue);
 }
 
 /**
@@ -123,29 +146,32 @@ function getEntryIdByLookup(model, name, lookupValue) {
  * @returns {string|null} - The entry ID, or null if not found.
  */
 function getEntriesIdsByLookup(model, name, lookup_value) {
-    return db.prepare('SELECT entry_id FROM entries_lookup WHERE entry_model = ? AND name = ? AND lookup_value = ?').pluck().all(model, name, lookup_value);
+	return db
+		.prepare('SELECT entry_id FROM entries_lookup WHERE entry_model = ? AND name = ? AND lookup_value = ?')
+		.pluck()
+		.all(model, name, lookup_value);
 }
 
 /**
  * @description Remove expired entries from storage.
  */
 function cleanupExpiredEntries() {
-    const currentTime = Math.floor(Date.now() / 1000); // Get the current time in seconds since epoch
-    db.prepare('DELETE FROM entries WHERE expire < ? AND expire is not null').run(currentTime); // Delete expired entries
+	const currentTime = Math.floor(Date.now() / 1000); // Get the current time in seconds since epoch
+	db.prepare('DELETE FROM entries WHERE expire < ? AND expire is not null').run(currentTime); // Delete expired entries
 }
 
 // Schedule cleanup of expired entries every hour
 setInterval(cleanupExpiredEntries, 3600000); // 3600000 milliseconds = 1 hour
 
 export default {
-    removeEntry,
-    getEntryValue,
-    setEntryExpire,
-    setEntryValue,
-    insertEntry,
-    getEntriesValues,
-    addLookupValueForEntry,
-    getEntryIdByLookup,
-    updateLookupValueForEntry,
-    getEntriesIdsByLookup
+	removeEntry,
+	getEntryValue,
+	setEntryExpire,
+	setEntryValue,
+	insertEntry,
+	getEntriesValues,
+	addLookupValueForEntry,
+	getEntryIdByLookup,
+	updateLookupValueForEntry,
+	getEntriesIdsByLookup,
 };

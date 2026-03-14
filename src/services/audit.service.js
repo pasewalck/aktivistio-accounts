@@ -1,7 +1,6 @@
-
-import dataDriver from "../drivers/data.driver.js";
-import { Account } from "../models/accounts.js";
-import { AuditActionType } from "../models/audit-action-types.js";
+import dataDriver from '../drivers/data.driver.js';
+import { Account } from '../models/accounts.js';
+import { AuditActionType } from '../models/audit-action-types.js';
 
 /**
  * @description Appends an audit log entry for a given account and action type.
@@ -13,13 +12,12 @@ import { AuditActionType } from "../models/audit-action-types.js";
  * @param {AuditActionType} actionType - The type of action being logged.
  */
 function appendAuditLog(account, actionType) {
-    if (account == null)
-        return;
-    if (!dataDriver.incrementAuditLogCountTimeBased(account.id, actionType))
-        dataDriver.insertAuditLogEntry(account.id, actionType);
-    actionType.replaceActionTypes.forEach(replaceAction => {
-        dataDriver.deleteAuditLogEntriesTimeBased(account.id, replaceAction);
-    });
+	if (account == null) return;
+	if (!dataDriver.incrementAuditLogCountTimeBased(account.id, actionType))
+		dataDriver.insertAuditLogEntry(account.id, actionType);
+	actionType.replaceActionTypes.forEach((replaceAction) => {
+		dataDriver.deleteAuditLogEntriesTimeBased(account.id, replaceAction);
+	});
 }
 
 /**
@@ -30,7 +28,7 @@ function appendAuditLog(account, actionType) {
  * @returns {Array<Object>} - An array of audit log entries.
  */
 function getAuditLog(account, actionType, since) {
-    return dataDriver.getAuditLog(account.id, actionType, since);
+	return dataDriver.getAuditLog(account.id, actionType, since);
 }
 
 /**
@@ -40,7 +38,7 @@ function getAuditLog(account, actionType, since) {
  * @returns {Array<Object>} - An array of full audit log entries.
  */
 function getFullAuditLog(account, since) {
-    return dataDriver.getFullAuditLog(account.id, since);
+	return dataDriver.getFullAuditLog(account.id, since);
 }
 
 /**
@@ -49,7 +47,7 @@ function getFullAuditLog(account, since) {
  * @returns {Object|null} - The first audit log entry or null if no entries exist.
  */
 function getFirstEntryFullAuditLog(account) {
-    return dataDriver.getFirstEntryFullAuditLog(account.id);
+	return dataDriver.getFirstEntryFullAuditLog(account.id);
 }
 
 /**
@@ -60,14 +58,13 @@ function getFirstEntryFullAuditLog(account) {
  * @returns {Number} - The total sum of counts of audit log entries.
  */
 function getAuditLogCount(account, actionType, since) {
-    return dataDriver.sumAuditLogCounts(account.id, actionType, since);
+	return dataDriver.sumAuditLogCounts(account.id, actionType, since);
 }
 
-
 export default {
-    appendAuditLog,
-    getAuditLog,
-    getFullAuditLog,
-    getAuditLogCount,
-    getFirstEntryFullAuditLog
+	appendAuditLog,
+	getAuditLog,
+	getFullAuditLog,
+	getAuditLogCount,
+	getFirstEntryFullAuditLog,
 };

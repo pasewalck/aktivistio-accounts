@@ -1,29 +1,28 @@
-
-import { RateLimiterMemory } from "rate-limiter-flexible";
-import sharedRenderer from "../renderers/shared.renderer.js";
+import { RateLimiterMemory } from 'rate-limiter-flexible';
+import sharedRenderer from '../renderers/shared.renderer.js';
 
 const loginRecoveryRateLimiterConfig = {
-    points: 20,
-    duration: 60 * 60,
-    blockDuration: 60 * 60,
+	points: 20,
+	duration: 60 * 60,
+	blockDuration: 60 * 60,
 };
 
 const registerInviteWelcomeRequestRateLimiterConfig = {
-    points: 200,
-    duration: 60 * 60 * 2,
-    blockDuration: 60 * 60 * 2,
+	points: 200,
+	duration: 60 * 60 * 2,
+	blockDuration: 60 * 60 * 2,
 };
 
 const ipRateLimiterConfig = {
-    points: 3000,
-    duration: 60 * 60,
-    blockDuration: 60 * 60,
+	points: 3000,
+	duration: 60 * 60,
+	blockDuration: 60 * 60,
 };
 
 const twoFactorLoginRateLimiterConfig = {
-    points: 10,
-    duration: 60 * 60,
-    blockDuration: 60 * 60,
+	points: 10,
+	duration: 60 * 60,
+	blockDuration: 60 * 60,
 };
 
 const loginRecoveryRateLimiter = new RateLimiterMemory(loginRecoveryRateLimiterConfig);
@@ -39,19 +38,19 @@ const twoFactorLoginRateLimiter = new RateLimiterMemory(twoFactorLoginRateLimite
  * @returns {Function} Middleware function for rate limiting.
  */
 const createRateLimiterMiddleware = (rateLimiter, keyGenerator, customMessage) => {
-    return async (req, res, next) => {
-        const key = keyGenerator(req);
-        try {
-            await rateLimiter.consume(key);
-            next();
-        } catch (rejRes) {
-            if (rejRes instanceof Error) {
-                throw rejRes;
-            } else {
-                sharedRenderer.rateLimiter(res, rejRes.msBeforeNext, customMessage);
-            }
-        }
-    };
+	return async (req, res, next) => {
+		const key = keyGenerator(req);
+		try {
+			await rateLimiter.consume(key);
+			next();
+		} catch (rejRes) {
+			if (rejRes instanceof Error) {
+				throw rejRes;
+			} else {
+				sharedRenderer.rateLimiter(res, rejRes.msBeforeNext, customMessage);
+			}
+		}
+	};
 };
 
 // Key generators
@@ -61,23 +60,39 @@ const ipKeyGenerator = (req) => req.ip;
 const twoFactorKeyGenerator = (req) => req.session?.twoFactorLogin?.accountId;
 
 // Custom messages
-const loginMessage = "rate_limiter.login.attempts";
-const recoveryMessage = "rate_limiter.recovery.attempts";
-const registerInviteWelcomeRequestMessage = "rate_limiter.invite.exceeded";
-const ipRateLimitMessage = "rate_limiter.ip.too_many";
-const twoFactorLoginMessage = "rate_limiter.two_factor.attempts";
+const loginMessage = 'rate_limiter.login.attempts';
+const recoveryMessage = 'rate_limiter.recovery.attempts';
+const registerInviteWelcomeRequestMessage = 'rate_limiter.invite.exceeded';
+const ipRateLimitMessage = 'rate_limiter.ip.too_many';
+const twoFactorLoginMessage = 'rate_limiter.two_factor.attempts';
 
 // Middleware instances
-const loginRateLimiterMiddleware = createRateLimiterMiddleware(loginRecoveryRateLimiter, loginRecoveryKeyGenerator, loginMessage);
-const recoveryRateLimiterMiddleware = createRateLimiterMiddleware(loginRecoveryRateLimiter, loginRecoveryKeyGenerator, recoveryMessage);
-const registerInviteWelcomeRequestRateLimiterMiddleware = createRateLimiterMiddleware(registerInviteWelcomeRequestRateLimiter, registerInviteWelcomeRequestKeyGenerator, registerInviteWelcomeRequestMessage);
+const loginRateLimiterMiddleware = createRateLimiterMiddleware(
+	loginRecoveryRateLimiter,
+	loginRecoveryKeyGenerator,
+	loginMessage
+);
+const recoveryRateLimiterMiddleware = createRateLimiterMiddleware(
+	loginRecoveryRateLimiter,
+	loginRecoveryKeyGenerator,
+	recoveryMessage
+);
+const registerInviteWelcomeRequestRateLimiterMiddleware = createRateLimiterMiddleware(
+	registerInviteWelcomeRequestRateLimiter,
+	registerInviteWelcomeRequestKeyGenerator,
+	registerInviteWelcomeRequestMessage
+);
 const ipRateLimiterMiddleware = createRateLimiterMiddleware(ipRateLimiter, ipKeyGenerator, ipRateLimitMessage);
-const twoFactorLoginRateLimiterMiddleware = createRateLimiterMiddleware(twoFactorLoginRateLimiter, twoFactorKeyGenerator, twoFactorLoginMessage);
+const twoFactorLoginRateLimiterMiddleware = createRateLimiterMiddleware(
+	twoFactorLoginRateLimiter,
+	twoFactorKeyGenerator,
+	twoFactorLoginMessage
+);
 
 export {
-    loginRateLimiterMiddleware,
-    recoveryRateLimiterMiddleware,
-    registerInviteWelcomeRequestRateLimiterMiddleware,
-    ipRateLimiterMiddleware,
-    twoFactorLoginRateLimiterMiddleware
+	loginRateLimiterMiddleware,
+	recoveryRateLimiterMiddleware,
+	registerInviteWelcomeRequestRateLimiterMiddleware,
+	ipRateLimiterMiddleware,
+	twoFactorLoginRateLimiterMiddleware,
 };

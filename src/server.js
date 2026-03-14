@@ -1,8 +1,6 @@
-
-
-import express from 'express'
-import path from 'path'
-import expressLayouts from 'express-ejs-layouts'
+import express from 'express';
+import path from 'path';
+import expressLayouts from 'express-ejs-layouts';
 import cookieParser from 'cookie-parser';
 import i18n from 'i18n';
 
@@ -27,36 +25,36 @@ import env from './helpers/env.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-logger.debug("Initializing express");
+logger.debug('Initializing express');
 
 const app = express();
 
 // Set application locals for use in views
 app.locals = {
-    baseUrl: env.BASE_URL,
-    urlUtils: {
-        assembleUrl,
-        extendUrl
-    },
-    app: {
-        name: env.APPLICATION_NAME,
-        logo: env.APPLICATION_LOGO
-    },
-    account: null
+	baseUrl: env.BASE_URL,
+	urlUtils: {
+		assembleUrl,
+		extendUrl,
+	},
+	app: {
+		name: env.APPLICATION_NAME,
+		logo: env.APPLICATION_LOGO,
+	},
+	account: null,
 };
 
-logger.debug("Initializing i18n for internationalization");
+logger.debug('Initializing i18n for internationalization');
 
 i18n.configure({
-    locales: ['en', 'de'],
-    directory: 'i18n',
-    defaultLocale: 'de',
-    cookie: 'i18n',
-    objectNotation: true
+	locales: ['en', 'de'],
+	directory: 'i18n',
+	defaultLocale: 'de',
+	cookie: 'i18n',
+	objectNotation: true,
 });
 
 // Serve static files from the public directory
-logger.debug("Setting public express route");
+logger.debug('Setting public express route');
 app.use(express.static('src/public'));
 
 // Serve tailwind css file
@@ -64,13 +62,20 @@ app.use(express.static('src/tailwind/dist'));
 
 // Session, cookie parsing and url encoding middleware
 app.use(shortSessionMiddleware);
-app.use(cookieParser(await secretService.getEntries("COOKIE_PARSER_SECRET", () => generateAsciiSecret(40), { lifeTime: 365, graceTime: 30 })));
+app.use(
+	cookieParser(
+		await secretService.getEntries('COOKIE_PARSER_SECRET', () => generateAsciiSecret(40), {
+			lifeTime: 365,
+			graceTime: 30,
+		})
+	)
+);
 app.use(express.urlencoded({ extended: true }));
 
 // Initialize i18n middleware
 app.use(i18n.init);
 
-logger.debug("Initializing express views and layouts");
+logger.debug('Initializing express views and layouts');
 
 // Set up view engine and layout
 app.set('views', path.join(__dirname, 'views'));
@@ -78,20 +83,19 @@ app.use(expressLayouts);
 app.set('view engine', 'ejs');
 app.set('layout', './layouts/main');
 
-logger.debug("Initializing middlewares");
+logger.debug('Initializing middlewares');
 
 // CSRF protection middleware
 app.use(csrfProtection);
 
 // Global rate limiter middleware
-if (env.RATE_LIMITER.USE_GLOBAL_PROTECTION)
-    app.use(ipRateLimiterMiddleware)
+if (env.RATE_LIMITER.USE_GLOBAL_PROTECTION) app.use(ipRateLimiterMiddleware);
 
 // Attach OIDC callback
-logger.debug("Attaching OIDC callback");
-app.use("/oidc", await provider.callback());
+logger.debug('Attaching OIDC callback');
+app.use('/oidc', await provider.callback());
 
-logger.debug("Initializing routers");
+logger.debug('Initializing routers');
 
 // Bind routes to the application
 oidcRoutes(app);
@@ -99,29 +103,29 @@ dashboardRoutes(app);
 loggedOutDashboardRouter(app);
 
 // Health check route
-logger.debug("Attaching health check route");
+logger.debug('Attaching health check route');
 app.get('/health', (req, res) => {
-    res.status(200).json({ status: 'OK', timestamp: new Date() });
+	res.status(200).json({ status: 'OK', timestamp: new Date() });
 });
 
 //Unlock Redirect
 app.get('/unlock', (req, res) => {
-    res.redirect(extendUrl(env.BASE_URL))
+	res.redirect(extendUrl(env.BASE_URL));
 });
 app.post('/unlock', (req, res) => {
-    res.redirect(extendUrl(env.BASE_URL))
+	res.redirect(extendUrl(env.BASE_URL));
 });
 
 // Attach language change controller
-logger.debug("Attaching language controller");
+logger.debug('Attaching language controller');
 app.get('/change-language', langController.changeLanguage);
 
 // Attach error handling middleware
-logger.debug("Attaching errors middleware");
+logger.debug('Attaching errors middleware');
 app.use(errorsMiddleware);
 
 // Start the server and listen on the specified port
 logger.debug(`Starting and trying to listen on PORT ${env.PORT}`);
 app.listen(env.PORT, function () {
-    logger.info(`Started on PORT ${env.PORT}`);
+	logger.info(`Started on PORT ${env.PORT}`);
 });

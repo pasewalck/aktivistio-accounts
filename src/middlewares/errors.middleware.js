@@ -1,7 +1,6 @@
-
-import logger from "../helpers/logger.js";
-import { ClientError, InternalError, UnexpectedClientError } from "../models/errors.js";
-import sharedRenderer from "../renderers/shared.renderer.js";
+import logger from '../helpers/logger.js';
+import { ClientError, InternalError, UnexpectedClientError } from '../models/errors.js';
+import sharedRenderer from '../renderers/shared.renderer.js';
 
 /**
  * @description Middleware for handling errors in the application.
@@ -12,25 +11,17 @@ import sharedRenderer from "../renderers/shared.renderer.js";
  * @param {import("express").NextFunction} next - The next middleware function.
  */
 const errorMiddleware = (err, req, res, next) => {
-    if (err instanceof InternalError) {
-        console.error(err); // Log the internal error for debugging
-        return sharedRenderer.error(res, res.__('error.internal.generic'), err.statusCode);
-    } else if (err instanceof UnexpectedClientError) {
-        return sharedRenderer.error(
-            res,
-            res.__('error.unexpected.with_message', (err.message)),
-            err.statusCode
-        );
-    } else if (err instanceof ClientError || err.constructor.name === "ForbiddenError") {
-        return sharedRenderer.error(
-            res,
-            res.__('error.client.with_message', (err.message)),
-            err.statusCode
-        );
-    } else {
-        logger.error(err); // Log the error
-        return sharedRenderer.error(res, res.__('error.unexpected.generic'), 500);
-    }
-}
+	if (err instanceof InternalError) {
+		console.error(err); // Log the internal error for debugging
+		return sharedRenderer.error(res, res.__('error.internal.generic'), err.statusCode);
+	} else if (err instanceof UnexpectedClientError) {
+		return sharedRenderer.error(res, res.__('error.unexpected.with_message', err.message), err.statusCode);
+	} else if (err instanceof ClientError || err.constructor.name === 'ForbiddenError') {
+		return sharedRenderer.error(res, res.__('error.client.with_message', err.message), err.statusCode);
+	} else {
+		logger.error(err); // Log the error
+		return sharedRenderer.error(res, res.__('error.unexpected.generic'), 500);
+	}
+};
 
 export default errorMiddleware;

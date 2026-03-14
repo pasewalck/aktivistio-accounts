@@ -1,11 +1,14 @@
-
-import { body } from "express-validator";
-import localize from "../../../localize.js";
-import currentUserPasswordValidator from "../../../util-validators/current-user-password.validator.js";
+import { body } from 'express-validator';
+import localize from '../../../localize.js';
+import currentUserPasswordValidator from '../../../util-validators/current-user-password.validator.js';
 
 export default [
-    currentUserPasswordValidator(body('currentPassword')),
-    body("email").notEmpty().withMessage(localize('email.body.recovery.required')).bail()
-        .escape()
-        .isEmail().withMessage(localize('email.body.format.invalid'))
-]
+	currentUserPasswordValidator(body('currentPassword')),
+	body('email')
+		.notEmpty()
+		.withMessage(localize('email.body.recovery.required'))
+		.bail()
+		.escape()
+		.isEmail()
+		.withMessage(localize('email.body.format.invalid')),
+];

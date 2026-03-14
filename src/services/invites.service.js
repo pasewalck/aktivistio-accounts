@@ -1,16 +1,15 @@
-
-import { generateAsciiSecret, generateTypeableCode } from "../helpers/generate-secrets.js";
-import { fingerprintString } from "../helpers/fingerprint-string.js";
-import { Account } from "../models/accounts.js";
-import userdataDriver from "../drivers/data.driver.js";
-import secretService from "./secret.service.js";
+import { generateAsciiSecret, generateTypeableCode } from '../helpers/generate-secrets.js';
+import { fingerprintString } from '../helpers/fingerprint-string.js';
+import { Account } from '../models/accounts.js';
+import userdataDriver from '../drivers/data.driver.js';
+import secretService from './secret.service.js';
 /**
  * @description Retrieves invite codes for a specific account.
  * @param {Account} account - The user account.
  * @returns {Array<String>} - An array of invite codes associated with the user.
  */
 function getForAccount(account) {
-    return userdataDriver.getInvitesForAccountById(account.id);
+	return userdataDriver.getInvitesForAccountById(account.id);
 }
 /**
  * @description Retrieves invite codes for a specific account still locked due to not being valid yet.
@@ -18,14 +17,14 @@ function getForAccount(account) {
  * @returns {Array<String>} - An array invite codes.
  */
 function getLockedForAccount(account) {
-    return userdataDriver.getLockedInvitesForAccountById(account.id);
+	return userdataDriver.getLockedInvitesForAccountById(account.id);
 }
 /**
  * @description Consumes (uses) a specified invite code.
  * @param {String} code - The invite code to consume.
  */
 function consume(code) {
-    userdataDriver.consumeInviteCode(code);
+	userdataDriver.consumeInviteCode(code);
 }
 /**
  * @description Validates if a given invite code is valid.
@@ -33,14 +32,14 @@ function consume(code) {
  * @returns {Boolean} - True if the invite code is valid, false otherwise.
  */
 function validate(code) {
-    return userdataDriver.checkIfInviteCodeIsValid(code);
+	return userdataDriver.checkIfInviteCodeIsValid(code);
 }
 /**
  * @description Removes a specified invite code from the system.
  * @param {String} code - The invite code to remove.
  */
 function remove(code) {
-    userdataDriver.removeInviteCode(code);
+	userdataDriver.removeInviteCode(code);
 }
 /**
  * @description Generates a new invite code.
@@ -49,11 +48,11 @@ function remove(code) {
  * @returns {Array<String>} - The generated invite codes.
  */
 function generateMultiple(count = 3, options) {
-    var array = [count]
-    for (let i = 0; i < array.length; i++) {
-        array[i] = generate(options)
-    }
-    return array
+	var array = [count];
+	for (let i = 0; i < array.length; i++) {
+		array[i] = generate(options);
+	}
+	return array;
 }
 
 /**
@@ -63,11 +62,11 @@ function generateMultiple(count = 3, options) {
  * @returns {Array<String>} - The generated invite codes.
  */
 function grantMultiple(count = 3, account, options) {
-    var array = [Math.max(0, count - getForAccount(account.id).length)]
-    for (let i = 0; i < array.length; i++) {
-        array[i] = generate({ linkedAccount: account, ...options })
-    }
-    return array
+	var array = [Math.max(0, count - getForAccount(account.id).length)];
+	for (let i = 0; i < array.length; i++) {
+		array[i] = generate({ linkedAccount: account, ...options });
+	}
+	return array;
 }
 
 /**
@@ -80,27 +79,27 @@ function grantMultiple(count = 3, account, options) {
  * @returns {String} - The generated invite code.
  */
 function generate(options = {}) {
-    let code;
+	let code;
 
-    // Generate a unique invite code that is valid
-    do {
-        code = generateTypeableCode(6);
-    } while (!code || validate(code));
+	// Generate a unique invite code that is valid
+	do {
+		code = generateTypeableCode(6);
+	} while (!code || validate(code));
 
-    // Calculate validation duration in seconds
-    const validationDurationSeconds = (options.validationDurationDays || 0) * 60 * 60 * 24;
-    // Calculate expiration date in seconds
-    const expireDateSeconds = options.expireDate ? Math.floor(options.expireDate.getTime() / 1000) : null;
+	// Calculate validation duration in seconds
+	const validationDurationSeconds = (options.validationDurationDays || 0) * 60 * 60 * 24;
+	// Calculate expiration date in seconds
+	const expireDateSeconds = options.expireDate ? Math.floor(options.expireDate.getTime() / 1000) : null;
 
-    // Store the invite code in the database
-    userdataDriver.addInviteCode(code, options.maxUses || 1, validationDurationSeconds, expireDateSeconds);
+	// Store the invite code in the database
+	userdataDriver.addInviteCode(code, options.maxUses || 1, validationDurationSeconds, expireDateSeconds);
 
-    // Link the invite code to the user account if provided
-    if (options.linkedAccount) {
-        userdataDriver.linkInviteCodeToAccountById(code, options.linkedAccount.id);
-    }
+	// Link the invite code to the user account if provided
+	if (options.linkedAccount) {
+		userdataDriver.linkInviteCodeToAccountById(code, options.linkedAccount.id);
+	}
 
-    return code;
+	return code;
 }
 /**
  * @description Requests an invite code for a given email address.
@@ -108,37 +107,36 @@ function generate(options = {}) {
  * @returns {String|Boolean} - The invite code or false if can't request code
  */
 async function requestWithEmail(email) {
-    const emailFingerprint = await fingerprintString(
-        email,
-        await secretService.getEntry("FINGERPRINT_SALT", () => generateAsciiSecret(18))
-    );
+	const emailFingerprint = await fingerprintString(
+		email,
+		await secretService.getEntry('FINGERPRINT_SALT', () => generateAsciiSecret(18))
+	);
 
-    // Get any invite code that is already linked to the email fingerprint
-    let inviteCodeEntry = userdataDriver.getInviteCodeEntryByLinkedEmail(emailFingerprint);
+	// Get any invite code that is already linked to the email fingerprint
+	let inviteCodeEntry = userdataDriver.getInviteCodeEntryByLinkedEmail(emailFingerprint);
 
-    // If no invite code exists, generate a new one
-    if (!inviteCodeEntry) {
-        let inviteCode = generate();
-        userdataDriver.linkInviteCodeToEmail(inviteCode, emailFingerprint);
-        return inviteCode
-    }
-    else {
-        return inviteCodeEntry.code && inviteCodeEntry.code != null ? inviteCodeEntry.code : false;
-    }
+	// If no invite code exists, generate a new one
+	if (!inviteCodeEntry) {
+		let inviteCode = generate();
+		userdataDriver.linkInviteCodeToEmail(inviteCode, emailFingerprint);
+		return inviteCode;
+	} else {
+		return inviteCodeEntry.code && inviteCodeEntry.code != null ? inviteCodeEntry.code : false;
+	}
 }
 
 export default {
-    generate: {
-        single: generate,
-        multi: generateMultiple
-    },
-    getForAccount: {
-        all: getForAccount,
-        allLocked: getLockedForAccount
-    },
-    consume,
-    validate,
-    remove,
-    requestWithEmail,
-    grantMultiple
-}
+	generate: {
+		single: generate,
+		multi: generateMultiple,
+	},
+	getForAccount: {
+		all: getForAccount,
+		allLocked: getLockedForAccount,
+	},
+	consume,
+	validate,
+	remove,
+	requestWithEmail,
+	grantMultiple,
+};

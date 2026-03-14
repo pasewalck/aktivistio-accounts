@@ -1,4 +1,3 @@
-
 import argon2 from 'argon2';
 
 /**
@@ -8,7 +7,7 @@ import argon2 from 'argon2';
  * @returns {Promise<String>} A promise that resolves to the hashed string.
  */
 export const hashString = async (string, rounds = 10) => {
-    return await argon2.hash(string, rounds);
+	return await argon2.hash(string, rounds);
 };
 
 /**
@@ -17,7 +16,7 @@ export const hashString = async (string, rounds = 10) => {
  * @returns {Promise<String>} A promise that resolves to the hashed password.
  */
 export const hashPassword = async (password) => {
-    return await hashString(password, 12); // Using 12 rounds for password hashing
+	return await hashString(password, 12); // Using 12 rounds for password hashing
 };
 
 /**
@@ -27,5 +26,5 @@ export const hashPassword = async (password) => {
  * @returns {Promise<Boolean>} A promise that resolves to true if the hash is valid, otherwise false.
  */
 export const isHashValid = async (string, hash) => {
-    return await argon2.verify(hash, string);
+	return await argon2.verify(hash, string);
 };

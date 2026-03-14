@@ -1,8 +1,7 @@
+import { hasPermission, Permission, Role } from '../models/roles.js';
 
-import { hasPermission, Permission, Role } from "../models/roles.js";
-
-import provider from "../helpers/oidc/provider.js";
-import accountService from "../services/account.service.js";
+import provider from '../helpers/oidc/provider.js';
+import accountService from '../services/account.service.js';
 
 /**
  * @description Retrieves the OIDC session for the given request and response.
@@ -11,7 +10,7 @@ import accountService from "../services/account.service.js";
  * @returns {Promise<provider.Session>} The session object.
  */
 async function getOIDCSession(req, res) {
-  return await provider.Session.get(provider.createContext(req, res));
+	return await provider.Session.get(provider.createContext(req, res));
 }
 
 /**
@@ -22,27 +21,27 @@ async function getOIDCSession(req, res) {
  * @param {import("express").NextFunction} next - The next middleware function.
  */
 export async function userAuthMiddleware(req, res, next) {
-  const session = await getOIDCSession(req, res);
-  const signedIn = !!session.accountId;
+	const session = await getOIDCSession(req, res);
+	const signedIn = !!session.accountId;
 
-  // Redirect to login if not signed in. Else modify request and response
-  if (!signedIn) {
-    res.redirect('/login');
-  } else {
-    const account = await accountService.find.withId(session.accountId);
+	// Redirect to login if not signed in. Else modify request and response
+	if (!signedIn) {
+		res.redirect('/login');
+	} else {
+		const account = await accountService.find.withId(session.accountId);
 
-    // Set account information in the request
-    req.account = account;
-    req.loginTs = session.loginTs
+		// Set account information in the request
+		req.account = account;
+		req.loginTs = session.loginTs;
 
-    // Set account options in response locals to be used in ejsrendering
-    res.locals.account = account;
-    res.locals.Role = Role;
-    res.locals.Permission = Permission;
-    res.locals.hasPermission = hasPermission;
+		// Set account options in response locals to be used in ejsrendering
+		res.locals.account = account;
+		res.locals.Role = Role;
+		res.locals.Permission = Permission;
+		res.locals.hasPermission = hasPermission;
 
-    next();
-  }
+		next();
+	}
 }
 
 /**
@@ -52,12 +51,12 @@ export async function userAuthMiddleware(req, res, next) {
  * @param {import("express").NextFunction} next - The next middleware function.
  */
 export async function userAuthMiddlewareReverse(req, res, next) {
-  const session = await getOIDCSession(req, res);
-  const signedIn = !!session.accountId;
+	const session = await getOIDCSession(req, res);
+	const signedIn = !!session.accountId;
 
-  if (signedIn) {
-    res.redirect('/');
-  } else {
-    next();
-  }
+	if (signedIn) {
+		res.redirect('/');
+	} else {
+		next();
+	}
 }

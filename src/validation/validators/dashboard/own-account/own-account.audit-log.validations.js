@@ -1,6 +1,3 @@
+import { query } from 'express-validator';
 
-import { query } from "express-validator";
-
-export default [
-    query("weeks").isNumeric().default(1).toInt().optional(),
-]
+export default [query('weeks').isNumeric().default(1).toInt().optional()];

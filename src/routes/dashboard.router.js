@@ -1,5 +1,4 @@
-
-import { setNoCache } from '../middlewares/set-no-cache.middleware.js'
+import { setNoCache } from '../middlewares/set-no-cache.middleware.js';
 import { userAuthMiddleware } from '../middlewares/user-auth.middleware.js';
 import { generateCheckUserPermission } from '../middlewares/generator/permission-check.user-role.middleware-generator.js';
 import { Permission } from '../models/roles.js';
@@ -30,68 +29,178 @@ import sendEmailAccountValidations from '../validation/validators/dashboard/syst
  * @param {import("express").Express} app - The Express application instance.
  */
 export default (app) => {
+	logger.debug('Initializing dashboard router');
 
-    logger.debug("Initializing dashboard router");
+	// Common middlewares for all routes
+	const middlewares = [setNoCache, userAuthMiddleware];
 
-    // Common middlewares for all routes
-    const middlewares = [setNoCache, userAuthMiddleware];
+	// Dashboard routes
+	app.get('/', middlewares, dashboardController.services);
+	app.get('/services', middlewares, dashboardController.services);
 
-    // Dashboard routes
-    app.get('/', middlewares, dashboardController.services);
-    app.get('/services', middlewares, dashboardController.services);
+	// User management routes
+	app.get('/users', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), dashboardController.users);
+	app.get(
+		'/user/manage/:id',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_USERS),
+		userManageValidators,
+		dashboardController.manageUser
+	);
+	app.post(
+		'/user/manage/:id/update',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_USERS),
+		userManageValidators,
+		manageAccountUpdateValidations,
+		dashboardController.manageUserUpdatePost
+	);
+	app.post(
+		'/user/manage/:id/delete',
+		middlewares,
+		generateCheckUserPermission(Permission.DELETE_USERS),
+		userManageValidators,
+		manageAccountDeleteValidations,
+		dashboardController.manageUserDeletePost
+	);
+	app.get(
+		'/user/add',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_USERS),
+		dashboardController.addUser
+	);
+	app.post(
+		'/user/add',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_USERS),
+		createAccountValidations,
+		dashboardController.addUserPost
+	);
+	app.post(
+		'/user/manage/:id/send-setup',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_USERS),
+		userManageValidators,
+		sendEmailAccountValidations,
+		dashboardController.sendUserAccountSetupEmailPost
+	);
+	app.post(
+		'/user/manage/:id/send-recovery',
+		middlewares,
+		generateCheckUserPermission(Permission.RECOVER_USERS),
+		userManageValidators,
+		sendEmailAccountValidations,
+		dashboardController.sendUserAccountRecoveryEmailPost
+	);
 
-    // User management routes
-    app.get('/users', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), dashboardController.users);
-    app.get('/user/manage/:id', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), userManageValidators, dashboardController.manageUser);
-    app.post('/user/manage/:id/update', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), userManageValidators, manageAccountUpdateValidations, dashboardController.manageUserUpdatePost);
-    app.post('/user/manage/:id/delete', middlewares, generateCheckUserPermission(Permission.DELETE_USERS), userManageValidators, manageAccountDeleteValidations, dashboardController.manageUserDeletePost);
-    app.get('/user/add', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), dashboardController.addUser);
-    app.post('/user/add', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), createAccountValidations, dashboardController.addUserPost);
-    app.post('/user/manage/:id/send-setup', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), userManageValidators, sendEmailAccountValidations, dashboardController.sendUserAccountSetupEmailPost);
-    app.post('/user/manage/:id/send-recovery', middlewares, generateCheckUserPermission(Permission.RECOVER_USERS), userManageValidators, sendEmailAccountValidations, dashboardController.sendUserAccountRecoveryEmailPost);
+	// Service management routes
+	app.get(
+		'/services/add',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_SERVICES),
+		dashboardController.serviceAdd
+	);
+	app.get(
+		'/services/edit/:id',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_SERVICES),
+		manageServiceGetValidators,
+		dashboardController.serviceEdit
+	);
+	app.post(
+		'/services/add',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_SERVICES),
+		manageServiceUpdateValidations,
+		dashboardController.serviceAddPost
+	);
+	app.post(
+		'/services/edit/:id/save',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_SERVICES),
+		manageServiceUpdateValidations,
+		manageServiceGetValidators,
+		dashboardController.serviceEditSavePost
+	);
+	app.post(
+		'/services/edit/:id/delete',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_SERVICES),
+		manageServiceDeleteValidations,
+		manageServiceGetValidators,
+		dashboardController.serviceEditDeletePost
+	);
 
+	// Account management routes
+	app.get('/account', middlewares, dashboardController.account);
+	app.get('/account/2fa', middlewares, dashboardController.account2fa);
+	app.get('/account/2fa/add', middlewares, dashboardController.accountAdd2fa);
+	app.get('/account/password', middlewares, dashboardController.accountChangePassword);
+	app.get('/account/audit-log', middlewares, ownAccountAuditLogValidations, dashboardController.auditLog);
 
-    // Service management routes
-    app.get('/services/add', middlewares, generateCheckUserPermission(Permission.MANAGE_SERVICES), dashboardController.serviceAdd);
-    app.get('/services/edit/:id', middlewares, generateCheckUserPermission(Permission.MANAGE_SERVICES), manageServiceGetValidators, dashboardController.serviceEdit);
-    app.post('/services/add', middlewares, generateCheckUserPermission(Permission.MANAGE_SERVICES), manageServiceUpdateValidations, dashboardController.serviceAddPost);
-    app.post('/services/edit/:id/save', middlewares, generateCheckUserPermission(Permission.MANAGE_SERVICES), manageServiceUpdateValidations, manageServiceGetValidators, dashboardController.serviceEditSavePost);
-    app.post('/services/edit/:id/delete', middlewares, generateCheckUserPermission(Permission.MANAGE_SERVICES), manageServiceDeleteValidations, manageServiceGetValidators, dashboardController.serviceEditDeletePost);
+	app.post('/account/2fa/set', middlewares, ownAccountSet2faValidations, dashboardController.accountChange2faPost);
+	app.post('/account/2fa/remove', middlewares, dashboardController.accountRemove2faPost);
+	app.post(
+		'/account/password',
+		middlewares,
+		ownAccountChangePasswordValidations,
+		dashboardController.accountChangePasswordPost
+	);
 
-    // Account management routes
-    app.get('/account', middlewares, dashboardController.account);
-    app.get('/account/2fa', middlewares, dashboardController.account2fa);
-    app.get('/account/2fa/add', middlewares, dashboardController.accountAdd2fa);
-    app.get('/account/password', middlewares, dashboardController.accountChangePassword);
-    app.get('/account/audit-log', middlewares, ownAccountAuditLogValidations, dashboardController.auditLog);
+	// Account recovery routes
+	app.get('/account/recovery', middlewares, dashboardController.accountRecovery);
+	app.get('/account/recovery/set-email', middlewares, dashboardController.accountRecoverySetEmail);
+	app.get('/account/recovery/set-token', middlewares, dashboardController.accountRecoverySetToken);
+	app.get('/account/recovery/delete-email', middlewares, dashboardController.accountRecoveryDeleteEmail);
+	app.get('/account/recovery/delete-token', middlewares, dashboardController.accountRecoveryDeleteToken);
+	app.post(
+		'/account/recovery/set-email',
+		middlewares,
+		ownAccountRecoveryEmailSetValidations,
+		dashboardController.accountRecoverySetEmailPost
+	);
+	app.post(
+		'/account/recovery/set-token',
+		middlewares,
+		ownAccountRecoveryTokenSetValidations,
+		dashboardController.accountRecoverySetTokenPost
+	);
+	app.post(
+		'/account/recovery/delete-email',
+		middlewares,
+		ownAccountRecoveryMethodDeleteValidations,
+		dashboardController.accountRecoveryDeleteEmailPost
+	);
+	app.post(
+		'/account/recovery/delete-token',
+		middlewares,
+		ownAccountRecoveryMethodDeleteValidations,
+		dashboardController.accountRecoveryDeleteTokenPost
+	);
 
-    app.post('/account/2fa/set', middlewares, ownAccountSet2faValidations, dashboardController.accountChange2faPost);
-    app.post('/account/2fa/remove', middlewares, dashboardController.accountRemove2faPost);
-    app.post('/account/password', middlewares, ownAccountChangePasswordValidations, dashboardController.accountChangePasswordPost);
+	// Account deletion routes
+	app.get('/account/delete', middlewares, dashboardController.accountDelete);
+	app.post('/account/delete', middlewares, ownAccountDeleteValidations, dashboardController.accountDeletePost);
 
-    // Account recovery routes
-    app.get('/account/recovery', middlewares, dashboardController.accountRecovery);
-    app.get('/account/recovery/set-email', middlewares, dashboardController.accountRecoverySetEmail);
-    app.get('/account/recovery/set-token', middlewares, dashboardController.accountRecoverySetToken);
-    app.get('/account/recovery/delete-email', middlewares, dashboardController.accountRecoveryDeleteEmail);
-    app.get('/account/recovery/delete-token', middlewares, dashboardController.accountRecoveryDeleteToken);
-    app.post('/account/recovery/set-email', middlewares, ownAccountRecoveryEmailSetValidations, dashboardController.accountRecoverySetEmailPost);
-    app.post('/account/recovery/set-token', middlewares, ownAccountRecoveryTokenSetValidations, dashboardController.accountRecoverySetTokenPost);
-    app.post('/account/recovery/delete-email', middlewares, ownAccountRecoveryMethodDeleteValidations, dashboardController.accountRecoveryDeleteEmailPost);
-    app.post('/account/recovery/delete-token', middlewares, ownAccountRecoveryMethodDeleteValidations, dashboardController.accountRecoveryDeleteTokenPost);
+	// Invite management routes
+	app.get('/invites', middlewares, dashboardController.invites);
+	app.get('/invites/new', middlewares, dashboardController.invitesAnimateNewest);
+	app.post(
+		'/invites/generate',
+		middlewares,
+		generateInviteValidations,
+		generateCheckUserPermission(Permission.MANAGE_OWN_INVITES),
+		dashboardController.invitesGeneratePost
+	);
+	app.get('/invites/share/:invite', middlewares, shareInviteValidators, dashboardController.inviteShare);
+	app.post(
+		'/invites/terminate',
+		middlewares,
+		deleteInviteValidators,
+		generateCheckUserPermission(Permission.MANAGE_OWN_INVITES),
+		dashboardController.terminateInvitePost
+	);
 
-    // Account deletion routes
-    app.get('/account/delete', middlewares, dashboardController.accountDelete);
-    app.post('/account/delete', middlewares, ownAccountDeleteValidations, dashboardController.accountDeletePost);
-
-    // Invite management routes
-    app.get('/invites', middlewares, dashboardController.invites);
-    app.get('/invites/new', middlewares, dashboardController.invitesAnimateNewest);
-    app.post('/invites/generate', middlewares, generateInviteValidations, generateCheckUserPermission(Permission.MANAGE_OWN_INVITES), dashboardController.invitesGeneratePost);
-    app.get('/invites/share/:invite', middlewares, shareInviteValidators, dashboardController.inviteShare);
-    app.post('/invites/terminate', middlewares, deleteInviteValidators, generateCheckUserPermission(Permission.MANAGE_OWN_INVITES), dashboardController.terminateInvitePost);
-
-    // Logout route
-    app.post('/logout', middlewares, dashboardController.logoutPost);
-
-}
+	// Logout route
+	app.post('/logout', middlewares, dashboardController.logoutPost);
+};

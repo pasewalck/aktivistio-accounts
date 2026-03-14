@@ -1,8 +1,7 @@
+import { initDatabase } from '../helpers/database.js';
+import env from '../helpers/env.js';
 
-import { initDatabase } from "../helpers/database.js";
-import env from "../helpers/env.js";
-
-const { db } = initDatabase("secrets", env.DATABASE_KEYS.SECRETS)
+const { db } = initDatabase('secrets', env.DATABASE_KEYS.SECRETS);
 
 // Initialize tables for the storage
 db.exec(`
@@ -12,7 +11,7 @@ db.exec(`
         value text not null,
         created INTEGER NOT NULL DEFAULT (strftime('%s','now'))
     );
-`)
+`);
 
 /**
  * @description Get entry from secret storage
@@ -20,7 +19,7 @@ db.exec(`
  * @returns {Array<{}>} - An array of secret values
  */
 function getEntries(name) {
-    return db.prepare('SELECT value, created FROM secrets WHERE name = ? ORDER BY created DESC').all(name);
+	return db.prepare('SELECT value, created FROM secrets WHERE name = ? ORDER BY created DESC').all(name);
 }
 
 /**
@@ -30,7 +29,7 @@ function getEntries(name) {
  * @returns {Array<{}>} - An array of secret values
  */
 function cleanEntries(name, createdBefore) {
-    db.prepare(`DELETE FROM secrets WHERE created < ? AND name = ?`).run(createdBefore, name);
+	db.prepare(`DELETE FROM secrets WHERE created < ? AND name = ?`).run(createdBefore, name);
 }
 
 /**
@@ -40,9 +39,11 @@ function cleanEntries(name, createdBefore) {
  * @returns {JSON|String}
  */
 function addEntry(name, value) {
-    db.prepare('INSERT INTO secrets (name,value) VALUES (?,?)').run(name, value);
+	db.prepare('INSERT INTO secrets (name,value) VALUES (?,?)').run(name, value);
 }
 
 export default {
-    getEntries, cleanEntries, addEntry
-}
+	getEntries,
+	cleanEntries,
+	addEntry,
+};
