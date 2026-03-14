@@ -26,7 +26,6 @@ We do not recommend using this project for your own use at the time being. This 
 - Service Management: Manage OIDC client details
 - Secret Storage (Implements rotating secrets for enhanced security)
 - User Interface: A UI with basic admin features for user and service (OIDC clients) management.
-- A 
 
 ## Notes on Data Privacy and Security
 
@@ -41,11 +40,12 @@ In the design of our systems, we employ a low trust model and strive to minimize
 
 Simply run the script.
 
-### Run with Node Directly 
-- Install npm packages: ```npm install```
-- Run server directly in development mode: ```npm run development-server```
-- Run launcher in development mode: ```npm run development-launcher```
-- Run  in production mode: ```npm run production```
+### Run with Node Directly
+
+- Install npm packages: `npm install`
+- Run server directly in development mode: `npm run development-server`
+- Run launcher in development mode: `npm run development-launcher`
+- Run in production mode: `npm run production`
 
 ## Documentation
 
