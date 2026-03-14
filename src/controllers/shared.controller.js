@@ -30,6 +30,7 @@ async function getInteractionDetailsNullable(req, res) {
 	try {
 		return await provider.interactionDetails(req, res);
 	} catch (error) {
+		logger.warn(error)
 		return undefined; // Return undefined if there is an error retrieving interaction details
 	}
 }
