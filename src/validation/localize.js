@@ -5,7 +5,7 @@
  * @returns {function} A middleware function that returns the localized message.
  */
 export default (message, ...params) => {
-	return (value, { req, location, path }) => {
+	return (value, { req }) => {
 		// Return the localized message using the provided message key and parameters
 		return req.__(message, ...params);
 	};

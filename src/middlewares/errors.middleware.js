@@ -10,9 +10,9 @@ import sharedRenderer from '../renderers/shared.renderer.js';
  * @param {import("express").Response} res - The response object.
  * @param {import("express").NextFunction} next - The next middleware function.
  */
-const errorMiddleware = (err, req, res, next) => {
+const errorMiddleware = (err, req, res, _next) => {
 	if (err instanceof InternalError) {
-		console.error(err); // Log the internal error for debugging
+		logger.error(err); // Log the internal error for debugging
 		return sharedRenderer.error(res, res.__('error.internal.generic'), err.statusCode);
 	} else if (err instanceof UnexpectedClientError) {
 		return sharedRenderer.error(res, res.__('error.unexpected.with_message', err.message), err.statusCode);

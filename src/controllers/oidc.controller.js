@@ -103,7 +103,9 @@ export default {
 		// Prepare the result object to finish the interaction
 		const result = { consent };
 		// Finish the interaction and merge with the last submission
-		await provider.interactionFinished(req, res, result, { mergeWithLastSubmission: true });
+		await provider.interactionFinished(req, res, result, {
+			mergeWithLastSubmission: true,
+		});
 	},
 
 	/**
@@ -120,6 +122,8 @@ export default {
 			error_description: 'End-User aborted interaction',
 		};
 		// Finish the interaction with the abort result
-		await provider.interactionFinished(req, res, result, { mergeWithLastSubmission: false });
+		await provider.interactionFinished(req, res, result, {
+			mergeWithLastSubmission: false,
+		});
 	},
 };

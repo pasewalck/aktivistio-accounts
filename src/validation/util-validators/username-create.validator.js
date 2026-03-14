@@ -19,8 +19,7 @@ export default (validationChain, getAllowUsername = null) => {
 		.withMessage(localize('validation.username.length'))
 		.custom(
 			(value, { req }) =>
-				(getAllowUsername != null && value == getAllowUsername(req)) ||
-				!!!accountService.find.withUsername(value)
+				(getAllowUsername != null && value == getAllowUsername(req)) || !accountService.find.withUsername(value)
 		)
 		.withMessage(localize('validation.username.taken'));
 };

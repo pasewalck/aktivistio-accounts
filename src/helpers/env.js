@@ -42,7 +42,9 @@ export default {
 	BASE_URL: new URL(load('BASE_URL', { default: 'http://localhost:3000', warning: true })),
 	PORT: load('PORT', { default: 3000, parse: Number }),
 	RATE_LIMITER: {
-		USE_GLOBAL_PROTECTION: load('USE_GLOBAL_PROTECTION_RATE_LIMITER', { default: false }),
+		USE_GLOBAL_PROTECTION: load('USE_GLOBAL_PROTECTION_RATE_LIMITER', {
+			default: false,
+		}),
 	},
 	IS_SECURE_CONTEXT: load('IS_SECURE', { default: false, parse: Boolean }),
 	IS_BEHIND_PROXY: load('IS_BEHIND_PROXY', { default: false, parse: Boolean }),
