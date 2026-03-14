@@ -50,12 +50,12 @@
 
             <div class="mt-6 flex space-x-3">
                  <% if (!currentRecovery?.email) { %>
-                    <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-email').href %>" class="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
                         <%= __("account.recovery.add_email_button") %>
                     </a>
                 <% } %>
                 <% if (!currentRecovery?.token) { %>
-                     <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                     <a href="<%= urlUtils.extendUrl(baseUrl, 'account/recovery/set-token').href %>" class="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
                         <%= __("account.recovery.add_token_button") %>
                     </a>
                 <% } %>
