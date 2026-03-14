@@ -2,7 +2,8 @@
 
 ## Expected Functionalities:
 
-1) Primary Account Actions
+1. Primary Account Actions
+    - Login
         - **Expected Outcome**: Users should be able to log in successfully using their registered email and password.
     - Register with Invite Code
         - **Expected Outcome**: Users should be able to register for an account using a valid invite code.
@@ -11,7 +12,7 @@
     - Use Account Setup Link:
         - **Expected Outcome**: Users should be able to setup their account with a link.
 
-2) Password and Recovery Management/Actions
+2. Password and Recovery Management/Actions
     - Change Password
         - **Expected Outcome**: Users should be able to change their password successfully.
     - Add Recovery Email
@@ -27,7 +28,7 @@
     - Remove Email Recovery Method
         - **Expected Outcome**: Users should be able to remove the recovery email method from their account.
 
-3) Two-Factor Authentication (2FA) Actions
+3. Two-Factor Authentication (2FA) Actions
     - Add 2FA
         - **Expected Outcome**: Users should be able to enable two-factor authentication for their account.
     - Remove 2FA
@@ -35,7 +36,7 @@
     - Use 2FA for Login
         - **Expected Outcome**: Users should be able to log in using two-factor authentication.
 
-4) Invite Actions
+4. Invite Actions
     - Generate Invites (if User Has Permission)
         - **Expected Outcome**: Users with the appropriate permissions should be able to generate new invites.
     - Delete Invites (if User Has Permission)
@@ -45,7 +46,7 @@
     - Share Invites
         - **Expected Outcome**: Users should be able to share invite codes with others.
 
-- 3. Admin Actions (if User Has Permission (is Admin))
+-   3. Admin Actions (if User Has Permission (is Admin))
     - Add Services
         - **Expected Outcome**: Admin users should be able to add new services to the system.
     - Manage Services
