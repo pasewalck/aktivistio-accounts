@@ -61,5 +61,6 @@ Concerning OIDC Claims, we only provide the user ID (a random string), the usern
 Invite codes are generally linked to an account; however, accounts created with these invites are not linked to these invites or the account associated with the invite code.
 
 ### Future Considerations:
+
 - Potential to implement optional features for linking accounts created to the accounts that supplied the invite code used for creation.
 - Certain user roles may generate invites not linked to their accounts.
