@@ -22,7 +22,7 @@ createLauncher(
 	},
 	(secrets) => {
 		logger.info('Starting main service ...');
-		const child = spawn('node', ['src/server.js'], {
+		spawn('node', ['src/server.js'], {
 			env: {
 				...process.env,
 				...secrets,
@@ -30,7 +30,7 @@ createLauncher(
 			stdio: 'inherit',
 		});
 	},
-	(secrets) => {},
+	() => {},
 	(isError, ...message) => {
 		if (isError) logger.error(message.join(' '));
 		else logger.info(message.join(' '));

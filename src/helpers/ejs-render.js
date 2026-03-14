@@ -15,7 +15,10 @@ export const renderEjsFile = (renderPath, data) => {
 	try {
 		const template = readFileSync(renderPath, 'utf8');
 		const include = (newRenderPath, newData) => {
-			return renderEjsFile(path.join(renderPath, '../', newRenderPath), { ...data, ...newData });
+			return renderEjsFile(path.join(renderPath, '../', newRenderPath), {
+				...data,
+				...newData,
+			});
 		};
 		return ejs.render(template, { include, ...data });
 	} catch (error) {

@@ -37,7 +37,10 @@ export class Role {
 		const roleInfo = {
 			[Role.USER]: { name: 'User', color: '#3498db' },
 			[Role.MULTIPLIER]: { name: 'Multiplier', color: '#2ecc71' },
-			[Role.MULTIPLIER_UNLIMITED]: { name: 'Unlimited Multiplier', color: '#f39c12' },
+			[Role.MULTIPLIER_UNLIMITED]: {
+				name: 'Unlimited Multiplier',
+				color: '#f39c12',
+			},
 			[Role.MODERATOR]: { name: 'Moderator', color: '#e67e22' },
 			[Role.ADMIN]: { name: 'Admin', color: '#e74c3c' },
 			[Role.SUPER_ADMIN]: { name: 'Super Admin', color: '#9b59b6' },

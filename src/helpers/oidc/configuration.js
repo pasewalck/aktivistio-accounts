@@ -40,7 +40,7 @@ export default {
 		devInteractions: { enabled: false },
 		rpInitiatedLogout: {
 			enabled: true,
-			logoutSource: async (ctx, form) => {
+			logoutSource: async (ctx) => {
 				// Render the logout card with the session secret
 				ctx.body = await render(
 					'pages/oidc/logout',
@@ -75,7 +75,10 @@ export default {
 			async () => {
 				const keyStore = jose.JWK.createKeyStore();
 				// Generate a new RSA key for signing
-				const result = await keyStore.generate('RSA', 2048, { alg: 'RS256', use: 'sig' });
+				await keyStore.generate('RSA', 2048, {
+					alg: 'RS256',
+					use: 'sig',
+				});
 				return keyStore.toJSON(true).keys[0]; // Return the generated private key
 			},
 			{ lifeTime: 365, graceTime: 30 }
@@ -88,19 +91,19 @@ export default {
 		}), // Define cookie keys
 	},
 	ttl: {
-		AccessToken: function AccessTokenTTL(ctx, token, client) {
+		AccessToken: function AccessTokenTTL(ctx, token) {
 			// Determine the TTL for Access Tokens based on resource server settings
 			return token.resourceServer ? token.resourceServer.accessTokenTTL || 60 * 60 : 60 * 60; // Default to 1 hour
 		},
 		AuthorizationCode: 600, // 10 minutes in seconds
-		BackchannelAuthenticationRequest: function BackchannelAuthenticationRequestTTL(ctx, request, client) {
+		BackchannelAuthenticationRequest: function BackchannelAuthenticationRequestTTL(ctx) {
 			// Determine the TTL for Backchannel Authentication Requests
 			if (ctx && ctx.oidc && ctx.oidc.params?.requested_expiry) {
 				return Math.min(10 * 60, ctx.oidc.params.requested_expiry); // Use the shorter of 10 minutes or requested expiry
 			}
 			return 10 * 60; // Default to 10 minutes
 		},
-		ClientCredentials: function ClientCredentialsTTL(ctx, token, client) {
+		ClientCredentials: function ClientCredentialsTTL(ctx, token) {
 			// Determine the TTL for Client Credentials
 			return token.resourceServer ? token.resourceServer.accessTokenTTL || 10 * 60 : 10 * 60; // Default to 10 minutes
 		},

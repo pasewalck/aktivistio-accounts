@@ -207,10 +207,11 @@ export default {
 	 * Renders the registration page, optionally with an invite code.
 	 * @param {Request} req - The HTTP request object.
 	 * @param {Response} res - The HTTP response object.
-	 * @param {Function} next - The next middleware function in the stack.
 	 */
-	register: async (req, res, next) => {
-		return dashboardAuthRenderer.initAccountPage(res, true, { inviteCode: req.params.invite });
+	register: async (req, res) => {
+		return dashboardAuthRenderer.initAccountPage(res, true, {
+			inviteCode: req.params.invite,
+		});
 	},
 
 	/**
@@ -218,9 +219,8 @@ export default {
 	 * Renders the setup page.
 	 * @param {Request} req - The HTTP request object.
 	 * @param {Response} res - The HTTP response object.
-	 * @param {Function} next - The next middleware function in the stack.
 	 */
-	accountSetup: async (req, res, next) => {
+	accountSetup: async (req, res) => {
 		const errors = await validationResult(req);
 		const data = await matchedData(req);
 
@@ -290,7 +290,9 @@ export default {
 			actionToken: data.actionToken,
 		};
 
-		await dashboardAuthRenderer.initAccountPageConsent(res, false, { actionToken: data.actionToken }); // Render consent page
+		await dashboardAuthRenderer.initAccountPageConsent(res, false, {
+			actionToken: data.actionToken,
+		}); // Render consent page
 	},
 
 	/**
@@ -334,7 +336,10 @@ export default {
 		// Consume the invite code to prevent reuse
 		invitesService.consume(accountSession.inviteCode);
 		// Generate additional invite codes for the new account
-		invitesService.generate.multi(3, { linkedAccount: account, validationDurationDays: 14 });
+		invitesService.generate.multi(3, {
+			linkedAccount: account,
+			validationDurationDays: 14,
+		});
 
 		auditService.appendAuditLog(account, AuditActionType.REGISTER);
 
@@ -387,7 +392,10 @@ export default {
 		// Consume the invite code to prevent reuse
 		invitesService.consume(accountSession.inviteCode);
 		// Generate additional invite codes for the new account
-		invitesService.generate.multi(3, { linkedAccount: account, validationDurationDays: 14 });
+		invitesService.generate.multi(3, {
+			linkedAccount: account,
+			validationDurationDays: 14,
+		});
 
 		auditService.appendAuditLog(account, AuditActionType.REGISTER);
 

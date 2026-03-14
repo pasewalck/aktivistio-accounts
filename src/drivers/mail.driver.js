@@ -21,7 +21,10 @@ const transporter = nodemailer.createTransport({
  * @param {JSON} [data]
  */
 async function getFullMessageString(messageType, renderMode, data) {
-	return await render(`layouts`, renderMode, { ...data, body: await render(messageType, renderMode, data) });
+	return await render(`layouts`, renderMode, {
+		...data,
+		body: await render(messageType, renderMode, data),
+	});
 }
 /**
  * @description render email partial string
@@ -61,7 +64,7 @@ export default {
 		const text = await getFullMessageString(messageType, RenderMode.PLAIN_TEXT, data);
 		const html = await getFullMessageString(messageType, RenderMode.HTML, data);
 
-		const info = await transporter.sendMail({
+		await transporter.sendMail({
 			from: `${env.MAIL.SENDER_DISPLAY_NAME} <${env.MAIL.USER}>`,
 			to: to,
 			subject: subject,
