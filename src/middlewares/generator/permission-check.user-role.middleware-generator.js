@@ -7,10 +7,9 @@ import { hasPermission, Permission } from "../../models/roles.js";
  * @returns {function} Middleware function
  */
 export function generateCheckUserPermission(permission) {
-
-  if (!permission) {
-    return res.status(400).json({ error: "Permission not specified" });
-  }
+	if (!permission) {
+		throw new Error('Permission not specified');
+	}
 
   /**
    * @description Middleware to check user permissions
