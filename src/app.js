@@ -124,8 +124,4 @@ app.get('/change-language', langController.changeLanguage);
 logger.debug('Attaching errors middleware');
 app.use(errorsMiddleware);
 
-// Start the server and listen on the specified port
-logger.debug(`Starting and trying to listen on PORT ${env.PORT}`);
-app.listen(env.PORT, function () {
-	logger.info(`Started on PORT ${env.PORT}`);
-});
+export default app;
