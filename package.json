@@ -17,7 +17,8 @@
 		"tailwind:build": "npx @tailwindcss/cli -i ./src/tailwind/input.css -o ./src/tailwind/dist/tailwind.css",
 		"tailwind:watch": "npx @tailwindcss/cli -i ./src/tailwind/input.css -o ./src/tailwind/dist/tailwind.css --watch",
 		"lint": "eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"test": "vitest"
 	},
 	"keywords": [],
 	"author": "",
