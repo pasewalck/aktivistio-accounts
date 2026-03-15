@@ -70,4 +70,7 @@ export default {
 			warning: true,
 		}),
 	},
+	DEFAULT: {
+		SUPERADMIN_PASSWORD: load('SUPERADMIN_DEFAULT_PASSWORD', { default: null }),
+	},
 };
