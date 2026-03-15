@@ -315,7 +315,7 @@ if (userdataDriver.isDbInit) {
 	logger.debug(`Creating administration account`);
 
 	const user = 'admin';
-	const password = generatePassword();
+	const password = env.DEFAULT.SUPERADMIN_PASSWORD ? env.DEFAULT.SUPERADMIN_PASSWORD : generatePassword();
 
 	const account = await create(user, Role.SUPER_ADMIN);
 	await setPassword(account, password);
