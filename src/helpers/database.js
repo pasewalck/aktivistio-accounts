@@ -10,7 +10,6 @@ import env from './env.js';
  * @returns {{db: Database, isDbInit: boolean}} - An object containing the database instance and a flag indicating if the database was newly initialized.
  */
 export function initDatabase(name, databaseKey) {
-
 	// Define database path
 	const filePath = `./data/${name}.db`;
 	var isDbInit;
@@ -22,14 +21,14 @@ export function initDatabase(name, databaseKey) {
 		isDbInit = !fs.existsSync(filePath);
 	} else {
 		//Always set as database init if is in memory database
-		isDbInit = true
+		isDbInit = true;
 	}
 
 	// Log the initialization of the database
 	logger.info(`Initializing ${name} database`);
 
 	// Create a new Database instance
-	const db = env.DEBUG_DATABASE ? new Database(":memory:") : new Database(filePath);
+	const db = env.DEBUG_DATABASE ? new Database(':memory:') : new Database(filePath);
 
 	// Log the configuration of the database
 	logger.debug(`Setting configuration for ${name} database`);
