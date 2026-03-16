@@ -3,6 +3,7 @@ import { hasPermission, Permission, Role } from '../models/roles.js';
 import provider from '../helpers/oidc/provider.js';
 import accountService from '../services/account.service.js';
 import { extendUrl } from '../helpers/url.js';
+import env from '../helpers/env.js';
 
 /**
  * @description Retrieves the OIDC session for the given request and response.
