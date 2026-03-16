@@ -74,6 +74,17 @@ export class Permission {
 	static RECOVER_USERS = 'RECOVER_USERS';
 	static DELETE_USERS = 'DELETE_USERS';
 	static MANAGE_SERVICES = 'MANAGE_SERVICES';
+
+	static all() {
+		return [
+			Permission.REGENERATING_INVITES,
+			Permission.MANAGE_OWN_INVITES,
+			Permission.MANAGE_USERS,
+			Permission.RECOVER_USERS,
+			Permission.DELETE_USERS,
+			Permission.MANAGE_SERVICES,
+		];
+	}
 }
 
 /**
