@@ -12,7 +12,9 @@ export const VALID_TOKEN_CHARS = Object.values(AlphanumericMoreReadable).join(''
  * @returns {String} The generated recovery token.
  */
 export const generateRecoveryToken = () => {
-	return [...TOKEN_TEMPLATE].map((char) => (char === 'x' ? getRandomCharFromString(VALID_TOKEN_CHARS) : char)).join('');
+	return [...TOKEN_TEMPLATE]
+		.map((char) => (char === 'x' ? getRandomCharFromString(VALID_TOKEN_CHARS) : char))
+		.join('');
 };
 
 /**
