@@ -20,13 +20,7 @@ describe('twoFactorAuth', () => {
 
 		it('should return true for valid token (window allows ±2 steps)', () => {
 			const secret = twoFactorAuth.generateSecret();
-
-			const otpToken = speakeasy.totp({
-				secret: secret,
-				encoding: 'base32',
-			});
-
-			const result = twoFactorAuth.verify(secret, otpToken);
+			const result = twoFactorAuth.verify(secret, twoFactorAuth.generateToken(secret));
 			expect(result).toBe(true);
 		});
 

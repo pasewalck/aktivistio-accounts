@@ -8,6 +8,17 @@ export default {
 	generateSecret: () => {
 		return speakeasy.generateSecret().base32;
 	},
+	/**
+	 * @description Generates a token usable for two-factor authentication (2FA).
+	 * @param {String} secret - The base32 secret used for generating the token.
+	 * @returns {String} The generated token.
+	 */
+	generateToken: (secret) => {
+		return speakeasy.totp({
+			secret: secret,
+			encoding: 'base32',
+		});
+	},
 
 	/**
 	 * @description Generates a URL for two-factor authentication (2FA) using a provided secret.
