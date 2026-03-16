@@ -33,8 +33,7 @@ export const getRandomCharFromStrings = (strings) => {
  * @returns {String} A random character from the string.
  */
 export const getRandomCharFromString = (string) => {
-	if (string.length == 0)
-		throw new InternalError("String to get random char from must have length not 0.")
+	if (string.length == 0) throw new InternalError('String to get random char from must have length not 0.');
 	return string.charAt(randomInt(0, string.length - 1));
 };
 
