@@ -87,11 +87,8 @@ export default {
 
 		// If there are validation errors, render the login page with error messages
 		if (!errors.isEmpty()) {
-			auditService.appendAuditLog(
-				accountService.find.withUsername(data.username),
-				AuditActionType.LOGIN_FAIL,
-				req
-			);
+			const account = accountService.find.withUsername(data.username);
+			auditService.appendAuditLog(account, AuditActionType.LOGIN_FAIL, req);
 			sharedRenderer.login(res, interactionDetails, data, errors.mapped());
 		} else {
 			// Check the provided username and password against the account service
