@@ -27,7 +27,7 @@ export async function userAuthMiddleware(req, res, next) {
 
 	// Redirect to login if not signed in. Else modify request and response
 	if (!signedIn) {
-		res.redirect(extendUrl(env.BASE_URL, "login"));
+		res.redirect(extendUrl(env.BASE_URL, 'login'));
 	} else {
 		const account = await accountService.find.withId(session.accountId);
 
