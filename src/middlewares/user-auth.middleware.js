@@ -2,6 +2,7 @@ import { hasPermission, Permission, Role } from '../models/roles.js';
 
 import provider from '../helpers/oidc/provider.js';
 import accountService from '../services/account.service.js';
+import { extendUrl } from '../helpers/url.js';
 
 /**
  * @description Retrieves the OIDC session for the given request and response.
@@ -26,7 +27,7 @@ export async function userAuthMiddleware(req, res, next) {
 
 	// Redirect to login if not signed in. Else modify request and response
 	if (!signedIn) {
-		res.redirect('/login');
+		res.redirect(extendUrl(env.BASE_URL, "login"));
 	} else {
 		const account = await accountService.find.withId(session.accountId);
 
@@ -55,7 +56,7 @@ export async function userAuthMiddlewareReverse(req, res, next) {
 	const signedIn = !!session.accountId;
 
 	if (signedIn) {
-		res.redirect('/');
+		res.redirect(extendUrl(env.BASE_URL));
 	} else {
 		next();
 	}
