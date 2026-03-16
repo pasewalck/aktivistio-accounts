@@ -1,6 +1,7 @@
 import Database from 'better-sqlite3-multiple-ciphers';
 import fs from 'fs';
 import logger from './logger.js';
+import env from './env.js';
 
 /**
  * @description Initializes a database for a given name using a specified encryption key. This function checks if the database file already exists. If it does not, a new database is created with the provided configuration settings.
@@ -9,18 +10,26 @@ import logger from './logger.js';
  * @returns {{db: Database, isDbInit: boolean}} - An object containing the database instance and a flag indicating if the database was newly initialized.
  */
 export function initDatabase(name, databaseKey) {
+
 	// Define database path
 	const filePath = `./data/${name}.db`;
-	// Check if base dir exists
-	if (!fs.existsSync('./data/')) fs.mkdirSync('./data');
-	// Check if the database file already exists
-	const dbFileExists = fs.existsSync(filePath);
+	var isDbInit;
+
+	if (!env.DEBUG_DATABASE) {
+		// Check if base dir exists
+		if (!fs.existsSync('./data/')) fs.mkdirSync('./data');
+		// Check if the database file already exists
+		isDbInit = !fs.existsSync(filePath);
+	} else {
+		//Always set as database init if is in memory database
+		isDbInit = true
+	}
 
 	// Log the initialization of the database
 	logger.info(`Initializing ${name} database`);
 
 	// Create a new Database instance
-	const db = new Database(filePath);
+	const db = env.DEBUG_DATABASE ? new Database(":memory:") : new Database(filePath);
 
 	// Log the configuration of the database
 	logger.debug(`Setting configuration for ${name} database`);
@@ -39,5 +48,5 @@ export function initDatabase(name, databaseKey) {
 	db.pragma(`foreign_keys = ON`);
 
 	// Return the database instance and whether it was newly initialized
-	return { db, isDbInit: !dbFileExists };
+	return { db, isDbInit: isDbInit };
 }

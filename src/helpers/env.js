@@ -53,6 +53,7 @@ export default {
 		warning: true,
 		parse: (value) => value.split(','), // Parse comma-separated values
 	}),
+	DEBUG_DATABASE: load('DEBUG_DATABASE', { default: false, parse: Boolean }),
 	DATABASE_KEYS: {
 		DATA: load('DATABASE_KEY_DATA', { warning: true }),
 		OIDC: load('DATABASE_KEY_OIDC', { warning: true }),
