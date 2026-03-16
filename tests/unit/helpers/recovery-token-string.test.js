@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { generateRecoveryToken, isRecoveryToken, TOKEN_TEMPLATE } from '../../../src/helpers/recovery-token-string.js';
+import { generateRecoveryToken, isRecoveryToken } from '../../../src/helpers/recovery-token-string.js';
 
 describe('recovery-token-string', () => {
 	describe('generateRecoveryToken', () => {
