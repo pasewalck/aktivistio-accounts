@@ -1,6 +1,7 @@
 import { doubleCsrf } from 'csrf-csrf';
 import secretService from '../services/secret.service.js';
 import { generateAsciiSecret } from '../helpers/generate-secrets.js';
+import { ClientError } from '../models/errors.js';
 
 // Retrieve or generate one or more CSRF secrets
 const secrets = await secretService.getEntries('CSRF_SECRET', () => generateAsciiSecret(40), {
@@ -12,9 +13,8 @@ const secrets = await secretService.getEntries('CSRF_SECRET', () => generateAsci
  * @description Configuration for CSRF protection middleware.
  * @type {Object}
  */
-const { doubleCsrfProtection } = doubleCsrf({
+const { generateCsrfToken, validateRequest } = doubleCsrf({
 	getSecret: () => secrets,
-	getSessionIdentifier: () => '', // Use session ID for better identification
 	cookieName: '__Host-psifi.x-csrf-token',
 	cookieOptions: {
 		sameSite: 'strict',
@@ -23,7 +23,8 @@ const { doubleCsrfProtection } = doubleCsrf({
 	},
 	size: 64,
 	ignoredMethods: ['GET', 'HEAD', 'OPTIONS'],
-	getTokenFromRequest: (req) => req.body?._csrf,
+	getSessionIdentifier: (req) => req.sessionID,
+	getCsrfTokenFromRequest: (req) => req.body?._csrf,
 	errorConfig: {
 		statusCode: 403,
 		message: 'Invalid CSRF token.',
@@ -38,10 +39,12 @@ const { doubleCsrfProtection } = doubleCsrf({
  * @param {import("express").NextFunction} next - The next middleware function.
  */
 const csrfProtection = (req, res, next) => {
-	doubleCsrfProtection(req, res, () => {
-		res.locals.csrfToken = req.csrfToken(); // Set CSRF token in response locals
+	if (validateRequest(req)) {
+		res.locals.csrfToken = generateCsrfToken(req, res);
 		next();
-	});
+	} else {
+		throw new ClientError("Invalid CSRF token.")
+	}
 };
 
 export default csrfProtection;
