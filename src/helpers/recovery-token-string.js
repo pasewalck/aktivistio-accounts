@@ -3,29 +3,16 @@ import { getRandomCharFromString } from './generate-secrets.js';
 
 /**
  * @description Template for recovery token
- * The template uses 'x' to be filled with random alphanumeric characters
  */
-const TOKEN_TEMPLATE = 'xxxxxx-xxxxxx-xxxxxx-xxxxxx-xxxxxx';
+export const TOKEN_TEMPLATE = 'xxxxxx-xxxxxx-xxxxxx-xxxxxx-xxxxxx';
+export const VALID_TOKEN_CHARS = Object.values(AlphanumericMoreReadable).join('');
 
 /**
  * @description Generate a recovery token.
  * @returns {String} The generated recovery token.
  */
 export const generateRecoveryToken = () => {
-	const token = [];
-
-	for (let i = 0; i < TOKEN_TEMPLATE.length; i++) {
-		// If the current character in the template is 'x', replace it with a random character
-		// Otherwise, keep the character from the template
-		const currentChar = TOKEN_TEMPLATE[i];
-		token.push(
-			currentChar !== 'x'
-				? currentChar
-				: getRandomCharFromString(Object.values(AlphanumericMoreReadable).join(''))
-		);
-	}
-
-	return token.join('');
+	return [...TOKEN_TEMPLATE].map((char) => (char === 'x' ? getRandomCharFromString(VALID_TOKEN_CHARS) : char)).join('');
 };
 
 /**
@@ -34,28 +21,18 @@ export const generateRecoveryToken = () => {
  * @returns {Boolean} True if the string is a valid recovery token, otherwise false.
  */
 export const isRecoveryToken = (string) => {
-	// Check if the length of the string matches the token template
-	if (string.length !== TOKEN_TEMPLATE.length) {
+	// Type check for input
+	if (typeof string !== 'string' || string.length !== TOKEN_TEMPLATE.length) {
 		return false;
 	}
 
-	for (let i = 0; i < TOKEN_TEMPLATE.length; i++) {
-		const templateChar = TOKEN_TEMPLATE[i];
-		const currentChar = string[i];
+	const regex = /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+){4}$/; // Matches the pattern of the token
 
-		// Validate character based on the template
-		if (templateChar !== 'x') {
-			// If the template character is not 'x', it must match exactly
-			if (currentChar !== templateChar) {
-				return false;
-			}
-		} else {
-			// If the template character is 'x', it must be an alphanumeric character
-			if (!Object.values(AlphanumericMoreReadable).join('').includes(currentChar)) {
-				return false;
-			}
-		}
-	}
-
-	return true;
+	// Validate format and individual characters
+	return (
+		regex.test(string) &&
+		[...string].every((char, index) =>
+			TOKEN_TEMPLATE[index] !== 'x' ? char === TOKEN_TEMPLATE[index] : VALID_TOKEN_CHARS.includes(char)
+		)
+	);
 };
