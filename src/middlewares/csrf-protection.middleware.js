@@ -43,7 +43,7 @@ const csrfProtection = (req, res, next) => {
 		res.locals.csrfToken = generateCsrfToken(req, res);
 		next();
 	} else {
-		throw new ClientError("Invalid CSRF token.")
+		throw new ClientError('Invalid CSRF token.');
 	}
 };
 
