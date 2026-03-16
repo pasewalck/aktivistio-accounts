@@ -9,7 +9,6 @@ import { AuditActionType } from '../models/audit-action-types.js';
 import { UnexpectedClientError } from '../models/errors.js';
 import { extendUrl } from '../helpers/url.js';
 import env from '../helpers/env.js';
-import logger from '../helpers/logger.js';
 
 /**
  * @typedef {import("express").Request} Request
@@ -30,7 +29,7 @@ import logger from '../helpers/logger.js';
 async function getInteractionDetailsNullable(req, res) {
 	try {
 		return await provider.interactionDetails(req, res);
-	} catch (error) {
+	} catch {
 		// Don't log error! It is expected.
 		return undefined; // Return undefined if there is an error retrieving interaction details
 	}
