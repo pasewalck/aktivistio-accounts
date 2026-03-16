@@ -39,7 +39,7 @@ const { generateCsrfToken, validateRequest } = doubleCsrf({
  * @param {import("express").NextFunction} next - The next middleware function.
  */
 const csrfProtection = (req, res, next) => {
-	if (validateRequest(req)) {
+	if (['GET', 'HEAD', 'OPTIONS'].includes(req.method) || validateRequest(req)) {
 		res.locals.csrfToken = generateCsrfToken(req, res);
 		next();
 	} else {
