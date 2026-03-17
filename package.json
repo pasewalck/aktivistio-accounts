@@ -19,6 +19,7 @@
 		"lint": "eslint . --fix",
 		"format": "prettier --write .",
 		"test": "vitest",
+		"test-run": "vitest --run",
 		"prepare": "husky"
 	},
 	"lint-staged": {
