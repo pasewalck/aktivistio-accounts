@@ -10,6 +10,7 @@ export default defineConfig({
 			PORT: 3000,
 			SUPERADMIN_DEFAULT_PASSWORD: 'admin',
 			DEBUG_DATABASE: true,
+			IS_SECURE_CONTEXT: false,
 		},
 	},
 });

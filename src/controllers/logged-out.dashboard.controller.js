@@ -273,6 +273,7 @@ export default {
 	accountSetupPost: async (req, res) => {
 		const errors = await validationResult(req);
 		const data = await matchedData(req);
+
 		if (!errors.isEmpty()) {
 			return dashboardAuthRenderer.initAccountPage(res, false, data, errors.mapped());
 		}
