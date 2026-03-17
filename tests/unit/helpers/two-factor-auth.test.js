@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-import speakeasy from 'speakeasy';
 import twoFactorAuth from '../../../src/helpers/two-factor-auth.js';
 
 describe('twoFactorAuth', () => {

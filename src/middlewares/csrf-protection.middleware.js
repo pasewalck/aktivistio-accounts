@@ -2,6 +2,7 @@ import { doubleCsrf } from 'csrf-csrf';
 import secretService from '../services/secret.service.js';
 import { generateAsciiSecret } from '../helpers/generate-secrets.js';
 import { ClientError } from '../models/errors.js';
+import env from '../helpers/env.js';
 
 // Retrieve or generate one or more CSRF secrets
 const secrets = await secretService.getEntries('CSRF_SECRET', () => generateAsciiSecret(40), {
@@ -20,10 +21,11 @@ const { generateCsrfToken, validateRequest } = doubleCsrf({
 		sameSite: 'strict',
 		path: '/',
 		maxAge: 24 * 60 * 60 * 1000, // set max age to 1 day
+		secure: env.IS_SECURE_CONTEXT,
 	},
 	size: 64,
 	ignoredMethods: ['GET', 'HEAD', 'OPTIONS'],
-	getSessionIdentifier: (req) => req.sessionID,
+	getSessionIdentifier: () => '',
 	getCsrfTokenFromRequest: (req) => req.body?._csrf,
 	errorConfig: {
 		statusCode: 403,

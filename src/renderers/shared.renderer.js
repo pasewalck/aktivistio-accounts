@@ -48,8 +48,10 @@ export default {
 	 * Displays an error message to the user.
 	 * @param {Response} res - The response object.
 	 * @param {JSON} error - The error details to display.
+	 * @param {number} errorCode - The error code to display.
 	 */
-	error: (res, error) => {
+	error: (res, error, errorCode) => {
+		res.status(errorCode || 500);
 		return res.render('pages/shared/error', {
 			title: res.__('title.error'),
 			error: error,
