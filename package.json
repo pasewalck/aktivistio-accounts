@@ -16,9 +16,16 @@
 		"start-launcher:production": "node -r dotenv/config src/launcher.js",
 		"tailwind:build": "npx @tailwindcss/cli -i ./src/tailwind/input.css -o ./src/tailwind/dist/tailwind.css",
 		"tailwind:watch": "npx @tailwindcss/cli -i ./src/tailwind/input.css -o ./src/tailwind/dist/tailwind.css --watch",
-		"lint": "eslint .",
+		"lint": "eslint . --fix",
 		"format": "prettier --write .",
-		"test": "vitest"
+		"test": "vitest",
+		"prepare": "husky"
+	},
+	"lint-staged": {
+		"*.js": [
+			"npm run format",
+			"npm run lint"
+		]
 	},
 	"keywords": [],
 	"author": "",
@@ -62,6 +69,8 @@
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-prettier": "^5.5.5",
 		"globals": "^17.4.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.4.0",
 		"nodemon": "^3.1.7",
 		"npm-run-all": "^4.1.5",
 		"prettier": "^3.8.1",
