@@ -6,6 +6,8 @@ import { requestWithFormData } from '../../src/helpers/requestWithFormData.js';
 import accountService from '../../src/services/account.service.js';
 import mailService from '../../src/services/mail.service.js';
 import { generateRecoveryToken } from '../../src/helpers/recovery-token-string.js';
+import { PasswordResetChannels } from '../../src/models/action-token-types.js';
+import loggedOutDashboardRenderer from '../../src/renderers/logged-out.dashboard.renderer.js';
 
 vi.mock('../../src/middlewares/csrf-protection.middleware.js', () => ({
 	default: (req, res, next) => {
@@ -34,12 +36,28 @@ describe('Recovery', async () => {
 	await accountService.recovery.email.set(account, recoveryEmail);
 	await accountService.recovery.token.set(account, recoveryToken);
 
-	it('should recover account successfully with valid recovery email', async () => {
-		const spyRecoveryEmailSend = vi.spyOn(mailService.send, 'recoveryLink');
+	it('should recover account successfully with valid recovery link', async () => {
+		const link = accountService.actionLink.createRecoveryLink(account, PasswordResetChannels.EMAIL);
 
 		let agent = request.agent(app);
 
-		let res = await requestWithFormData(agent, '/account-recovery/request/', {
+		let res = await agent.get(link.pathname);
+
+		expect(res.status).toBe(200);
+
+		res = await requestWithFormData(agent, link.pathname, {
+			password: password,
+			confirmPassword: password,
+		});
+
+		expect(res.status).toBe(302);
+		expect(res.headers.location).toBe('http://localhost:3000/login');
+	});
+
+	it('should get recovery link successfully with valid recovery email', async () => {
+		const spyRecoveryEmailSend = vi.spyOn(mailService.send, 'recoveryLink');
+
+		let res = await requestWithFormData(request(app), '/account-recovery/request/', {
 			username: 'admin',
 			method: 'email',
 			email: recoveryEmail,
@@ -51,16 +69,54 @@ describe('Recovery', async () => {
 		const calls = spyRecoveryEmailSend.mock.calls;
 		const link = calls[0][0];
 
-		res = await agent.get(link.pathname);
+		expect(link).toBeInstanceOf(URL);
+	});
 
-		expect(res.status).toBe(200);
-
-		res = await requestWithFormData(agent, link.pathname, {
-			password: password,
-			confirmPassword: password,
+	it('should redirect to recovery link successfully with valid recovery token', async () => {
+		let res = await requestWithFormData(request(app), '/account-recovery/request/', {
+			username: 'admin',
+			method: 'token',
+			token: recoveryToken,
 		});
 
 		expect(res.status).toBe(302);
-		expect(res.headers.location).toBe('http://localhost:3000/login');
+	});
+
+	it('should not redirect to recovery link with invalid recovery token', async () => {
+		const spy = vi.spyOn(loggedOutDashboardRenderer, 'recoveryRequest');
+
+		let res = await requestWithFormData(request(app), '/account-recovery/request/', {
+			username: 'admin',
+			method: 'token',
+			token: generateRecoveryToken(),
+		});
+
+		expect(res.status).toBe(200);
+		expect(spy).toHaveBeenCalledWith(
+			expect.any(Object),
+			expect.any(Object),
+			expect.objectContaining({
+				token: expect.any(Object),
+			})
+		);
+	});
+
+	it('should not send recovery link email for invalid recovery email', async () => {
+		const spy = vi.spyOn(loggedOutDashboardRenderer, 'recoveryRequest');
+
+		let res = await requestWithFormData(request(app), '/account-recovery/request/', {
+			username: 'admin',
+			method: 'email',
+			email: 'invalid@invalid.com',
+		});
+
+		expect(res.status).toBe(200);
+		expect(spy).toHaveBeenCalledWith(
+			expect.any(Object),
+			expect.any(Object),
+			expect.objectContaining({
+				email: expect.any(Object),
+			})
+		);
 	});
 });
