@@ -61,11 +61,11 @@ const ipKeyGenerator = (req) => req.ip;
 const twoFactorKeyGenerator = (req) => req.session?.twoFactorLogin?.accountId;
 
 // Custom messages
-const loginMessage = 'rate_limiter.login.attempts';
-const recoveryMessage = 'rate_limiter.recovery.attempts';
-const registerInviteWelcomeRequestMessage = 'rate_limiter.invite.exceeded';
-const ipRateLimitMessage = 'rate_limiter.ip.too_many';
-const twoFactorLoginMessage = 'rate_limiter.two_factor.attempts';
+const loginMessage = 'rate_limiter.too_many.login';
+const recoveryMessage = 'rate_limiter.too_many.recovery';
+const registerInviteWelcomeRequestMessage = 'rate_limiter-too_many.invite_welcome';
+const ipRateLimitMessage = 'rate_limiter.too_many.ip';
+const twoFactorLoginMessage = 'rate_limiter.too_many.two_factor';
 
 // Middleware instances
 const loginRateLimiterMiddleware = createRateLimiterMiddleware(
