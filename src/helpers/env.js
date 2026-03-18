@@ -45,6 +45,10 @@ export default {
 		USE_GLOBAL_PROTECTION: load('USE_GLOBAL_PROTECTION_RATE_LIMITER', {
 			default: false,
 		}),
+		MAX_LOGIN_ATTEMPTS: load('RATE_LIMIT_LOGIN_COUNT', { default: 20, parse: Number }),
+		MAX_GLOBAL_ATTEMPTS: load('RATE_LIMIT_GLOBAL_ATTEMPTS', { default: 3000, parse: Number }),
+		MAX_TWOFACTOR_ATTEMPTS: load('RATE_LIMIT_TWOFACTOR_ATTEMPTS', { default: 10, parse: Number }),
+		MAX_REGISTER_INVITE_ATTEMPTS: load('RATE_LIMIT_REGISTER_INVITE_ATTEMPTS', { default: 200, parse: Number }),
 	},
 	IS_SECURE_CONTEXT: load('IS_SECURE', { default: false, parse: Boolean }),
 	IS_BEHIND_PROXY: load('IS_BEHIND_PROXY', { default: false, parse: Boolean }),
