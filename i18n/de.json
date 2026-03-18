@@ -554,6 +554,13 @@
 			"hours": "Bitte versuche es in %s Stunden erneut.",
 			"minutes": "Bitte versuche es in %s Minuten erneut.",
 			"seconds": "Bitte versuche es in %s Sekunden erneut."
+		},
+		"too_many": {
+			"two_factor": "Too many 2fa attempts.",
+			"ip": "Too many attempts from your IP.",
+			"invite_welcome": "Too many requests made here!",
+			"recovery": "Too many recovery attempts!",
+			"login": "Too many login attempts!"
 		}
 	},
 	"action_token": {
