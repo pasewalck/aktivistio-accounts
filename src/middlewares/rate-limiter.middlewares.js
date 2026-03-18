@@ -1,26 +1,27 @@
 import { RateLimiterMemory } from 'rate-limiter-flexible';
 import sharedRenderer from '../renderers/shared.renderer.js';
+import env from '../helpers/env.js';
 
 const loginRecoveryRateLimiterConfig = {
-	points: 20,
+	points: env.RATE_LIMITER.MAX_LOGIN_ATTEMPTS,
 	duration: 60 * 60,
 	blockDuration: 60 * 60,
 };
 
 const registerInviteWelcomeRequestRateLimiterConfig = {
-	points: 200,
+	points: env.RATE_LIMITER.MAX_REGISTER_INVITE_ATTEMPTS,
 	duration: 60 * 60 * 2,
 	blockDuration: 60 * 60 * 2,
 };
 
 const ipRateLimiterConfig = {
-	points: 3000,
+	points: env.RATE_LIMITER.MAX_GLOBAL_ATTEMPTS,
 	duration: 60 * 60,
 	blockDuration: 60 * 60,
 };
 
 const twoFactorLoginRateLimiterConfig = {
-	points: 10,
+	points: env.RATE_LIMITER.MAX_TWOFACTOR_ATTEMPTS,
 	duration: 60 * 60,
 	blockDuration: 60 * 60,
 };
