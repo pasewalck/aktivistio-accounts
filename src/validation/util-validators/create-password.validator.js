@@ -19,12 +19,16 @@ export default (validationChain) => {
 				var messages = [];
 				if (passwordStrg.feedback.warning)
 					messages.push(
-						`${req.__(`password-hints.${passwordStrg.feedback.warning.toLowerCase().replaceAll(' ', '_').replaceAll('.', '')}`)}.`
+						`${req.__(`validation.password.hint.${passwordStrg.feedback.warning.toLowerCase().replaceAll('-', '_').replaceAll(' ', '_').replaceAll('.', '')}`)}`
 					);
 				else messages.push(req.__('validation.password.security'));
 
 				passwordStrg.feedback.suggestions.forEach((suggestion) => {
-					messages.push(req.__(suggestion.toLowerCase().replaceAll(' ', '_').replaceAll('.', '')));
+					messages.push(
+						req.__(
+							`validation.password.hint.${suggestion.toLowerCase().replaceAll('-', '_').replaceAll(' ', '_').replaceAll('.', '')}`
+						)
+					);
 				});
 				throw new Error(messages.join(' '));
 			}
