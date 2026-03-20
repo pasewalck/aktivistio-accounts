@@ -51,4 +51,4 @@ Simply run the script.
 
 Further documentation for all features and setup processes is planned.
 
-For any questions or contributions, please reach out to Jana via: jana.c@systemli.org
+For any questions or contributions, please reach out to: pasewalck@posteo.net
