@@ -11,6 +11,7 @@ export default defineConfig({
 			SUPERADMIN_DEFAULT_PASSWORD: 'admin',
 			DEBUG_DATABASE: true,
 			IS_SECURE_CONTEXT: false,
+			DISABLE_LOG: true,
 		},
 	},
 });
