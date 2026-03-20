@@ -1,6 +1,7 @@
 import path from 'path';
 import pino from 'pino';
 import pretty from 'pino-pretty';
+import { env } from 'process';
 
 // Configure the pretty-printing stream for the logger and enable colorized output for better readability
 const stream = pretty({
@@ -13,6 +14,7 @@ const appName = path.basename(process.argv[1], path.extname(process.argv[1]));
 const logger = pino(
 	{
 		name: appName,
+		enabled: !env.DISABLE_LOG,
 	},
 	stream
 );
