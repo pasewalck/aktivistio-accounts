@@ -85,15 +85,15 @@ app.set('layout', './layouts/main');
 
 logger.debug('Initializing middlewares');
 
-// CSRF protection middleware
-app.use(csrfProtection);
-
 // Global rate limiter middleware
 if (env.RATE_LIMITER.USE_GLOBAL_PROTECTION) app.use(ipRateLimiterMiddleware);
 
 // Attach OIDC callback
 logger.debug('Attaching OIDC callback');
 app.use('/oidc', await provider.callback());
+
+// CSRF protection middleware
+app.use(csrfProtection);
 
 logger.debug('Initializing routers');
 
