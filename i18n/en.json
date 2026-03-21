@@ -1,626 +1,626 @@
 {
-	"auth": {
-		"login": {
-			"title": "Sign In",
-			"username": "Username",
-			"password": "Password",
-			"forgot_password": "Forgot Password?",
-			"submit": "Log In",
-			"no_account": "Don't have an account?",
-			"create_account": "Create Account",
-			"abort": "Abort"
-		},
-		"recovery": {
-			"no_methods_question": "No recovery methods?",
-			"add": {}
-		},
-		"invite_request": {
-			"title": "Request Invite"
-		},
-		"recovery_request": {
-			"title": "Account Recovery Request"
-		},
-		"register": {
-			"head_title": "Create Account",
-			"title": "Enter Your Account Details",
-			"no_invite_code_question": "Don't have an invite code?",
-			"submit_details": "Submit Account Details"
-		},
-		"invite": {
-			"share": {
-				"title": "Join %s"
-			},
-			"share_page": {
-				"title": "Share Invite"
-			},
-			"request_title": "Request an Invite",
-			"whitelist_info": "Make sure your email is whitelisted to receive invites.",
-			"code": {
-				"required": "An invite code is required.",
-				"format_invalid": "Invite code format is invalid.",
-				"invalid": "Invite code is invalid."
-			},
-			"whitelist_prefix": "Whitelist: "
-		},
-		"logout": {
-			"confirm_message": "Are you sure you want to log out?",
-			"title": "Logout Confirmation",
-			"no": "No, stay logged in.",
-			"yes": "Yes, log me out.",
-			"action": "Logout"
-		},
-		"mfa_verify": {
-			"abort": "Abort",
-			"code_label": "Enter your two-factor authentication code.",
-			"title": "Two-Factor Authentication",
-			"verify": "Verify Code"
-		},
-		"consent": {
-			"abort": "Abort",
-			"confirm_access": "Please verify using your account to proceed with login.",
-			"verify": "Verify"
-		},
-		"consent_page": {
-			"title": "Consent Required",
-			"verification_statement": "Please verify your consent."
-		}
-	},
-	"admin": {
-		"service_list": {
-			"add": "Add New Service"
-		},
-		"invite": {
-			"title": "Your Invite Codes",
-			"generate": "Generate Invite Code",
-			"uses": "Number of Uses",
-			"uses_hint": "Maximum times this invite can be used",
-			"expire_label": "Expiration Date",
-			"generate_invite": "Generate Invite",
-			"no_invites_message": "You currently have no invites available.",
-			"invites_unlocked_message": "You must wait %s days to unlock your invite codes.",
-			"invite_use_indicator": "This invite can be used %s times."
-		},
-		"user_list": {
-			"title": "User List",
-			"current_user": "You",
-			"create": "Create New User"
-		},
-		"user_add": {
-			"title": "Create User Account",
-			"create": "Create Account"
-		},
-		"user_manage": {
-			"title": "User Account Management"
-		},
-		"user_detail": {
-			"title": "Manage User Account",
-			"send_setup_email": "Send Account Setup Email",
-			"send_recovery_email": "Send Recovery Email",
-			"update": "Update Account Details",
-			"delete": "Delete User Account",
-			"confirm_delete": "Confirm Account Deletion",
-			"confirm_delete_message": "I understand this action cannot be undone.",
-			"delete_button": "Permanently Delete Account",
-			"update_button": "Update Account",
-			"send_recovery_email_button": "Send Recovery Email",
-			"send_setup_email_button": "Send Setup Email"
-		},
-		"service": {
-			"create": "Create New Service",
-			"configuration": "Service Configuration",
-			"delete": "Delete Service",
-			"delete_forever": "Permanently delete this service.",
-			"update": "Update Service",
-			"go_to": "Go to Service",
-			"login": "Login to Service",
-			"manage": "Manage Service",
-			"delete_confirm": "Are you sure you want to delete this service?"
-		},
-		"delete": {
-			"confirmation_required": "Confirmation required for deletion"
-		}
-	},
-	"account": {
-		"dashboard": {
-			"title": "Account Management"
-		},
-		"security": {
-			"title": "Access & Security",
-			"password_change": "Change Password",
-			"mfa_manage": "Manage Two-Factor Authentication",
-			"audit_view": "View Audit Log"
-		},
-		"recovery_menu": {
-			"title": "Account Recovery"
-		},
-		"menu": {
-			"recovery_manage": "Manage Recovery Options"
-		},
-		"delete_menu": {
-			"title": "Account Deletion",
-			"proceed": "Delete Account"
-		},
-		"recovery": {
-			"title": "Account Recovery",
-			"no_method_set_message": "No recovery methods set.",
-			"button": {
-				"add_email": "New Recovery Email"
-			},
-			"text": {
-				"recovery_methods_count": "You have %s recovery methods set up."
-			},
-			"active_list": {
-				"label": {
-					"token": "Recovery Token",
-					"email": "Recovery Email Address"
-				}
-			},
-			"add_token_button": "Add Recovery Token",
-			"add_email_button": "Add Recovery Email",
-			"add_button": {
-				"token": {
-					"title": "Add Recovery Token"
-				}
-			},
-			"add_recovery_email_button": "Add Recovery Email",
-			"warning_message": "Two-factor authentication will be removed. You need to set it up again after this action.",
-			"update_email": {
-				"title": "Update Recovery Email"
-			},
-			"add_email": {
-				"title": "Add Recovery Email"
-			},
-			"set_email": {
-				"waring_valid_email": "Make sure to use a valid email address.",
-				"new_email": "New Recovery Email Address",
-				"set_new_button": "Set Recovery Email"
-			},
-			"remove": {
-				"warning": "Are you sure you want to remove this recovery method? This action cannot be undone.",
-				"confirm": "Remove"
-			}
-		},
-		"password": {
-			"title": "Change Password",
-			"label": "Password"
-		},
-		"mfa": {
-			"title": "Two-Factor Authentication",
-			"enabled_message": "Two-Factor Authentication Enabled",
-			"remove_button": "Disable Two-Factor Authentication",
-			"setup_2fa": "Set Up 2FA",
-			"disabled_message": "2FA is currently disabled."
-		},
-		"audit": {
-			"title": "Security Audit Log",
-			"legend": "Activity Log Details",
-			"warning_label": "Warning",
-			"warning_description": "Potential security events",
-			"critical_label": "Critical",
-			"critical_description": "Significant security incidents"
-		},
-		"delete": {
-			"title": "Delete Account",
-			"confirm": {
-				"title": "Permanently Delete Account",
-				"warning": "Warning: This action cannot be undone",
-				"checkbox": {
-					"message": "Are you sure you want to delete your account? This action is permanent."
-				},
-				"button": {
-					"text": "Permanently Delete Account"
-				},
-				"alert": {
-					"message": "You are on the account deletion page. Deleting your account cannot be undone. Proceed with caution."
-				}
-			}
-		},
-		"confirm": {
-			"label": "Confirm",
-			"delete": {}
-		},
-		"common": {
-			"recovery_email": {
-				"setup": {},
-				"update": {},
-				"remove": {
-					"title": "Remove Recovery Email"
-				},
-				"new": {},
-				"set": {}
-			},
-			"recovery_token": {
-				"remove": {
-					"title": "Remove Recovery Token"
-				},
-				"setup": {
-					"warning": "Save your token in a safe location."
-				},
-				"set": {
-					"button": "Set Recovery Token"
-				},
-				"verify": {
-					"checkbox": "Verify this token for recovery."
-				},
-				"new": {
-					"label": "New Recovery Token",
-					"title": "New Recovery Token"
-				}
-			},
-			"recovery_methods": {}
-		},
-		"audit_log": {
-			"entries_since": "Audit log entries since %s weeks.",
-			"view_more": "View more entries."
-		},
-		"id": {
-			"format_invalid": "ID is not in a valid format",
-			"not_found": "Account ID not found."
-		},
-		"permission": {
-			"insufficient": "You do not have sufficient permissions to perform this action."
-		},
-		"create": "Create Account"
-	},
-	"dashboard": {
-		"welcome": "Welcome to your dashboard, %s!"
-	},
-	"title": {
-		"account_recovery": "Options for Account Recovery",
-		"login": "Login",
-		"error": "An error occurred",
-		"users": "Manage Users",
-		"services": "Services",
-		"recovery_email_sent": "Recovery Email sent",
-		"recovery": "Password Recovery",
-		"manage_service": "Manage Services",
-		"invite_codes": "Invite Codes",
-		"authorize": "Authorization Required"
-	},
-	"common": {
-		"current_password": "Current Password",
-		"new_password": "New Password",
-		"confirm_new_password": "Confirm New Password",
-		"update_password": "Update Password",
-		"account_2fa": {},
-		"username": "Username",
-		"select_recovery_method": "Select Recovery Method",
-		"form": {
-			"submit": "Submit"
-		},
-		"learn_more": "Learn More",
-		"invite_code": "Invite Code",
-		"password": "Password",
-		"confirm_password": "Confirm Password",
-		"recovery_email_secure_info": "Your email will be securely stored and used only for account recovery",
-		"recovery_email_address": "Recovery Email Address",
-		"recovery_token_written_confirm": "I have written down and securely stored my recovery token",
-		"account_role": "Account Role",
-		"user_uuid_label": "User Unique Identifier",
-		"actions": {},
-		"recovery_email": {
-			"sent": "A recovery email has been sent to your specified email address.",
-			"title": "Recovery Email"
-		},
-		"confirm": "Confirm",
-		"recovery_token": {
-			"confirmation_required": "Confirmation required for recovery token",
-			"title": "Recovery Token"
-		},
-		"setup": "Setup",
-		"action_button": {},
-		"button": {
-			"modify": "Modify",
-			"delete": "Delete"
-		},
-		"target_email": "Recipient Email Address",
-		"expires_in_days": "Expires in %s days",
-		"expires_on_date": "Expires on %s",
-		"your_admin_password": "Administrator Password",
-		"recovery_method": {
-			"title": "Recovery Method"
-		},
-		"new": "New",
-		"and": "and",
-		"user": {
-			"admin_password": "Administrator Password",
-			"email": "Your Email Address"
-		}
-	},
-	"time": {
-		"hours_ago": "%s hours ago",
-		"seconds_ago": "%s seconds ago",
-		"minutes_ago": "%s minutes ago"
-	},
-	"alert": {
-		"icon_alt": "Alert Icon",
-		"learn_more": "More Information",
-		"error_icon_alt": "Error Icon"
-	},
-	"validation": {
-		"feedback": {
-			"role_required": "A role is required.",
-			"role_invalid": "Role supplied is not valid.",
-			"permission_denied_for_role": "Missing permissions to use supplied role."
-		},
-		"login": {
-			"password_incorrect": "The password you entered is incorrect.",
-			"failed": "Login failed. Please try again.",
-			"two_factor": {
-				"token_invalid": "The two-factor authentication token is invalid."
-			},
-			"token_invalid": "Invalid login session token."
-		},
-		"email": {
-			"already_used": "This email is already in use.",
-			"format_invalid": "Invalid email format",
-			"provider_not_whitelisted": "Email provider not whitelisted",
-			"required": "An email is required."
-		},
-		"password": {
-			"invalid_characters": "Your password contains invalid characters.",
-			"security": "Your password does not meet security requirements.",
-			"confirmation_mismatch": "Your passwords don't match.",
-			"only_lowercases": "Only lowercase letters are allowed.",
-			"characters_allowed": "Only letters and numbers are allowed.",
-			"confirmation_required": "Password needs to be confirmed.",
-			"incorrect": "The password is incorrect.",
-			"hint": {
-				"straight_rows_of_keys_are_easy_to_guess": "Straight rows of keys are easy to guess.",
-				"short_keyboard_patterns_are_easy_to_guess": "Short keyboard patterns are easy to guess.",
-				"use_a_longer_keyboard_pattern_with_more_turns": "Use a longer keyboard pattern with more turns.",
-				"repeats_like_\"aaa\"_are_easy_to_guess": "Repeats like \"aaa\" are easy to guess.",
-				"repeats_like_\"abcabcabc\"_are_only_slightly_harder_to_guess_than_\"abc\"": "Repeats like \"abcabcabc\" are only slightly harder to guess than \"abc\".",
-				"sequences_like_abc_or_6543_are_easy_to_guess": "Sequences like abc or 6543 are easy to guess.",
-				"recent_years_are_easy_to_guess": "Recent years are easy to guess.",
-				"dates_are_often_easy_to_guess": "Dates are often easy to guess.",
-				"this_is_a_top_10_common_password": "This is a top-10 common password.",
-				"this_is_a_top_100_common_password": "This is a top-100 common password.",
-				"this_is_a_very_common_password": "This is a very common password.",
-				"this_is_similar_to_a_commonly_used_password": "This is similar to a commonly used password.",
-				"a_word_by_itself_is_easy_to_guess": "A word by itself is easy to guess.",
-				"names_and_surnames_by_themselves_are_easy_to_guess": "Names and surnames by themselves are easy to guess.",
-				"common_names_and_surnames_are_easy_to_guess": "Common names and surnames are easy to guess.",
-				"add_another_word_or_two": "Add another word or two.",
-				"avoid_dates_associated_with_you": "Avoid dates that are associated with you.",
-				"common_substitutions_dont_help": "Common substitutions like @ for a don't help very much.",
-				"use_uncommon_words": "Use uncommon words.",
-				"consider_using_a_passphrase": "Consider using a passphrase.",
-				"add_another_word_or_two_uncommon_words_are_better": "Add another word or two; uncommon words are better.",
-				"predictable_substitutions_like_'@'_instead_of_'a'_don't_help_very_much": "Predictable substitutions like '@' instead of 'a' don't help very much.",
-				"capitalization_doesn't_help_very_much": "Capitalization doesn't help very much.",
-				"use_a_few_words_avoid_common_phrases": "Use a few words, avoid common phrases.",
-				"no_need_for_symbols_digits_or_uppercase_letters": "No need for symbols, digits, or uppercase letters.",
-				"avoid_sequences": "Avoid sequences.",
-				"avoid_recent_years": "Avoid recent years.",
-				"avoid_years_that_are_associated_with_you": "Avoid years that are associated with you.",
-				"avoid_dates_and_years_that_are_associated_with_you": "Avoid dates and years that are associated with you.",
-				"all_uppercase_is_almost_as_easy_to_guess_as_all_lowercase": "All-uppercase is almost as easy to guess as all-lowercase.",
-				"avoid_repeated_words_and_characters": "Avoid repeated words and characters."
-			}
-		},
-		"common": {
-			"recovery_method": {
-				"required": "A recovery method is required.",
-				"invalid": "Recovery method is invalid.",
-				"unsupported": "The recovery method is not supported."
-			},
-			"recovery_email": {
-				"selection_required": "An email is required.",
-				"format_invalid": "Please supply a valid email.",
-				"incorrect": "The recovery email address is incorrect."
-			},
-			"recovery_token": {
-				"incorrect": "The recovery token is incorrect.",
-				"selection_required": "Recovery token is required.",
-				"format_invalid": "Recovery token format is invalid.",
-				"confirmation_required": "Confirmation required for recovery token"
-			}
-		},
-		"prompt": {
-			"invalid": "The input provided is invalid."
-		},
-		"account": {
-			"not_found": "Account not found.",
-			"setup": {
-				"link_invalid": "The setup link is invalid."
-			},
-			"not_found_by_id": "No account found with the provided ID."
-		},
-		"action_token": {
-			"mismatch": "The action token does not match.",
-			"invalid": "The action token is invalid."
-		},
-		"invite": {
-			"code": {
-				"expired": "The invite code has expired.",
-				"format_invalid": "The invite code has an invalid format.",
-				"invalid": "The invite code supplied is invalid."
-			}
-		},
-		"username": {
-			"taken_after_selection": "This username has been taken since your selection.",
-			"not_found": "Username not found",
-			"only_lowercases": "Your username needs to be lowercase.",
-			"characters_allowed": "Your username can only contain letters and numbers.",
-			"length": "Your username needs to be between 2 and 12 characters.",
-			"taken": "That username is already taken."
-		},
-		"two_factor": {
-			"token": {
-				"parse_failed": "Failed to parse the two-factor authentication token.",
-				"format_invalid": "Invalid token format",
-				"required": "Token required",
-				"verification_failed": "Token verification failed"
-			},
-			"login_token": {
-				"required": "Login token required"
-			},
-			"secret": {
-				"required": "Secret required"
-			}
-		},
-		"recovery": {
-			"link": {
-				"invalid": "The recovery link is invalid."
-			},
-			"method": {
-				"required": "A recovery method must be selected.",
-				"invalid": "Recovery method is invalid."
-			},
-			"token": {
-				"selection_required": "A recovery token is required.",
-				"format_invalid": "Recovery token format is invalid."
-			},
-			"email": {
-				"selection_required": "A valid email is required.",
-				"format_invalid": "Please provide a valid email."
-			}
-		},
-		"consent": {
-			"required": "Consent required"
-		}
-	},
-	"security": {
-		"2fa": {
-			"add_title": "Add Two-Factor Authentication"
-		}
-	},
-	"form": {
-		"create": "Create",
-		"update": "Update Form",
-		"confirm": "Confirm your action.",
-		"confirm_action": "Confirm this action."
-	},
-	"email": {
-		"body": {
-			"account_setup": {
-				"greeting": "Welcome to your account!",
-				"description": "Set up your account to get started."
-			},
-			"recovery": {
-				"greeting": "Password Recovery",
-				"description": "Please enter your email to receive recovery instructions.",
-				"security_warning": "Ensure your email is secure to prevent unauthorized access.",
-				"confirmation": "Your recovery has been confirmed.",
-				"title": "Password Recovery Confirmation",
-				"required": "An email is required."
-			},
-			"invite": {
-				"greeting": "You're invited!",
-				"description": "Use the invite code: %s",
-				"security_warning": "Keep your invite code confidential."
-			},
-			"setup": {
-				"confirmation": "Your email setup has been confirmed.",
-				"title": "Email Setup Confirmation"
-			},
-			"required": "An email is required.",
-			"format": {
-				"invalid": "Email format is invalid"
-			}
-		},
-		"subject": {
-			"your_invite_code": "Your Invite Code",
-			"your_new_account": "Welcome to Your New Account",
-			"your_recovery_link": "Your Password Recovery Link"
-		}
-	},
-	"recovery": {
-		"confirmation_sent": "A confirmation email has been sent.",
-		"confirmation_code": "Enter the confirmation code sent to your email.",
-		"title": "Password Recovery"
-	},
-	"account_recovery": {
-		"confirm_new_password": "Confirm your new password.",
-		"new_password": "Enter your new password."
-	},
-	"adapter": {
-		"client": {
-			"id_required": "Client ID is required.",
-			"id_conflict": "Client ID conflict detected.",
-			"not_found": "Client not found."
-		},
-		"id": {
-			"invalid": "Invalid ID Format."
-		},
-		"configuration": {
-			"required": "A configuration is required.",
-			"type_invalid": "Configuration must be a string."
-		}
-	},
-	"rate_limiter": {
-		"retry": {
-			"hours": "Please try again in %s hours.",
-			"minutes": "Please try again in %s minutes.",
-			"seconds": "Please try again in %s seconds."
-		},
-		"too_many": {
-			"two_factor": "Too many 2fa attempts.",
-			"ip": "Too many attempts from your IP.",
-			"invite_welcome": "Too many requests made here!",
-			"recovery": "Too many recovery attempts!",
-			"login": "Too many login attempts!"
-		}
-	},
-	"action_token": {
-		"required": "No action token supplied.",
-		"invalid": "Action token is invalid."
-	},
-	"error": {
-		"client": {
-			"with_message": "Client error: %s"
-		},
-		"internal": {
-			"generic": "An internal error has occurred."
-		},
-		"unexpected": {
-			"generic": "An unexpected error has occurred.",
-			"with_message": "An unexpected error occurred: %s"
-		},
-		"title": "Error"
-	},
-	"confirmation": {
-		"required": "Confirmation required"
-	},
-	"password": {
-		"confirm": {
-			"required": "Password needs to be confirmed",
-			"mismatch": "Passwords don't match."
-		}
-	},
-	"component": {
-		"2fa": {
-			"enter_code": {
-				"label": "Enter Authentication Code"
-			}
-		},
-		"navigation": {
-			"users": "Users",
-			"invites": "Invites",
-			"services": "Services"
-		},
-		"language": {
-			"info": {
-				"en": "English",
-				"de": "German"
-			},
-			"submit": "Change Language"
-		},
-		"account": {
-			"icon_alt": "Account Menu",
-			"settings": "Account Settings",
-			"settings_icon_alt": "Settings Icon",
-			"logout": "Logout",
-			"logout_icon_alt": "Logout Icon"
-		}
-	},
-	"widget": {
-		"language": {
-			"info": {
-				"de": "Deutsch",
-				"en": "English"
-			}
-		}
-	}
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "username": "Username",
+      "password": "Password",
+      "forgot_password": "Forgot Password?",
+      "submit": "Log In",
+      "no_account": "Don't have an account?",
+      "create_account": "Create Account",
+      "abort": "Abort"
+    },
+    "recovery": {
+      "no_methods_question": "No recovery methods?",
+      "add": {}
+    },
+    "invite_request": {
+      "title": "Request Invite"
+    },
+    "recovery_request": {
+      "title": "Account Recovery Request"
+    },
+    "register": {
+      "head_title": "Create Account",
+      "title": "Enter Your Account Details",
+      "no_invite_code_question": "Don't have an invite code?",
+      "submit_details": "Submit Account Details"
+    },
+    "invite": {
+      "share": {
+        "title": "Join %s"
+      },
+      "share_page": {
+        "title": "Share Invite"
+      },
+      "request_title": "Request an Invite",
+      "whitelist_info": "Make sure your email is whitelisted to receive invites.",
+      "code": {
+        "required": "An invite code is required.",
+        "format_invalid": "Invite code format is invalid.",
+        "invalid": "Invite code is invalid."
+      },
+      "whitelist_prefix": "Whitelist: "
+    },
+    "logout": {
+      "confirm_message": "Are you sure you want to log out?",
+      "title": "Logout Confirmation",
+      "no": "No, stay logged in.",
+      "yes": "Yes, log me out.",
+      "action": "Logout"
+    },
+    "mfa_verify": {
+      "abort": "Abort",
+      "code_label": "Enter your two-factor authentication code.",
+      "title": "Two-Factor Authentication",
+      "verify": "Verify Code"
+    },
+    "consent": {
+      "abort": "Abort",
+      "confirm_access": "Please verify using your account to proceed with login.",
+      "verify": "Verify"
+    },
+    "consent_page": {
+      "title": "Consent Required",
+      "verification_statement": "Please verify your consent."
+    }
+  },
+  "admin": {
+    "service_list": {
+      "add": "Add New Service"
+    },
+    "invite": {
+      "title": "Your Invite Codes",
+      "generate": "Generate Invite Code",
+      "uses": "Number of Uses",
+      "uses_hint": "Maximum times this invite can be used",
+      "expire_label": "Expiration Date",
+      "generate_invite": "Generate Invite",
+      "no_invites_message": "You currently have no invites available.",
+      "invites_unlocked_message": "You must wait %s days to unlock your invite codes.",
+      "invite_use_indicator": "This invite can be used %s times."
+    },
+    "user_list": {
+      "title": "User List",
+      "current_user": "You",
+      "create": "Create New User"
+    },
+    "user_add": {
+      "title": "Create User Account",
+      "create": "Create Account"
+    },
+    "user_manage": {
+      "title": "User Account Management"
+    },
+    "user_detail": {
+      "title": "Manage User Account",
+      "send_setup_email": "Send Account Setup Email",
+      "send_recovery_email": "Send Recovery Email",
+      "update": "Update Account Details",
+      "delete": "Delete User Account",
+      "confirm_delete": "Confirm Account Deletion",
+      "confirm_delete_message": "I understand this action cannot be undone.",
+      "delete_button": "Permanently Delete Account",
+      "update_button": "Update Account",
+      "send_recovery_email_button": "Send Recovery Email",
+      "send_setup_email_button": "Send Setup Email"
+    },
+    "service": {
+      "create": "Create New Service",
+      "configuration": "Service Configuration",
+      "delete": "Delete Service",
+      "delete_forever": "Permanently delete this service.",
+      "update": "Update Service",
+      "go_to": "Go to Service",
+      "login": "Login to Service",
+      "manage": "Manage Service",
+      "delete_confirm": "Are you sure you want to delete this service?"
+    },
+    "delete": {
+      "confirmation_required": "Confirmation required for deletion"
+    }
+  },
+  "account": {
+    "dashboard": {
+      "title": "Account Management"
+    },
+    "security": {
+      "title": "Access & Security",
+      "password_change": "Change Password",
+      "mfa_manage": "Manage Two-Factor Authentication",
+      "audit_view": "View Audit Log"
+    },
+    "recovery_menu": {
+      "title": "Account Recovery"
+    },
+    "menu": {
+      "recovery_manage": "Manage Recovery Options"
+    },
+    "delete_menu": {
+      "title": "Account Deletion",
+      "proceed": "Delete Account"
+    },
+    "recovery": {
+      "title": "Account Recovery",
+      "no_method_set_message": "No recovery methods set.",
+      "button": {
+        "add_email": "New Recovery Email"
+      },
+      "text": {
+        "recovery_methods_count": "You have %s recovery methods set up."
+      },
+      "active_list": {
+        "label": {
+          "token": "Recovery Token",
+          "email": "Recovery Email Address"
+        }
+      },
+      "add_token_button": "Add Recovery Token",
+      "add_email_button": "Add Recovery Email",
+      "add_button": {
+        "token": {
+          "title": "Add Recovery Token"
+        }
+      },
+      "add_recovery_email_button": "Add Recovery Email",
+      "warning_message": "Two-factor authentication will be removed. You need to set it up again after this action.",
+      "update_email": {
+        "title": "Update Recovery Email"
+      },
+      "add_email": {
+        "title": "Add Recovery Email"
+      },
+      "set_email": {
+        "waring_valid_email": "Make sure to use a valid email address.",
+        "new_email": "New Recovery Email Address",
+        "set_new_button": "Set Recovery Email"
+      },
+      "remove": {
+        "warning": "Are you sure you want to remove this recovery method? This action cannot be undone.",
+        "confirm": "Remove"
+      }
+    },
+    "password": {
+      "title": "Change Password",
+      "label": "Password"
+    },
+    "mfa": {
+      "title": "Two-Factor Authentication",
+      "enabled_message": "Two-Factor Authentication Enabled",
+      "remove_button": "Disable Two-Factor Authentication",
+      "setup_2fa": "Set Up 2FA",
+      "disabled_message": "2FA is currently disabled."
+    },
+    "audit": {
+      "title": "Security Audit Log",
+      "legend": "Activity Log Details",
+      "warning_label": "Warning",
+      "warning_description": "Potential security events",
+      "critical_label": "Critical",
+      "critical_description": "Significant security incidents"
+    },
+    "delete": {
+      "title": "Delete Account",
+      "confirm": {
+        "title": "Permanently Delete Account",
+        "warning": "Warning: This action cannot be undone",
+        "checkbox": {
+          "message": "Are you sure you want to delete your account? This action is permanent."
+        },
+        "button": {
+          "text": "Permanently Delete Account"
+        },
+        "alert": {
+          "message": "You are on the account deletion page. Deleting your account cannot be undone. Proceed with caution."
+        }
+      }
+    },
+    "confirm": {
+      "label": "Confirm",
+      "delete": {}
+    },
+    "common": {
+      "recovery_email": {
+        "setup": {},
+        "update": {},
+        "remove": {
+          "title": "Remove Recovery Email"
+        },
+        "new": {},
+        "set": {}
+      },
+      "recovery_token": {
+        "remove": {
+          "title": "Remove Recovery Token"
+        },
+        "setup": {
+          "warning": "Save your token in a safe location."
+        },
+        "set": {
+          "button": "Set Recovery Token"
+        },
+        "verify": {
+          "checkbox": "Verify this token for recovery."
+        },
+        "new": {
+          "label": "New Recovery Token",
+          "title": "New Recovery Token"
+        }
+      },
+      "recovery_methods": {}
+    },
+    "audit_log": {
+      "entries_since": "Audit log entries since %s weeks.",
+      "view_more": "View more entries."
+    },
+    "id": {
+      "format_invalid": "ID is not in a valid format",
+      "not_found": "Account ID not found."
+    },
+    "permission": {
+      "insufficient": "You do not have sufficient permissions to perform this action."
+    },
+    "create": "Create Account"
+  },
+  "dashboard": {
+    "welcome": "Welcome to your dashboard, %s!"
+  },
+  "title": {
+    "account_recovery": "Options for Account Recovery",
+    "login": "Login",
+    "error": "An error occurred",
+    "users": "Manage Users",
+    "services": "Services",
+    "recovery_email_sent": "Recovery Email sent",
+    "recovery": "Password Recovery",
+    "manage_service": "Manage Services",
+    "invite_codes": "Invite Codes",
+    "authorize": "Authorization Required"
+  },
+  "common": {
+    "current_password": "Current Password",
+    "new_password": "New Password",
+    "confirm_new_password": "Confirm New Password",
+    "update_password": "Update Password",
+    "account_2fa": {},
+    "username": "Username",
+    "select_recovery_method": "Select Recovery Method",
+    "form": {
+      "submit": "Submit"
+    },
+    "learn_more": "Learn More",
+    "invite_code": "Invite Code",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "recovery_email_secure_info": "Your email will be securely stored and used only for account recovery",
+    "recovery_email_address": "Recovery Email Address",
+    "recovery_token_written_confirm": "I have written down and securely stored my recovery token",
+    "account_role": "Account Role",
+    "user_uuid_label": "User Unique Identifier",
+    "actions": {},
+    "recovery_email": {
+      "sent": "A recovery email has been sent to your specified email address.",
+      "title": "Recovery Email"
+    },
+    "confirm": "Confirm",
+    "recovery_token": {
+      "confirmation_required": "Confirmation required for recovery token",
+      "title": "Recovery Token"
+    },
+    "setup": "Setup",
+    "action_button": {},
+    "button": {
+      "modify": "Modify",
+      "delete": "Delete"
+    },
+    "target_email": "Recipient Email Address",
+    "expires_in_days": "Expires in %s days",
+    "expires_on_date": "Expires on %s",
+    "your_admin_password": "Administrator Password",
+    "recovery_method": {
+      "title": "Recovery Method"
+    },
+    "new": "New",
+    "and": "and",
+    "user": {
+      "admin_password": "Administrator Password",
+      "email": "Your Email Address"
+    }
+  },
+  "time": {
+    "hours_ago": "%s hours ago",
+    "seconds_ago": "%s seconds ago",
+    "minutes_ago": "%s minutes ago"
+  },
+  "alert": {
+    "icon_alt": "Alert Icon",
+    "learn_more": "More Information",
+    "error_icon_alt": "Error Icon"
+  },
+  "validation": {
+    "feedback": {
+      "role_required": "A role is required.",
+      "role_invalid": "Role supplied is not valid.",
+      "permission_denied_for_role": "Missing permissions to use supplied role."
+    },
+    "login": {
+      "password_incorrect": "The password you entered is incorrect.",
+      "failed": "Login failed. Please try again.",
+      "two_factor": {
+        "token_invalid": "The two-factor authentication token is invalid."
+      },
+      "token_invalid": "Invalid login session token."
+    },
+    "email": {
+      "already_used": "This email is already in use.",
+      "format_invalid": "Invalid email format",
+      "provider_not_whitelisted": "Email provider not whitelisted",
+      "required": "An email is required."
+    },
+    "password": {
+      "invalid_characters": "Your password contains invalid characters.",
+      "security": "Your password does not meet security requirements.",
+      "confirmation_mismatch": "Your passwords don't match.",
+      "only_lowercases": "Only lowercase letters are allowed.",
+      "characters_allowed": "Only letters and numbers are allowed.",
+      "confirmation_required": "Password needs to be confirmed.",
+      "incorrect": "The password is incorrect.",
+      "hint": {
+        "straight_rows_of_keys_are_easy_to_guess": "Straight rows of keys are easy to guess.",
+        "short_keyboard_patterns_are_easy_to_guess": "Short keyboard patterns are easy to guess.",
+        "use_a_longer_keyboard_pattern_with_more_turns": "Use a longer keyboard pattern with more turns.",
+        "repeats_like_\"aaa\"_are_easy_to_guess": "Repeats like \"aaa\" are easy to guess.",
+        "repeats_like_\"abcabcabc\"_are_only_slightly_harder_to_guess_than_\"abc\"": "Repeats like \"abcabcabc\" are only slightly harder to guess than \"abc\".",
+        "sequences_like_abc_or_6543_are_easy_to_guess": "Sequences like abc or 6543 are easy to guess.",
+        "recent_years_are_easy_to_guess": "Recent years are easy to guess.",
+        "dates_are_often_easy_to_guess": "Dates are often easy to guess.",
+        "this_is_a_top_10_common_password": "This is a top-10 common password.",
+        "this_is_a_top_100_common_password": "This is a top-100 common password.",
+        "this_is_a_very_common_password": "This is a very common password.",
+        "this_is_similar_to_a_commonly_used_password": "This is similar to a commonly used password.",
+        "a_word_by_itself_is_easy_to_guess": "A word by itself is easy to guess.",
+        "names_and_surnames_by_themselves_are_easy_to_guess": "Names and surnames by themselves are easy to guess.",
+        "common_names_and_surnames_are_easy_to_guess": "Common names and surnames are easy to guess.",
+        "add_another_word_or_two": "Add another word or two.",
+        "avoid_dates_associated_with_you": "Avoid dates that are associated with you.",
+        "common_substitutions_dont_help": "Common substitutions like @ for a don't help very much.",
+        "use_uncommon_words": "Use uncommon words.",
+        "consider_using_a_passphrase": "Consider using a passphrase.",
+        "add_another_word_or_two_uncommon_words_are_better": "Add another word or two; uncommon words are better.",
+        "predictable_substitutions_like_'@'_instead_of_'a'_don't_help_very_much": "Predictable substitutions like '@' instead of 'a' don't help very much.",
+        "capitalization_doesn't_help_very_much": "Capitalization doesn't help very much.",
+        "use_a_few_words_avoid_common_phrases": "Use a few words, avoid common phrases.",
+        "no_need_for_symbols_digits_or_uppercase_letters": "No need for symbols, digits, or uppercase letters.",
+        "avoid_sequences": "Avoid sequences.",
+        "avoid_recent_years": "Avoid recent years.",
+        "avoid_years_that_are_associated_with_you": "Avoid years that are associated with you.",
+        "avoid_dates_and_years_that_are_associated_with_you": "Avoid dates and years that are associated with you.",
+        "all_uppercase_is_almost_as_easy_to_guess_as_all_lowercase": "All-uppercase is almost as easy to guess as all-lowercase.",
+        "avoid_repeated_words_and_characters": "Avoid repeated words and characters."
+      }
+    },
+    "common": {
+      "recovery_method": {
+        "required": "A recovery method is required.",
+        "invalid": "Recovery method is invalid.",
+        "unsupported": "The recovery method is not supported."
+      },
+      "recovery_email": {
+        "selection_required": "An email is required.",
+        "format_invalid": "Please supply a valid email.",
+        "incorrect": "The recovery email address is incorrect."
+      },
+      "recovery_token": {
+        "incorrect": "The recovery token is incorrect.",
+        "selection_required": "Recovery token is required.",
+        "format_invalid": "Recovery token format is invalid.",
+        "confirmation_required": "Confirmation required for recovery token"
+      }
+    },
+    "prompt": {
+      "invalid": "The input provided is invalid."
+    },
+    "account": {
+      "not_found": "Account not found.",
+      "setup": {
+        "link_invalid": "The setup link is invalid."
+      },
+      "not_found_by_id": "No account found with the provided ID."
+    },
+    "action_token": {
+      "mismatch": "The action token does not match.",
+      "invalid": "The action token is invalid."
+    },
+    "invite": {
+      "code": {
+        "expired": "The invite code has expired.",
+        "format_invalid": "The invite code has an invalid format.",
+        "invalid": "The invite code supplied is invalid."
+      }
+    },
+    "username": {
+      "taken_after_selection": "This username has been taken since your selection.",
+      "not_found": "Username not found",
+      "only_lowercases": "Your username needs to be lowercase.",
+      "characters_allowed": "Your username can only contain letters and numbers.",
+      "length": "Your username needs to be between 2 and 12 characters.",
+      "taken": "That username is already taken."
+    },
+    "two_factor": {
+      "token": {
+        "parse_failed": "Failed to parse the two-factor authentication token.",
+        "format_invalid": "Invalid token format",
+        "required": "Token required",
+        "verification_failed": "Token verification failed"
+      },
+      "login_token": {
+        "required": "Login token required"
+      },
+      "secret": {
+        "required": "Secret required"
+      }
+    },
+    "recovery": {
+      "link": {
+        "invalid": "The recovery link is invalid."
+      },
+      "method": {
+        "required": "A recovery method must be selected.",
+        "invalid": "Recovery method is invalid."
+      },
+      "token": {
+        "selection_required": "A recovery token is required.",
+        "format_invalid": "Recovery token format is invalid."
+      },
+      "email": {
+        "selection_required": "A valid email is required.",
+        "format_invalid": "Please provide a valid email."
+      }
+    },
+    "consent": {
+      "required": "Consent required"
+    }
+  },
+  "security": {
+    "2fa": {
+      "add_title": "Add Two-Factor Authentication"
+    }
+  },
+  "form": {
+    "create": "Create",
+    "update": "Update Form",
+    "confirm": "Confirm your action.",
+    "confirm_action": "Confirm this action."
+  },
+  "email": {
+    "body": {
+      "account_setup": {
+        "greeting": "Welcome to your account!",
+        "description": "Set up your account to get started."
+      },
+      "recovery": {
+        "greeting": "Hey!",
+        "description": "An account recovery request was sent to this email address. Use the link below to continue.",
+        "security_warning": "If you did not request this recovery, please ignore this email.",
+        "confirmation": "Your recovery has been confirmed.",
+        "title": "Password Recovery Confirmation",
+        "required": "An email is required."
+      },
+      "invite": {
+        "greeting": "You're invited!",
+        "description": "Use the invite code: %s",
+        "security_warning": "Keep your invite code confidential."
+      },
+      "setup": {
+        "confirmation": "Your email setup has been confirmed.",
+        "title": "Email Setup Confirmation"
+      },
+      "required": "An email is required.",
+      "format": {
+        "invalid": "Email format is invalid"
+      }
+    },
+    "subject": {
+      "your_invite_code": "Your Invite Code",
+      "your_new_account": "Welcome to Your New Account",
+      "your_recovery_link": "Your Password Recovery Link"
+    }
+  },
+  "recovery": {
+    "confirmation_sent": "A confirmation email has been sent.",
+    "confirmation_code": "Enter the confirmation code sent to your email.",
+    "title": "Password Recovery"
+  },
+  "account_recovery": {
+    "confirm_new_password": "Confirm your new password.",
+    "new_password": "Enter your new password."
+  },
+  "adapter": {
+    "client": {
+      "id_required": "Client ID is required.",
+      "id_conflict": "Client ID conflict detected.",
+      "not_found": "Client not found."
+    },
+    "id": {
+      "invalid": "Invalid ID Format."
+    },
+    "configuration": {
+      "required": "A configuration is required.",
+      "type_invalid": "Configuration must be a string."
+    }
+  },
+  "rate_limiter": {
+    "retry": {
+      "hours": "Please try again in %s hours.",
+      "minutes": "Please try again in %s minutes.",
+      "seconds": "Please try again in %s seconds."
+    },
+    "too_many": {
+      "two_factor": "Too many 2fa attempts.",
+      "ip": "Too many attempts from your IP.",
+      "invite_welcome": "Too many requests made here!",
+      "recovery": "Too many recovery attempts!",
+      "login": "Too many login attempts!"
+    }
+  },
+  "action_token": {
+    "required": "No action token supplied.",
+    "invalid": "Action token is invalid."
+  },
+  "error": {
+    "client": {
+      "with_message": "Client error: %s"
+    },
+    "internal": {
+      "generic": "An internal error has occurred."
+    },
+    "unexpected": {
+      "generic": "An unexpected error has occurred.",
+      "with_message": "An unexpected error occurred: %s"
+    },
+    "title": "Error"
+  },
+  "confirmation": {
+    "required": "Confirmation required"
+  },
+  "password": {
+    "confirm": {
+      "required": "Password needs to be confirmed",
+      "mismatch": "Passwords don't match."
+    }
+  },
+  "component": {
+    "2fa": {
+      "enter_code": {
+        "label": "Enter Authentication Code"
+      }
+    },
+    "navigation": {
+      "users": "Users",
+      "invites": "Invites",
+      "services": "Services"
+    },
+    "language": {
+      "info": {
+        "en": "English",
+        "de": "German"
+      },
+      "submit": "Change Language"
+    },
+    "account": {
+      "icon_alt": "Account Menu",
+      "settings": "Account Settings",
+      "settings_icon_alt": "Settings Icon",
+      "logout": "Logout",
+      "logout_icon_alt": "Logout Icon"
+    }
+  },
+  "widget": {
+    "language": {
+      "info": {
+        "de": "Deutsch",
+        "en": "English"
+      }
+    }
+  }
 }
