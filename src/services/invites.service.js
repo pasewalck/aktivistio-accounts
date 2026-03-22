@@ -2,6 +2,8 @@ import { generateAsciiSecret, generateTypeableCode } from '../helpers/generate-s
 import { fingerprintString } from '../helpers/fingerprint-string.js';
 import userdataDriver from '../drivers/data.driver.js';
 import secretService from './secret.service.js';
+import accountService from './account.service.js';
+import { Role } from '../models/roles.js';
 /**
  * @description Retrieves invite codes for a specific account.
  * @param {Account} account - The user account.
@@ -123,6 +125,17 @@ async function requestWithEmail(email) {
 		return inviteCodeEntry.code && inviteCodeEntry.code != null ? inviteCodeEntry.code : false;
 	}
 }
+
+function generateMultiplierInvites() {
+	accountService.getAllOfRole(Role.MULTIPLIER).forEach((account) => {
+		generateMultiple(Math.max(3 - getForAccount(account).length - getLockedForAccount(account), 0), {
+			linkedAccount: account,
+			validationDurationDays: 1,
+		});
+	});
+}
+
+setInterval(generateMultiplierInvites, 1000);
 
 export default {
 	generate: {

@@ -551,6 +551,22 @@ export default {
 	},
 
 	/**
+	 * @description Retrieves all accounts from the database.
+	 * @param {number} role - The role ID to look for.
+	 * @returns {Array<Object>} - An array of account objects containing ID, username, and role.
+	 */
+	getAllAccountsOfRole: (role) => {
+		return db
+			.prepare(
+				'SELECT id, username, role_id as role, is_active as isActive, last_login as lastLogin FROM accounts WHERE role_id = ?'
+			)
+			.all(role)
+			.map(
+				(result) => new Account(result.id, result.username, result.role, result.isActive == 1, result.lastLogin)
+			);
+	},
+
+	/**
 	 * @description Consumes a user invite by decrementing its usage count. If the usage count reaches zero, the invite is deleted from the database.
 	 * @param {String} code - The invite code to consume.
 	 */

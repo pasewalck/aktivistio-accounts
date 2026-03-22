@@ -286,6 +286,15 @@ function getAll() {
 }
 
 /**
+ * @description Retrieves all accounts in the system.
+ * @param {number} role - The new role ID to search for.
+ * @returns {Array<Account>} - An array of all accounts.
+ */
+function getAllOfRole(role) {
+	return userdataDriver.getAllAccountsOfRole(role);
+}
+
+/**
  * @param {Account} account - The account.
  * @param {PasswordResetChannels} resetChannel - The channel to use for reset link.
  */
@@ -371,6 +380,7 @@ export default {
 	},
 	updateUsername,
 	getAll,
+	getAllOfRole,
 	checkLogin,
 	create: create,
 	purge: purge,
