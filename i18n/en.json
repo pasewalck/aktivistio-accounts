@@ -83,7 +83,16 @@
 		"user_list": {
 			"title": "User List",
 			"current_user": "You",
-			"create": "Create New User"
+			"create": "Create New User",
+			"search_placeholder": "Search users...",
+			"search": "Search",
+			"previous": "Previous",
+			"next": "Next",
+			"showing": "Showing",
+			"to": "to",
+			"of": "of",
+			"results": "results",
+			"no_users_found": "No users found matching your search."
 		},
 		"user_add": {
 			"title": "Create User Account",

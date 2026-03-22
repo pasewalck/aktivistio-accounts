@@ -83,7 +83,16 @@
 		"user_list": {
 			"title": "Benutzer*innen",
 			"current_user": "Du",
-			"create": "Benutzer*inkonto erstellen"
+			"create": "Benutzer*inkonto erstellen",
+			"search_placeholder": "Benutzer*innen suchen...",
+			"search": "Suchen",
+			"previous": "Zurück",
+			"next": "Weiter",
+			"showing": "Anzeigen von",
+			"to": "bis",
+			"of": "von",
+			"results": "Ergebnissen",
+			"no_users_found": "Keine Benutzer*innen mit deiner Suche gefunden."
 		},
 		"user_add": {
 			"title": "Benutzer*inkonto erstellen",

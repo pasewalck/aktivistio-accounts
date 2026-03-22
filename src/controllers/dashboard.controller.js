@@ -499,7 +499,11 @@ export default {
 	 * @param {Response} res - The response object.
 	 */
 	users: async (req, res) => {
-		dashboardRenderer.users(req, res);
+		const errors = await validationResult(req);
+
+		if (!errors.isEmpty()) throw new ClientError(errors.array()[0].msg);
+		const data = await matchedData(req);
+		dashboardRenderer.users(req, res, data.search, data.page, data.limit);
 	},
 
 	/**

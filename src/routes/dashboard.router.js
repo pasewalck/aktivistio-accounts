@@ -23,6 +23,7 @@ import manageServiceDeleteValidations from '../validation/validators/dashboard/s
 import ownAccountAuditLogValidations from '../validation/validators/dashboard/own-account/own-account.audit-log.validations.js';
 import createAccountValidations from '../validation/validators/dashboard/system-management/accounts/create.account.validations.js';
 import sendEmailAccountValidations from '../validation/validators/dashboard/system-management/accounts/send-email.account.validations.js';
+import usersGetValidations from '../validation/validators/dashboard/system-management/accounts/users.get.validations.js';
 
 /**
  * @description Binds controller actions to routes for the primary app.
@@ -39,7 +40,13 @@ export default (app) => {
 	app.get('/services', middlewares, dashboardController.services);
 
 	// User management routes
-	app.get('/users', middlewares, generateCheckUserPermission(Permission.MANAGE_USERS), dashboardController.users);
+	app.get(
+		'/users',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_USERS),
+		usersGetValidations,
+		dashboardController.users
+	);
 	app.get(
 		'/user/manage/:id',
 		middlewares,

@@ -227,11 +227,31 @@ export default {
 	 * Displays a list of all users in the system.
 	 * @param {Request} req - The request object.
 	 * @param {Response} res - The response object.
+	 * @param {string} search - The search term.
+	 * @param {number} page - The page number.
+	 * @param {number} limit - The number of entries per page.
 	 */
-	users: (req, res) => {
+	users: (req, res, search = '', page = 1, limit = 10) => {
+		limit = Math.min(limit, 10);
+		let users = accountService.getAll();
+
+		if (search) {
+			users = users.filter((user) => user.username.toLowerCase().includes(search.toLowerCase()));
+		}
+
+		const totalUsers = users.length;
+		const totalPages = Math.ceil(totalUsers / limit);
+		const offset = (page - 1) * limit;
+		const paginatedUsers = users.slice(offset, offset + limit);
+
 		return res.render('pages/dashboard/users', {
 			title: res.__('title.users'),
-			users: accountService.getAll(),
+			users: paginatedUsers,
+			search: search,
+			page: page,
+			totalPages: totalPages,
+			totalUsers: totalUsers,
+			limit: limit,
 		});
 	},
 

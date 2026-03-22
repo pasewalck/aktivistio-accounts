@@ -1,16 +1,48 @@
 <div class="max-w-7xl mx-auto space-y-6">
     <div class="bg-white shadow sm:rounded-lg">
-        <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+        <div class="px-4 py-5 sm:px-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
                 <%= __('admin.user_list.title') %>
             </h3>
-            <a href="<%= urlUtils.extendUrl(baseUrl, 'user','add').href %>" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <%= __("admin.user_list.create") %>
-            </a>
+            <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+                <form id="search-form" action="" method="GET" class="flex items-center w-full sm:w-auto gap-2">
+                    <input id="search-input" type="text" name="search" value="<%= search %>" placeholder="<%= __('admin.user_list.search_placeholder') %>" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm sm:text-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    <noscript>
+                        <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <%= __('admin.user_list.search') %>
+                        </button>
+                    </noscript>
+                </form>
+
+            </div>
         </div>
+
+        <script>
+            const searchInput = document.getElementById('search-input');
+            const searchForm = document.getElementById('search-form');
+            let timeout = null;
+
+            searchInput.addEventListener('input', () => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    searchForm.submit();
+                }, searchInput.value.length > 2 ? 1500 : 2000);
+            });
+
+            // Focus at the end of text when submitting
+            if (searchInput.value) {
+                searchInput.focus();
+                searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
+            }
+        </script>
 
         <div class="border-t border-gray-200">
             <ul class="divide-y divide-gray-200">
+                <% if (users.length === 0) { %>
+                    <li class="px-4 py-8 sm:px-6 text-center text-gray-500 italic">
+                        <%= __('admin.user_list.no_users_found') %>
+                    </li>
+                <% } %>
                 <% users.forEach(user => { %>
                     <li class="px-4 py-4 sm:px-6 hover:bg-gray-50 transition duration-150 ease-in-out">
                         <div class="flex items-center justify-between">
@@ -39,5 +71,53 @@
                 <% }) %>
             </ul>
         </div>
+
+        <% if (totalPages > 1) { %>
+            <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                <div class="flex-1 flex justify-between sm:hidden">
+                    <a href="?page=<%= page - 1 %>&search=<%= search %>" class="<%= page <= 1 ? 'pointer-events-none opacity-50' : '' %> relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        <%= __('admin.user_list.previous') %>
+                    </a>
+                    <a href="?page=<%= page + 1 %>&search=<%= search %>" class="<%= page >= totalPages ? 'pointer-events-none opacity-50' : '' %> ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        <%= __('admin.user_list.next') %>
+                    </a>
+                </div>
+                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            <%= __('admin.user_list.showing') %>
+                            <span class="font-medium"><%= users.length %></span>
+                            <%= __('admin.user_list.of') %>
+                            <span class="font-medium"><%= totalUsers %></span>
+                            <%= __('admin.user_list.results') %>
+                        </p>
+                    </div>
+                    <div>
+                        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                            <a href="?page=<%= page - 1 %>&search=<%= search %>" class="<%= page <= 1 ? 'pointer-events-none opacity-50' : '' %> relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <span class="sr-only"><%= __('admin.user_list.previous') %></span>
+                                &larr;
+                            </a>
+                            <% for(let i = 1; i <= totalPages; i++) { %>
+                                <a href="?page=<%= i %>&search=<%= search %>" class="<%= page === i ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50' %> relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                    <%= i %>
+                                </a>
+                            <% } %>
+                            <a href="?page=<%= page + 1 %>&search=<%= search %>" class="<%= page >= totalPages ? 'pointer-events-none opacity-50' : '' %> relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <span class="sr-only"><%= __('admin.user_list.next') %></span>
+                                &rarr;
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        <% } %>
     </div>
+    <% if (true) { %>
+        <div class="flex justify-end">
+            <a href="<%= urlUtils.extendUrl(baseUrl, 'user','add').href %>" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full sm:w-auto justify-center">
+                <%= __("admin.user_list.create") %>
+            </a>
+        </div>
+    <% } %>
 </div>
