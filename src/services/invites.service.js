@@ -135,7 +135,7 @@ function generateMultiplierInvites() {
 	});
 }
 
-setInterval(generateMultiplierInvites, 1000);
+setInterval(generateMultiplierInvites, 1000 * 60 * 60);
 
 export default {
 	generate: {
