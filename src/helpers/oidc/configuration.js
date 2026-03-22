@@ -5,6 +5,7 @@ import { emulatedEjs } from '../ejs-render.js';
 import env from '../env.js';
 import { assembleUrl, extendUrl } from '../url.js';
 import { generateAsciiSecret } from '../../helpers/generate-secrets.js';
+import { ClientError, InternalError, UnexpectedClientError } from '../../models/errors.js';
 
 // Initialize the emulated EJS instance for rendering templates
 const emulatedEjsInstance = await emulatedEjs('layouts/centered');
@@ -57,9 +58,28 @@ export default {
 	},
 	renderError: async function renderError(ctx, out, error) {
 		ctx.type = 'html';
-		logger.error(error); // Log the error for debugging
+		var errorMsg;
+
+		if (error instanceof InternalError) {
+			logger.error(error); // Log the error for debugging
+			errorMsg = ctx.res.__('error.internal.generic');
+		} else if (error instanceof UnexpectedClientError) {
+			errorMsg = ctx.res.__('error.unexpected.with_message', error.message);
+		} else if (error instanceof ClientError || error.constructor.name === 'ForbiddenError') {
+			errorMsg = ctx.res.__('error.client.with_message', error.message);
+		} else {
+			logger.error(error); // Log the error for debugging
+			errorMsg = ctx.res.__('error.unexpected.generic');
+		}
 		// Render the error card with the error message
-		ctx.body = await render('pages/shared/error', { error: error }, ctx.res.__('title.error'), ctx);
+		ctx.body = await render(
+			'pages/shared/error',
+			{
+				error: errorMsg,
+			},
+			ctx.res.__('title.error'),
+			ctx
+		);
 	},
 	conformIdTokenClaims: false,
 	claims: {
