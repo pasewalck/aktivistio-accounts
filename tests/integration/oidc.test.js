@@ -4,6 +4,7 @@ import request from 'supertest';
 import adapterService from '../../src/services/adapter.service.js';
 import env from '../../src/helpers/env.js';
 import { requestWithFormData } from '../../src/helpers/requestWithFormData.js';
+import * as cheerio from 'cheerio';
 
 vi.mock('../../src/middlewares/csrf-protection.middleware.js', () => ({
 	default: (req, res, next) => {
@@ -34,6 +35,7 @@ const createTestClient = (clientId, clientSecret, redirectUrl) => ({
 	client_secret: clientSecret,
 	grant_types: ['authorization_code'],
 	redirect_uris: [redirectUrl],
+	post_logout_redirect_uris: [redirectUrl],
 	response_types: ['code'],
 });
 
@@ -63,7 +65,7 @@ describe('Open ID Connect', () => {
 		expect(res.body).toHaveProperty('authorization_endpoint');
 	});
 
-	it('should allow logging in via auth endpoint', async () => {
+	it('should allow login and logout in via auth endpoint', async () => {
 		const agent = request.agent(app);
 		const client = {
 			clientId: TEST_CLIENT.id,
@@ -114,6 +116,25 @@ describe('Open ID Connect', () => {
 
 			expect(res.status).toBe(200);
 			expect(res.body).toHaveProperty('access_token');
+			expect(res.body).toHaveProperty('id_token');
+
+			const idToken = res.body.id_token;
+
+			res = await agent.get(
+				`/oidc/session/end?id_token_hint=${idToken}&post_logout_redirect_uri=${TEST_CLIENT.redirectUri}`
+			);
+			expect(res.status).toBe(200);
+			let $ = cheerio.load(res.text);
+			const xsrf = $('input[name="xsrf"]').val();
+
+			res = await requestWithFormData(agent, `/oidc/session/end/confirm`, {
+				xsrf: xsrf,
+				logout: 'yes',
+			});
+
+			expect(res.status).toBe(303);
+			const logoutRedirectLocation = new URL(res.headers.location);
+			expect(logoutRedirectLocation.origin).toBe(TEST_CLIENT.redirectUri);
 		} finally {
 			adapterService.removeEntry('Client', client.clientId);
 		}
