@@ -71,6 +71,7 @@ createLauncher(
 ['SIGINT', 'SIGTERM', 'SIGHUP'].forEach((sig) =>
 	process.on(sig, () => {
 		if (child && child.pid) {
+			logger.info('Stopping main process ...');
 			restart = false;
 			try {
 				process.kill(child.pid, sig);
