@@ -93,6 +93,9 @@ class Adapter {
 	 * @returns {Promise<void>} - A promise that resolves when the entry is upserted.
 	 */
 	async upsert(id, payload, expiresIn) {
+		// Don't store anything if id is undefined or null
+		if (id == null || id == undefined) return;
+
 		// Store the entry in the adapter service with the specified expiration time
 		await adapterService.setEntry(this.model, id, payload, expiresIn);
 
