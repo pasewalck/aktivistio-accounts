@@ -49,8 +49,6 @@ function setEntry(model, id, value, expire = null) {
 	// Check if the entry already exists
 	if (!getEntry(model, id)) {
 		adapterDriver.insertEntry(model, id, encodedValue, expire); // Insert a new entry if it doesn't exist
-		if (model == 'Session' && value.accountId)
-			adapterDriver.addLookupValueForEntry(model, id, 'accountId', value.accountId);
 	} else {
 		// Update the existing entry
 		if (expire !== null) {
