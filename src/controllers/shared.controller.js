@@ -60,7 +60,7 @@ async function doLogin(res, req, interactionDetails, accountId) {
 		// If no interaction details, set the provider session and redirect to the home page
 		await setProviderSession(provider, req, res, { accountId: accountId });
 		accountService.lastLogin.register(accountService.find.withId(accountId));
-		res.redirect(extendUrl(env.BASE_URL));
+		res.redirect(extendUrl(env.BASE_URL).href);
 	}
 }
 

@@ -110,10 +110,10 @@ app.get('/health', (req, res) => {
 
 //Unlock Redirect
 app.get('/unlock', (req, res) => {
-	res.redirect(extendUrl(env.BASE_URL));
+	res.redirect(extendUrl(env.BASE_URL).href);
 });
 app.post('/unlock', (req, res) => {
-	res.redirect(extendUrl(env.BASE_URL));
+	res.redirect(extendUrl(env.BASE_URL).href);
 });
 
 // Attach language change controller

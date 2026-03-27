@@ -56,7 +56,7 @@ export default {
 		const inviteCode = await invitesService.requestWithEmail(email);
 
 		mailService.send.inviteCode(inviteCode, email, res.locals);
-		res.redirect(extendUrl(env.BASE_URL, 'register'));
+		res.redirect(extendUrl(env.BASE_URL, 'register').href);
 	},
 
 	/**
@@ -189,7 +189,7 @@ export default {
 				break;
 		}
 
-		res.redirect(extendUrl(env.BASE_URL, 'login'));
+		res.redirect(extendUrl(env.BASE_URL, 'login').href);
 	},
 
 	/**
@@ -347,7 +347,7 @@ export default {
 		// Set the provider session for the newly created account
 		await setProviderSession(provider, req, res, { accountId: account.id });
 		accountService.lastLogin.register(account);
-		res.redirect(extendUrl(env.BASE_URL));
+		res.redirect(extendUrl(env.BASE_URL).href);
 	},
 
 	/**
@@ -403,6 +403,6 @@ export default {
 		// Set the provider session for the newly created account
 		await setProviderSession(provider, req, res, { accountId: account.id });
 		accountService.lastLogin.register(account);
-		res.redirect(extendUrl(env.BASE_URL));
+		res.redirect(extendUrl(env.BASE_URL).href);
 	},
 };

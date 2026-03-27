@@ -70,7 +70,7 @@ export default {
 		auditService.appendAuditLog(req.account, AuditActionType.PASSWORD_CHANGED, req);
 
 		await accountService.password.set(req.account, data.newPassword);
-		res.redirect(extendUrl(env.BASE_URL, 'account'));
+		res.redirect(extendUrl(env.BASE_URL, 'account').href);
 	},
 
 	/**
@@ -97,7 +97,7 @@ export default {
 		}
 
 		await accountService.purge(req.account);
-		res.redirect(extendUrl(env.BASE_URL));
+		res.redirect(extendUrl(env.BASE_URL).href);
 	},
 
 	/**
@@ -139,7 +139,7 @@ export default {
 		);
 
 		accountService.twoFactorAuth.set(req.account, data.secret);
-		res.redirect(extendUrl(env.BASE_URL, 'account', '2fa'));
+		res.redirect(extendUrl(env.BASE_URL, 'account', '2fa').href);
 	},
 
 	/**
@@ -151,7 +151,7 @@ export default {
 		auditService.appendAuditLog(req.account, AuditActionType.TWO_FACTOR_AUTH_DISABLED, req);
 
 		accountService.twoFactorAuth.set(req.account, null);
-		res.redirect(extendUrl(env.BASE_URL, 'account', '2fa'));
+		res.redirect(extendUrl(env.BASE_URL, 'account', '2fa').href);
 	},
 
 	/**
@@ -219,7 +219,7 @@ export default {
 		auditService.appendAuditLog(req.account, AuditActionType.RECOVERY_METHOD_UPDATED, req);
 
 		await accountService.recovery.email.set(req.account, null);
-		res.redirect(extendUrl(env.BASE_URL, 'account', 'recovery'));
+		res.redirect(extendUrl(env.BASE_URL, 'account', 'recovery').href);
 	},
 
 	/**
@@ -242,7 +242,7 @@ export default {
 		auditService.appendAuditLog(req.account, AuditActionType.RECOVERY_METHOD_UPDATED, req);
 
 		await accountService.recovery.token.set(req.account, null);
-		res.redirect(extendUrl(env.BASE_URL, 'account', 'recovery'));
+		res.redirect(extendUrl(env.BASE_URL, 'account', 'recovery').href);
 	},
 
 	/**
@@ -265,7 +265,7 @@ export default {
 		auditService.appendAuditLog(req.account, AuditActionType.RECOVERY_METHOD_UPDATED, req);
 
 		await accountService.recovery.email.set(req.account, data.email);
-		res.redirect(extendUrl(env.BASE_URL, 'account', 'recovery'));
+		res.redirect(extendUrl(env.BASE_URL, 'account', 'recovery').href);
 	},
 
 	/**
@@ -288,7 +288,7 @@ export default {
 		auditService.appendAuditLog(req.account, AuditActionType.RECOVERY_METHOD_UPDATED, req);
 
 		await accountService.recovery.token.set(req.account, req.body.token);
-		res.redirect(extendUrl(env.BASE_URL, 'account', 'recovery'));
+		res.redirect(extendUrl(env.BASE_URL, 'account', 'recovery').href);
 	},
 
 	/**
@@ -345,7 +345,7 @@ export default {
 			linkedAccount: req.account,
 			expireDate: data.date ? data.date : null,
 		});
-		res.redirect(extendUrl(env.BASE_URL, 'invites', 'new'));
+		res.redirect(extendUrl(env.BASE_URL, 'invites', 'new').href);
 	},
 
 	/**
@@ -363,7 +363,7 @@ export default {
 		}
 
 		invitesService.remove(data.code);
-		res.redirect(extendUrl(env.BASE_URL, 'invites'));
+		res.redirect(extendUrl(env.BASE_URL, 'invites').href);
 	},
 
 	/**
@@ -407,7 +407,7 @@ export default {
 		const newClientId = configuration['client_id'];
 		adapterService.setEntry('Client', newClientId, configuration);
 
-		res.redirect(extendUrl(env.BASE_URL, 'services'));
+		res.redirect(extendUrl(env.BASE_URL, 'services').href);
 	},
 
 	/**
@@ -457,7 +457,7 @@ export default {
 		}
 		adapterService.setEntry('Client', newClientId, configuration);
 
-		res.redirect(extendUrl(env.BASE_URL, 'services', 'edit', newClientId));
+		res.redirect(extendUrl(env.BASE_URL, 'services', 'edit', newClientId).href);
 	},
 
 	/**
@@ -490,7 +490,7 @@ export default {
 
 		adapterService.removeEntry('Client', clientId);
 		res.redirect('/services');
-		res.redirect(extendUrl(env.BASE_URL, 'services'));
+		res.redirect(extendUrl(env.BASE_URL, 'services').href);
 	},
 
 	/**
@@ -578,7 +578,7 @@ export default {
 		}
 
 		accountService.setRole(accountService.find.withId(data.id), data.accountUpdateRole);
-		res.redirect(extendUrl(env.BASE_URL, 'user', 'manage', data.id));
+		res.redirect(extendUrl(env.BASE_URL, 'user', 'manage', data.id).href);
 	},
 
 	/**
@@ -596,7 +596,7 @@ export default {
 		}
 
 		accountService.purge(accountService.find.withId(data.id));
-		res.redirect(extendUrl(env.BASE_URL, 'users'));
+		res.redirect(extendUrl(env.BASE_URL, 'users').href);
 	},
 
 	/**
@@ -654,6 +654,6 @@ export default {
 		const session = await provider.Session.get(provider.createContext(req, res));
 		session.destroy();
 
-		res.redirect(extendUrl(env.BASE_URL, 'login'));
+		res.redirect(extendUrl(env.BASE_URL, 'login').href);
 	},
 };

@@ -52,7 +52,7 @@ export default {
 			},
 			postLogoutSuccessSource: async (ctx) => {
 				// Redirect to the home page after logout
-				ctx.res.redirect('/');
+				ctx.res.redirect(extendUrl(env.BASE_URL).href);
 			},
 		},
 	},
