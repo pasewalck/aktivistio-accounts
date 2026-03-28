@@ -78,4 +78,8 @@ export default {
 	DEFAULT: {
 		SUPERADMIN_PASSWORD: load('SUPERADMIN_DEFAULT_PASSWORD', { default: null }),
 	},
+	MONITOR: {
+		LOG_REGULARLY: load('MONITOR_LOG_REGULARLY', { default: true }),
+		MONITOR_LAG: load('MONITOR_LAG', { default: true }),
+	},
 };
