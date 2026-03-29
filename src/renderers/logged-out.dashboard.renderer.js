@@ -42,7 +42,7 @@ export default {
 			title: res.__('auth.register.head_title'),
 			formData: formData,
 			// TODO: Handle consent text in a more robust way
-			consents: await marked(readFileSync('configuration/consent.md').toString()),
+			consents: await marked(readFileSync(`configuration/${res.getLocale()}.consent.md`).toString()),
 			errors: errors,
 			isRegister: isRegister,
 			layout: 'layouts/centered',
