@@ -1,5 +1,5 @@
 import { userAuthMiddleware } from '../middlewares/user-auth.middleware.js';
-import monitorController from '../controllers/monitor.controller.js';
+import apiController from '../controllers/api.controller.js';
 import logger from '../helpers/logger.js';
 
 /**
@@ -7,7 +7,7 @@ import logger from '../helpers/logger.js';
  * @param {import("express").Express} app - The Express application instance.
  */
 export default (app) => {
-	logger.debug('Initializing monitor router');
+	logger.debug('Initializing api router');
 
-	app.get('/api/monitor', userAuthMiddleware, monitorController.status);
+	app.get('/api/monitor', userAuthMiddleware, apiController.applicationMonitorGetStatus);
 };
