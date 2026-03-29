@@ -12,6 +12,7 @@ import { ipRateLimiterMiddleware } from './middlewares/rate-limiter.middlewares.
 import csrfProtection from './middlewares/csrf-protection.middleware.js';
 import dashboardRoutes from './routes/dashboard.router.js';
 import oidcRoutes from './routes/oidc.router.js';
+import monitorRoutes from './routes/monitor.router.js';
 import loggedOutDashboardRouter from './routes/logged-out.dashboard.router.js';
 import shortSessionMiddleware from './middlewares/session.middleware.js';
 import provider from './helpers/oidc/provider.js';
@@ -100,6 +101,7 @@ logger.debug('Initializing routers');
 // Bind routes to the application
 oidcRoutes(app);
 dashboardRoutes(app);
+monitorRoutes(app);
 loggedOutDashboardRouter(app);
 
 // Health check route

@@ -38,27 +38,9 @@ function setListening(status) {
  * @description Logs the current memory usage, event loop lag, and server status.
  */
 async function logStatus() {
-	const memory = getMemoryUsage();
-
 	logger.info({
 		msg: 'Application Monitoring Status',
-		uptimeS: `${Math.round(process.uptime())}s`,
-		uptimeFormatted: formattedUptime(),
-		express: {
-			isListening,
-		},
-		eventLoop: {
-			metricsMS:
-				histogram.count > 0
-					? {
-							min: histogram.min / 1e6,
-							max: histogram.max / 1e6,
-							mean: histogram.mean / 1e6,
-							P99: histogram.percentile(99) / 1e6,
-						}
-					: {},
-		},
-		memory,
+		...getStatus(),
 	});
 
 	if (histogram.count > 0) histogram.reset();
@@ -92,9 +74,34 @@ async function scheduleLogStatus() {
 	setInterval(logStatus, 60 * 60 * 1000).unref();
 }
 
+/**
+ * @description Retrieves current application status including memory, event loop and uptime.
+ * @returns {Object} Application status metrics.
+ */
+function getStatus() {
+	return {
+		uptime: formattedUptime(),
+		uptimeSeconds: Math.floor(process.uptime()),
+		express: {
+			isListening,
+		},
+		eventLoop:
+			histogram.count > 0
+				? {
+						min: histogram.min / 1e6,
+						max: histogram.max / 1e6,
+						mean: histogram.mean / 1e6,
+						P99: histogram.percentile(99) / 1e6,
+					}
+				: {},
+		memory: getMemoryUsage(),
+	};
+}
+
 export default {
 	setListening,
 	getMemoryUsage,
+	getStatus,
 	logStatus,
 	scheduleLogStatus,
 	startLagMonitor,
