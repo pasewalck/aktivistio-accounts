@@ -4,7 +4,7 @@ data/
 src/public/css
 logs
 app-logo.*
-configuration/consent.md
+configuration/*
 .env
 .vscode
 database-secrets.txt
