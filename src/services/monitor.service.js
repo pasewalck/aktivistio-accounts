@@ -38,10 +38,15 @@ function setListening(status) {
  * @description Logs the current memory usage, event loop lag, and server status.
  */
 async function logStatus() {
-	logger.info({
-		msg: 'Application Monitoring Status',
-		...getStatus(),
-	});
+	const status = getStatus();
+	const mem = status.memory;
+	const loop = status.eventLoop;
+	const loopStr = loop.P99 !== undefined ? ` | lag P99: ${loop.P99.toFixed(2)}ms` : '';
+	const memStr = mem ? ` | rss: ${mem.rss}${mem.unit}` : '';
+
+	logger.info(
+		`Monitoring ... | uptime: ${status.uptime} | express: ${status.express.isListening ? 'up' : 'down'}${memStr}${loopStr}`
+	);
 
 	if (histogram.count > 0) histogram.reset();
 }
