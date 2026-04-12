@@ -45,11 +45,11 @@ export default {
 			.prepare(
 				`
             SELECT invites.validation_date as createDate,
-                   invites.code,
-				   invites.uses,
-                   invites.max_uses as maxUses,
-				   invites.last_use as maxUse,
-                   invites.expire_date as expireDate
+                invites.code,
+				invites.uses,
+                invites.max_uses as maxUses,
+			   	invites.last_use as maxUse,
+                invites.expire_date as expireDate
             FROM invites, account_invites
             WHERE invites.code = account_invites.code
               AND account_invites.id = ?
