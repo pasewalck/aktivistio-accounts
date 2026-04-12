@@ -76,7 +76,7 @@ export function doMigrations(db, migrationVersions) {
 	`);
 
 	// Only migrations with versions higher than the last applied migration will be executed.
-	const currentState = db.prepare('select version,idx FROM migrations ORDER BY version,idx').get();
+	const currentState = db.prepare('select version,idx FROM migrations ORDER BY version DESC,idx DESC').get();
 
 	for (let j = 0; j < migrationVersions.length; j++) {
 		const migrationVersion = migrationVersions[j];
