@@ -69,7 +69,7 @@ export function doMigrations(db, migrationVersions) {
 	db.exec(`
 		create table IF NOT EXISTS migrations (
         	id INTEGER PRIMARY KEY AUTOINCREMENT,
-			version INTEGER UNIQUE,
+			version INTEGER,
 			idx INTEGER,
 			date INTEGER
 		);
