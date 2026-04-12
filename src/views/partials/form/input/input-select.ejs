@@ -19,5 +19,8 @@
             <% errors[select.name].rendered = true %>
             <p class="mt-2 text-sm text-red-600"><%= errors[select.name].msg %></p>
         <% } %>
+        <% if (select.info) { %>
+            <p class="mt-1 text-sm text-gray-500"><%= select.info %></p>
+        <% } %>
     </div>
 </div>
