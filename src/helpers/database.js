@@ -88,8 +88,8 @@ export function doMigrations(db, migrationVersions) {
 					migration.up(db);
 					db.prepare(
 						`
-						INSERT INTO migrations (version,idx, date)
-						VALUES (?,?, strftime('%s','now'))
+						INSERT INTO migrations (version,idx,date)
+						VALUES (?,?,strftime('%s','now'))
 					`
 					).run(migrationVersion.version, i);
 				}
