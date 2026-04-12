@@ -1,17 +1,18 @@
 import { doMigrations, initDatabase } from '../helpers/database.js';
 import env from '../helpers/env.js';
 import userdataMigration000 from '../migrations/userdata/userdata.migration.000.js';
+import userdataMigration001 from '../migrations/userdata/userdata.migration.001.js';
 import { Account } from '../models/accounts.js';
 import { AuditActionType } from '../models/audit-action-types.js';
 
 const { db, isDbInit } = initDatabase('data', env.DATABASE_KEYS.DATA);
-doMigrations(db, [userdataMigration000]);
+doMigrations(db, [userdataMigration000, userdataMigration001]);
 
 export default {
 	/**
 	 * @description Retrieves invites associated with a specific user account by ID.
 	 * @param {String} id - The ID of the user account.
-	 * @returns {Array<Object>} - An array of invite objects containing validation date, code, usages, and expiration date.
+	 * @returns {Array<Object>} - An array of invite objects containing validation date, code, uses, max_uses, and expiration date.
 	 */
 	getInvitesForAccountById: (id) => {
 		return db
@@ -19,7 +20,9 @@ export default {
 				`
             SELECT invites.validation_date as createDate,
                    invites.code,
-                   invites.usages,
+				   invites.uses,
+                   invites.max_uses as maxUses,
+				   invites.last_use as maxUse,
                    invites.expire_date as expireDate
             FROM invites, account_invites
             WHERE invites.code = account_invites.code
@@ -43,7 +46,9 @@ export default {
 				`
             SELECT invites.validation_date as createDate,
                    invites.code,
-                   invites.usages,
+				   invites.uses,
+                   invites.max_uses as maxUses,
+				   invites.last_use as maxUse,
                    invites.expire_date as expireDate
             FROM invites, account_invites
             WHERE invites.code = account_invites.code
@@ -507,8 +512,8 @@ export default {
 	 * @param {String} code - The invite code to consume.
 	 */
 	consumeInviteCode: (code) => {
-		db.prepare('UPDATE invites SET usages = usages - 1 WHERE code = ?').run(code);
-		db.prepare('DELETE FROM invites WHERE code = ? AND usages = 0').run(code);
+		db.prepare('UPDATE invites SET uses = uses + 1 WHERE code = ?').run(code);
+		db.prepare("UPDATE invites SET last_use = strftime('%s', 'now') WHERE code = ?").run(code);
 	},
 
 	/**
@@ -526,6 +531,7 @@ export default {
             WHERE code = ?
               AND strftime('%s','now') >= invites.validation_date
               AND (invites.expire_date IS NULL OR strftime('%s','now') <= invites.expire_date)
+			  AND (invites.uses < invites.max_uses)
         `
 				)
 				.pluck()
@@ -552,7 +558,7 @@ export default {
 	addInviteCode: (code, maxUses = 1, validationDateSeconds = Date.now() / 1000, expireDateSeconds = null) => {
 		db.prepare(
 			`
-            INSERT INTO invites (code, usages, validation_date, expire_date)
+            INSERT INTO invites (code, max_uses, validation_date, expire_date)
             VALUES (?, ?, strftime('%s','now') + ?, ?)
         `
 		).run(code, maxUses, validationDateSeconds, expireDateSeconds);

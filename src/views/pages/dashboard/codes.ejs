@@ -63,9 +63,9 @@
                                                 <%= __("common.expires_on_date", date.toLocaleString("en-GB").split(', ')[0]) %>
                                             <% } %>
                                         <% } %>
-                                        <% if (inviteCodes[index].usages > 1) { %>
+                                        <% if (inviteCodes[index].maxUses != 1) { %>
                                             <div class=" px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                                <%= __("admin.invite.invite_use_indicator", inviteCodes[index].usages) %>
+                                                <%= __("admin.invite.invite_use_indicator",inviteCodes[index].maxUses-inviteCodes[index].uses,inviteCodes[index].maxUses) %>
                                             </div>
                                         <% } %>
                                         <% if (isNew) { %>

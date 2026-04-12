@@ -78,7 +78,7 @@
 			"generate_invite": "Generate Invite",
 			"no_invites_message": "You currently have no invites available.",
 			"invites_unlocked_message": "You must wait %s days to unlock your invite codes.",
-			"invite_use_indicator": "This invite can be used %s times."
+			"invite_use_indicator": "This invite can be used %s / %s times."
 		},
 		"user_list": {
 			"title": "User List",
