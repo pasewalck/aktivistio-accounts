@@ -1,27 +1,10 @@
-import { initDatabase } from '../helpers/database.js';
+import { doMigrations, initDatabase } from '../helpers/database.js';
 import env from '../helpers/env.js';
+import adapterMigration000 from '../migrations/adapter/adapter.migration.000.js';
 
 // Initialize the database connection for the OIDC storage
 const { db } = initDatabase('oidc', env.DATABASE_KEYS.OIDC);
-
-// Create tables for storing entries and their lookups if they do not already exist
-db.exec(`
-    CREATE TABLE IF NOT EXISTS entries (
-        id TEXT,
-        model TEXT NOT NULL,
-        value TEXT NOT NULL,
-        expire INTEGER,
-        PRIMARY KEY (model, id)
-    );
-    CREATE TABLE IF NOT EXISTS entries_lookup (
-        entry_id TEXT,
-        entry_model TEXT,
-        name TEXT NOT NULL,
-        lookup_value TEXT NOT NULL,
-        PRIMARY KEY (name, entry_model, lookup_value, entry_id),
-        FOREIGN KEY (entry_id, entry_model) REFERENCES entries (id, model) ON DELETE CASCADE
-    );
-`);
+doMigrations(db, [adapterMigration000]);
 
 /**
  * @description Remove an entry from storage by its ID.

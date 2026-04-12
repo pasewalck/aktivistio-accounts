@@ -1,17 +1,9 @@
-import { initDatabase } from '../helpers/database.js';
+import { doMigrations, initDatabase } from '../helpers/database.js';
 import env from '../helpers/env.js';
+import secretMigration000 from '../migrations/secrets/secret.migration.000.js';
 
 const { db } = initDatabase('secrets', env.DATABASE_KEYS.SECRETS);
-
-// Initialize tables for the storage
-db.exec(`
-    create table IF NOT EXISTS secrets (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name text not null,
-        value text not null,
-        created INTEGER NOT NULL DEFAULT (strftime('%s','now'))
-    );
-`);
+doMigrations(db, [secretMigration000]);
 
 /**
  * @description Get entry from secret storage
