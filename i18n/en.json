@@ -78,7 +78,13 @@
 			"generate_invite": "Generate Invite",
 			"no_invites_message": "You currently have no invites available.",
 			"invites_unlocked_message": "You must wait %s days to unlock your invite codes.",
-			"invite_use_indicator": "This invite can be used %s / %s times."
+			"invite_use_indicator": "This invite can be used %s / %s times.",
+			"personal": "Personal Invites (Private)",
+			"mode": "Type",
+			"mode_private": "Private",
+			"mode_system": "System",
+			"mode_hint": "Should this invite code be visible to all moderators (system) or just to you?",
+			"system": "System Invites (Shared)"
 		},
 		"user_list": {
 			"title": "User List",

@@ -78,7 +78,13 @@
 			"generate_invite": "Generieren",
 			"no_invites_message": "Aktuell hast du keine Einladungscodes.",
 			"invites_unlocked_message": "Einladungscodes werden in %s Tagen freigeschaltet.",
-			"invite_use_indicator": "Der Einladungscode kann noch %s / %s male verwendet werden."
+			"invite_use_indicator": "Der Einladungscode kann noch %s / %s male verwendet werden.",
+			"personal": "Persönliche Einladungen (privat)",
+			"system": "Systemeinladungen (gemeinsam verwaltet)",
+			"mode": "Art",
+			"mode_system": "System",
+			"mode_private": "Privat",
+			"mode_hint": "Soll dieser Einladungscode für alle Moderatoren (System) sichtbar sein oder nur für dich?"
 		},
 		"user_list": {
 			"title": "Benutzer*innen",

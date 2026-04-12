@@ -1,0 +1,65 @@
+<%
+    // inviteCodes: Array of invite code objects
+    // canDelete: Boolean indicating if user can delete invites
+    // noInvitesMessage: i18n key for empty state message
+%>
+
+<div class="border-t border-gray-200">
+    <% if (inviteCodes.length <= 0) { %>
+        <div class="p-4">
+            <%- include("./alert-info.ejs", { info: __(noInvitesMessage), moreInfoLink: false }) %>
+        </div>
+    <% } else { %>
+        <ul class="divide-y divide-gray-200">
+            <% for (let index = 0; index < inviteCodes.length; index++) { %>
+                <%
+                    let isNew = animateNewest
+                    animateNewest = false
+                %>
+                <li class="px-4 py-4 sm:px-6 flex items-center justify-between<%= isNew ? ' animate-in-invite' : '' %>">
+                    <div class="flex items-center space-x-4">
+                        <div class="invite-code font-mono text-lg font-bold text-gray-900">
+                            <span class="invite-hidden-part"><%= inviteCodes[index].code.substring(0, 4) %></span><span><%= inviteCodes[index].code.substring(4) %></span>
+                        </div>
+                        <div class="inline-flex items-center gap-1.5">
+                            <% if (inviteCodes[index].expireDate) { %>
+                                <% var date = new Date(inviteCodes[index].expireDate * 1000); %>
+                                <% var daysLeft = (date.getTime() - new Date().getTime()) / 1000 / (60 * 60 * 24); %>
+                                <% if (daysLeft < 14) { %>
+                                    <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"><%= __("common.expires_in_days", Number.parseFloat(daysLeft).toFixed(0)) %></span>
+                                <% } else { %>
+                                    <%= __("common.expires_on_date", date.toLocaleString("en-GB").split(', ')[0]) %>
+                                <% } %>
+                            <% } %>
+                            <% if (inviteCodes[index].maxUses != 1) { %>
+                                <div class=" px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    <%= __("admin.invite.invite_use_indicator",inviteCodes[index].maxUses-inviteCodes[index].uses,inviteCodes[index].maxUses) %>
+                                </div>
+                            <% } %>
+                            <% if (isNew) { %>
+                                <div class=" px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <%= __("common.new") %>
+                                </div>
+                            <% } %>
+                        </div>
+
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <a href="<%= urlUtils.extendUrl(baseUrl, `invites/share/${inviteCodes[index].code}`).href %>" class="cursor-pointer">
+                            <img class="h-6 w-6" src="/icons/qr.svg" alt="QR">
+                        </a>
+                        <% if (canDelete) { %>
+                            <form action="<%= urlUtils.extendUrl(baseUrl, 'invites/terminate').href %>" method="post" class="h-6 w-6">
+                                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                                <input type="hidden" value="<%= inviteCodes[index].code %>" name="code">
+                                <button type="submit" class="cursor-pointer">
+                                    <img class="h-6 w-6" src="/icons/red.cross.svg" alt="Remove">
+                                </button>
+                            </form>
+                        <% } %>
+                    </div>
+                </li>
+            <% } %>
+        </ul>
+    <% } %>
+</div>
