@@ -62,6 +62,30 @@ export default {
 	},
 
 	/**
+	 * @description Retrieves all system invites (visible to moderators and above).
+	 * @returns {Array<Object>} - An array of system invite objects.
+	 */
+	getSystemInvites: () => {
+		return db
+			.prepare(
+				`
+            SELECT invites.validation_date as createDate,
+                invites.code,
+			   	invites.uses,
+                invites.max_uses as maxUses,
+			   	invites.last_use as maxUse,
+                invites.expire_date as expireDate,
+                invites.system_invite as systemInvite
+            FROM invites
+            WHERE invites.system_invite = 1
+              AND (invites.expire_date IS NULL OR strftime('%s','now') <= invites.expire_date)
+            ORDER BY invites.validation_date DESC
+        `
+			)
+			.all();
+	},
+
+	/**
 	 * @description Inserts a new entry into the audit log.
 	 * @param {String} accountId - The ID of the account.
 	 * @param {Boolean} success - Indicates if the action was successful.
@@ -553,15 +577,22 @@ export default {
 	 * @param {number} maxUses - The maximum number of times the invite can be used.
 	 * @param {number} validationDateSeconds - The number of seconds until the invite is valid.
 	 * @param {number} expireDateSeconds - The number of seconds until the invite expires (optional).
+	 * @param {boolean} systemInvite - Whether this is a system invite (optional, defaults to false).
 	 * @returns {String} - The invite code that was added.
 	 */
-	addInviteCode: (code, maxUses = 1, validationDateSeconds = Date.now() / 1000, expireDateSeconds = null) => {
+	addInviteCode: (
+		code,
+		maxUses = 1,
+		validationDateSeconds = Date.now() / 1000,
+		expireDateSeconds = null,
+		systemInvite = false
+	) => {
 		db.prepare(
 			`
-            INSERT INTO invites (code, max_uses, validation_date, expire_date)
-            VALUES (?, ?, strftime('%s','now') + ?, ?)
+            INSERT INTO invites (code, max_uses, validation_date, expire_date, system_invite)
+            VALUES (?, ?, strftime('%s','now') + ?, ?, ?)
         `
-		).run(code, maxUses, validationDateSeconds, expireDateSeconds);
+		).run(code, maxUses, validationDateSeconds, expireDateSeconds, systemInvite ? 1 : 0);
 	},
 
 	/**

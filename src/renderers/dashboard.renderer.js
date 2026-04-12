@@ -219,6 +219,7 @@ export default {
 			inviteCodes: invitesService.getForAccount.all(req.account),
 			animateNewest: animateNewest,
 			lockedInviteCodes: invitesService.getForAccount.allLocked(req.account),
+			systemInviteCodes: invitesService.getSystemInvites.all(),
 		});
 	},
 

@@ -340,10 +340,13 @@ export default {
 			throw new ClientError(errors.array()[0].msg);
 		}
 
+		const isSystemInvite = data.inviteMode === 'system';
+
 		invitesService.generate.single({
 			maxUses: parseInt(data.count, 10),
-			linkedAccount: req.account,
+			linkedAccount: isSystemInvite ? null : req.account,
 			expireDate: data.date ? data.date : null,
+			systemInvite: isSystemInvite,
 		});
 		res.redirect(extendUrl(env.BASE_URL, 'invites', 'new').href);
 	},

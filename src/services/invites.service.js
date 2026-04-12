@@ -21,6 +21,13 @@ function getLockedForAccount(account) {
 	return userdataDriver.getLockedInvitesForAccountById(account.id);
 }
 /**
+ * @description Retrieves all system invites.
+ * @returns {Array<Object>} - An array of system invite objects.
+ */
+function getSystemInvites() {
+	return userdataDriver.getSystemInvites();
+}
+/**
  * @description Consumes (uses) a specified invite code.
  * @param {String} code - The invite code to consume.
  */
@@ -72,11 +79,12 @@ function grantMultiple(count = 3, account, options) {
 
 /**
  * Generates a new invite code.
- * @param {{linkedAccount: Account, validationDurationDays: Number, maxUses: Number, expireDate: Date}} options - Options for invite code creation.
+ * @param {{linkedAccount: Account, validationDurationDays: Number, maxUses: Number, expireDate: Date, systemInvite: Boolean}} options - Options for invite code creation.
  * @param {Account} [options.linkedAccount] - The account to link the invite code to (optional).
  * @param {Number} [options.validationDurationDays=0] - The Number of days the invite code is valid (optional).
  * @param {Number} [options.maxUses=1] - The maximum Number of times the invite code can be used (optional).
  * @param {Date} [options.expireDate=null] - The expiration date of the invite code (optional).
+ * @param {Boolean} [options.systemInvite=false] - Whether this is a system invite (optional).
  * @returns {String} - The generated invite code.
  */
 function generate(options = {}) {
@@ -93,7 +101,13 @@ function generate(options = {}) {
 	const expireDateSeconds = options.expireDate ? Math.floor(options.expireDate.getTime() / 1000) : null;
 
 	// Store the invite code in the database
-	userdataDriver.addInviteCode(code, options.maxUses || 1, validationDurationSeconds, expireDateSeconds);
+	userdataDriver.addInviteCode(
+		code,
+		options.maxUses || 1,
+		validationDurationSeconds,
+		expireDateSeconds,
+		options.systemInvite || false
+	);
 
 	// Link the invite code to the user account if provided
 	if (options.linkedAccount) {
@@ -145,6 +159,9 @@ export default {
 	getForAccount: {
 		all: getForAccount,
 		allLocked: getLockedForAccount,
+	},
+	getSystemInvites: {
+		all: getSystemInvites,
 	},
 	consume,
 	validate,
