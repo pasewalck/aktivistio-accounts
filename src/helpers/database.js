@@ -6,6 +6,9 @@ import env from './env.js';
 /**
  * @typedef {import("../models/migration-version.js")} MigrationVersion
  */
+/**
+ * @typedef {import("../models/migration.js")} Migration
+ */
 
 /**
  * @description Initializes a database for a given name using a specified encryption key. This function checks if the database file already exists. If it does not, a new database is created with the provided configuration settings.
@@ -57,9 +60,9 @@ export function initDatabase(name, databaseKey) {
 /**
  * Executes database migrations in order, tracking completion in a table.
  * @param {Database} db - The database instance to execute migrations against
- * @param {MigrationVersion[]} migrations - Array of MigrationVersion instances to apply, in order
+ * @param {MigrationVersion[]} migrationVersions - Array of MigrationVersion instances to apply, in order
  */
-export function doMigrations(db, migrations) {
+export function doMigrations(db, migrationVersions) {
 	// Following could be used to auto load migration versions
 	// const migrations = files.map(f => import('./src/migrations/' + folder + '/' + f))
 
@@ -75,7 +78,9 @@ export function doMigrations(db, migrations) {
 	// Only migrations with versions higher than the last applied migration will be executed.
 	const currentState = db.prepare('select version,idx FROM migrations ORDER BY version,idx').get();
 
-	migrations.forEach((migrationVersion) => {
+	for (let j = 0; j < migrationVersions.length; j++) {
+		const migrationVersion = migrationVersions[j];
+		if (j != migrationVersion.version) throw new Error('Version mismatch!');
 		if (currentState == undefined || migrationVersion.version > currentState.version)
 			for (let i = 0; i < migrationVersion.migrations.length; i++) {
 				const migration = migrationVersion.migrations[i];
@@ -89,7 +94,7 @@ export function doMigrations(db, migrations) {
 					).run(migrationVersion.version, i);
 				}
 			}
-	});
+	}
 
 	// Todo: Implement baseline generation
 	// const schema = db.prepare("SELECT sql FROM sqlite_master WHERE type='table'").all();

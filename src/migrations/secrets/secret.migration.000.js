@@ -1,7 +1,7 @@
 import MigrationVersion from '../../models/migration-version.js';
 import Migration from '../../models/migration.js';
 
-export default new MigrationVersion('1.0.0', [
+export default new MigrationVersion(0, [
 	new Migration((db) => {
 		// Initialize tables for the storage
 		db.exec(`
