@@ -68,7 +68,10 @@ app.use(
 		await secretService.getEntries('COOKIE_PARSER_SECRET', () => generateAsciiSecret(40), {
 			lifeTime: 365,
 			graceTime: 30,
-		})
+		}),
+		{
+			secure: env.IS_SECURE_CONTEXT,
+		}
 	)
 );
 app.use(express.urlencoded({ extended: true }));
