@@ -7,11 +7,11 @@ import { hasPermission, Permission } from '../../../../models/roles.js';
 export default [
 	body('code')
 		.exists({ checkFalsy: true })
-		.withMessage(localize('auth.invite.code.required'))
+		.withMessage(localize('validation.invite.code.required'))
 		.bail()
 		.escape()
 		.isAlphanumeric()
-		.withMessage(localize('auth.invite.code.format_invalid'))
+		.withMessage(localize('validation.invite.code.format_invalid'))
 		.bail()
 		.custom((value, { req }) => {
 			const invite = invitesService.getByCode(value);
@@ -19,5 +19,5 @@ export default [
 				? hasPermission(req.account.role, Permission.MANAGE_SYSTEM_INVITES)
 				: (req.account.id = invite.account.id);
 		})
-		.withMessage(localize('auth.invite.code.invalid')),
+		.withMessage(localize('validation.invite.code.invalid')),
 ];

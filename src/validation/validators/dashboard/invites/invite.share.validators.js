@@ -6,11 +6,11 @@ import { hasPermission, Permission } from '../../../../models/roles.js';
 export default [
 	param('invite')
 		.exists({ checkFalsy: true })
-		.withMessage(localize('invite.param.required'))
+		.withMessage(localize('validation.invite.code.required'))
 		.bail()
 		.escape()
 		.isAlphanumeric()
-		.withMessage(localize('invite.param.format_invalid'))
+		.withMessage(localize('validation.invite.code.format_invalid'))
 		.bail()
 		.custom((value, { req }) => {
 			const invite = invitesService.getByCode(value);
