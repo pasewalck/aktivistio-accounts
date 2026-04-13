@@ -40,7 +40,7 @@ function consume(code) {
  * @returns {Invite} - An invite object or null.
  */
 function getByCode(code) {
-	userdataDriver.getInvite(code);
+	return userdataDriver.getInvite(code);
 }
 /**
  * @description Validates if a given invite code is valid.
