@@ -3,6 +3,7 @@ import env from '../helpers/env.js';
 import userdataMigration000 from '../migrations/userdata/userdata.migration.000.js';
 import userdataMigration001 from '../migrations/userdata/userdata.migration.001.js';
 import { Account } from '../models/accounts.js';
+import { Invite } from '../models/invite.js';
 import { AuditActionType } from '../models/audit-action-types.js';
 
 const { db, isDbInit } = initDatabase('data', env.DATABASE_KEYS.DATA);
@@ -12,10 +13,10 @@ export default {
 	/**
 	 * @description Retrieves invites associated with a specific user account by ID.
 	 * @param {String} id - The ID of the user account.
-	 * @returns {Array<Object>} - An array of invite objects containing validation date, code, uses, max_uses, and expiration date.
+	 * @returns {Array<Invite>} - An array of Invite objects containing validation date, code, uses, max_uses, expiration date, and linked account.
 	 */
 	getInvitesForAccountById: (id) => {
-		return db
+		const invites = db
 			.prepare(
 				`
             SELECT invites.validation_date as createDate,
@@ -23,25 +24,54 @@ export default {
 				   invites.uses,
                    invites.max_uses as maxUses,
 				   invites.last_use as maxUse,
-                   invites.expire_date as expireDate
-            FROM invites, account_invites
+                   invites.expire_date as expireDate,
+                   invites.system_invite as systemInvite,
+                   accounts.id as accountId,
+                   accounts.username,
+                   accounts.role_id as roleId,
+                   accounts.is_active as isActive,
+                   accounts.last_login as lastLogin
+            FROM invites, account_invites, accounts
             WHERE invites.code = account_invites.code
               AND account_invites.id = ?
+              AND accounts.id = account_invites.id
               AND strftime('%s','now') >= invites.validation_date
               AND (invites.expire_date IS NULL OR strftime('%s','now') <= invites.expire_date)
             ORDER BY invites.validation_date DESC
         `
 			)
 			.all(id);
+
+		return invites.map(
+			(invite) =>
+				new Invite(
+					invite.code,
+					invite.createDate,
+					invite.uses,
+					invite.maxUses,
+					invite.expireDate,
+					invite.maxUse,
+					invite.accountId
+						? new Account(
+								invite.accountId,
+								invite.username,
+								invite.roleId,
+								invite.isActive,
+								invite.lastLogin
+							)
+						: null,
+					false
+				)
+		);
 	},
 
 	/**
 	 * @description Retrieves locked invites associated with a specific user account by ID.
 	 * @param {String} id - The ID of the user account.
-	 * @returns {Array<Object>} - An array of locked invite objects.
+	 * @returns {Array<Invite>} - An array of locked Invite objects.
 	 */
 	getLockedInvitesForAccountById: (id) => {
-		return db
+		const invites = db
 			.prepare(
 				`
             SELECT invites.validation_date as createDate,
@@ -50,24 +80,52 @@ export default {
                 invites.max_uses as maxUses,
 			   	invites.last_use as maxUse,
                 invites.expire_date as expireDate,
-				invites.system_invite as systemInvite
-            FROM invites, account_invites
+				invites.system_invite as systemInvite,
+                accounts.id as accountId,
+                accounts.username,
+                accounts.role_id as roleId,
+                accounts.is_active as isActive,
+                accounts.last_login as lastLogin
+            FROM invites, account_invites, accounts
             WHERE invites.code = account_invites.code
               AND account_invites.id = ?
+              AND accounts.id = account_invites.id
               AND strftime('%s','now') < invites.validation_date
               AND (invites.expire_date IS NULL OR strftime('%s','now') <= invites.expire_date)
             ORDER BY invites.validation_date
         `
 			)
 			.all(id);
+
+		return invites.map(
+			(invite) =>
+				new Invite(
+					invite.code,
+					invite.createDate,
+					invite.uses,
+					invite.maxUses,
+					invite.expireDate,
+					invite.maxUse,
+					invite.accountId
+						? new Account(
+								invite.accountId,
+								invite.username,
+								invite.roleId,
+								invite.isActive,
+								invite.lastLogin
+							)
+						: null,
+					false
+				)
+		);
 	},
 
 	/**
 	 * @description Retrieves all system invites (visible to moderators and above).
-	 * @returns {Array<Object>} - An array of system invite objects.
+	 * @returns {Array<Invite>} - An array of system Invite objects.
 	 */
 	getSystemInvites: () => {
-		return db
+		const invites = db
 			.prepare(
 				`
             SELECT invites.validation_date as createDate,
@@ -84,6 +142,20 @@ export default {
         `
 			)
 			.all();
+
+		return invites.map(
+			(invite) =>
+				new Invite(
+					invite.code,
+					invite.createDate,
+					invite.uses,
+					invite.maxUses,
+					invite.expireDate,
+					invite.maxUse,
+					null,
+					true
+				)
+		);
 	},
 
 	/**
