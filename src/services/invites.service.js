@@ -7,25 +7,25 @@ import { Role } from '../models/roles.js';
 /**
  * @description Retrieves invite codes for a specific account.
  * @param {Account} account - The user account.
- * @returns {Array<String>} - An array of invite codes associated with the user.
+ * @returns {Array<Invite>} - An array of Invite objects associated with the user.
  */
 function getForAccount(account) {
-	return userdataDriver.getInvitesForAccountById(account.id);
+	return userdataDriver.getInvites({ accountId: account.id });
 }
 /**
  * @description Retrieves invite codes for a specific account still locked due to not being valid yet.
  * @param {Account} account - The user account.
- * @returns {Array<String>} - An array invite codes.
+ * @returns {Array<Invite>} - An array of locked Invite objects.
  */
 function getLockedForAccount(account) {
-	return userdataDriver.getLockedInvitesForAccountById(account.id);
+	return userdataDriver.getInvites({ accountId: account.id, includeExclusiveLocked: true });
 }
 /**
  * @description Retrieves all system invites.
- * @returns {Array<Object>} - An array of system invite objects.
+ * @returns {Array<Invite>} - An array of system Invite objects.
  */
 function getSystemInvites() {
-	return userdataDriver.getSystemInvites();
+	return userdataDriver.getInvites({ includeSystem: true });
 }
 /**
  * @description Consumes (uses) a specified invite code.
