@@ -35,6 +35,14 @@ function consume(code) {
 	userdataDriver.consumeInviteCode(code);
 }
 /**
+ * @description Finds an invite, retrieves and returns als informations
+ * @param {Invite} code - The invite code to find.
+ * @returns {Invite} - An invite object or null.
+ */
+function getByCode(code) {
+	userdataDriver.getInvite(code);
+}
+/**
  * @description Validates if a given invite code is valid.
  * @param {String} code - The invite code to validate.
  * @returns {Boolean} - True if the invite code is valid, false otherwise.
@@ -163,6 +171,7 @@ export default {
 	getSystemInvites: {
 		all: getSystemInvites,
 	},
+	getByCode,
 	consume,
 	validate,
 	remove,

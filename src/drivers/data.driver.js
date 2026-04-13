@@ -96,6 +96,55 @@ export default {
 	},
 
 	/**
+	 * @description Find a single invite and retrieve all information.
+	 * @param {String} code - The invite code to find.
+	 * @returns {Invite|null} - An invite object or null.
+	 */
+	getInvite: (code) => {
+		let sql = `
+            SELECT invites.validation_date as createDate,
+                   invites.code,
+                   invites.uses,
+                   invites.max_uses as maxUses,
+                   invites.last_use as maxUse,
+                   invites.expire_date as expireDate,
+                   invites.system_invite as systemInvite,
+                   invites.validation_date,
+                   accounts.id as accountId,
+                   accounts.username,
+                   accounts.role_id as roleId,
+                   accounts.is_active as isActive,
+                   accounts.last_login as lastLogin
+            FROM invites
+            LEFT JOIN account_invites ON invites.code = account_invites.code
+            LEFT JOIN accounts ON accounts.id = account_invites.id
+            WHERE invites.code = ?
+        `;
+		const invite = db.prepare(sql).get(code);
+
+		return invite
+			? new Invite(
+					invite.code,
+					invite.createDate,
+					invite.uses,
+					invite.maxUses,
+					invite.expireDate,
+					invite.maxUse,
+					invite.accountId
+						? new Account(
+								invite.accountId,
+								invite.username,
+								invite.roleId,
+								invite.isActive,
+								invite.lastLogin
+							)
+						: null,
+					invite.systemInvite === 1
+				)
+			: null;
+	},
+
+	/**
 	 * @description Inserts a new entry into the audit log.
 	 * @param {String} accountId - The ID of the account.
 	 * @param {Boolean} success - Indicates if the action was successful.
