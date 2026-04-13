@@ -15,7 +15,7 @@ export default {
 	 * @param {Object} options - Filter options
 	 * @param {String} [options.accountId] - Filter by specific account ID (gets personal invites)
 	 * @param {Boolean} [options.includeExclusiveLocked=false] - Include (only) locked invites (valid but not yet active)
-	 * @param {Boolean} [options.includeSystem=false] - Include system invites
+	 * @param {Boolean} [options.includeExclusiveSystem=false] - Include (only) system invites
 	 * @param {Boolean} [options.includeExpired=false] - Include expired invites
 	 * @returns {Array<Invite>} - An array of Invite objects matching the filters
 	 */
@@ -23,7 +23,7 @@ export default {
 		const {
 			accountId = null,
 			includeExclusiveLocked = false,
-			includeSystem = false,
+			includeExclusiveSystem = false,
 			includeExpired = false,
 		} = options;
 
@@ -47,8 +47,10 @@ export default {
             WHERE 1=1
         `;
 
-		if (!includeSystem) {
+		if (!includeExclusiveSystem) {
 			sql += ` AND invites.system_invite = 0`;
+		} else {
+			sql += ` AND invites.system_invite = 1`;
 		}
 
 		if (accountId) {

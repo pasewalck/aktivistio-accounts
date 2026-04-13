@@ -25,7 +25,7 @@ function getLockedForAccount(account) {
  * @returns {Array<Invite>} - An array of system Invite objects.
  */
 function getSystemInvites() {
-	return userdataDriver.getInvites({ includeSystem: true });
+	return userdataDriver.getInvites({ includeExclusiveSystem: true });
 }
 /**
  * @description Consumes (uses) a specified invite code.
