@@ -49,7 +49,8 @@ export default {
 				invites.uses,
                 invites.max_uses as maxUses,
 			   	invites.last_use as maxUse,
-                invites.expire_date as expireDate
+                invites.expire_date as expireDate,
+				invites.system_invite as systemInvite
             FROM invites, account_invites
             WHERE invites.code = account_invites.code
               AND account_invites.id = ?
