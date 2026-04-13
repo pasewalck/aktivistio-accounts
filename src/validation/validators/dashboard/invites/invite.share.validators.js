@@ -16,7 +16,7 @@ export default [
 			const invite = invitesService.getByCode(value);
 			return invite != null && invite.isSystemInvite()
 				? hasPermission(req.account.role, Permission.MANAGE_SYSTEM_INVITES)
-				: (req.account.id = invite.account.id);
+				: req.account.id == invite.linkedAccount.id;
 		})
 		.withMessage(localize('validation.invite.code.invalid')),
 ];
