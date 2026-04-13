@@ -18,5 +18,5 @@ export default [
 				? hasPermission(req.account.role, Permission.MANAGE_SYSTEM_INVITES)
 				: (req.account.id = invite.account.id);
 		})
-		.withMessage(localize('invite.param.invalid')),
+		.withMessage(localize('validation.invite.code.invalid')),
 ];
