@@ -16,7 +16,7 @@ import logger from '../helpers/logger.js';
 import shareInviteValidators from '../validation/validators/dashboard/invites/invite.share.validators.js';
 import userManageValidators from '../validation/validators/dashboard/system-management/accounts/manage.account.get.validators.js';
 import manageAccountUpdateValidations from '../validation/validators/dashboard/system-management/accounts/manage.account.update.validations.js';
-import manageAccountDeleteValidations from '../validation/validators/dashboard/system-management/accounts/manage-account.delete.validations.js';
+import manageAccountDeleteValidations from '../validation/validators/dashboard/system-management/accounts/manage.account.delete.validations.js';
 import manageServiceGetValidators from '../validation/validators/dashboard/system-management/services/manage.service.get.validators.js';
 import manageServiceUpdateValidations from '../validation/validators/dashboard/system-management/services/manage.service.update.validations.js';
 import manageServiceDeleteValidations from '../validation/validators/dashboard/system-management/services/manage.service.delete.validations.js';
