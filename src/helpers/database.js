@@ -91,20 +91,22 @@ export function doMigrations(db, migrationVersions) {
 	for (let j = 0; j < migrationVersions.length; j++) {
 		const migrationVersion = migrationVersions[j];
 		if (j != migrationVersion.version) throw new Error('Version mismatch!');
-		if (currentState == undefined || migrationVersion.version > currentState.version)
+		const versionFullyMigrated = currentState != undefined && j < currentState.version;
+		const isCurrentVersion = currentState != undefined && j == currentState.version;
+		if (!versionFullyMigrated)
 			for (let i = 0; i < migrationVersion.migrations.length; i++) {
 				const migration = migrationVersion.migrations[i];
-				if (currentState == undefined || currentState.idx == undefined || i > currentState.idx) {
+				const localIdx = isCurrentVersion ? currentState.idx : undefined;
+				if (currentState == undefined || localIdx == undefined || i > localIdx) {
 					migration.up(db);
 					db.prepare(
 						`
-						INSERT INTO migrations (version,idx,date)
-						VALUES (?,?,strftime('%s','now'))
-					`
+							INSERT INTO migrations (version,idx,date)
+							VALUES (?,?,strftime('%s','now'))
+						`
 					).run(migrationVersion.version, i);
 
-					if (currentState)
-						logger.info(`Migrated from ${currentState.version}.${currentState.idx} => ${j}.${i}`);
+					if (currentState) logger.info(`Applied migration ${j}.${i}`);
 				}
 			}
 	}
