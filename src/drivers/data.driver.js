@@ -2,12 +2,13 @@ import { doMigrations, initDatabase } from '../helpers/database.js';
 import env from '../helpers/env.js';
 import userdataMigration000 from '../migrations/userdata/userdata.migration.000.js';
 import userdataMigration001 from '../migrations/userdata/userdata.migration.001.js';
+import userdataMigration002 from '../migrations/userdata/userdata.migration.002.js';
 import { Account } from '../models/accounts.js';
 import { Invite } from '../models/invite.js';
 import { AuditActionType } from '../models/audit-action-types.js';
 
 const { db, isDbInit } = initDatabase('data', env.DATABASE_KEYS.DATA);
-doMigrations(db, [userdataMigration000, userdataMigration001]);
+doMigrations(db, [userdataMigration000, userdataMigration001, userdataMigration002]);
 
 export default {
 	/**
