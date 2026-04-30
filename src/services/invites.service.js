@@ -87,12 +87,13 @@ function grantMultiple(count = 3, account, options) {
 
 /**
  * Generates a new invite code.
- * @param {{linkedAccount: Account, validationDurationDays: Number, maxUses: Number, expireDate: Date, systemInvite: Boolean}} options - Options for invite code creation.
+ * @param {{linkedAccount: Account, validationDurationDays: Number, maxUses: Number, expireDate: Date, systemInvite: Boolean, label: String|null}} options - Options for invite code creation.
  * @param {Account} [options.linkedAccount] - The account to link the invite code to (optional).
  * @param {Number} [options.validationDurationDays=0] - The Number of days the invite code is valid (optional).
  * @param {Number} [options.maxUses=1] - The maximum Number of times the invite code can be used (optional).
  * @param {Date} [options.expireDate=null] - The expiration date of the invite code (optional).
  * @param {Boolean} [options.systemInvite=false] - Whether this is a system invite (optional).
+ * @param {String|null} [options.label=null] - Optional label attached to the invite.
  * @returns {String} - The generated invite code.
  */
 function generate(options = {}) {
@@ -114,7 +115,8 @@ function generate(options = {}) {
 		options.maxUses || 1,
 		validationDurationSeconds,
 		expireDateSeconds,
-		options.systemInvite || false
+		options.systemInvite || false,
+		options.label || null
 	);
 
 	// Link the invite code to the user account if provided

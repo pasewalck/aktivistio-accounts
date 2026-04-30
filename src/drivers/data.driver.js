@@ -35,6 +35,7 @@ export default {
                    invites.max_uses as maxUses,
                    invites.last_use as maxUse,
                    invites.expire_date as expireDate,
+                   invites.label,
                    invites.system_invite as systemInvite,
                    invites.validation_date,
                    accounts.id as accountId,
@@ -73,27 +74,23 @@ export default {
 		const params = accountId ? [accountId] : [];
 		const invites = db.prepare(sql).all(...params);
 
-		return invites.map(
-			(invite) =>
-				new Invite(
-					invite.code,
-					invite.createDate,
-					invite.uses,
-					invite.maxUses,
-					invite.expireDate,
-					invite.maxUse,
-					invite.accountId
-						? new Account(
-								invite.accountId,
-								invite.username,
-								invite.roleId,
-								invite.isActive,
-								invite.lastLogin
-							)
-						: null,
-					invite.systemInvite === 1
-				)
-		);
+		return invites.map((invite) => {
+			const inviteModel = new Invite(
+				invite.code,
+				invite.createDate,
+				invite.uses,
+				invite.maxUses,
+				invite.expireDate,
+				invite.maxUse,
+				invite.accountId
+					? new Account(invite.accountId, invite.username, invite.roleId, invite.isActive, invite.lastLogin)
+					: null,
+				invite.systemInvite === 1
+			);
+
+			inviteModel.label = invite.label;
+			return inviteModel;
+		});
 	},
 
 	/**
@@ -109,6 +106,7 @@ export default {
                    invites.max_uses as maxUses,
                    invites.last_use as maxUse,
                    invites.expire_date as expireDate,
+                   invites.label,
                    invites.system_invite as systemInvite,
                    invites.validation_date,
                    accounts.id as accountId,
@@ -123,26 +121,23 @@ export default {
         `;
 		const invite = db.prepare(sql).get(code);
 
-		return invite
-			? new Invite(
-					invite.code,
-					invite.createDate,
-					invite.uses,
-					invite.maxUses,
-					invite.expireDate,
-					invite.maxUse,
-					invite.accountId
-						? new Account(
-								invite.accountId,
-								invite.username,
-								invite.roleId,
-								invite.isActive,
-								invite.lastLogin
-							)
-						: null,
-					invite.systemInvite === 1
-				)
-			: null;
+		if (!invite) return null;
+
+		const inviteModel = new Invite(
+			invite.code,
+			invite.createDate,
+			invite.uses,
+			invite.maxUses,
+			invite.expireDate,
+			invite.maxUse,
+			invite.accountId
+				? new Account(invite.accountId, invite.username, invite.roleId, invite.isActive, invite.lastLogin)
+				: null,
+			invite.systemInvite === 1
+		);
+
+		inviteModel.label = invite.label;
+		return inviteModel;
 	},
 
 	/**
@@ -638,6 +633,7 @@ export default {
 	 * @param {number} validationDateSeconds - The number of seconds until the invite is valid.
 	 * @param {number} expireDateSeconds - The number of seconds until the invite expires (optional).
 	 * @param {boolean} systemInvite - Whether this is a system invite (optional, defaults to false).
+	 * @param {string|null} label - Optional label for the invite.
 	 * @returns {String} - The invite code that was added.
 	 */
 	addInviteCode: (
@@ -645,14 +641,15 @@ export default {
 		maxUses = 1,
 		validationDateSeconds = Date.now() / 1000,
 		expireDateSeconds = null,
-		systemInvite = false
+		systemInvite = false,
+		label = null
 	) => {
 		db.prepare(
 			`
-            INSERT INTO invites (code, max_uses, validation_date, expire_date, system_invite)
-            VALUES (?, ?, strftime('%s','now') + ?, ?, ?)
+            INSERT INTO invites (code, max_uses, validation_date, expire_date, system_invite, label)
+            VALUES (?, ?, strftime('%s','now') + ?, ?, ?, ?)
         `
-		).run(code, maxUses, validationDateSeconds, expireDateSeconds, systemInvite ? 1 : 0);
+		).run(code, maxUses, validationDateSeconds, expireDateSeconds, systemInvite ? 1 : 0, label);
 	},
 
 	/**
