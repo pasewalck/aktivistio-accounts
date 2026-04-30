@@ -78,6 +78,15 @@ export function doMigrations(db, migrationVersions) {
 	// Only migrations with versions higher than the last applied migration will be executed.
 	const currentState = db.prepare('select version,idx FROM migrations ORDER BY version DESC,idx DESC').get();
 
+	logger.info(
+		[
+			'Checking database migrations ... Current state: Version:',
+			currentState.version,
+			'Idx:',
+			currentState.idx,
+		].join(' ')
+	);
+
 	for (let j = 0; j < migrationVersions.length; j++) {
 		const migrationVersion = migrationVersions[j];
 		if (j != migrationVersion.version) throw new Error('Version mismatch!');
@@ -92,6 +101,7 @@ export function doMigrations(db, migrationVersions) {
 						VALUES (?,?,strftime('%s','now'))
 					`
 					).run(migrationVersion.version, i);
+					logger.info(`Migrated from ${currentState.version}.${currentState.idx} => ${j}.${i}`);
 				}
 			}
 	}
