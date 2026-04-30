@@ -84,7 +84,8 @@
 			"mode_private": "Private",
 			"mode_system": "System",
 			"mode_hint": "Should this invite code be visible to all moderators (system) or just to you?",
-			"system": "System Invites (Shared)"
+			"system": "System Invites (Shared)",
+			"label": "Label"
 		},
 		"user_list": {
 			"title": "User List",

@@ -347,6 +347,7 @@ export default {
 			linkedAccount: isSystemInvite ? null : req.account,
 			expireDate: data.date ? data.date : null,
 			systemInvite: isSystemInvite,
+			label: data.label ? data.label : null,
 		});
 		res.redirect(extendUrl(env.BASE_URL, 'invites', 'new').href);
 	},

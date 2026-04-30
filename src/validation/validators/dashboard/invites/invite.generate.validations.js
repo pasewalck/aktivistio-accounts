@@ -9,5 +9,6 @@ export default [
 		.withMessage(localize('validation.count.range', 1000))
 		.toInt(),
 	body('inviteMode'),
+	body('label'),
 	body('date').optional({ checkFalsy: true }).isDate().withMessage(localize('validation.date.invalid')).toDate(),
 ];

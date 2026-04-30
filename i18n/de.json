@@ -84,7 +84,8 @@
 			"mode": "Art",
 			"mode_system": "System",
 			"mode_private": "Privat",
-			"mode_hint": "Soll dieser Einladungscode für alle Moderatoren (System) sichtbar sein oder nur für dich?"
+			"mode_hint": "Soll dieser Einladungscode für alle Moderatoren (System) sichtbar sein oder nur für dich?",
+			"label": "Label"
 		},
 		"user_list": {
 			"title": "Benutzer*innen",

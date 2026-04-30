@@ -36,6 +36,11 @@
                                     <%= __("admin.invite.invite_use_indicator",inviteCodes[index].maxUses-inviteCodes[index].uses,inviteCodes[index].maxUses) %>
                                 </div>
                             <% } %>
+                            <% if (inviteCodes[index].label != null) { %>
+                                <div class=" px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-gray-900">
+                                    <%= inviteCodes[index].label %>
+                                </div>
+                            <% } %>
                             <% if (isNew) { %>
                                 <div class=" px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                     <%= __("common.new") %>

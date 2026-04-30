@@ -88,6 +88,17 @@
                         errors: {},
                         formData: {},
                         field: {
+                            label: __('admin.invite.label'),
+                            name: "label",
+                            id: "label",
+                            type: "text"
+                        }
+                    }) %>
+
+                    <%- include("../../partials/form/input/input-field.ejs", {
+                        errors: {},
+                        formData: {},
+                        field: {
                             label: __('admin.invite.uses'),
                             name: "count",
                             id: "count",
