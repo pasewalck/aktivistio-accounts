@@ -12,7 +12,7 @@
             <form class="mt-5 space-y-6 max-w-md" autocomplete="off" action="" method="post">
                 <input type="hidden" value="<%= csrfToken %>" name="_csrf">
 
-                <%- include("../../../partials/alert-info.ejs",{info: __("account.recovery.set_email.waring_valid_email"),moreInfoLink: "https://0xacab.org/aktivistek/aktivistio-accounts/-/blob/master/documentation/SECURITY.md"}) %>
+                <%- include("../../../partials/alert-info.ejs",{info: __("account.recovery.set_email.waring_valid_email"),moreInfoLink: "https://github.com/pasewalck/aktivistio-accounts/blob/main/documentation/SECURITY.md"}) %>
 
                 <%- include("../../../partials/form/input/input-field.ejs", {
                     field: {
