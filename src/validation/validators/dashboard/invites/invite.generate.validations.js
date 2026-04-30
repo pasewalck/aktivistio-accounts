@@ -8,7 +8,7 @@ export default [
 		.isInt({ gt: 0, max: 1000 })
 		.withMessage(localize('validation.count.range', 1000))
 		.toInt(),
-	body('inviteMode'),
-	body('label'),
+	body('inviteMode').optional({ checkFalsy: true }).escape(),
+	body('label').optional({ checkFalsy: true }).escape(),
 	body('date').optional({ checkFalsy: true }).isDate().withMessage(localize('validation.date.invalid')).toDate(),
 ];
