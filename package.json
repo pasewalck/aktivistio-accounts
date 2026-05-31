@@ -42,7 +42,7 @@
 		"dotenv": "^16.4.5",
 		"ejs": "^3.1.10",
 		"email-validator": "^2.0.4",
-		"encrypted-secret-launcher": "^1.0.0",
+		"encrypted-secret-launcher": "^1.1.1",
 		"express": "^5.0.0",
 		"express-ejs-layouts": "^2.5.1",
 		"express-session": "^1.18.1",

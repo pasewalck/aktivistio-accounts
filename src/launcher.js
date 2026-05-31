@@ -1,4 +1,4 @@
-import { createLauncher, Secret } from 'encrypted-secret-launcher';
+import { createLauncher, Var } from 'encrypted-secret-launcher';
 import { generateAlphanumericSecret } from './helpers/generate-secrets.js';
 import spawn from 'cross-spawn';
 import logger from './helpers/logger.js';
@@ -41,32 +41,38 @@ function startChild() {
 	});
 }
 
-createLauncher(
+const { runLauncherServer } = createLauncher(
 	[
-		new Secret('DATABASE_KEY_DATA', () => generateAlphanumericSecret(40)),
-		new Secret('DATABASE_KEY_OIDC', () => generateAlphanumericSecret(40)),
-		new Secret('DATABASE_KEY_SECRETS', () => generateAlphanumericSecret(40)),
-		new Secret('DATABASE_KEY_SESSIONS', () => generateAlphanumericSecret(40)),
+		new Var('DATABASE_KEY_DATA', () => generateAlphanumericSecret(40)),
+		new Var('DATABASE_KEY_OIDC', () => generateAlphanumericSecret(40)),
+		new Var('DATABASE_KEY_SECRETS', () => generateAlphanumericSecret(40)),
+		new Var('DATABASE_KEY_SESSIONS', () => generateAlphanumericSecret(40)),
 	],
-	'data/database-secrets.txt',
-	process.env.LAUNCHER_PORT | 3000,
-	() => {
-		const password = generateAlphanumericSecret(40);
-		logger.info(`Launcher initiated with new password: ${password}`);
-		return password;
-	},
-	(overwriteSecrets) => {
-		secrets = overwriteSecrets;
-		startChild();
-	},
-	() => {},
-	(isError, ...message) => {
-		if (isError) logger.error(message.join(' '));
-		else logger.info(message.join(' '));
-	},
-	extendUrl(new URL(process.env.BASE_URL != undefined ? process.env.BASE_URL : 'http://localhost:3000'), 'health')
-		.href
+	{
+		filepath: 'data/database-secrets.json',
+		legacyFilepath: 'data/database-secrets.txt',
+		port: process.env.LAUNCHER_PORT | 3000,
+		generatePasswort: () => {
+			const password = generateAlphanumericSecret(40);
+			logger.info(`Launcher initiated with new password: ${password}`);
+			return password;
+		},
+		onComplete: (overwriteSecrets) => {
+			secrets = overwriteSecrets;
+			startChild();
+		},
+		onMessage: (isError, ...message) => {
+			if (isError) logger.error(message.join(' '));
+			else logger.info(message.join(' '));
+		},
+		healthCheckUrl: extendUrl(
+			new URL(process.env.BASE_URL != undefined ? process.env.BASE_URL : 'http://localhost:3000'),
+			'health'
+		).href,
+	}
 );
+
+runLauncherServer();
 
 ['SIGINT', 'SIGTERM', 'SIGHUP'].forEach((sig) =>
 	process.on(sig, () => {
