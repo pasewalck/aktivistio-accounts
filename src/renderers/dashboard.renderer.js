@@ -240,6 +240,8 @@ export default {
 			users = users.filter((user) => user.username.toLowerCase().includes(search.toLowerCase()));
 		}
 
+		users = users.sort((a, b) => b.role - a.role || b.userId - a.userId);
+
 		const totalUsers = users.length;
 		const totalPages = Math.ceil(totalUsers / limit);
 		const offset = (page - 1) * limit;
