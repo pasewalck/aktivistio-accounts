@@ -19,7 +19,7 @@ const errorMiddleware = (err, req, res, _next) => {
 	} else if (err instanceof ClientError || err.constructor.name === 'ForbiddenError') {
 		return sharedRenderer.error(res, res.__('error.client.with_message', err.message), err.statusCode);
 	} else {
-		logger.error(err); // Log the error
+		logger.error(err); // Log the unexpected error for debugging
 		return sharedRenderer.error(res, res.__('error.unexpected.generic'), 500);
 	}
 };
