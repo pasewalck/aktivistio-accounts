@@ -84,7 +84,7 @@
 			"mode": "Art",
 			"mode_system": "System",
 			"mode_private": "Privat",
-			"mode_hint": "Soll dieser Einladungscode für alle Moderatoren (System) sichtbar sein oder nur für dich?",
+			"mode_hint": "Soll dieser Einladungscode für alle Moderator*innen (System) sichtbar/verwaltbar sein oder nur für dich?",
 			"label": "Label"
 		},
 		"user_list": {
@@ -256,7 +256,7 @@
 					"button": "Wiederherstellungstoken festlegen"
 				},
 				"verify": {
-					"checkbox": "Dieses Token zur Wiederherstellung überprüfen."
+					"checkbox": "Ich habe das Token sicher abspeicherst oder augeschrieben."
 				},
 				"new": {
 					"label": "Neues Wiederherstellungstoken",
@@ -299,7 +299,7 @@
 		"confirm_new_password": "Neues Passwort bestätigen",
 		"update_password": "Ändern",
 		"account_2fa": {},
-		"username": "Benutzername",
+		"username": "Benutzer*inname",
 		"select_recovery_method": "Wiederherstellungsmethode auswählen",
 		"form": {
 			"submit": "Einreichen"
@@ -455,12 +455,12 @@
 			}
 		},
 		"username": {
-			"taken_after_selection": "Dieser Benutzername ist seit deiner Auswahl vergeben.",
-			"not_found": "Benutzername nicht gefunden",
-			"only_lowercases": "Benutzernamen müssen klein geschrieben werden.",
-			"characters_allowed": "Benutzernamen dürfen nur Buchstaben und Ziffern enthalten.",
-			"length": "Der Benutzername muss zwischen 2 und 12 Zeichen lang sein.",
-			"taken": "Dieser Benutzername ist bereits vergeben."
+			"taken_after_selection": "Dieser Benutzer*inname ist seit deiner Auswahl vergeben.",
+			"not_found": "Benutzer*inname nicht gefunden",
+			"only_lowercases": "Benutzer*innamen müssen klein geschrieben werden.",
+			"characters_allowed": "Benutzer*innamen dürfen nur Buchstaben und Ziffern enthalten.",
+			"length": "Der Benutzer*inname muss zwischen 2 und 12 Zeichen lang sein.",
+			"taken": "Dieser Benutzer*inname ist bereits vergeben."
 		},
 		"two_factor": {
 			"token": {

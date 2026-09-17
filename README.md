@@ -34,19 +34,33 @@ In the design of our systems, we employ a low trust model and strive to minimize
 ## Roadmap
 
 - Further Cleanup
+- Fixing numerous smaller quirks
+    - to be elaborated on ...
 - Further Security Audits
 
 ## Setup
+
+Note: Default credentials will be printed to the console on the initial run.
+
+Also make sure to provide the following environment variables:
+
+- IS_SECURE = (true in production else false)
+- IS_BEHIND_PROXY = (true if running behind a proxy (very likely the case))
+- BASE_URL = (the base URL the app is served at)
+
+Note that when running with the launcher, you will need to go to /unlock and enter the password supplied to you on first run. Also note that this encryption at rest password is not changeable currently; this is subject to change, however.
 
 ### Run with Node Directly
 
 - Make sure to have node.js and pnpm setup.
 - Install the packages: `pnpm install`.
-- Create "data" directory in project root.
-- Run server directly in development mode: `pnpm run development-server`.
-- Run launcher in development mode: `pnpm run development-launcher`.
-- Run in production mode: `pnpm run production`.
-- Note: Default credentials will be printed to the console on the initial run.
+- Create "data" and "configuration" directory in project root.
+- Run in development:
+    - Either run the server directly in development mode: `pnpm run development-server`.
+    - Or run with the launcher in development mode: `pnpm run development-launcher`.
+- Run in production:
+    1. Run `pnpm run build`.
+    2. Run `pnpm run production`.
 
 ### Run with Docker
 
