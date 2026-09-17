@@ -1,0 +1,14 @@
+node_modules
+.git
+.husky
+.vscode
+.env
+data
+data.db
+configuration
+src/public/css
+src/tailwind/dist
+tests
+Dockerfile
+docker-compose.yml
+.dockerignore
