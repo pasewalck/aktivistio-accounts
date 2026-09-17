@@ -48,7 +48,7 @@ Also make sure to provide the following environment variables:
 - IS_BEHIND_PROXY = (true if running behind a proxy (very likely the case))
 - BASE_URL = (the base URL the app is served at)
 
-Note that when running with launcher you will need to go to /unlock and enter the password supplied to you on first run. Also note that this encryption at rest password is not changeable currently, this is subject to change, however.
+Note that when running with the launcher, you will need to go to /unlock and enter the password supplied to you on first run. Also note that this encryption at rest password is not changeable currently; this is subject to change, however.
 
 ### Run with Node Directly
 
@@ -56,11 +56,11 @@ Note that when running with launcher you will need to go to /unlock and enter th
 - Install the packages: `pnpm install`.
 - Create "data" and "configuration" directory in project root.
 - Run in development:
-    - Run the server directly in development mode: `pnpm run development-server`.
-    - Run with the launcher in development mode: `pnpm run development-launcher`.
+    - Either run the server directly in development mode: `pnpm run development-server`.
+    - Or run with the launcher in development mode: `pnpm run development-launcher`.
 - Run in production:
-    - Run `pnpm run build`.
-    - Run `pnpm run production`.
+    1. Run `pnpm run build`.
+    2. Run `pnpm run production`.
 
 ### Run with Docker
 
