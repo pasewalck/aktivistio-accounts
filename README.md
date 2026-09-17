@@ -38,14 +38,19 @@ In the design of our systems, we employ a low trust model and strive to minimize
 
 ## Setup
 
-Simply run the script.
-
 ### Run with Node Directly
 
-- Install npm packages: `npm install`
-- Run server directly in development mode: `npm run development-server`
-- Run launcher in development mode: `npm run development-launcher`
-- Run in production mode: `npm run production`
+- Make sure to have node.js and pnpm setup.
+- Install the packages: `pnpm install`.
+- Create "data" directory in project root.
+- Run server directly in development mode: `pnpm run development-server`.
+- Run launcher in development mode: `pnpm run development-launcher`.
+- Run in production mode: `pnpm run production`.
+- Note: Default credentials will be printed to the console on the initial run.
+
+### Run with Docker
+
+tba.
 
 ## Documentation
 
