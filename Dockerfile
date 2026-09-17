@@ -15,4 +15,4 @@ EXPOSE 3000
 
 HEALTHCHECK --interval=10s --timeout=10s CMD wget --no-verbose --tries=5 --spider http://localhost:3000 || exit 1
 
-CMD ["npm", "run", "production"]
+CMD ["npm", "run", "start-launcher:production"]
