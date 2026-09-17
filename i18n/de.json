@@ -256,7 +256,7 @@
 					"button": "Wiederherstellungstoken festlegen"
 				},
 				"verify": {
-					"checkbox": "Dieses Token zur Wiederherstellung überprüfen."
+					"checkbox": "Ich habe das Token sicher abspeicherst oder augeschrieben."
 				},
 				"new": {
 					"label": "Neues Wiederherstellungstoken",
