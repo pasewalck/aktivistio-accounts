@@ -11,7 +11,7 @@ import env from '../helpers/env.js';
 const SqliteStore = betterSqlite3SessionStore(session);
 
 // Initialize the database for session storage
-const { db } = initDatabase('sessions', env.DATABASE_KEYS.SESSIONS);
+const { db } = initDatabase('sessions', env.DATABASE_ENCRYPTION.KEYS.SESSIONS);
 
 /**
  * @description Middleware for managing user sessions in the application.

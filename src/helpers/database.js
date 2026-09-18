@@ -41,8 +41,10 @@ export function initDatabase(name, databaseKey) {
 	logger.debug(`Setting configuration for ${name} database`);
 
 	/* Set the database encryption key. Warn if no key exists */
-	if (databaseKey) db.pragma(`key='${databaseKey}'`);
-	else logger.info(`No encryption key secified for ${name} database!`);
+	if (env.DATABASE_ENCRYPTION.DATABASE_ENCRYPTION) {
+		if (databaseKey) db.pragma(`key='${databaseKey}'`);
+		else logger.info(`No encryption key secified for ${name} database!`);
+	}
 
 	/* Enable secure delete for the database */
 	db.pragma(`secure_delete = ON`);

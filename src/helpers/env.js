@@ -58,12 +58,16 @@ export default {
 		parse: (value) => value.split(','), // Parse comma-separated values
 	}),
 	DEBUG_DATABASE: load('DEBUG_DATABASE', { default: false, parse: Boolean }),
-	DATABASE_KEYS: {
-		DATA: load('DATABASE_KEY_DATA', { warning: true }),
-		OIDC: load('DATABASE_KEY_OIDC', { warning: true }),
-		SECRETS: load('DATABASE_KEY_SECRETS', { warning: true }),
-		SESSIONS: load('DATABASE_KEY_SESSIONS', { warning: true }),
+	DATABASE_ENCRYPTION: {
+		USE: load('USE_DATABASE_ENCRYPTION', { default: false, parse: Boolean }),
+		KEYS: {
+			DATA: load('DATABASE_KEY_DATA'),
+			OIDC: load('DATABASE_KEY_OIDC'),
+			SECRETS: load('DATABASE_KEY_SECRETS'),
+			SESSIONS: load('DATABASE_KEY_SESSIONS'),
+		},
 	},
+
 	MAIL: {
 		HOST: load('MAIL_HOST', { warning: true }),
 		USER: load('MAIL_USER', { warning: true }),

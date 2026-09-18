@@ -7,7 +7,7 @@ import { Account } from '../models/accounts.js';
 import { Invite } from '../models/invite.js';
 import { AuditActionType } from '../models/audit-action-types.js';
 
-const { db, isDbInit } = initDatabase('data', env.DATABASE_KEYS.DATA);
+const { db, isDbInit } = initDatabase('data', env.DATABASE_ENCRYPTION.KEYS.DATA);
 doMigrations(db, [userdataMigration000, userdataMigration001, userdataMigration002]);
 
 export default {

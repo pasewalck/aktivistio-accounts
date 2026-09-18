@@ -47,6 +47,7 @@ const { runLauncherServer } = createLauncher(
 		new Var('DATABASE_KEY_OIDC', () => generateAlphanumericSecret(40)),
 		new Var('DATABASE_KEY_SECRETS', () => generateAlphanumericSecret(40)),
 		new Var('DATABASE_KEY_SESSIONS', () => generateAlphanumericSecret(40)),
+		new Var('USE_DATABASE_ENCRYPTION', () => 'true'),
 	],
 	{
 		filepath: 'data/database-secrets.json',

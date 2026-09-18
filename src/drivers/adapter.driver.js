@@ -3,7 +3,7 @@ import env from '../helpers/env.js';
 import adapterMigration000 from '../migrations/adapter/adapter.migration.000.js';
 
 // Initialize the database connection for the OIDC storage
-const { db } = initDatabase('oidc', env.DATABASE_KEYS.OIDC);
+const { db } = initDatabase('oidc', env.DATABASE_ENCRYPTION.KEYS.OIDC);
 doMigrations(db, [adapterMigration000]);
 
 /**
