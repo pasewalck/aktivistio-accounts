@@ -23,13 +23,11 @@
 
 
                             <% if (keySlots.length > 1) { %>
-                                <form action="<%= urlUtils.extendUrl(baseUrl, 'advanced/encryption/kill/').href %>" method="post" class="h-6 w-6">
-                                    <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-                                    <input type="hidden" value="<%= keySlots[index].idIndex %>" name="idIndex">
-                                    <button type="submit" class="cursor-pointer">
+                                <div class="flex-shrink-0">
+                                    <a href="<%= urlUtils.extendUrl(baseUrl, `advanced/encryption/${keySlots[index].idIndex}/kill`).href %>" class="text-gray-400 hover:text-gray-500">
                                         <img class="h-6 w-6" src="/icons/red.cross.svg" alt="Remove">
-                                    </button>
-                                </form>
+                                    </a>
+                                </div>
                             <% } %>
 
                         </li>
