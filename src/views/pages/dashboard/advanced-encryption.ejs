@@ -4,37 +4,41 @@
             <h3 class="text-lg leading-6 font-medium text-gray-900">
                 <%= __("advanced.encryption.title") %>
             </h3>
-                <% if (appUsesLauncher) { %>
-                    <div class="mt-5 space-y-3 sm:space-y-0 sm:grid sm:grid-cols-3 sm:gap-3">
-                        <ul class="divide-y divide-gray-200">
-                            <% for (let index = 0; index < keySlots.length; index++) { %>
-                                <li class="px-4 py-4 sm:px-6 flex gap-4 items-center justify-between">
-                                    <div class="invite-code font-mono text-lg font-bold text-gray-900">
-                                        Id: <%= keySlots[index].idIndex %>
-                                    </div>
-                                    <div class="invite-code font-mono text-lg font-bold text-gray-900">
-                                        <%= keySlots[index].name %>
-                                    </div>
-
-                                    <% if (keySlots.length > 1) { %>
-                                        <form action="<%= urlUtils.extendUrl(baseUrl, 'advanced/encryption/kill/').href %>" method="post" class="h-6 w-6">
-                                            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-                                            <input type="hidden" value="<%= keySlots[index].idIndex %>" name="idIndex">
-                                            <button type="submit" class="cursor-pointer">
-                                                <img class="h-6 w-6" src="/icons/red.cross.svg" alt="Remove">
-                                            </button>
-                                        </form>
-                                    <% } %>
-
-                                </li>
-                            <% } %>
-                        </ul>
-
-                    </div>
-                <% } else { %>
-                    <%- include("../../../partials/alert-info.ejs",{info: __("advanced.encryption.is-disabled-info"),moreInfoLink:false}) %>
-                <% } %>
         </div>
+
+        <% if (appUsesLauncher) { %>
+            <div class="border-t border-gray-200">
+
+                <ul class="divide-y divide-gray-200">
+                    <% for (let index = 0; index < keySlots.length; index++) { %>
+                        <li class="px-4 py-4 sm:px-6 flex gap-4 items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <div class="text-sm font-medium text-gray-700 truncate">
+                                    Slot.<%= keySlots[index].idIndex %>
+                                </div>
+                                <div class=" px-2.5 py-0.5 rounded-xl w-auto text-xs font-medium bg-blue-100 text-gray-900">
+                                    <%= keySlots[index].name %>
+                                </div>
+                            </div>
+
+
+                            <% if (keySlots.length > 1) { %>
+                                <form action="<%= urlUtils.extendUrl(baseUrl, 'advanced/encryption/kill/').href %>" method="post" class="h-6 w-6">
+                                    <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                                    <input type="hidden" value="<%= keySlots[index].idIndex %>" name="idIndex">
+                                    <button type="submit" class="cursor-pointer">
+                                        <img class="h-6 w-6" src="/icons/red.cross.svg" alt="Remove">
+                                    </button>
+                                </form>
+                            <% } %>
+
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        <% } else { %>
+            <%- include("../../../partials/alert-info.ejs",{info: __("advanced.encryption.is-disabled-info"),moreInfoLink:false}) %>
+        <% } %>
     </div>
 
     <% if (appUsesLauncher) { %>
