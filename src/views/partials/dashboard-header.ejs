@@ -51,6 +51,10 @@
              <% if (hasPermission(account.role, "MANAGE_USERS")) { %>
                 <a href="<%= urlUtils.extendUrl(baseUrl, 'users').href %>" class="text-gray-500 hover:text-gray-700 text-sm font-medium"><%= __("component.navigation.users") %></a>
              <% } %>
+            <% if (hasPermission(account.role, "MANAGE_ADVANCED")) { %>
+                <a href="<%= urlUtils.extendUrl(baseUrl, 'advanced/encryption').href %>" class="text-gray-500 hover:text-gray-700 text-sm font-medium"><%= __("component.navigation.encryption") %></a>
+            <% } %>
+
         </div>
     </div>
 </header>
