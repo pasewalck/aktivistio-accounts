@@ -60,3 +60,14 @@ describe('SUPER_ADMIN permissions', () => {
 		}
 	});
 });
+
+describe('MANAGE_ADVANCED permission', () => {
+	it('is granted to ADMIN and SUPER_ADMIN only', () => {
+		expect(hasPermission(Role.ADMIN, Permission.MANAGE_ADVANCED)).toBe(true);
+		expect(hasPermission(Role.SUPER_ADMIN, Permission.MANAGE_ADVANCED)).toBe(true);
+
+		for (const role of [Role.USER, Role.MULTIPLIER, Role.MULTIPLIER_UNLIMITED, Role.MODERATOR]) {
+			expect(hasPermission(role, Permission.MANAGE_ADVANCED)).toBe(false);
+		}
+	});
+});
