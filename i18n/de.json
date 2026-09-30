@@ -623,7 +623,8 @@
 		"navigation": {
 			"users": "Benutzer*innen",
 			"invites": "Einladungen",
-			"services": "Dienste"
+			"services": "Dienste",
+			"encryption": "Verschlüsselung"
 		},
 		"language": {
 			"info": {
