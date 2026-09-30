@@ -502,7 +502,9 @@
 		"advanced": {
 			"encryption": {
 				"idIndex": {
-					"invalid": "validation.advanced.encryption.idIndex.invalid"
+					"invalid": "Invalid Slot Id.",
+					"format": "Slot Id must be an Int.",
+					"required": "Slot Id must be defined."
 				}
 			}
 		}
