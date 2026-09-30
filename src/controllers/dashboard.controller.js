@@ -11,6 +11,7 @@ import { PasswordResetChannels } from '../models/action-token-types.js';
 import mailService from '../services/mail.service.js';
 import env from '../helpers/env.js';
 import { extendUrl } from '../helpers/url.js';
+import { addKeySlot, removeKeySlot } from '../services/launcher.service.js';
 
 /**
  * @typedef {import("express").Request} Request
@@ -350,6 +351,46 @@ export default {
 			label: data.label ? data.label : null,
 		});
 		res.redirect(extendUrl(env.BASE_URL, 'invites', 'new').href);
+	},
+
+	/**
+	 * @description Handles the request to render advanved encryption page.
+	 * @param {Request} req - The request object.
+	 * @param {Response} res - The response object.
+	 */
+	advancedEncryption: async (req, res) => {
+		dashboardRenderer.advancedEncryption(req, res);
+	},
+	/**
+	 * @description Handles the request to render advanved encryption page.
+	 * @param {Request} req - The request object.
+	 * @param {Response} res - The response object.
+	 */
+	advancedEncryptionKillPost: async (req, res) => {
+		const errors = await validationResult(req);
+		const data = await matchedData(req);
+
+		if (!errors.isEmpty()) {
+			throw new ClientError(errors.array()[0].msg);
+		}
+		if (removeKeySlot(data.idIndex)) res.redirect(extendUrl(env.BASE_URL, 'advanced/encryption').href);
+		else throw new ClientError('Failed to remove keyslot!');
+	},
+	/**
+	 * @description Handles the request to render advanved encryption page.
+	 * @param {Request} req - The request object.
+	 * @param {Response} res - The response object.
+	 */
+	advancedEncryptionAddPost: async (req, res) => {
+		const errors = await validationResult(req);
+		const data = await matchedData(req);
+
+		if (!errors.isEmpty()) {
+			return dashboardRenderer.advancedEncryption(req, res, data, errors.mapped());
+		}
+		if (addKeySlot(data.password, data.name, data.passwordCurrent))
+			res.redirect(extendUrl(env.BASE_URL, 'advanced/encryption').href);
+		else throw new ClientError('Password supplied was incorrect. Failed to add keyslot!');
 	},
 
 	/**

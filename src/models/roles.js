@@ -75,6 +75,7 @@ export class Permission {
 	static RECOVER_USERS = 'RECOVER_USERS';
 	static DELETE_USERS = 'DELETE_USERS';
 	static MANAGE_SERVICES = 'MANAGE_SERVICES';
+	static MANAGE_ADVANCED = 'MANAGE_ADVANCED';
 
 	static all() {
 		return [
@@ -85,6 +86,7 @@ export class Permission {
 			Permission.RECOVER_USERS,
 			Permission.DELETE_USERS,
 			Permission.MANAGE_SERVICES,
+			Permission.MANAGE_ADVANCED,
 		];
 	}
 }
@@ -98,7 +100,12 @@ export const rolePermissions = {
 	[Role.MULTIPLIER]: [Permission.REGENERATING_INVITES],
 	[Role.MULTIPLIER_UNLIMITED]: [Permission.MANAGE_OWN_INVITES],
 	[Role.MODERATOR]: [Permission.MANAGE_SYSTEM_INVITES, Permission.MANAGE_USERS],
-	[Role.ADMIN]: [Permission.MANAGE_SERVICES, Permission.DELETE_USERS, Permission.RECOVER_USERS],
+	[Role.ADMIN]: [
+		Permission.MANAGE_SERVICES,
+		Permission.DELETE_USERS,
+		Permission.RECOVER_USERS,
+		Permission.MANAGE_ADVANCED,
+	],
 	[Role.SUPER_ADMIN]: [],
 };
 

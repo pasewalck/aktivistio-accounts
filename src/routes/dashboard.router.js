@@ -24,6 +24,8 @@ import ownAccountAuditLogValidations from '../validation/validators/dashboard/ow
 import createAccountValidations from '../validation/validators/dashboard/system-management/accounts/create.account.validations.js';
 import sendEmailAccountValidations from '../validation/validators/dashboard/system-management/accounts/send-email.account.validations.js';
 import usersGetValidations from '../validation/validators/dashboard/system-management/accounts/users.get.validations.js';
+import manageAdvancedEncryptionKillValidations from '../validation/validators/dashboard/system-management/advanced/manage.advanced.encryption.kill.validations.js';
+import manageAdvancedEncryptionAddValidations from '../validation/validators/dashboard/system-management/advanced/manage.advanced.encryption.add.validations.js';
 
 /**
  * @description Binds controller actions to routes for the primary app.
@@ -98,6 +100,28 @@ export default (app) => {
 		userManageValidators,
 		sendEmailAccountValidations,
 		dashboardController.sendUserAccountRecoveryEmailPost
+	);
+
+	// Advanced encryption management routes
+	app.get(
+		'/advanced/encryption',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_ADVANCED),
+		dashboardController.advancedEncryption
+	);
+	app.post(
+		'/advanced/encryption/kill',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_ADVANCED),
+		manageAdvancedEncryptionKillValidations,
+		dashboardController.advancedEncryptionKillPost
+	);
+	app.post(
+		'/advanced/encryption/add',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_ADVANCED),
+		manageAdvancedEncryptionAddValidations,
+		dashboardController.advancedEncryptionAddPost
 	);
 
 	// Service management routes

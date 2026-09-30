@@ -58,6 +58,7 @@ export default {
 		parse: (value) => value.split(','), // Parse comma-separated values
 	}),
 	DEBUG_DATABASE: load('DEBUG_DATABASE', { default: false, parse: Boolean }),
+	USE_LAUNCHER: load('USE_LAUNCHER', { default: false, parse: Boolean }),
 	DATABASE_ENCRYPTION: {
 		USE: load('USE_DATABASE_ENCRYPTION', { default: false, parse: Boolean }),
 		KEYS: {

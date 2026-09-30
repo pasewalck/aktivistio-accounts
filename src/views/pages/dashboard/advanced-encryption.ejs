@@ -1,0 +1,86 @@
+<div class="max-w-7xl mx-auto space-y-6">
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <%= __("advanced.encryption.title") %>
+            </h3>
+                <% if (appUsesLauncher) { %>
+                    <div class="mt-5 space-y-3 sm:space-y-0 sm:grid sm:grid-cols-3 sm:gap-3">
+                        <ul class="divide-y divide-gray-200">
+                            <% for (let index = 0; index < keySlots.length; index++) { %>
+                                <li class="px-4 py-4 sm:px-6 flex gap-4 items-center justify-between">
+                                    <div class="invite-code font-mono text-lg font-bold text-gray-900">
+                                        Id: <%= keySlots[index].idIndex %>
+                                    </div>
+                                    <div class="invite-code font-mono text-lg font-bold text-gray-900">
+                                        <%= keySlots[index].name %>
+                                    </div>
+
+                                    <% if (keySlots.length > 1) { %>
+                                        <form action="<%= urlUtils.extendUrl(baseUrl, 'advanced/encryption/kill/').href %>" method="post" class="h-6 w-6">
+                                            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                                            <input type="hidden" value="<%= keySlots[index].idIndex %>" name="idIndex">
+                                            <button type="submit" class="cursor-pointer">
+                                                <img class="h-6 w-6" src="/icons/red.cross.svg" alt="Remove">
+                                            </button>
+                                        </form>
+                                    <% } %>
+
+                                </li>
+                            <% } %>
+                        </ul>
+
+                    </div>
+                <% } else { %>
+                    <%- include("../../../partials/alert-info.ejs",{info: __("advanced.encryption.is-disabled-info"),moreInfoLink:false}) %>
+                <% } %>
+        </div>
+    </div>
+
+    <% if (appUsesLauncher) { %>
+        <div class="bg-white shadow sm:rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    <%= __("advanced.encryption.add") %>
+                </h3>
+                <form class="mt-5 space-y-6" action="<%= urlUtils.extendUrl(baseUrl, 'advanced/encryption/add/').href %>" method="post">
+                    <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+
+                    <%- include("../../partials/form/input/input-field.ejs", {
+                        field: {
+                            label: __('advanced.encryption.name'),
+                            name: "name",
+                            id: "name",
+                            type: "text"
+                        }
+                    }) %>
+
+                    <%- include("../../partials/form/input/input-field.ejs", {
+                        field: {
+                            label: __('advanced.encryption.new-password'),
+                            name: "password",
+                            id: "password",
+                            type: "password"
+                        }
+                    }) %>
+
+                    <%- include("../../partials/form/input/input-field.ejs", {
+                        field: {
+                            label: __('advanced.encryption.registered-password'),
+                            name: "passwordCurrent",
+                            id: "passwordCurrent",
+                            type: "password"
+                        }
+                    }) %>
+
+                    <div>
+                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <%= __("advanced.encryption.password_add") %>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <% } %>
+
+</div>

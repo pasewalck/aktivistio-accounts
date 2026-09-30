@@ -8,6 +8,7 @@ import invitesService from '../services/invites.service.js';
 import { extendUrl } from '../helpers/url.js';
 import auditService from '../services/audit.service.js';
 import { hasPermission, Permission } from '../models/roles.js';
+import { getKeysSlots } from '../services/launcher.service.js';
 
 /**
  * @typedef {import("express").Request} Request
@@ -32,6 +33,21 @@ export default {
 			clients: adapterService
 				.getEntries('Client')
 				.filter((client) => !client.hidden || hasPermission(req.account.role, Permission.MANAGE_SERVICES)),
+		});
+	},
+
+	/**
+	 * @description Renders the advanced encryption page.
+	 * @param {Request} req - The request object.
+	 * @param {Response} res - The response object.
+	 */
+	advancedEncryption: (req, res, formData = {}, errors = {}) => {
+		return res.render('pages/dashboard/advanced-encryption', {
+			title: res.__('title.advanced-encryption'),
+			appUsesLauncher: env.USE_LAUNCHER,
+			errors: errors,
+			formData: formData,
+			keySlots: env.USE_LAUNCHER ? getKeysSlots() : [],
 		});
 	},
 
