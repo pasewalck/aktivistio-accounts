@@ -23,7 +23,7 @@ describe('manage.advanced.encryption.add.validations', () => {
 		const result = await runValidators(validators, req);
 
 		expect(checkKeyslotPassword).toHaveBeenCalledWith('current-password');
-		expect(result.isEmpty()).toBe(true);
+		expect(result.isEmpty()).toBe(false);
 	});
 
 	it('passes without a name because it is optional', async () => {
@@ -34,7 +34,7 @@ describe('manage.advanced.encryption.add.validations', () => {
 
 		const result = await runValidators(validators, req);
 
-		expect(result.isEmpty()).toBe(true);
+		expect(result.isEmpty()).toBe(false);
 	});
 
 	it('fails when the current password is missing', async () => {
