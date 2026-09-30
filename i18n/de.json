@@ -648,5 +648,21 @@
 				"en": "Englisch"
 			}
 		}
+	},
+	"advanced": {
+		"encryption": {
+			"password_add": "Schlüsselslot hinzufügen",
+			"title": "Schlüsselslots für die Verschlüsselung gespeicherter Daten",
+			"is-disabled-info": "Die Verschlüsselung gespeicherter Daten ist deaktiviert. Bitte starte die Anwendung über den Launcher, um sie zu nutzen.",
+			"add": "Schlüsselslot hinzufügen",
+			"name": "Name",
+			"new-password": "Neues Passwort",
+			"registered-password": "Passwort eines bestehenden Schlüsselslots"
+		},
+		"backup": {
+			"title": "Sicherungen",
+			"do": "Sicherung erstellen",
+			"coming-soon": "Sicherungen sind bald verfügbar ..."
+		}
 	}
 }
