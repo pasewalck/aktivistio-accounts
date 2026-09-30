@@ -362,7 +362,21 @@ export default {
 		dashboardRenderer.advancedEncryption(req, res);
 	},
 	/**
-	 * @description Handles the request to render advanved encryption page.
+	 * @description Handles the request to render advanved encryption key slot removing page.
+	 * @param {Request} req - The request object.
+	 * @param {Response} res - The response object.
+	 */
+	advancedEncryptionKill: async (req, res) => {
+		const errors = await validationResult(req);
+		const data = await matchedData(req);
+
+		if (!errors.isEmpty()) {
+			throw new ClientError(errors.array()[0].msg);
+		}
+		return dashboardRenderer.advancedEncryptionKillPage(req, res, data.idIndex);
+	},
+	/**
+	 * @description Handles the request to delete a key slot.
 	 * @param {Request} req - The request object.
 	 * @param {Response} res - The response object.
 	 */
@@ -371,7 +385,9 @@ export default {
 		const data = await matchedData(req);
 
 		if (!errors.isEmpty()) {
-			throw new ClientError(errors.array()[0].msg);
+			if (data.idIndex)
+				return dashboardRenderer.advancedEncryptionKillPage(req, res, data.idIndex, data, errors.mapped());
+			else throw new ClientError(errors.array()[0].msg);
 		}
 		if (removeKeySlot(data.idIndex)) res.redirect(extendUrl(env.BASE_URL, 'advanced/encryption').href);
 		else throw new ClientError('Failed to remove keyslot!');

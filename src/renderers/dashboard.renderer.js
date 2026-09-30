@@ -52,6 +52,20 @@ export default {
 	},
 
 	/**
+	 * @description Renders the advanced encryption keyslot kill page.
+	 * @param {Request} req - The request object.
+	 * @param {Response} res - The response object.
+	 */
+	advancedEncryptionKillPage: (req, res, idIndex, formData = {}, errors = {}) => {
+		return res.render('pages/dashboard/advanced-encryption-kill', {
+			title: res.__('title.advanced-encryption'),
+			errors: errors,
+			formData: formData,
+			idIndex: idIndex,
+		});
+	},
+
+	/**
 	 * @description Renders the service management page.
 	 * Allows the user to manage a specific service, including displaying any errors or pre-filled form data.
 	 * @param {Request} req - The request object.

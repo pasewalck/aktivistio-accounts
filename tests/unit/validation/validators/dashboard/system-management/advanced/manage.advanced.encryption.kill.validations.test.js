@@ -5,8 +5,8 @@ vi.mock('../../../../../../../src/services/launcher.service.js', () => ({
 	getKeysSlots: vi.fn(),
 }));
 
-import { getKeysSlots } from '../../../../../../../src/services/launcher.service.js';
-import validators from '../../../../../../../src/validation/validators/dashboard/system-management/advanced/manage.advanced.encryption.kill.validations.js';
+import { checkKeyslotPassword, getKeysSlots } from '../../../../../../../src/services/launcher.service.js';
+import validators from '../../../../../../../src/validation/validators/dashboard/system-management/advanced/manage.advanced.encryption.do-remove.validations.js';
 import { mockReq, runValidators, errorFields, getErrors } from '../../../../helpers.js';
 
 const keySlots = [
@@ -17,11 +17,12 @@ const keySlots = [
 describe('manage.advanced.encryption.kill.validations', () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
+		checkKeyslotPassword.mockReturnValue(true);
 		getKeysSlots.mockReturnValue(keySlots);
 	});
 
 	it('passes when the id index matches an existing key slot', async () => {
-		const req = mockReq({ body: { idIndex: '1' } });
+		const req = mockReq({ body: { idIndex: '1', passwordCurrent: 'test' } });
 
 		const result = await runValidators(validators, req);
 
@@ -30,7 +31,7 @@ describe('manage.advanced.encryption.kill.validations', () => {
 	});
 
 	it('passes for the first key slot (id index 0)', async () => {
-		const req = mockReq({ body: { idIndex: '0' } });
+		const req = mockReq({ body: { idIndex: '0', passwordCurrent: 'test' } });
 
 		const result = await runValidators(validators, req);
 

@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
 import localize from '../../../../localize.js';
-import { getKeysSlots } from '../../../../../services/launcher.service.js';
+import { checkKeyslotPassword, getKeysSlots } from '../../../../../services/launcher.service.js';
 
 export default [
 	body('idIndex')
@@ -17,4 +17,12 @@ export default [
 			return keySlotsIndecies.indexOf(value) != -1;
 		})
 		.withMessage(localize('validation.advanced.encryption.idIndex.invalid')),
+	body('passwordCurrent')
+		.exists({ checkFalsy: true })
+		.bail()
+		.withMessage(localize('validation.password.required'))
+		.custom(async (value, { req }) => {
+			if (checkKeyslotPassword(value)) return true;
+			else throw new Error(req.__('validation.password.incorrect'));
+		}),
 ];

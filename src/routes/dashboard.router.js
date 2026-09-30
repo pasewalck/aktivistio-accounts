@@ -24,8 +24,9 @@ import ownAccountAuditLogValidations from '../validation/validators/dashboard/ow
 import createAccountValidations from '../validation/validators/dashboard/system-management/accounts/create.account.validations.js';
 import sendEmailAccountValidations from '../validation/validators/dashboard/system-management/accounts/send-email.account.validations.js';
 import usersGetValidations from '../validation/validators/dashboard/system-management/accounts/users.get.validations.js';
-import manageAdvancedEncryptionKillValidations from '../validation/validators/dashboard/system-management/advanced/manage.advanced.encryption.kill.validations.js';
 import manageAdvancedEncryptionAddValidations from '../validation/validators/dashboard/system-management/advanced/manage.advanced.encryption.add.validations.js';
+import manageAdvancedEncryptionDoRemoveValidations from '../validation/validators/dashboard/system-management/advanced/manage.advanced.encryption.do-remove.validations.js';
+import manageAdvancedEncryptionRemovePageValidations from '../validation/validators/dashboard/system-management/advanced/manage.advanced.encryption.remove-page.validations.js';
 
 /**
  * @description Binds controller actions to routes for the primary app.
@@ -109,11 +110,18 @@ export default (app) => {
 		generateCheckUserPermission(Permission.MANAGE_ADVANCED),
 		dashboardController.advancedEncryption
 	);
+	app.get(
+		'/advanced/encryption/:idIndex/kill',
+		middlewares,
+		generateCheckUserPermission(Permission.MANAGE_ADVANCED),
+		manageAdvancedEncryptionRemovePageValidations,
+		dashboardController.advancedEncryptionKill
+	);
 	app.post(
 		'/advanced/encryption/kill',
 		middlewares,
 		generateCheckUserPermission(Permission.MANAGE_ADVANCED),
-		manageAdvancedEncryptionKillValidations,
+		manageAdvancedEncryptionDoRemoveValidations,
 		dashboardController.advancedEncryptionKillPost
 	);
 	app.post(
