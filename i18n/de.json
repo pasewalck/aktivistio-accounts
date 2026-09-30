@@ -291,7 +291,8 @@
 		"recovery": "Passwortwiederherstellung",
 		"manage_service": "Dienst verwalten",
 		"invite_codes": "Einladungscodes",
-		"authorize": "Autorisierung erforderlich"
+		"authorize": "Autorisierung erforderlich",
+		"advanced-encryption": "Verschlüsselung"
 	},
 	"common": {
 		"current_password": "Aktuelles Passwort",
