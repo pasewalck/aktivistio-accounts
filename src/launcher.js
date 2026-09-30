@@ -45,10 +45,22 @@ function startChild() {
 
 const { runLauncherServer } = createLauncher(
 	[
-		new Var('DATABASE_KEY_DATA', () => generateAlphanumericSecret(40)),
-		new Var('DATABASE_KEY_OIDC', () => generateAlphanumericSecret(40)),
-		new Var('DATABASE_KEY_SECRETS', () => generateAlphanumericSecret(40)),
-		new Var('DATABASE_KEY_SESSIONS', () => generateAlphanumericSecret(40)),
+		new Var('DATABASE_KEY_DATA', () => {
+			logger.info('Generating new DATABASE_KEY_DATA');
+			return generateAlphanumericSecret(40);
+		}),
+		new Var('DATABASE_KEY_OIDC', () => {
+			logger.info('Generating new DATABASE_KEY_OIDC');
+			return generateAlphanumericSecret(40);
+		}),
+		new Var('DATABASE_KEY_SECRETS', () => {
+			logger.info('Generating new DATABASE_KEY_SECRETS');
+			return generateAlphanumericSecret(40);
+		}),
+		new Var('DATABASE_KEY_SESSIONS', () => {
+			logger.info('Generating new DATABASE_KEY_SESSIONS');
+			return generateAlphanumericSecret(40);
+		}),
 	],
 	{
 		filepath: 'data/database-secrets.json',
