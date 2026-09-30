@@ -6,11 +6,12 @@ import { InternalError } from '../models/errors.js';
 const secrets = new Secrets('data/database-secrets.json', []);
 
 /**
- * @description
- * @param {String} password
- * @param {String} name
- * @param {String} currentPassword
- * @returns {Boolean}
+ * @description Adds a new key slot protected by the given password and persists the secret store.
+ * @param {String} password - The password that will unlock the new key slot.
+ * @param {String} name - The display name for the new key slot.
+ * @param {String} currentPassword - The password of an existing key slot used to unlock the store.
+ * @returns {Boolean} - True if the key slot was added, false if the current password is invalid.
+ * @throws {InternalError} - If an unexpected error occurs while adding the key slot.
  */
 export function addKeySlot(password, name, currentPassword) {
 	try {
@@ -27,9 +28,10 @@ export function addKeySlot(password, name, currentPassword) {
 }
 
 /**
- * @description
- * @param {String} password
- * @returns {Boolean}
+ * @description Checks whether the given password can unlock a key slot and persists the secret store.
+ * @param {String} password - The password to validate against the existing key slots.
+ * @returns {Boolean} - True if the password unlocks a key slot, false otherwise.
+ * @throws {InternalError} - If an unexpected error occurs while checking the password.
  */
 export function checkKeyslotPassword(password) {
 	try {
@@ -46,9 +48,10 @@ export function checkKeyslotPassword(password) {
 }
 
 /**
- * @description
- * @param {number} idIndex
- * @returns {Boolean}
+ * @description Removes a key slot by its id index and persists the secret store.
+ * @param {number} idIndex - The id index of the key slot to remove.
+ * @returns {Boolean} - True if the key slot was removed, false if it is the last remaining key slot.
+ * @throws {InternalError} - If an unexpected error occurs while removing the key slot.
  */
 export function removeKeySlot(idIndex) {
 	try {
@@ -66,8 +69,8 @@ export function removeKeySlot(idIndex) {
 }
 
 /**
- * @description
- * @returns {Array<KeySlot>}
+ * @description Retrieves all key slots currently held in the secret store.
+ * @returns {Array<KeySlot>} - The list of key slots.
  */
 export function getKeysSlots() {
 	return secrets.keySlots;
