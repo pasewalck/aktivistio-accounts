@@ -57,7 +57,7 @@ Note that when running with the launcher, you will need to go to /unlock and ent
 - Create "data" and "configuration" directory in project root.
 - Run in development:
     - Either run the server directly in development mode: `pnpm run development-server`.
-    - Or run with the launcher in development mode: `pnpm run development-launcher`.
+    - Or run with the launcher in development mode: `pnpm run development-launcher` (recommended).
 - Run in production:
     1. Run `pnpm run build`.
     2. Run `pnpm run production`.
