@@ -18,7 +18,7 @@
                 %>
                 <li class="px-4 py-4 sm:px-6 flex gap-4 items-center justify-between<%= isNew ? ' animate-in-invite' : '' %>">
                     <div class="flex gap-4 items-center">
-                        <div class="invite-code font-mono text-lg font-bold text-gray-900">
+                        <div class="invite-code font-mono text-base font-medium text-gray-900">
                             <span class="invite-hidden-part"><%= inviteCodes[index].code.substring(0, 4) %></span><span><%= inviteCodes[index].code.substring(4) %></span>
                         </div>
                         <div class="flex items-start flex-col sm:flex-row gap-1">
