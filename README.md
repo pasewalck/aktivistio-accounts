@@ -27,7 +27,16 @@ We do not recommend using this project for your own use at the time being. This 
 - Secret Storage (Implements rotating secrets for enhanced security)
 - User Interface: A UI with basic admin features for user and service (OIDC clients) management.
 
-## Notes on Data Privacy and Security
+## Special Features
+
+- No JS Needed on Frontend: Everything in this app works without a single line of JS on the frontend needing to be allowed. No React.js, only a few non-essential lines of vanilla JS.
+- Hashing User Emails: Emails provided by users are hashed and never saved to disk in plain text.
+- Encryption At Rest: Every single peace of user and service data supports to be encrypted on rest.
+- No IP Address is saved to Disk: This app is incapable of saving any IP address to disk, it is simply not implemented. Rate monitoring and blocking uses ram to save any IPs temporarily.
+- Data Minimization: This application does not support keeping any non-essential user data (an exception is audit logging of user activity).
+- Flexible User Recovery: Recovery of users works via email and via a recovery token. A user can choose either, both or none.
+
+## Additional Notes on Data Privacy and Security
 
 In the design of our systems, we employ a low trust model and strive to minimize the data stored by this software. All storage solutions support full encryption at rest. In addition to passwords, we also hash emails and recovery tokens. For more information, read more [about Privacy and Security.](./documentation/SECURITY.md)
 
