@@ -71,3 +71,9 @@ tba.
 Further documentation for all features and setup processes is planned.
 
 For any questions or contributions, please reach out to: pasewalck@posteo.net
+
+## Credits
+
+- Icons used are from https://www.svgrepo.com
+- Thanks to the great Documentations at https://github.com/panva/node-oidc-provider
+- Thanks to the people who have audited the code so far
