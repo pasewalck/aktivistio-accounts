@@ -28,7 +28,7 @@
                                 <% if (daysLeft < 14) { %>
                                     <span class="px-2.5 py-0.5 rounded-xl w-auto text-xs font-medium bg-red-100 text-red-800"><%= __("common.expires_in_days", Number.parseFloat(daysLeft).toFixed(0)) %></span>
                                 <% } else { %>
-                                    <%= __("common.expires_on_date", date.toLocaleString("en-GB").split(', ')[0]) %>
+                                    <span class="px-2.5 py-0.5 rounded-xl w-auto text-xs font-medium bg-red-100 text-red-800"><%= __("common.expires_on_date", date.toLocaleString("en-GB").split(', ')[0]) %></span>
                                 <% } %>
                             <% } %>
                             <% if (inviteCodes[index].maxUses != 1) { %>
