@@ -60,14 +60,38 @@ export function initDatabase(name, databaseKey) {
 }
 
 /**
- * @description Creates a database backup.
- * @param {string} name - The name of the database (used to create the file path).
- * @param {Database} db - The database instance
+ * @description Creates a database backup by copying the database file.
+ * @param {string} name - The name of the database (used to create the file paths).
+ * @returns {string|undefined} The path of the created backup, or undefined if no backup was created.
  */
-export async function backupDatabase(name, db) {
+export function backupDatabase(name) {
 	if (env.DEBUG_DATABASE) return;
-	const filePath = `./backups/${name}-backup-${Date.now()}.db`;
-	await db.backup(filePath);
+
+	const source = `./data/${name}.db`;
+	const destination = `./backups/${name}-backup-${Date.now()}.db`;
+
+	fs.mkdirSync('./backups', { recursive: true });
+
+	if (!fs.existsSync(source)) {
+		logger.warn(`Skipping backup, database file not found: ${source}`);
+		return;
+	}
+
+	if (fs.existsSync(`${source}-journal`)) {
+		logger.warn(`Skipping backup, journal file present for ${name} database`);
+		return;
+	}
+
+	const temporary = `${destination}.tmp`;
+	try {
+		fs.copyFileSync(source, temporary);
+		fs.renameSync(temporary, destination);
+	} catch (error) {
+		fs.rmSync(temporary, { force: true });
+		throw error;
+	}
+
+	return destination;
 }
 
 /**

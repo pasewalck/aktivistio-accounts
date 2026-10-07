@@ -7,12 +7,11 @@ import { backupDatabase } from '../helpers/database.js';
 import env from '../helpers/env.js';
 import logger from '../helpers/logger.js';
 
-async function backup() {
-	fs.mkdirSync('./backups', { recursive: true });
+function backup() {
 	try {
-		await backupDatabase(secretDriver.databaseName, secretDriver.db);
-		await backupDatabase(dataDriver.databaseName, dataDriver.db);
-		await backupDatabase(adapterDriver.databaseName, adapterDriver.db);
+		backupDatabase(secretDriver.databaseName);
+		backupDatabase(dataDriver.databaseName);
+		backupDatabase(adapterDriver.databaseName);
 	} catch (error) {
 		logger.error(error);
 	}

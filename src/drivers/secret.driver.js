@@ -36,7 +36,6 @@ function addEntry(name, value) {
 }
 
 export default {
-	db,
 	databaseName,
 	getEntries,
 	cleanEntries,

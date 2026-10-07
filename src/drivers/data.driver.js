@@ -12,7 +12,6 @@ const { db, isDbInit } = initDatabase(databaseName, env.DATABASE_ENCRYPTION.KEYS
 doMigrations(db, [userdataMigration000, userdataMigration001, userdataMigration002]);
 
 export default {
-	db: db,
 	databaseName,
 	/**
 	 * @description Retrieves invites with flexible filtering options.

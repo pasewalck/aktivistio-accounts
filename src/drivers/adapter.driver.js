@@ -148,7 +148,6 @@ function cleanupExpiredEntries() {
 setInterval(cleanupExpiredEntries, 3600000); // 3600000 milliseconds = 1 hour
 
 export default {
-	db: db,
 	databaseName: databaseName,
 	removeEntry,
 	getEntryValue,
