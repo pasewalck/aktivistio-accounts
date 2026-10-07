@@ -59,6 +59,11 @@ export default {
 	}),
 	DEBUG_DATABASE: load('DEBUG_DATABASE', { default: false, parse: Boolean }),
 	USE_LAUNCHER: load('USE_LAUNCHER', { default: false, parse: Boolean }),
+	DATABASE_BACKUPS: {
+		DO: load('DO_DATABASE_BACKUPS', { default: true, parse: Boolean }),
+		INTERVAL_DAYS: load('DATABASE_BACKUP_INTERVAL_DAYS', { default: 1, parse: Number }),
+		RETENTION_DAYS: load('DATABASE_BACKUP_RETENTION_DAYS', { default: 4, parse: Number }),
+	},
 	DATABASE_ENCRYPTION: {
 		USE: load('USE_DATABASE_ENCRYPTION', { default: false, parse: Boolean }),
 		KEYS: {

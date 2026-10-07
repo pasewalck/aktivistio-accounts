@@ -2,7 +2,8 @@ import { doMigrations, initDatabase } from '../helpers/database.js';
 import env from '../helpers/env.js';
 import secretMigration000 from '../migrations/secrets/secret.migration.000.js';
 
-const { db } = initDatabase('secrets', env.DATABASE_ENCRYPTION.KEYS.SECRETS);
+const databaseName = 'secrets';
+const { db } = initDatabase(databaseName, env.DATABASE_ENCRYPTION.KEYS.SECRETS);
 doMigrations(db, [secretMigration000]);
 
 /**
@@ -35,6 +36,8 @@ function addEntry(name, value) {
 }
 
 export default {
+	db,
+	databaseName,
 	getEntries,
 	cleanEntries,
 	addEntry,

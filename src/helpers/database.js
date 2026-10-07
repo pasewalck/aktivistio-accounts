@@ -60,6 +60,17 @@ export function initDatabase(name, databaseKey) {
 }
 
 /**
+ * @description Creates a database backup.
+ * @param {string} name - The name of the database (used to create the file path).
+ * @param {Database} db - The database instance
+ */
+export async function backupDatabase(name, db) {
+	if (env.DEBUG_DATABASE) return;
+	const filePath = `./backups/${name}-backup-${Date.now()}.db`;
+	await db.backup(filePath);
+}
+
+/**
  * Executes database migrations in order, tracking completion in a table.
  * @param {Database} db - The database instance to execute migrations against
  * @param {MigrationVersion[]} migrationVersions - Array of MigrationVersion instances to apply, in order

@@ -3,7 +3,8 @@ import env from '../helpers/env.js';
 import adapterMigration000 from '../migrations/adapter/adapter.migration.000.js';
 
 // Initialize the database connection for the OIDC storage
-const { db } = initDatabase('oidc', env.DATABASE_ENCRYPTION.KEYS.OIDC);
+const databaseName = 'oidc';
+const { db } = initDatabase(databaseName, env.DATABASE_ENCRYPTION.KEYS.OIDC);
 doMigrations(db, [adapterMigration000]);
 
 /**
@@ -147,6 +148,8 @@ function cleanupExpiredEntries() {
 setInterval(cleanupExpiredEntries, 3600000); // 3600000 milliseconds = 1 hour
 
 export default {
+	db: db,
+	databaseName: databaseName,
 	removeEntry,
 	getEntryValue,
 	setEntryExpire,

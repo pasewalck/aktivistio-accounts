@@ -21,6 +21,7 @@ import errorsMiddleware from './middlewares/errors.middleware.js';
 import logger from './helpers/logger.js';
 import secretService from './services/secret.service.js';
 import env from './helpers/env.js';
+import backupService from './services/backup.service.js';
 
 // Get the current file and directory names
 const __filename = fileURLToPath(import.meta.url);
@@ -128,5 +129,7 @@ app.get('/change-language', langController.changeLanguage);
 // Attach error handling middleware
 logger.debug('Attaching errors middleware');
 app.use(errorsMiddleware);
+
+backupService.init();
 
 export default app;

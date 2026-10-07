@@ -9,3 +9,4 @@ configuration/*
 .vscode
 database-secrets.txt
 src/tailwind/dist/*
+backups
