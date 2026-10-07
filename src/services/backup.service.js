@@ -20,7 +20,7 @@ async function backup() {
 function clearBackups() {
 	if (fs.existsSync('./backups'))
 		fs.readdirSync('./backups').forEach((file) => {
-			const matches = Array.from(file.matchAll('(?<name>[a-z]*)-backup-(?<date>[\\d]*).db'))[0];
+			const matches = Array.from(file.matchAll('^(?<name>[a-z]+)-backup-(?<date>\\d+)\\.db$'))[0];
 			if (matches && matches.groups && matches.groups.date) {
 				const createdDate = parseInt(matches.groups.date);
 				if (
