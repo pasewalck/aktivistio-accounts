@@ -36,9 +36,6 @@ function clearBackups() {
 
 function init() {
 	if (!env.DATABASE_BACKUPS.DO) return;
-
-	backup();
-
 	if (process.env.NODE_ENV === 'test') return;
 
 	CronJob.from({
