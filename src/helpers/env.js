@@ -61,7 +61,7 @@ export default {
 	USE_LAUNCHER: load('USE_LAUNCHER', { default: false, parse: Boolean }),
 	DATABASE_BACKUPS: {
 		DO: load('DO_DATABASE_BACKUPS', { default: true, parse: Boolean }),
-		INTERVAL_DAYS: load('DATABASE_BACKUP_INTERVAL_DAYS', { default: 1, parse: Number }),
+		CRON: load('DATABASE_BACKUP_CRON', { default: '0 0 * * *' }),
 		RETENTION_DAYS: load('DATABASE_BACKUP_RETENTION_DAYS', { default: 4, parse: Number }),
 	},
 	DATABASE_ENCRYPTION: {

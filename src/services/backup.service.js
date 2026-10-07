@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { CronJob } from 'cron';
 import adapterDriver from '../drivers/adapter.driver.js';
 import dataDriver from '../drivers/data.driver.js';
 import secretDriver from '../drivers/secret.driver.js';
@@ -34,12 +35,23 @@ function clearBackups() {
 }
 
 function init() {
-	if (env.DATABASE_BACKUPS.DO) {
-		setInterval(clearBackups, env.DATABASE_BACKUPS.INTERVAL_DAYS * 1000 * 60 * 60 * 24);
-		setInterval(backup, env.DATABASE_BACKUPS.INTERVAL_DAYS * 1000 * 60 * 60 * 24);
-	}
+	if (!env.DATABASE_BACKUPS.DO) return;
+
+	backup();
+
+	if (process.env.NODE_ENV === 'test') return;
+
+	CronJob.from({
+		cronTime: env.DATABASE_BACKUPS.CRON,
+		onTick: () => {
+			clearBackups();
+			backup();
+		},
+		start: true,
+		errorHandler: (error) => logger.error(error),
+	});
 }
 
 export default {
-	init: init,
+	init,
 };
