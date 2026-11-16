@@ -29,7 +29,7 @@ We do not recommend using this project for your own use at the time being. This 
 - Secret Storage (Implements rotating secrets for enhanced security)
 - User Interface: A UI with basic admin features for user and service (OIDC clients) management.
 
-## Special Features
+## Core Principles
 
 - No JS Needed on Frontend: Everything in this app works without a single line of JS on the frontend needing to be allowed. No React.js, only a few non-essential lines of vanilla JS.
 - Hashing User Emails: Emails provided by users are hashed and never saved to disk in plain text.
