@@ -44,7 +44,6 @@ export default {
 	advancedEncryption: (req, res, formData = {}, errors = {}) => {
 		return res.render('pages/dashboard/advanced-encryption', {
 			title: res.__('title.advanced-encryption'),
-			appUsesLauncher: env.USE_LAUNCHER,
 			errors: errors,
 			formData: formData,
 			keySlots: env.USE_LAUNCHER ? getKeysSlots() : [],

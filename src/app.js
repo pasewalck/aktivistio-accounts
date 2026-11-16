@@ -44,6 +44,7 @@ app.locals = {
 		logo: env.APPLICATION_LOGO,
 	},
 	account: null,
+	appUsesLauncher: env.USE_LAUNCHER,
 };
 
 logger.debug('Initializing i18n for internationalization');
