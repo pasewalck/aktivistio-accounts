@@ -21,6 +21,7 @@ import errorsMiddleware from './middlewares/errors.middleware.js';
 import logger from './helpers/logger.js';
 import secretService from './services/secret.service.js';
 import env from './helpers/env.js';
+import { warnMissingConfigurationFiles } from './helpers/configuration-files.js';
 import backupService from './services/backup.service.js';
 
 // Get the current file and directory names
@@ -47,13 +48,24 @@ app.locals = {
 
 logger.debug('Initializing i18n for internationalization');
 
+const locales = ['en', 'de'];
+
 i18n.configure({
-	locales: ['en', 'de'],
+	locales: locales,
 	directory: 'i18n',
 	defaultLocale: 'de',
 	cookie: 'i18n',
 	objectNotation: true,
 });
+
+logger.debug('Checking required configuration files');
+warnMissingConfigurationFiles([
+	{ path: env.APPLICATION_LOGO, description: 'application logo' },
+	...locales.map((locale) => ({
+		path: `configuration/${locale}.consent.md`,
+		description: `consent text for locale "${locale}"`,
+	})),
+]);
 
 // Serve static files from the public directory
 logger.debug('Setting public express route');
