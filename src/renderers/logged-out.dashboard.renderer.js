@@ -1,6 +1,6 @@
 import { generateRecoveryToken } from '../helpers/recovery-token-string.js';
 import { marked } from 'marked';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import env from '../helpers/env.js';
 
 /**
@@ -42,7 +42,9 @@ export default {
 			title: res.__('auth.register.head_title'),
 			formData: formData,
 			// TODO: Handle consent text in a more robust way
-			consents: await marked(readFileSync(`configuration/${res.getLocale()}.consent.md`).toString()),
+			consents: existsSync(`configuration/${res.getLocale()}.consent.md`)
+				? await marked(readFileSync(`configuration/${res.getLocale()}.consent.md`).toString())
+				: '',
 			errors: errors,
 			isRegister: isRegister,
 			layout: 'layouts/centered',
