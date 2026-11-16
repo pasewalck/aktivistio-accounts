@@ -10,6 +10,8 @@ You might wonder: **Why this and not Keycloak (and alike projects)?**
 
 Keycloak and many alike projects provide an amazing and open-source identity and access management system. The reason we decided to write our own software that does similar things is that software out there was missing key features such as invite codes and the desired user recovery system. By writing our own software, we were able to implement (somewhat specific) features the way we wanted and needed.
 
+For any questions or contributions, please reach out to: pasewalck@posteo.net
+
 ## ⚠️ Important Notice
 
 We do not recommend using this project for your own use at the time being. This project is currently in active development. We are still awaiting further code and security reviews.
@@ -59,6 +61,12 @@ Also make sure to provide the following environment variables:
 
 Note that when running with the launcher, you will need to go to /unlock and enter the password supplied to you on first run. Also note that this encryption at rest password is not changeable currently; this is subject to change, however.
 
+### Customization
+
+An app logo can be placed under: `configuration/app-logo.jpeg`. For a different path use the environment variable: `APP_LOGO`.
+
+For a custom consent text (privacy, terms of use) place your texts in `configuration/en.consent.md` for English and `configuration/de.consent.md` for German.
+
 ### Run with Node Directly
 
 - Make sure to have node.js and pnpm setup.
@@ -74,12 +82,6 @@ Note that when running with the launcher, you will need to go to /unlock and ent
 ### Run with Docker
 
 tba.
-
-## Documentation
-
-Further documentation for all features and setup processes is planned.
-
-For any questions or contributions, please reach out to: pasewalck@posteo.net
 
 ## Credits
 
