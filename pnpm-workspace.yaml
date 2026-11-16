@@ -1,18 +1,18 @@
 allowBuilds:
-  '@parcel/watcher': true
-  argon2: true
-  better-sqlite3-multiple-ciphers: true
+    '@parcel/watcher': true
+    argon2: true
+    better-sqlite3-multiple-ciphers: true
 minimumReleaseAgeExclude:
-  - encrypted-secret-launcher@1.2.2 || 1.2.3 || 1.2.4 || 1.2.5 || 1.2.6 || 1.2.7 || 1.2.10
+    - encrypted-secret-launcher@1.2.2 || 1.2.3 || 1.2.4 || 1.2.5 || 1.2.6 || 1.2.7 || 1.2.10
 overrides:
-  minimatch@>=7.0.0 <11.0.1: ^11.0.1
-  nodemailer@<10.0.2: ^10.0.2
-  nodemailer@<=10.0.5: ^10.0.6
-  nodemailer@>=3.0.0 <10.1.4: ^10.1.4
-  nodemailer@>=3.0.0 <=10.0.12: ^10.0.13
-  nodemailer@>=3.0.0 <=10.0.9: ^10.0.10
-  nodemailer@>=5.0.0 <10.0.2: ^10.0.2
-  nodemailer@>=9.1.0 <10.0.9: ^10.0.9
-  nodemailer@>=9.1.0 <=10.0.4: ^10.0.5
-  uuid@<11.1.1: ^11.1.1
-  vite@>=8.2.0 <=8.2.3: ^8.2.4
+    minimatch@>=7.0.0 <11.0.1: ^11.0.1
+    nodemailer@<10.0.2: ^10.0.2
+    nodemailer@<=10.0.5: ^10.0.6
+    nodemailer@>=3.0.0 <10.1.4: ^10.1.4
+    nodemailer@>=3.0.0 <=10.0.12: ^10.0.13
+    nodemailer@>=3.0.0 <=10.0.9: ^10.0.10
+    nodemailer@>=5.0.0 <10.0.2: ^10.0.2
+    nodemailer@>=9.1.0 <10.0.9: ^10.0.9
+    nodemailer@>=9.1.0 <=10.0.4: ^10.0.5
+    uuid@<11.1.1: ^11.1.1
+    vite@>=8.2.0 <=8.2.3: ^8.2.4

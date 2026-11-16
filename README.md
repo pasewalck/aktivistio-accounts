@@ -59,6 +59,8 @@ Also make sure to provide the following environment variables:
 - IS_BEHIND_PROXY = (true if running behind a proxy (very likely the case))
 - BASE_URL = (the base URL the app is served at)
 
+See [Environment Variables](./documentation/environment.md) for the complete reference and defaults.
+
 Note that when running via the launcher, you will need to go to /unlock and enter the password supplied to you on first run.
 
 ### Customization
@@ -66,6 +68,8 @@ Note that when running via the launcher, you will need to go to /unlock and ente
 An app logo can be placed under: `configuration/app-logo.jpeg`. For a different path use the environment variable: `APP_LOGO`.
 
 For a custom consent text (privacy, terms of use) place your texts in `configuration/en.consent.md` for English and `configuration/de.consent.md` for German.
+
+See [Configuration Directory](./documentation/configuration-dir.md) for file names, formats, and how these assets are used.
 
 ### Run with Node Directly
 
