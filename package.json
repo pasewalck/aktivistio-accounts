@@ -21,7 +21,7 @@
 		"test": "vitest",
 		"test-run": "vitest --run",
 		"prepare": "husky",
-		"version:verify": "node scripts/release-check.mjs"
+		"release": "vitest --run && node scripts/release.mjs"
 	},
 	"lint-staged": {
 		"*.js": [
