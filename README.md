@@ -59,7 +59,7 @@ Also make sure to provide the following environment variables:
 - IS_BEHIND_PROXY = (true if running behind a proxy (very likely the case))
 - BASE_URL = (the base URL the app is served at)
 
-Note that when running with the launcher, you will need to go to /unlock and enter the password supplied to you on first run. Also note that this encryption at rest password is not changeable currently; this is subject to change, however.
+Note that when running via the launcher, you will need to go to /unlock and enter the password supplied to you on first run.
 
 ### Customization
 
