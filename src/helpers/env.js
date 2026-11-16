@@ -1,4 +1,5 @@
 import logger from './logger.js';
+import { parseBoolean } from './parse-boolean.js';
 
 logger.info('Loaded environment variables to memory');
 
@@ -12,7 +13,7 @@ logger.info('Loaded environment variables to memory');
  * @returns {*} The value of the environment variable, the parsed value, or the default value.
  */
 function load(name, options = {}) {
-	const rawValue = process.env[name];
+	const rawValue = process.env[name]?.trim();
 
 	// Check if the environment variable is defined
 	if (rawValue === undefined) {
@@ -44,28 +45,33 @@ export default {
 	RATE_LIMITER: {
 		USE_GLOBAL_PROTECTION: load('USE_GLOBAL_PROTECTION_RATE_LIMITER', {
 			default: false,
+			parse: parseBoolean,
 		}),
 		MAX_LOGIN_ATTEMPTS: load('RATE_LIMIT_LOGIN_COUNT', { default: 20, parse: Number }),
 		MAX_GLOBAL_ATTEMPTS: load('RATE_LIMIT_GLOBAL_ATTEMPTS', { default: 3000, parse: Number }),
 		MAX_TWOFACTOR_ATTEMPTS: load('RATE_LIMIT_TWOFACTOR_ATTEMPTS', { default: 10, parse: Number }),
 		MAX_REGISTER_INVITE_ATTEMPTS: load('RATE_LIMIT_REGISTER_INVITE_ATTEMPTS', { default: 200, parse: Number }),
 	},
-	IS_SECURE_CONTEXT: load('IS_SECURE', { default: false, parse: Boolean }),
-	IS_BEHIND_PROXY: load('IS_BEHIND_PROXY', { default: false, parse: Boolean }),
+	IS_SECURE_CONTEXT: load('IS_SECURE', { default: false, parse: parseBoolean }),
+	IS_BEHIND_PROXY: load('IS_BEHIND_PROXY', { default: false, parse: parseBoolean }),
 	WHITELISTED_MAIL_PROVIDERS: load('WHITELISTED_MAIL_PROVIDERS', {
 		default: [],
 		warning: true,
-		parse: (value) => value.split(','), // Parse comma-separated values
+		parse: (value) =>
+			value
+				.split(',')
+				.map((provider) => provider.trim())
+				.filter(Boolean), // Parse comma-separated values
 	}),
-	DEBUG_DATABASE: load('DEBUG_DATABASE', { default: false, parse: Boolean }),
-	USE_LAUNCHER: load('USE_LAUNCHER', { default: false, parse: Boolean }),
+	DEBUG_DATABASE: load('DEBUG_DATABASE', { default: false, parse: parseBoolean }),
+	USE_LAUNCHER: load('USE_LAUNCHER', { default: false, parse: parseBoolean }),
 	DATABASE_BACKUPS: {
-		DO: load('DO_DATABASE_BACKUPS', { default: true, parse: Boolean }),
+		DO: load('DO_DATABASE_BACKUPS', { default: true, parse: parseBoolean }),
 		CRON: load('DATABASE_BACKUP_CRON', { default: '0 0 * * *' }),
 		RETENTION_DAYS: load('DATABASE_BACKUP_RETENTION_DAYS', { default: 4, parse: Number }),
 	},
 	DATABASE_ENCRYPTION: {
-		USE: load('USE_DATABASE_ENCRYPTION', { default: false, parse: Boolean }),
+		USE: load('USE_DATABASE_ENCRYPTION', { default: false, parse: parseBoolean }),
 		KEYS: {
 			DATA: load('DATABASE_KEY_DATA'),
 			OIDC: load('DATABASE_KEY_OIDC'),
@@ -78,7 +84,7 @@ export default {
 		HOST: load('MAIL_HOST', { warning: true }),
 		USER: load('MAIL_USER', { warning: true }),
 		PASS: load('MAIL_PASS', { warning: true }),
-		SECURE: load('MAIL_SECURE', { default: true, parse: Boolean }),
+		SECURE: load('MAIL_SECURE', { default: true, parse: parseBoolean }),
 		PORT: load('MAIL_PORT', { default: 465, parse: Number }),
 		SENDER_DISPLAY_NAME: load('MAIL_SENDER_DISPLAY_NAME', {
 			default: 'Unnamed Application',
@@ -89,7 +95,7 @@ export default {
 		SUPERADMIN_PASSWORD: load('SUPERADMIN_DEFAULT_PASSWORD', { default: null }),
 	},
 	MONITOR: {
-		LOG_REGULARLY: load('MONITOR_LOG_REGULARLY', { default: true }),
-		MONITOR_LAG: load('MONITOR_LAG', { default: true }),
+		LOG_REGULARLY: load('MONITOR_LOG_REGULARLY', { default: true, parse: parseBoolean }),
+		MONITOR_LAG: load('MONITOR_LAG', { default: true, parse: parseBoolean }),
 	},
 };
