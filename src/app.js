@@ -23,6 +23,7 @@ import secretService from './services/secret.service.js';
 import env from './helpers/env.js';
 import { warnMissingConfigurationFiles } from './helpers/configuration-files.js';
 import backupService from './services/backup.service.js';
+import { version } from './helpers/version.js';
 
 // Get the current file and directory names
 const __filename = fileURLToPath(import.meta.url);
@@ -45,6 +46,7 @@ app.locals = {
 	},
 	account: null,
 	appUsesLauncher: env.USE_LAUNCHER,
+	version: version,
 };
 
 logger.debug('Initializing i18n for internationalization');
