@@ -24,9 +24,12 @@ const current = pkgVersion();
 if (!semver.valid(current))
     fail(`package.json version "${version}" is not valid SemVer`);
 
-
 if (git(['status', '--porcelain']))
     fail('working tree not clean — commit or stash first');
+
+const branch = git(['rev-parse', '--abbrev-ref', 'HEAD']);
+if (branch === 'HEAD') die('detached HEAD — check out a branch first');
+if (branch === 'main') die('run this from your working branch, not main');
 
 const action = await select({
     message: 'What kind of release is this?',
